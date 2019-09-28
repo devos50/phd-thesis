@@ -100,10 +100,10 @@ Next, in Chapter \todo{X}, we design, implement and evaluate TrustChain: a scala
 In Chapters \todo{X to Y}, we apply accountability primitives and fraud detection techniques in three well-established domains: financial transactions, two-sided marketplaces, and identity.
 Specifically, we make the following contributions in each chapter:\\
 
-\textbf{[Chapter 1] Scalability Limitations of Existing Blockchains.} (pending, not sure whether this will be a separate chapter)
+\textbf{[Chapter 2] Scalability Limitations of Existing Blockchains.} (pending, not sure whether this will be a separate chapter)
 Some explanation here...\\
 
-\textbf{[Chapter 2] TrustChain: A Scalable Blockchain for Accounting.}
+\textbf{[Chapter 3] TrustChain: A Scalable Blockchain for Accounting.}
 In this chapter, we answer RQ2 by introducing TrustChain, a scalable blockchain built for accounting of primitive data elements.
 Our permission-less fabric is capable of creating trusted transactions amongst strangers without any central oversight or requirement for network-wide consensus.
 In contrast to existing blockchain ledgers, TrustChain is designed to \emph{detect} fraud, rather than \emph{prevent} fraud.
@@ -116,7 +116,7 @@ This chapter is largely based on the following publication:
 
 Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant scalable blockchain}, \emph{Future Generation Computer Systems (FGCS), 2017.}\\
 
-\textbf{[Chapter 3] Internet-of-Money: Applying Accountability to Enable Real-time International Money Transfers.}
+\textbf{[Chapter 4] Internet-of-Money: Applying Accountability to Enable Real-time International Money Transfers.}
 In this chapter, we answer RQ3 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
 We address the challenging problem of giving money to others and relying on them to forward it.
 To identity fraud, we account money transfers between interacting strangers.
@@ -133,7 +133,7 @@ This chapter is based on the following publication:
 
 Martijn de Vos and Johan Pouwelse, \enquote{Real-time Money Routing by Trusting Strangers with your Funds}, \emph{IFIP Networking, 2018.}\\
 
-\textbf{[Chapter 4] MATCH: Accountable and Generic Matchmaking for Decentralized Applications}
+\textbf{[Chapter 5] MATCH: Accountable and Generic Matchmaking for Decentralized Applications.}
 In this chapter, we partially address RQ4 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
 Matchmaking is a cardinal, yet overlooked prerequisite for a fully decentralized exchange.
 Although numerous companies have deployed infrastructure for matchmaking, there is currently no solution that can be deployed within different trading domains.
@@ -148,8 +148,47 @@ This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 5] XChange: A Scalable Asset Marketplace based on Accountability}\\
+\textbf{[Chapter 6] XChange: A Scalable Asset Marketplace based on Accountability.}
+In this chapter, we answer RQ5 and introduce XChange, an asset marketplace based on accountability guarantees.
+There is an increasing need for a generic mechanism to trade assets across isolated platforms, as more industries rely on the digital management of their physical resources using Internet-of-Things devices.
+To date, there is no such mechanism without dependency on a trusted third party.
+We address this shortcoming and present XChange, a blockchain-based mechanism for generic asset trading.
+Unlike existing asset trading marketplaces, we decouple trade management and the actual exchange of assets.
+XChange enables the trustworthy trade of \emph{any} digital asset.
+We describe a generic trading protocol that establishes trade between individuals and accounts market activity on any distributed ledger.
+We prove with a theoretical analysis that the effectiveness of fraud conducted by adversarial parties is limited.
+Furthermore, we devise a novel market architecture, composed of all required components for a decentralized asset marketplace.
+We implement the XChange mechanism and conduct real-world evaluations.
+To account market activity in a tamper-proof manner, we use an existing scalable blockchain ledger, TrustChain.
+By deploying XChange on multiple low-resource devices, we show that a full trade can be completed within 500 milliseconds.
+To analyze the scalability and bandwidth usage, we conduct further experiments on our compute cluster and deploy up to 500 XChange instances.
+Our main finding is that the throughput of XChange, in terms of trades per second, scales linearly with the network size.
+This chapter is based on the following publication:
 
-\textbf{[Chapter 6] DevID: Blockchain-based Portfolios for Software Developers}\\
+\todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 7] Conclusion.} We will end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
+\textbf{[Chapter 7] DevID: Blockchain-based Portfolios for Software Developers.}
+Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
+Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
+The main problem is that the portfolio of developers is usually scattered across centralized platforms like GitHub and LinkedIn, and vendor locked.
+This can result in an incomplete impression of their capabilities.
+We address this problem and introduce \emph{DevID}, a blockchain-based portfolio for developers.
+Over time, this portfolio enables developers to build up a trustworthy collection of records that showcase their capabilities and expertise.
+They can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements.
+All portfolio records are stored on a scalable distributed ledger and owned by developers themselves.
+The essential idea is to exploit the tamper-proof property of the blockchain while providing durable storage.
+To demonstrate the practical value of DevID, we build the competition-based platform, \emph{dAppCoder}, for the development of decentralized applications.
+On dAppCoder clients are able to submit their ideas and developers can find work.
+dAppCoder utilizes DevID portfolios to match these clients and developers.
+We fully implement our ideas and conduct a deployment trial.
+Our trial demonstrates that DevID is efficient at storing portfolio records.
+This chapter is based on the following publication:
+
+Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
+
+\textbf{[Chapter 8] Conclusion.} We will end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
+
+\newpage
+
+\bibliographystyle{unsrt}
+\bibliography{introduction}
