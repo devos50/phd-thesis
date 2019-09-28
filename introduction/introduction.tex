@@ -3,33 +3,40 @@
 
 %\newpage
 
-\dropcap{E}ver since the introduction of the Internet, individuals all over the world rely on it to interact and exchange value.
-Nowadays, major companies have built large-scale digital platforms to facilitate these on-line interactions between potential strangers.
-For example, eBay was one of the first platforms that enable trustworthy trade of goods between merchants and buyers and is used by millions on a daily basis.
-Major companies acting in the sharing economy, like Uber and AirBnb, bootstrapped an ecosystem where strangers share resources like their house or cars.
+\dropcap{E}ver since the introduction of the Internet in 1983, users worldwide rely on its architecture to interact with others.
+Nowadays, several companies operate large-scale digital platforms to facilitate on-line interactions between potentially billions of users.
+For example, eBay was one of the first platforms that enabled the trustworthy trade of goods between merchants and buyers over the Internet, and is used by millions on a daily basis.
+Companies acting in the sharing economy, like Uber and AirBnb, further shaped the notion of interactions between individuals over the Internet.
+These companies facilitate peer-to-peer resource sharing where strangers can share personal resources like houses and cars in a trustworthy manner.
 
-Most of the popular online services are facilitated by centralized architectures, often deployed and maintained by a single company.
-The main characteristic of a centralized architecture is that there is a single, or limited group of servers, responsible for handling all requests submitted by platform participants.
-Hosting the network infrastructure to facilitate interactions on a global scale requires major investments and platform costs, as exemplified by major companies like Facebook and Google.
+Most of the on-line applications we use on a daily basis are \emph{centralized}, e.g., managed by a single authority that maintains the required network infrastructure. % facilitated by centralized architectures, often deployed and maintained by a single company.
+In particular, when considering a centralized Internet application, there is a single or limited group of servers, responsible for processing all requests submitted by platform participants (clients).
+%Hosting the network infrastructure to facilitate interactions on a global scale requires major investments and platform costs, as exemplified by major companies like Facebook and Google.
+Although centralized infrastructures are often easy to build, and usually easy to scale up by deploying more servers, software bugs or hardware failure could lead to prolonged unavailability of the entire application.
+For example, Facebook experienced a day of downtime in March 2019 due to a server misconfiguration.
 
-On the other hand, decentralized architectures aim to avoid dependencies on centralized entities and leverage the computing power of the participants instead.
+In comparison, \emph{decentralized} applications aim to avoid the deficiencies of centralized infrastructure and build a network where the computers of users directly communicate and collaborate with each other instead.
 One of the most popular decentralized applications is the BitTorrent file transfer protocol.
-In BitTorrent, users directly exchange parts a (potentially large) file with each other, without involvement of any centralized server.
-Although decentralized applications are often harder to shut down, they often are more vulnerable to targeted attacks, such as the Sybil Attack and Eclipse Attack.
+In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
+Although global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-The introduction of the decentralized Bitcoin currency in 2008 by Satoshi Nakamoto\footnote{A pseudonym, the real identity is currently (still) unknown.} bootstrapped a new era of decentralized applications.
-Bitcoin is the first popular currency system not under control by any financial institution and gained much interest from both academia and industry.
-The system is powered by blockchain technology, a tamper-proof distributed ledger maintained by all network participants.
+The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} fundamentally changed the landscape of decentralized applications.
+Compared to existing cash systems, Bitcoin is the first digital cash system with significant adoption, and has gained much interest from both academia and industry.
+The cash system is powered by blockchain technology, a tamper-proof transaction ledger that is secured and maintained by all users in the network.
 Currently, blockchain technology is being applied to solve problems within a large number of domains, including finance, health care, identity and real estate.
+In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications that are powered by a blockchain.
+At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
-Despite much excitement and potential applications, existing blockchain-based solutions are by far not powerful enough to be applied at a global scale.
-Specifically, the rate at which new transactions can be appended to the blockchain is often limited due to the requirement to reach consensus on the validity of included transactions.
-For example, the throughput of Bitcoin is theoretically bounded by seven transactions per second.
+Unfortunately, most decentralized applications using blockchain technology are by far not powerful enough to provide viable alternatives to (centralized) systems currently used at global scale.
+Specifically, the scalability, the rate at which new transactions can be appended to the blockchain, is often low due to the requirement to reach a consensus on the validity of submitted transactions.
+For example, the throughput of the Bitcoin network is theoretically bounded by seven transactions per second, and the Ethereum blockchain can handle around 23 transactions per second.
 In comparison, credit companies like VISA are capable of processing thousands of transactions per second.
 
 % applications are based on distributed ledger technology, where 
 
-In this thesis, we focus on ...
+In this thesis, we address the scalability problem of decentralized applications that are relying on blockchain technology.
+In particular, this thesis shows how we can apply \emph{accountability} techniques to improve the throughput of existing decentralized applications.
+We evaluating our accountability ideas in three types of applications: payment systems, markets and software developer identities.
 
 \section{Distributed Ledger Technology}
 TODO
@@ -59,22 +66,27 @@ In order to answer our research question, we address the following key questions
 \textbf{[RQ1] What are the practical scalability limitations of state-of-the-art blockchains?}
 Since the inception of the Bitcoin cryptocurrency, there has been much effort to improve the throughput (scalability) of blockchains in general.
 This has resulted in a large range of different design proposals for blockchain ledgers, each with their own trade-offs.
-Although there has been much research around the theoretical performance of different blockchain fabrics, the field lacks a rigorous evaluation from a practical perspective.
+Although there has been much research on the theoretical scalability bounds of different blockchains, the field lacks a rigorous experimental evaluation and comparison of their implementations.
+Doing so will pinpoint performance bottlenecks, design flaws and optimization efforts.
 
 \textbf{[RQ2] How can we design and implement a scalable and secure blockchain, based on fraud detection?}
-Most existing blockchains are designed around fraud prevention, preventing invalid transactions from entering the distributed ledger.
+Most existing blockchains are designed to prevent fraudulent transactions from being accepted by the network and entering the distributed ledger.
 This guarantee limits the rate at which new transactions can be appended to the distributed ledger, therefore limiting scalability.
 Designing a blockchain ledger around fraud detection instead could improve scalability and lead to new types of decentralized applications.
 % reactive approach vs proactive
 
-\textbf{[RQ3] How can we apply accountability and fraud detection to improve the speed of (international) payment systems?}
-Similar to RQ2, existing payment systems are built to prevent fraud and often highly complex in nature.
-As a result, a payment between two different (international) banks often takes a long time to settle, often in the order of days, and incurs significant transaction fees.
-Relying on fraud detection could potentially improve the speed of (international) payment systems, since the security requirements are different.
+\textbf{[RQ3] How can we apply accountability and fraud detection to improve the speed of (international) payment infrastructures?}
+Similar to RQ2, existing payment infrastructures such as the SWIFT network are built to prevent fraud and are often highly complex.
+As a result, payments between two different (international) banks often take a considerable time to settle, often in the order of days, and incur significant transaction fees.
+Relying on accountability and fraud detection could improve the speed of (international) payment infrastructures, and potentially lead to lower transaction fees.
 
 \textbf{[RQ4] How can we apply accountability and fraud detection to improve decentralized exchanges?}
+Decentralized exchanges (DEXes), where asset trading exclusively happens on a blockchain, are an interesting alternative to centralized exchanges.
+The main issue, however, is that trading of assets is exclusive to a single DEX, and trade between different DEXes is either impossible or slow.
+Accountability and fraud detection could address these issues and enable fast asset trading between different exchanges.
 
 \textbf{[RQ5] How can we apply accountability and fraud detection to build scalable portfolios for developers?}
+\todo{}
 
 \section{Research Methodology}
 
