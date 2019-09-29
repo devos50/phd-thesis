@@ -3,40 +3,45 @@
 
 %\newpage
 
-\dropcap{E}ver since the introduction of the Internet in 1983, users worldwide rely on its architecture to interact with others.
-Nowadays, several companies operate large-scale digital platforms to facilitate on-line interactions between potentially billions of users.
-For example, eBay was one of the first platforms that enabled the trustworthy trade of goods between merchants and buyers over the Internet, and is used by millions on a daily basis.
-Companies acting in the sharing economy, like Uber and AirBnb, further shaped the notion of interactions between individuals over the Internet.
-These companies facilitate peer-to-peer resource sharing where strangers can share personal resources like houses and cars in a trustworthy manner.
+\dropcap{E}ver since its introduction in 1983, the Internet has grown to a global communication network used by individuals to interact with others.
+Nowadays, numerous companies operate large-scale digital platforms to facilitate on-line interactions between potentially billions of users.
+eBay was one of the first platforms that enabled the trustworthy trade of goods between merchants and buyers over the Internet, and is used by millions on a daily basis.
+More recently, companies acting in the sharing economy, like Uber and AirBnb, shaped the notion of digital interactions between individuals over the Internet.
+These companies facilitate peer-to-peer resource sharing where strangers can share personal resources, like their house or car, in a trustworthy manner.
 
 Most of the on-line applications we use on a daily basis are \emph{centralized}, e.g., managed by a single authority that maintains the required network infrastructure. % facilitated by centralized architectures, often deployed and maintained by a single company.
-In particular, when considering a centralized Internet application, there is a single or limited group of servers, responsible for processing all requests submitted by platform participants (clients).
+In particular, when considering a centralized Internet application, there is a single or limited group of servers, responsible for processing all requests submitted by the platform participants, e.g., uploading a video on YouTube or posting a tweet on Twitter.
 %Hosting the network infrastructure to facilitate interactions on a global scale requires major investments and platform costs, as exemplified by major companies like Facebook and Google.
-Although centralized infrastructures are often easy to build, and usually easy to scale up by deploying more servers, software bugs or hardware failure could lead to prolonged unavailability of the entire application.
+On one hand, centralized infrastructures are relatively easy to setup and their performance can be increased by deploying more servers.
+On the other hand, even a single software bug or hardware failure could lead to a prolonged unavailability of the entire application.
 For example, Facebook experienced a day of downtime in March 2019 due to a server misconfiguration.
 
-In comparison, \emph{decentralized} applications aim to avoid the deficiencies of centralized infrastructure and build a network where the computers of users directly communicate and collaborate with each other instead.
-One of the most popular decentralized applications is the BitTorrent file transfer protocol.
+In comparison, \emph{decentralized} applications aim to avoid reliance on a single authority.
+A decentralized application consists of a network where computers directly communicate and collaborate with each other instead.
+One of the most popular decentralized applications is the BitTorrent file transfer protocol, used to share and download torrent files.
 In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
-Although global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
+Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} fundamentally changed the landscape of decentralized applications.
-Compared to existing cash systems, Bitcoin is the first digital cash system with significant adoption, and has gained much interest from both academia and industry.
-The cash system is powered by blockchain technology, a tamper-proof transaction ledger that is secured and maintained by all users in the network.
-Currently, blockchain technology is being applied to solve problems within a large number of domains, including finance, health care, identity and real estate.
-In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications that are powered by a blockchain.
+The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} changed how decentralized applications are built.
+Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
+The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
+Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
+Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
+In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
 At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
-Unfortunately, most decentralized applications using blockchain technology are by far not powerful enough to provide viable alternatives to (centralized) systems currently used at global scale.
-Specifically, the scalability, the rate at which new transactions can be appended to the blockchain, is often low due to the requirement to reach a consensus on the validity of submitted transactions.
+Unfortunately, most decentralized applications using blockchain technology are by far not powerful enough to provide viable alternatives to (centralized) systems currently being used at global scale.
+The scalability, the rate at which new transactions can be appended to the blockchain, is often low due to the requirement to reach a consensus on the validity of submitted transactions.
 For example, the throughput of the Bitcoin network is theoretically bounded by seven transactions per second, and the Ethereum blockchain can handle around 23 transactions per second.
 In comparison, credit companies like VISA are capable of processing thousands of transactions per second.
 
 % applications are based on distributed ledger technology, where 
 
-In this thesis, we address the scalability problem of decentralized applications that are relying on blockchain technology.
-In particular, this thesis shows how we can apply \emph{accountability} techniques to improve the throughput of existing decentralized applications.
-We evaluating our accountability ideas in three types of applications: payment systems, markets and software developer identities.
+In this thesis, we focus on the scalability problems of decentralized applications that are using blockchain technology.
+A key insight is that existing blockchain ledgers guarantee fraud prevention.
+This thesis shows how we can apply \emph{accountability} techniques to improve the throughput of decentralized applications.
+First, we design, implement and deploy a scalable blockchain, suitable for the accounting of data.
+We then evaluate our blockchain and accountability ideas within three domains: payment systems, markets and crowdsourcing.
 
 \section{Distributed Ledger Technology}
 TODO
@@ -61,45 +66,51 @@ TODO
 The overarching research question of this thesis is as follows:
 
 \emph{how can we increase the scalability of decentralized applications that are using blockchain technology?}\\\\
-In order to answer our research question, we address the following key questions:
+To answer our research question, we address the following key questions:
 
-\textbf{[RQ1] What are the practical scalability limitations of state-of-the-art blockchains?}
-Since the inception of the Bitcoin cryptocurrency, there has been much effort to improve the throughput (scalability) of blockchains in general.
-This has resulted in a large range of different design proposals for blockchain ledgers, each with their own trade-offs.
-Although there has been much research on the theoretical scalability bounds of different blockchains, the field lacks a rigorous experimental evaluation and comparison of their implementations.
-Doing so will pinpoint performance bottlenecks, design flaws and optimization efforts.
+\textbf{[RQ1] What are practical scalability limitations of state-of-the-art blockchains?}
+Since the inception of Bitcoin, there has been much effort to improve the scalability (throughput) of blockchain technology.
+This has resulted in a large range of different design proposals for blockchains, with varying trade-offs.
+Although there has been extensive research on the theoretical scalability bounds of blockchains, the field lacks a rigorous experimental evaluation and comparison of their implementations.
+Such a comparison could highlight performance bottlenecks, design flaws and further optimization efforts.
 
 \textbf{[RQ2] How can we design and implement a scalable and secure blockchain, based on fraud detection?}
-Most existing blockchains are designed to prevent fraudulent transactions from being accepted by the network and entering the distributed ledger.
-This guarantee limits the rate at which new transactions can be appended to the distributed ledger, therefore limiting scalability.
-Designing a blockchain ledger around fraud detection instead could improve scalability and lead to new types of decentralized applications.
+Existing blockchains are designed to prevent fraudulent transactions from being accepted by the network and entering the distributed ledger.
+This guarantee limits the speed at which new transactions can be appended to the distributed ledger, therefore limiting scalability.
+We ask ourselves the question how to design and implement a blockchain around fraud \emph{detection} instead.
 % reactive approach vs proactive
 
 \textbf{[RQ3] How can we apply accountability and fraud detection to improve the speed of (international) payment infrastructures?}
-Similar to RQ2, existing payment infrastructures such as the SWIFT network are built to prevent fraud and are often highly complex.
-As a result, payments between two different (international) banks often take a considerable time to settle, often in the order of days, and incur significant transaction fees.
-Relying on accountability and fraud detection could improve the speed of (international) payment infrastructures, and potentially lead to lower transaction fees.
+Similar to RQ2, existing payment infrastructures such as the SWIFT network are built to prevent fraud and are architecturally complex.
+As a result, payments between two different (international) banks often take a considerable time to settle, often in the order of days.
+Furthermore, these payments require significant transaction fees to cover back-office costs.
+Relying on accountability and fraud detection could improve the speed of (international) payment infrastructures, and potentially lead to a reduction of costs and lower transaction fees.
 
-\textbf{[RQ4] How can we apply accountability and fraud detection to improve decentralized exchanges?}
-Decentralized exchanges (DEXes), where asset trading exclusively happens on a blockchain, are an interesting alternative to centralized exchanges.
-The main issue, however, is that trading of assets is exclusive to a single DEX, and trade between different DEXes is either impossible or slow.
-Accountability and fraud detection could address these issues and enable fast asset trading between different exchanges.
+\textbf{[RQ4] How can we apply accountability and fraud detection to improve the scalability of decentralized exchanges?}
+Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
+Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
+The main issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible or slow.
+The question is whether accountability and fraud detection could address these issues and enable fast asset trading between different exchanges.
 
-\textbf{[RQ5] How can we apply accountability and fraud detection to build scalable portfolios for developers?}
-\todo{}
+\textbf{[RQ5] How can we apply accountability and fraud detection to improve software crowdsourcing?}
+Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
+Recent research proposes to leverage blockchain technology
+Applying accountability and fraud detection could improve the software crowdsourcing process.
 
 \section{Research Methodology}
 
 % add: related research mostly follows a theory-driven approach
 
 Throughout this thesis, we adopt an experimental research methodology to answer our research questions.
-We validate our ideas by implementing them in software and evaluating them with emulation-based experimentations on our DAS5 compute cluster.
-While designing an infrastructure or system, we always aim for a solution that is applicable in the real world.
+We validate our ideas with a software implementation and evaluate them with emulation-based experimentations conducted on our DAS5 compute cluster.
+While designing an infrastructure or system, we always aim for a solution that is suitable for adoption and applicable in a real-world environment.
+
+% simplicity?
 
 We believe this experimental research methodology is suitable for two reasons.
 First, it allows us to evaluate our ideas in an environment that closely resembles a real-world environment.
 Second, it directly leads to a software implementation that can be used by academia or industry.
-All developed software artefacts are available on our GitHub repository and contain unit tests to verify their functional correctness.
+All developed software artefacts are available on our GitHub repository and contain unit tests to verify functional correctness.
 
 % existing research does X
 
@@ -161,7 +172,7 @@ This chapter is based on the following publication:
 \todo{UNDER REVIEW}\\
 
 \textbf{[Chapter 6] XChange: A Scalable Asset Marketplace based on Accountability.}
-In this chapter, we answer RQ5 and introduce XChange, an asset marketplace based on accountability guarantees.
+In this chapter, we answer RQ4 and introduce XChange, an asset marketplace based on accountability guarantees.
 There is an increasing need for a generic mechanism to trade assets across isolated platforms, as more industries rely on the digital management of their physical resources using Internet-of-Things devices.
 To date, there is no such mechanism without dependency on a trusted third party.
 We address this shortcoming and present XChange, a blockchain-based mechanism for generic asset trading.
@@ -180,6 +191,7 @@ This chapter is based on the following publication:
 \todo{UNDER REVIEW}\\
 
 \textbf{[Chapter 7] DevID: Blockchain-based Portfolios for Software Developers.}
+In this chapter, we answer RQ5.
 Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
 Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
 The main problem is that the portfolio of developers is usually scattered across centralized platforms like GitHub and LinkedIn, and vendor locked.
@@ -198,7 +210,7 @@ This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
 
-\textbf{[Chapter 8] Conclusion.} We will end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
+\textbf{[Chapter 8] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
 
 \newpage
 
