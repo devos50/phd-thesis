@@ -30,33 +30,7 @@ Ten years later, blockchain technology is being researched within a large number
 In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
 At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
-Unfortunately, most decentralized applications using blockchain technology are by far not powerful enough to provide viable alternatives to (centralized) systems currently being used at global scale.
-The scalability, the rate at which new transactions can be appended to the blockchain, is often low due to the requirement to reach a consensus on the validity of submitted transactions.
-For example, the throughput of the Bitcoin network is theoretically bounded by seven transactions per second, and the Ethereum blockchain can handle around 23 transactions per second.
-In comparison, credit companies like VISA are capable of processing thousands of transactions per second.
-
-% applications are based on distributed ledger technology, where 
-
-In this thesis, we focus on the scalability problems of decentralized applications that are using blockchain technology.
-A key insight is that existing blockchain ledgers guarantee fraud prevention.
-This thesis shows how we can apply \emph{accountability} techniques to improve the throughput of decentralized applications.
-First, we design, implement and deploy a scalable blockchain, suitable for the accounting of data.
-We then evaluate our blockchain and accountability ideas within three domains: payment systems, markets and crowdsourcing.
-
-\section{Distributed Ledger Technology}
-TODO
-
-\section{Blockchain Technology}
-TODO
-
-\subsection{Cryptocurrencies and Digital Tokens}
-TODO
-
-\subsection{Smart Contracts}
-TODO
-
-\subsection{The Quest for Scalability}
-TODO
+\todo{Introduce thesis here}
 
 %\section{Problem Statement}
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
@@ -68,31 +42,23 @@ The overarching research question of this thesis is as follows:
 \emph{how can we increase the scalability of decentralized applications that are using blockchain technology?}\\\\
 To answer our research question, we address the following key questions:
 
-\textbf{[RQ1] What are practical scalability limitations of state-of-the-art blockchains?}
-Since the inception of Bitcoin, there has been much effort to improve the scalability (throughput) of blockchain technology.
-This has resulted in a large range of different design proposals for blockchains, with varying trade-offs.
-Although there has been extensive research on the theoretical scalability bounds of blockchains, the field lacks a rigorous experimental evaluation and comparison of their implementations.
-Such a comparison could highlight performance bottlenecks, design flaws and further optimization efforts.
+\textbf{[RQ1] What is the state-of-the-art in blockchain-based electronic trading and asset exchange?}
 
-\textbf{[RQ2] How can we design and implement a scalable and secure blockchain, based on fraud detection?}
-Existing blockchains are designed to prevent fraudulent transactions from being accepted by the network and entering the distributed ledger.
-This guarantee limits the speed at which new transactions can be appended to the distributed ledger, therefore limiting scalability.
-We ask ourselves the question how to design and implement a blockchain around fraud \emph{detection} instead.
-% reactive approach vs proactive
+\textbf{[RQ2] How can we efficiently match market orders without centralized coordination?}
 
-\textbf{[RQ3] How can we apply accountability and fraud detection to improve the speed of (international) payment infrastructures?}
+\textbf{[RQ3] How can improve settlement durations of (international) payment infrastructures?}
 Similar to RQ2, existing payment infrastructures such as the SWIFT network are built to prevent fraud and are architecturally complex.
 As a result, payments between two different (international) banks often take a considerable time to settle, often in the order of days.
 Furthermore, these payments require significant transaction fees to cover back-office costs.
 Relying on accountability and fraud detection could improve the speed of (international) payment infrastructures, and potentially lead to a reduction of costs and lower transaction fees.
 
-\textbf{[RQ4] How can we apply accountability and fraud detection to improve the scalability of decentralized exchanges?}
+\textbf{[RQ4] How can we exchange assets managed by different blockchains?}
 Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
 Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
 The main issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible or slow.
 The question is whether accountability and fraud detection could address these issues and enable fast asset trading between different exchanges.
 
-\textbf{[RQ5] How can we apply accountability and fraud detection to improve software crowdsourcing?}
+\textbf{[RQ5] How can we apply blockchain technology to improve software crowdsourcing markets?}
 Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
 Recent research proposes to leverage blockchain technology
 Applying accountability and fraud detection could improve the software crowdsourcing process.
@@ -212,7 +178,7 @@ Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchai
 
 \textbf{[Chapter 8] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
 
-\newpage
+%\newpage
 
-\bibliographystyle{unsrt}
-\bibliography{introduction}
+%\bibliographystyle{unsrt}
+%\bibliography{introduction}
