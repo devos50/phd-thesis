@@ -46,7 +46,7 @@ DevID portfolios are powered by a scalable blockchain ledger, used for durable s
 Developers can add tamper-proof records to their portfolio.
 These records are fully managed and owned by developers themselves.
 
-\begin{figure}[b]
+\begin{figure}[t]
 	\includegraphics[width=\columnwidth]{devid/resources/devid_smaller.jpeg}
 	\caption{An impression of a DevID portfolio.}
 	\label{fig:devid}
@@ -81,7 +81,7 @@ However, most blockchain fabrics are not suitable for large-scale storage of por
 Given these two requirements, the research question of this work is as follows:
 \textit{How can we provide software engineers with a unified developer portfolio, efficient at storing tamper-proof and accurate data records they control themselves?}
 \begin{figure}[t!]
-	\includegraphics[width=\columnwidth]{devid/resources/architecture.pdf}
+	\includegraphics[width=.8\linewidth]{devid/resources/architecture.pdf}
 	\caption{The architecture of DevID and dAppCoder.}
 	\label{fig:system_architecture}
 \end{figure}
@@ -92,33 +92,6 @@ We now present our unified portfolio, named \emph{DevID}.
 The architecture is given in Figure \ref{fig:system_architecture}.
 This figure also includes the architecture of dAppCoder, our platform to crowdsource the development of decentralized applications.
 dAppCoder itself is discussed in Section~\ref{sec:dappcoder}.
-
-\begin{figure*}[t!]
-	\centering
-	\begin{subfigure}[t]{.3\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\raisebox{4mm}{\includegraphics[width=\linewidth]{devid/resources/blockchain_single}}
-		\caption{Linear ledger (Ethereum).}
-		\label{fig:blockchain_single}
-	\end{subfigure}\hfill%
-	\begin{subfigure}[t]{.3\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=\linewidth]{devid/resources/blockchain_dag}
-		\caption{DAG ledger (IOTA).}
-		\label{fig:blockchain_dag}
-	\end{subfigure}\hfill%
-	\begin{subfigure}[t]{.3\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=\linewidth]{devid/resources/blockchain_pairwise}
-		\caption{Pairwise ledger (Nano).}
-		\label{fig:blockchain_pairwise}
-	\end{subfigure}%
-	\caption{Three different structures of distributed blockchain ledgers. Each arrow points to the subsequent block in the chain.}
-	\label{fig:blockchain_structures}
-\end{figure*}
 
 \subsection{Supporting Generic Storage}
 We show how DevID portfolios support generic storage of records and elaborate on different record types.
@@ -186,6 +159,33 @@ For example, an application can ignore endorsements that are given by unverified
 Identity verification can be done with an attestation given by a trusted third party like the government or a notary.
 Enforcing strong, long-lived identities in DevID is comparable with account validation that many centralized platforms use (e.g., the verification of a phone number).
 The requirement for verified identities addresses the Sybil Attack, where an adversary assumes multiple fake identities to influence or subvert the network~\cite{douceur2002sybil}.
+
+\begin{figure*}[t!]
+	\centering
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\raisebox{4mm}{\includegraphics[width=\linewidth]{devid/resources/blockchain_single}}
+		\caption{Linear ledger (Ethereum).}
+		\label{fig:blockchain_single}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=\linewidth]{devid/resources/blockchain_dag}
+		\caption{DAG ledger (IOTA).}
+		\label{fig:blockchain_dag}
+	\end{subfigure}\hfill%
+	\begin{subfigure}[t]{.3\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=\linewidth]{devid/resources/blockchain_pairwise}
+		\caption{Pairwise ledger (Nano).}
+		\label{fig:blockchain_pairwise}
+	\end{subfigure}%
+	\caption{Three different structures of distributed blockchain ledgers. Each arrow points to the subsequent block in the chain.}
+	\label{fig:blockchain_structures}
+\end{figure*}
 
 \subsection{Efficient Blockchain Storage}
 \label{subsec:scalable_blockchain}
@@ -319,7 +319,7 @@ We use the InterPlanetary File System (IPFS) to store large data assets like pro
 Users can import statistics from their GitHub profile using the challenge mechanism described in Section~\ref{subsec:unifying_data}.
 
 \begin{figure}[t!]
-	\includegraphics[width=\columnwidth]{devid/resources/experiment/experiment_1_unit.eps}
+	\includegraphics[width=.75\columnwidth]{devid/resources/experiment/experiment_1_unit.eps}
 	\caption{Results from our deployment trial.}
 	\label{fig:experiment_graph}
 \end{figure}

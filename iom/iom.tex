@@ -1,4 +1,4 @@
-\chapter{}
+\chapter{Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds}
 \label{chapter:iom}
 
 \emph{We explore a new stage in the evolution of digital trust, trusting strangers with your funds.
@@ -225,7 +225,7 @@ In-house payments have a relatively low settlement duration, usually a few secon
 
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=\linewidth]{iom/assets/android}
+	\includegraphics[width=.8\linewidth]{iom/assets/android}
 	\caption{Our Android application to interface with different banks and to route money in real-time.}
 	\label{fig:android_app}
 \end{figure}
@@ -243,6 +243,13 @@ Instead of using a central bank as settlement institution, we build a network of
 This works as follows: assume a Dutch buyer holding a Rabobank account, intends to pay a British merchant that holds a bank account with HSBC.
 When this buyer initiate a payment with existing software to the merchant, then the funds can take several days to arrive in the bank account of the merchant.
 However, when using an intermediary holding accounts both at Rabobank and HSBC, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his HSBC account to the HSBC account of the merchant.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\textwidth]{iom/assets/internet_of_money.png}
+	\caption{The essence of the Internet-of-Money architecture: the smartphone in the middle acts as a money router using both ING and ABN AMRO bank accounts.}
+	\label{fig:internet_of_money}
+\end{figure}
 
 Since this way of sending money only involves two in-house payments, the merchant receives the funds within a few seconds.
 We call this process a \emph{fast payment}
@@ -324,9 +331,9 @@ The mobile application allows interfacing with different banks and the initiatio
 	\label{fig:trustchain_tutorial}
 \end{figure*}
 
-\begin{figure}[b]
+\begin{figure}[t]
 	\centering
-	\includegraphics[width=\columnwidth]{iom/assets/trustchain}
+	\includegraphics[width=.8\linewidth]{iom/assets/trustchain}
 	\caption{The tamper-proof Trustchain data structure to record transactions.}
 	\label{fig:trustchain}
 \end{figure}
@@ -604,14 +611,14 @@ All these experiments are conducted with real bank accounts and real money.
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{iom/assets/intrabank_annotated}
+	\includegraphics[width=.7\linewidth]{iom/assets/intrabank_annotated}
 	\caption{Settlement durations of in-house payments for four supported banks.}
 	\label{fig:intrabank_speed}
 \end{figure}
 
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=\linewidth]{iom/assets/router_discovery_times}
+	\includegraphics[width=.7\linewidth]{iom/assets/router_discovery_times}
 	\caption{Performance of router discovery under a varying number of maximum hops in a money circuit.}
 	\label{fig:router_discovery_times}
 \end{figure}
@@ -654,7 +661,7 @@ This experiment demonstrates that Internet-of-Money is capable of real-time mone
 
 \begin{figure}[!t]
 	\centering
-	\includegraphics[width=\linewidth]{iom/assets/fraud_experiment}
+	\includegraphics[width=.7\linewidth]{iom/assets/fraud_experiment}
 	\caption{The effectiveness of fraud prevention, with different risk mitigation strategies.}
 	\label{fig:fraud_experiment}
 \end{figure}
@@ -811,6 +818,13 @@ In comparison, Internet-of-Money is built upon existing, proven infrastructure, 
 
 % Sybil resistance of reputation mechanisms
 
+\begin{figure}[h]
+	\centering
+	\includegraphics[width=1\textwidth]{iom/assets/internet_of_money_network.png}
+	\caption{Fast international money transfers and currency conversion using Internet-of-Money. Distinct money circuits are indicated by different arrow styles.}
+	\label{fig:internet_of_money_network}
+\end{figure}
+
 \section{Conclusions and Future Work}
 We explored a new stage in the evolution of digital trust and addressed the problem of trusting strangers with your money.
 The tamper-proof Trustchain structure provides a scalable and public trace of historical interactions, and allows detection and punishment of potential fraud.
@@ -824,4 +838,6 @@ However, there are various legal issues and limitations that should be addressed
 
 This work is an important milestone in our ambitious vision to create the \emph{programmable economy}.
 Ongoing work towards this goal addresses self-sovereign identity, scalable blockchain consensus compatible with Trustchain, and decentralized marketplaces.
-We refer the interested reader to our scientific overview article~\cite{pouwelse2017laws}.
+Upcoming experimentation will focus on expanding Internet-of-Money to support additional banks, currency conversion and international bank transfers.
+For this experiment, we utilize additional type of money switches to send money across the globe in seconds.
+This structure is presented in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.

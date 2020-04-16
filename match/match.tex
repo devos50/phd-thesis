@@ -308,7 +308,7 @@ Upon receiving a notification from the trading mechanism, the order creator inte
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{match/assets/central_exchange_architecture}
+	\includegraphics[width=.8\linewidth]{match/assets/central_exchange_architecture}
 	\caption{A generic model for centralized order matchmaking, using a single server.}
 	\label{fig:central_exchange_architecture}
 \end{figure}
@@ -691,7 +691,7 @@ If an order is still open, a user selects the next best item from the associated
 This repeats until the match queue is empty or the order is completed.
 The MATCH protocol is now explained in more detail.
 
-\begin{lstlisting}[language=json,firstnumber=1,float=b,caption=Example of an order in a ride-hailing market (in JSON format).,label=lst:order_example]
+\begin{lstlisting}[language=json,firstnumber=1,float=t,caption=Example of an order in a ride-hailing market (in JSON format).,label=lst:order_example]
 {
 "timestamp": "2020-02-24T09:09:19+0000",
 "type": "RIDE",
@@ -781,7 +781,7 @@ Upon reception of a \texttt{cancel} message, matchmakers remove the canceled ord
 
 \begin{figure}[b]
 	\centering
-	\includegraphics[width=\linewidth]{match/assets/matching_idea}
+	\includegraphics[width=.75\linewidth]{match/assets/matching_idea}
 	\caption{The intuition behind order dissemination in MATCH.}
 	\label{fig:matching_idea}
 \end{figure}
@@ -1077,7 +1077,7 @@ This layer can be implemented using any networking library with support for peer
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{match/assets/matching_architecture}
+	\includegraphics[width=.75\linewidth]{match/assets/matching_architecture}
 	\caption{The MATCH middleware architecture.}
 	\label{fig:matching_architecture}
 \end{figure}
@@ -1630,7 +1630,7 @@ Since users aggregate \texttt{match} messages during the match window, the order
 In comparison, the average order fulfill latency in Ethereum is 258.2 and 53.6 seconds under the ride-hailing and asset trading workload, respectively.
 We argue that in a ride-hailing market, the latencies experienced when performing matchmaking on an Ethereum blockchain would be unacceptable for both passengers and drivers.
 
-\begin{figure}[t]
+\begin{figure}[b]
 	\centering
 	\includegraphics[width=.75\linewidth]{match/assets/plots/tx_pool}
 	\caption{The size of the Ethereum transaction pool when running the ride-hailing and asset trading workload.}

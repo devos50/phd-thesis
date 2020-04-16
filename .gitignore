@@ -4,6 +4,15 @@
 *.log
 *.out
 *.toc
+*.acn
 dissertation.pdf
 
 **.DS_Store
+
+## Build tool auxiliary files:
+*.fdb_latexmk
+*.synctex
+*.synctex(busy)
+*.synctex.gz
+*.synctex.gz(busy)
+*.pdfsync
