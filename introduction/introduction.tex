@@ -30,6 +30,13 @@ Ten years later, blockchain technology is being researched within a large number
 In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
 At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{introduction/assets/thesis_overview}
+	\caption{The four mechanisms presented in this work (depicted in grey), in the context of existing technologies (depicted in green).}
+	\label{fig:thesis_overview}
+\end{figure}
+
 \todo{Introduce thesis here}
 
 %\section{Problem Statement}
@@ -39,26 +46,32 @@ At the time of writing, there are \todo{X} decentralized applications running on
 
 The overarching research question of this thesis is as follows:
 
-\emph{how can we increase the scalability of decentralized applications that are using blockchain technology?}\\\\
+\emph{How can we improve matchmaking and settlement mechanisms in blockchain-based electronic markets?}\\\\
 To answer our research question, we address the following key questions:
 
 \textbf{[RQ1] What is the state-of-the-art in blockchain-based electronic trading and asset exchange?}
+To provide an answer to our research question, it is required to build an understanding of state-of-the-art approaches to blockchain-based trading, and their shortcomings.
+Even though there is much active research on blockchain-based decentralized exchanges and secure asset trading between heterogeneous blockchain platforms, the field lacks a systematic literature overview, an analysis of open challenges and suggestions for further research.
 
-\textbf{[RQ2] How can we efficiently match market orders without centralized coordination?}
+\textbf{[RQ2] How can we efficiently match market orders without centralized coordinator?}
+The predominant approach to order matchmaking in electronic markets is by using a centralized server, owned by the market operator.
+This approach, however, enables manipulation by the operator, resulting in an unfair system.
+Blockchain-based matchmaking has the potential to address fairness issues but is by far not scalable enough for usage by many marketplaces.
+We aim for an efficient matchmaking mechanism with fairness guarantees, not under the control of a single market operator.
 
 \textbf{[RQ3] How can improve settlement durations of (international) payment infrastructures?}
-Similar to RQ2, existing payment infrastructures such as the SWIFT network are built to prevent fraud and are architecturally complex.
-As a result, payments between two different (international) banks often take a considerable time to settle, often in the order of days.
+A major problem of current banking systems is that the settlement duration of a payment between two different (international) banks is significant, often in the order of days.
 Furthermore, these payments require significant transaction fees to cover back-office costs.
-Relying on accountability and fraud detection could improve the speed of (international) payment infrastructures, and potentially lead to a reduction of costs and lower transaction fees.
+Blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially lead to a reduction of costs and lower transaction fees.
 
 \textbf{[RQ4] How can we exchange assets managed by different blockchains?}
 Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
 Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
 The main issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible or slow.
-The question is whether accountability and fraud detection could address these issues and enable fast asset trading between different exchanges.
+The question is how to address these issues and enable fast asset trading between different exchanges.
 
 \textbf{[RQ5] How can we apply blockchain technology to improve software crowdsourcing markets?}
+The engineering of blockchain-based applications such as exchanges is a challenging task and requires engineers with appropriate qualifications.
 Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
 Recent research proposes to leverage blockchain technology
 Applying accountability and fraud detection could improve the software crowdsourcing process.
@@ -89,40 +102,12 @@ Next, in Chapter \todo{X}, we design, implement and evaluate TrustChain: a scala
 In Chapters \todo{X to Y}, we apply accountability primitives and fraud detection techniques in three well-established domains: financial transactions, two-sided marketplaces, and identity.
 Specifically, we make the following contributions in each chapter:\\
 
-\textbf{[Chapter 2] Scalability Limitations of Existing Blockchains.} (pending, not sure whether this will be a separate chapter)
-Some explanation here...\\
+\textbf{[Chapter 2] SoK: Electronic Markets in the Age of Blockchain.} (Work in progress)
+In this chapter, we answer RQ2 and provide an extensive overview of existing approaches for online trade in the age of blockchain.\\
 
-\textbf{[Chapter 3] TrustChain: A Scalable Blockchain for Accounting.}
-In this chapter, we answer RQ2 by introducing TrustChain, a scalable blockchain built for accounting of primitive data elements.
-Our permission-less fabric is capable of creating trusted transactions amongst strangers without any central oversight or requirement for network-wide consensus.
-In contrast to existing blockchain ledgers, TrustChain is designed to \emph{detect} fraud, rather than \emph{prevent} fraud.
-The key design principle is that each individual grows and maintains their own ledger with historical transactions.
-When initiating a transaction with another user, their ledgers become entangled.
-We highlight the maturity and applicability of our distributed ledger by integrating TrustChain in the Tribler peer-to-peer file-sharing application to account bandwidth exchange between individuals.
-Using the tamper-proof transactions stored on TrustChain, we design a fair load-balancing mechanism used by participants in the anonymous downloading overlay and show how to ensure preferential treatment for well-behaviour users in the network. % free-riding behaviour is addressed.
-Our real-world deployment and evaluation has resulted in \todo{X} TrustChain transactions, created by \todo{X} unique digital identities.
-This chapter is largely based on the following publication:
+\todo{Work in progress}\\
 
-Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant scalable blockchain}, \emph{Future Generation Computer Systems (FGCS), 2017.}\\
-
-\textbf{[Chapter 4] Internet-of-Money: Applying Accountability to Enable Real-time International Money Transfers.}
-In this chapter, we answer RQ3 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
-We address the challenging problem of giving money to others and relying on them to forward it.
-To identity fraud, we account money transfers between interacting strangers.
-This work represents a small step towards a generic infrastructure for trust, moving beyond proven, single-vendor platforms like eBay, Uber and AirBnb.
-Expanding upon trust relations, we designed, implemented and evaluated an overlay network: \emph{Internet-of-Money}.
-Internet-of-Money is capable of real-time money transfers to different banks by routing funds through individuals (\emph{money routers}).
-This removes the need for central banks to handle a payment.
-Our network reduces traditional payment durations from a day or even a few days in weekends, to mere seconds.
-%Internet-of-Money is fully decentralized, privacy-preserving and highly scalable.
-With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
-We show that our overlay network is capable of discovering a majority of available money routers within a minute.
-Finally, we demonstrate how profit of cheating routers is limited and that misbehaviour is punished.
-This chapter is based on the following publication:
-
-Martijn de Vos and Johan Pouwelse, \enquote{Real-time Money Routing by Trusting Strangers with your Funds}, \emph{IFIP Networking, 2018.}\\
-
-\textbf{[Chapter 5] MATCH: Accountable and Generic Matchmaking for Decentralized Applications.}
+\textbf{[Chapter 3] MATCH: Accountable and Generic Matchmaking for Decentralized Applications.}
 In this chapter, we partially address RQ4 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
 Matchmaking is a cardinal, yet overlooked prerequisite for a fully decentralized exchange.
 Although numerous companies have deployed infrastructure for matchmaking, there is currently no solution that can be deployed within different trading domains.
@@ -137,7 +122,7 @@ This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 6] XChange: A Scalable Asset Marketplace based on Accountability.}
+\textbf{[Chapter 4] XChange: A Scalable Asset Marketplace based on Accountability.}
 In this chapter, we answer RQ4 and introduce XChange, an asset marketplace based on accountability guarantees.
 There is an increasing need for a generic mechanism to trade assets across isolated platforms, as more industries rely on the digital management of their physical resources using Internet-of-Things devices.
 To date, there is no such mechanism without dependency on a trusted third party.
@@ -156,7 +141,24 @@ This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 7] DevID: Blockchain-based Portfolios for Software Developers.}
+\textbf{[Chapter 5] Internet-of-Money: Applying Accountability to Enable Real-time International Money Transfers.}
+In this chapter, we answer RQ3 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
+We address the challenging problem of giving money to others and relying on them to forward it.
+To identity fraud, we account money transfers between interacting strangers.
+This work represents a small step towards a generic infrastructure for trust, moving beyond proven, single-vendor platforms like eBay, Uber and AirBnb.
+Expanding upon trust relations, we designed, implemented and evaluated an overlay network: \emph{Internet-of-Money}.
+Internet-of-Money is capable of real-time money transfers to different banks by routing funds through individuals (\emph{money routers}).
+This removes the need for central banks to handle a payment.
+Our network reduces traditional payment durations from a day or even a few days in weekends, to mere seconds.
+%Internet-of-Money is fully decentralized, privacy-preserving and highly scalable.
+With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
+We show that our overlay network is capable of discovering a majority of available money routers within a minute.
+Finally, we demonstrate how profit of cheating routers is limited and that misbehaviour is punished.
+This chapter is based on the following publication:
+
+Martijn de Vos and Johan Pouwelse, \enquote{Real-time Money Routing by Trusting Strangers with your Funds}, \emph{IFIP Networking, 2018.}\\
+
+\textbf{[Chapter 6] DevID: Blockchain-based Portfolios for Software Developers.}
 In this chapter, we answer RQ5.
 Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
 Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
@@ -176,7 +178,7 @@ This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
 
-\textbf{[Chapter 8] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
+\textbf{[Chapter 7] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
 
 %\newpage
 
