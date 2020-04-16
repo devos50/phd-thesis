@@ -10,6 +10,30 @@
 \hyphenation{TestRoots WatchDog proj-ect proj-ects Ec-lipse two-fold clie-nts Mo-cki-to wide-spread}
 \newcommand{\sparkline}[1]{$\vcenter{\hbox{\includegraphics[scale=0.04]{#1}}}$}
 \newcommand{\todo}[1]{\textbf{[TODO: #1]}}
+\newcommand{\ModelName}{XChange}
+
+% XChange Messages
+\newcommand{\MsgOrder}{\texttt{Order}}
+\newcommand{\MsgCancelOrder}{\texttt{CancelOrder}}
+\newcommand{\MsgMatch}{\texttt{Match}}
+\newcommand{\MsgRejectMatch}{\texttt{RejectMatch}}
+\newcommand{\MsgTrdProp}{\texttt{TradeProposal}}
+\newcommand{\MsgTrdNegotiate}{\texttt{Negotiate}}
+\newcommand{\MsgTrdAccept}{\texttt{TradeAccept}}
+\newcommand{\MsgTrdReject}{\texttt{TradeReject}}
+\newcommand{\MsgPartialAgreement}{\texttt{PartialAgreement}}
+\newcommand{\MsgAgreement}{\texttt{Agreement}}
+\newcommand{\MsgPayment}{\texttt{Payment}}
+\newcommand{\MsgPartialTradeDone}{\texttt{PartialTradeDone}}
+\newcommand{\MsgTradeDone}{\texttt{TradeDone}}
+
+% XChange Ledger Transactions
+\newcommand{\TROffer}{\textsc{Offer}}
+\newcommand{\TRRequest}{\textsc{Request}}
+\newcommand{\TRCancelOrder}{\textsc{CancelOrder}}
+\newcommand{\TRAgreement}{\textsc{Agreement}}
+\newcommand{\TRPayment}{\textsc{Payment}}
+\newcommand{\TRTradeDone}{\textsc{TradeDone}}
 
 \colorlet{punct}{red!60!black}
 \definecolor{background}{HTML}{EEEEEE}
@@ -91,7 +115,7 @@
 \include{sok/sok}
 \include{match/match}
 \include{xchange/xchange}
-%\include{chapter4/chapter4}
+\include{iom/iom}
 %\include{chapter5/chapter5}
 %\include{chapter6/chapter6}
 %\include{chapter7/chapter7}
@@ -115,7 +139,7 @@ to this timestamped version.
 
 \bibliographystyle{unsrt}
 % argument is your BibTeX string definitions and bibliography database(s)
-\bibliography{references_match}
+\bibliography{references_match,references_xchange,references_iom}
 
 %% \chapter*{Glossary}
 
