@@ -1,43 +1,217 @@
 \chapter{Introduction}
 \label{introduction}
 
-%\newpage
+%\dropcap{E}ver since its introduction in 1983, the Internet has grown to a global communication network used by individuals to interact with others.
+%Nowadays, numerous companies operate large-scale digital platforms to facilitate on-line interactions between potentially billions of users.
+%eBay was one of the first platforms that enabled the trustworthy trade of goods between merchants and buyers over the Internet, and is used by millions on a daily basis.
+%More recently, companies acting in the sharing economy, like Uber and AirBnb, shaped the notion of digital interactions between individuals over the Internet.
+%These companies facilitate peer-to-peer resource sharing where strangers can share personal resources, like their house or car, in a trustworthy manner.
 
-\dropcap{E}ver since its introduction in 1983, the Internet has grown to a global communication network used by individuals to interact with others.
-Nowadays, numerous companies operate large-scale digital platforms to facilitate on-line interactions between potentially billions of users.
-eBay was one of the first platforms that enabled the trustworthy trade of goods between merchants and buyers over the Internet, and is used by millions on a daily basis.
-More recently, companies acting in the sharing economy, like Uber and AirBnb, shaped the notion of digital interactions between individuals over the Internet.
-These companies facilitate peer-to-peer resource sharing where strangers can share personal resources, like their house or car, in a trustworthy manner.
-
-Most of the on-line applications we use on a daily basis are \emph{centralized}, e.g., managed by a single authority that maintains the required network infrastructure. % facilitated by centralized architectures, often deployed and maintained by a single company.
-In particular, when considering a centralized Internet application, there is a single or limited group of servers, responsible for processing all requests submitted by the platform participants, e.g., uploading a video on YouTube or posting a tweet on Twitter.
+%Most of the on-line applications we use on a daily basis are \emph{centralized}, e.g., managed by a single authority that maintains the required network infrastructure. % facilitated by centralized architectures, often deployed and maintained by a single company.
+%In particular, when considering a centralized Internet application, there is a single or limited group of servers, responsible for processing all requests submitted by the platform participants, e.g., uploading a video on YouTube or posting a tweet on Twitter.
 %Hosting the network infrastructure to facilitate interactions on a global scale requires major investments and platform costs, as exemplified by major companies like Facebook and Google.
-On one hand, centralized infrastructures are relatively easy to setup and their performance can be increased by deploying more servers.
-On the other hand, even a single software bug or hardware failure could lead to a prolonged unavailability of the entire application.
-For example, Facebook experienced a day of downtime in March 2019 due to a server misconfiguration.
+%On one hand, centralized infrastructures are relatively easy to setup and their performance can be increased by deploying more servers.
+%On the other hand, even a single software bug or hardware failure could lead to a prolonged unavailability of the entire application.
+%For example, Facebook experienced a day of downtime in March 2019 due to a server misconfiguration.
 
-In comparison, \emph{decentralized} applications aim to avoid reliance on a single authority.
-A decentralized application consists of a network where computers directly communicate and collaborate with each other instead.
-One of the most popular decentralized applications is the BitTorrent file transfer protocol, used to share and download torrent files.
-In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
-Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
+%In comparison, \emph{decentralized} applications aim to avoid reliance on a single authority.
+%A decentralized application consists of a network where computers directly communicate and collaborate with each other instead.
+%One of the most popular decentralized applications is the BitTorrent file transfer protocol, used to share and download torrent files.
+%In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
+%Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} changed how decentralized applications are built.
-Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
-The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
-Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
-Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
-In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
-At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
+%The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} changed how decentralized applications are built.
+%Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
+%The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
+%Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
+%Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
+%In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
+%At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
+
+Markets play a central role in our economy and society.
+
+The capability for companies to act as intermediary in electronic peer-to-peer marketplaces has been a transformational force in society.
+Major companies acting in the sharing economy serve millions of users on a daily basis and have even enabled new modes of income through the participation in global markets.
+
+Markets in general have a long history.
+
+These markets has attracted research from many domains.
+
+\section{The Evolution of Marketplaces}
+TODO
+
+\section{Decomposing Electronic Marketplaces}
+TODO
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{introduction/assets/thesis_overview}
-	\caption{The four mechanisms presented in this work (depicted in grey), in the context of existing technologies (depicted in green).}
-	\label{fig:thesis_overview}
+	\includegraphics[width=\linewidth]{introduction/assets/decomposition}
+	\caption{A decomposition of electronic marketplaces in four different components. Each component is further decomposed in approaches if applicable.}
+	\label{fig:electronic_markets}
 \end{figure}
 
-\todo{Introduce thesis here}
+\begin{figure*}[t]
+	\centering
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/centralized_matchmaking}
+		\caption{\emph{Centralized matchmaking}: new orders are always sent to a single matchmaker, usually a centralized system (server).}
+		\label{fig:centralized_matchmaking}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/federated_matchmaking}
+		\caption{\emph{Federated matchmaking}: new orders are sent to one of the available matchmakers in the network.}
+		\label{fig:federated_matchmaking}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/decentralized_matchmaking}
+		\caption{\emph{Decentralized matchmaking} (our proposal): new orders are sent to multiple matchmakers and shared between them.}
+		\label{fig:decentralized_matchmaking}
+	\end{subfigure}
+	\caption{Three models for order matching. Traders create offers and requests (colored green and red respectively), which are matched by matchmakers (depicted in blue).}
+	\label{fig:matching_models}
+\end{figure*}
+
+\subsection{Order Matchmaking}
+\label{sec:matchmaking}
+Automatically \emph{matching} customers is a prerequisite for online trade and therefore essential for electronic marketplaces.
+Matchmaking is defined as the process of mediating supply and demand in markets, based on profile information~\cite{Veit:2003fs}\footnote{In multi-agent systems, a matchmaker is considered as an entity that only aggregates offers. Brokers aggregate both offers and requests. We will use the term matchmaker in this paper since we found it to be more common in related work.}.
+Notable examples are matching idle agents to incoming jobs or matching suppliers of specific assets to consumers who are interested in buying these assets.
+Inefficient matchmaking between participants decreases overall market efficiency and customer satisfaction~\cite{Wu2015TheM}.
+%For example, in a ride-hailing marketplace like Uber, it is key to match nearby drivers and passengers in a timely and efficient manner.
+For instance, prolonged suboptimal matching by ride-hailing marketplaces such as Uber increases the waiting time for passengers and results in drivers having to traverse a greater distance to pick up their customers.
+%Similarly, inefficient matching of available computer resources to customers by cloud providers could violate service-level agreements, resulting in customer loss and reputational damage.
+
+In this section, we review different approaches to order matchmaking in electronic markets.
+Matchmaking depends on the individual constraints and preferences of market participants.
+In most electronic markets, a participant includes this information in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{Veit:2003fs}.
+This order is then submitted to a matchmaker.
+In general, economic literature distinguishes between two types of orders: \emph{asks}, created by traders offering a specific asset, service, or resource, and \emph{bids}, created by interested buyers.
+%Each order can have multiple attributes attached, e.g., a price or a location.
+The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on constraints and preferences included in each order.
+
+We identify three different approaches to order matchmaking, depicted in Figure~\ref{fig:matching_models}.
+With \emph{centralized matchmaking} (Figure~\ref{fig:centralized_matchmaking}), traders submit their asks and bids to a single server.
+With \emph{federated matchmaking} (Figure~\ref{fig:federated_matchmaking}), traders submit a new order to one of the servers of their choice.
+Finally, in \emph{decentralized matchmaking} (Figure~\ref{fig:decentralized_matchmaking}), traders submit their orders to one or more matchmakers.
+We further elaborate on each matchmaking model.
+
+\subsubsection{Centralized Matchmaking}
+Figure~\ref{fig:centralized_matchmaking} visualizes the centralized matchmaking model, which is the most common approach to match orders.
+Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
+This model is widely adopted by commercialized marketplaces such as stock exchanges or peer-to-peer service markets like Uber.
+A matchmaker bundles open orders in a local data structure known as an \emph{order book}.
+The order book stores all active asks and bids, and provide traders a convenient view on the current supply and demand.
+A new incoming ask or bid is then matched with other bids and asks, respectively, using a \emph{matching policy}.
+The most common matching policy used in cryptocurrency exchanges is the \emph{price-time} strategy, where orders are first matched based on the price, and then on their order creation time (older orders are prioritized).
+The order book is often optimized for fast order lookup and matching within a specific trading domain.
+
+The EtherDelta decentralized exchange is one of the first DEXes that adopt the centralized matchmaking model~\cite{Anonymous:brZbAflS}.
+EtherDelta maintains a single server that stores an order book with all active orders.
+Traders can browse the order book and trade against orders in the order book.
+The trades are finalized on the blockchain, and the order is then removed from the EtherDelta order book.\todo{custodial vs non-custodial}
+The IDEX exchange also deploys a centralized server but automatically matches orders submitted by makers and takers~\cite{AuroraLabs:B4jmyRY8}.
+Specifically, traders lock their assets in the IDEX smart contract and submit their order to the IDEX server, which checks its validity.
+The order is then executed by the Ethereum smart contract and the order book is updated according to the executed trade.
+
+A main advantage is that the centralized matchmaking model with a single server is relatively straightforward to implement, since no communication or order book synchronization is required.
+Also, since all orders are stored and matched by single matchmaker, orders are processed based on full market knowledge.
+The identity behind each order is only known to the market operator, therefore protecting the privacy of individual traders.
+
+Unfortunately, the emergence of electronic trading in general gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{Mavroudis:2019iw}.
+For example, the EtherDelta operator is able to censor specific orders.
+Furthermore, information asymmetry between exchange operators and traders allows operators to front-run specific orders (see Section X\todo{x}).
+The work of Mavroudis and Melton address fairness issues arising from the latency traders experience when submitting orders and gaining market information~\cite{Mavroudis:2019iw}.
+They propose Libra, an order reordering matching policy that alleviates the effects of uneven delays by the market infrastructure.
+Libra remains temporally fair, meaning that among all pairs of participants on it the probability that a slower participant succeeds in capturing a trading opportunity at the expense of a faster participant (who, responsive to the same stimulus, is also competing for the same opportunity) does not exceed 0.5.
+
+From a systems perspective, centralized matchmaking has a low scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are created in the same time period.
+Fault tolerance is another concern: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
+
+\subsubsection{Federated Matchmaking}
+Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
+Instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
+The group of matchmakers can either be static (e.g., elected by a committee or a voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker).
+A trader now submits new orders to their preferred matchmaker (for example, based on the reliability or trustworthiness of individual matchmakers).
+The 0x and Swap protocols are notable examples of the federated matchmaking model and are discussed next.
+
+%Blockchain-powered marketplaces based on the 0x and AirSwap protocols have adopted the federated matchmaking model~\cite{warren20170x}~\cite{oved2017swap}.
+The 0x protocol uses off-chain order relaying and on-chain settlement, meaning that orders are created shared, and matched outside a blockchain.
+A maker creates market liquidity in 0x by first selecting an available relayer.
+Each relayer maintains an off-chain order book and charges a transaction fee for its services.
+The maker then creates the order and specifies a fee which is given by the selected relayer.
+Takers query the order book of relayers and if they intend to fulfill an order, they submit it to the Ethereum blockchain.
+The Augur prediction market (see Section~\ref{sec:prediction_markets}) leverages the 0x protocol for order dissemination and matching.
+
+The Swap protocol follows a similar off-chain matchmaking, on-chain settlement model~\cite{oved2017swap}.
+In Swap, indexers aggregate trade intents created by market makers and takers.
+The indexer informs takers when a matching trade intent has been found, upon which a peer-to-peer negotiation process starts between the matched maker and taker.
+During this negotation process, a maker may contact an oracle to get a price suggestion.
+When a maker and taker agree on a trade, the taker submits the agreement to an Ethereum smart contract, upon which the trade is executed and on-chain assets are exchanged.
+We remark that both 0x and Swap are limited to trading Ethereum-based digital tokens and can therefore not be used for order processing of any blockchain-based asset.
+
+The federated matchmaking model gives traders the opportunity to use the services of their preferred matchmaker.
+Manipulative behaviour of one matchmaker then leads to the situation where traders select another, honest matchmaker.
+Furthermore, unavailability of an individual matchmaker is less likely to stall all market activity since a trader can send their orders to another available matchmaker.
+However, the order book is fragmented across different matchmakers, potentially leading to less market efficiency and liquidity, compared to matchmaking with an order book managed by a single entity.
+
+\subsubsection{Decentralized Matchmaking}
+%Scalability limitations, low fault tolerance, and uneven load balancing are inherent issues of centralized and federated matchmaking.
+The \emph{decentralized matchmaking} model is depicted in Figure \ref{fig:decentralized_matchmaking}.
+The main idea is that a single order is sent to multiple matchmakers simultaneously and matchmakers share their orders with other matchmakers (liquidity sharing).
+We distinguish between on-chain and off-chain decentralized matchmaking.
+
+\textbf{On-chain.}
+We now discuss on-chain matchmaking approaches that either rely on a smart contract to match incoming orders, or embed the matchmaking logic in the transaction validation logic.
+The Stellar protocol integrates DEX functionality that enables users to create buy and sell orders that trade assets native to the Stellar ledger~\cite{Lokhava:2019kd}.
+These orders are created using specific transaction types, that are matched with existing, outstanding orders during inclusion of the transaction in the ledger.
+The Stellar matching engine uses the price-time policy.
+Similarly, the BitShares blockchain provides functionality to create orders at the protocol level~\cite{Schuh:CsvWDxUZ}.
+
+The main advantage of on-chain matchmaking is tight integration with the blockchain platform; no external components such as a peer-to-peer overlay are needed to process orders.
+Instead, all orders can simply be processed by the blockchain logic.
+This also makes it more convenient for users to submit their orders.
+On the other hand, since users likely need to pay transaction fees when creating new orders or when cancelling existing ones, trading in bulk can become a costly process.
+Furthermore, blockchain-based order matching can be orders of magnitude slower compared to centralized matchmaking, due to security requirements.
+Finally, on-chain matching protocols do not explicitly store the history of matches.
+Therefore, the reconstruct the order book at a specific block height, one needs to process all transactions up to that point.
+
+\textbf{Off-chain.}
+To overcome transaction fees and slow transaction confirmation times, some platforms maintain a fully decentralized order book off-chain.
+An example of off-chain decentralized matchmaking is the Loopring protocol, which builds a decentralized order sharing protocol~\cite{Wang:wt}.
+Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
+New orders are sent to one or more relays in a mesh network.
+Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
+Relayers can optionally share orders with other relayers to increase liquidity, however, the whitepaper lacks technical details on how this is achieved specifically.
+Relayers take the margin between two matched orders, or can charge some fee.
+% front-running in Loopring
+
+The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{Zhang:kGvi0me4}.
+Specifically, it uses Shamir Secret Sharing to break down an order in multiple order fragments which are distributed through the network.
+An Ethereum smart contract, called the Registrar, describes the network topology such that it is hard for an adversary to fully reconstruct an original order.
+Nodes cooperate with other nodes to check if their order fragments match, by computing a zero-knowledge proof.
+When two order fragment match, an atomic swap is initiated between the two traders (also see Section~\ref{sec:atomic_swap}).
+Note that this prevents an individual from estimating the total liquidity in the network.
+
+We identify two advantages of this model over centralized and federated matchmaking.
+First, sharing orders between matchmakers can yield the same matching effectiveness compared to centralized matchmaking, depending on the order synchronization details. %since orders can be synchronized amongst matchmakers.
+Second, decentralized matchmaking should show higher tolerance against failure of individual matchmakers.
+However, this model increases bandwidth usage since orders are sent to multiple matchmakers.
+Also, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
+
+\subsection{Settlement}
+TODO
+
+\subsection{On-boarding}
+TODO
+
+\subsection{Dispute Resolution}
+TODO
 
 %\section{Problem Statement}
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
@@ -95,8 +269,14 @@ All developed software artefacts are available on our GitHub repository and cont
 
 % but we do Y!
 
-\section{Contributions and Thesis Outline}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{introduction/assets/thesis_overview}
+	\caption{The four mechanisms presented in this work (depicted in grey), in the context of existing technologies (depicted in green).}
+	\label{fig:thesis_overview}
+\end{figure}
 
+\section{Contributions and Thesis Outline}
 After establishing the required background on decentralized applications and distributed ledger technology, Chapter \todo{X} highlights scalability limitations of state-of-the-art blockchain ledgers.
 Next, in Chapter \todo{X}, we design, implement and evaluate TrustChain: a scalable blockchain ledger that is based on fraud \emph{detection} instead of fraud \emph{prevention}.
 In Chapters \todo{X to Y}, we apply accountability primitives and fraud detection techniques in three well-established domains: financial transactions, two-sided marketplaces, and identity.
@@ -179,6 +359,9 @@ This chapter is based on the following publication:
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
 
 \textbf{[Chapter 7] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
+
+\section{About the Delft Blockchain Lab}
+TODO
 
 %\newpage
 
