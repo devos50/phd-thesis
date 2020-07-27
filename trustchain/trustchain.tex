@@ -1,6 +1,21 @@
 \chapter{ConTrib: Preventing Free-riding Behaviour with Decentralized Micro-accounting}
 \label{chapter2}
 
+\emph{Free-riding in shared-resource systems is a key issue.
+An accounting infrastructure that records all resource exchanges enables the identification of free-riders in the network.
+To date, there is no accounting mechanism that is optimized to record small resource exchanges in large-scale systems.}
+
+\emph{We present \ModelName{}, a scalable mechanism for micro-accounting of community interactions.
+Each individual in \ModelName{} maintains a hash chain of tamper-evident \emph{micro-records}.
+Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
+Manipulation is detected through continuous exploration of the DAG.
+We devise a system architecture with flexible validation and fraud policies.
+Our evaluation reveals that \ModelName{} scales to at least 130'000 micro-records per second and that advanced manipulation (chain forking) is detected within mere seconds.
+We leverage \ModelName{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
+This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.}
+
+\newpage
+
 \section{Introduction}
 Free-riding, the act of consuming resources without contributing back, is a key concern in shared-resource systems with open membership.
 This uncooperative behaviour frequently prevails in Internet communities.

@@ -20,14 +20,6 @@
 %In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-%The introduction of the decentralized Bitcoin cash system in 2008 by Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} changed how decentralized applications are built.
-%Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
-%The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
-%Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
-%Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
-%In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
-%At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
-
 Markets play a central role in our economy and society.
 
 The capability for companies to act as intermediary in electronic peer-to-peer marketplaces has been a transformational force in society.
@@ -37,11 +29,27 @@ Markets in general have a long history.
 
 These markets has attracted research from many domains.
 
-\section{The Evolution of Marketplaces}
+\section{Online Commerce}
 TODO
 
-\section{Decomposing Electronic Marketplaces}
+\section{Blockchain Technology}
+Blockchain technology had a profound impact on existing markets.
+This paradigm shift started in 2008 when Satoshi Nakamoto introduced Bitcoin, a decentralized cash system.\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.}
+%Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
+%The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
+%Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
+%Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
+%In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
+%At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
+
+\subsection{Smart Contracts}
 TODO
+
+\subsection{Blockchain-based Marketplaces}
+TODO
+
+\section{Decomposing Blockchain-based Marketplaces}
+We now discuss the required components of blockchain-based marketplaces.
 
 \begin{figure}[t]
 	\centering
@@ -49,6 +57,9 @@ TODO
 	\caption{A decomposition of electronic marketplaces in four different components. Each component is further decomposed in approaches if applicable.}
 	\label{fig:electronic_markets}
 \end{figure}
+
+\subsection{Settlement}
+TODO
 
 \begin{figure*}[t]
 	\centering
@@ -204,9 +215,6 @@ Second, decentralized matchmaking should show higher tolerance against failure o
 However, this model increases bandwidth usage since orders are sent to multiple matchmakers.
 Also, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
-\subsection{Settlement}
-TODO
-
 \subsection{On-boarding}
 TODO
 
@@ -217,9 +225,10 @@ TODO
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
 
 \section{Research Questions}
+In this thesis, we focus on \emph{matchmaking} and \emph{settlement} in electronic markets.
+Our work, however, is not limited to markets with blockchain technology.
 
-The overarching research question of this thesis is as follows:
-
+The overarching research question of this thesis is as follows:\\\\
 \emph{How can we improve matchmaking and settlement mechanisms in blockchain-based electronic markets?}\\\\
 To answer our research question, we address the following key questions:
 
@@ -250,20 +259,57 @@ Crowdsourcing is a relatively new model for software development, where an open 
 Recent research proposes to leverage blockchain technology
 Applying accountability and fraud detection could improve the software crowdsourcing process.
 
-\section{Research Methodology}
+\begin{table*}[t]
+	\small
+	\centering
+	\begin{tabular}{ |c|c|c|c| }
+		\hline
+		\textbf{Chapter} & \textbf{Mechanism} & \textbf{DAS5 experiments?} & \textbf{Deployment?} \\ \hline
+		2 & TrustChain & yes & yes, integration in Tribler \\ \hline
+		3 & MATCH & yes & yes, integration in Tribler \\ \hline
+		4 & XChange & yes & yes, integration in Tribler \\ \hline
+		5 & Internet-of-Money & yes & in-house testing \\ \hline
+		6 & DevID & no & user trial \\ \hline
+	\end{tabular}
+	\caption{An overview of research methods for each mechanism introduced in this thesis.}
+	\label{table:research_methodology}
+\end{table*}
 
-% add: related research mostly follows a theory-driven approach
+\section{Research and Engineering Methodology}
+Blockchain technology is a relatively new and immature field.
+We identify two fundamentally different approaches to the adopted research methodology in this field.
+On one hand, published blockchain research in systems-oriented conferences follow an experimental methodology where the performance of the proposed mechanism is systematically evaluated using a comprehensive set of experiments and benchmarks.
+On the other hand, there is a vast body of research on the security aspects of distributed ledgers.
+This kind of research tend to follow a more theoretical approach through the use of formal proofs or small-scale protocol simulations.
 
-Throughout this thesis, we adopt an experimental research methodology to answer our research questions.
-We validate our ideas with a software implementation and evaluate them with emulation-based experimentations conducted on our DAS5 compute cluster.
-While designing an infrastructure or system, we always aim for a solution that is suitable for adoption and applicable in a real-world environment.
+In this work, we adopt an experimental-driven approach where we answer each research question by designing, implementing and evaluating a system or mechanism.
+We then systematically evaluate the appropriate properties of each mechanism, and if feasible, we deploy our mechanisms to users to gather real-world results.
+For all of our proposed mechanisms, we aspire a practical solution, ready for deployment and usable by real users.
+
+Distributed systems can be complex software implementations with many components that work together.
+Specifying the scope of a system is a non-trivial challenge and failing to implement clear system boundaries can result in numerous performance bottlenecks and degradation of user experience when such a system is deployed.
+To this end, during the design of each mechanism we specify the boundaries of each system and state what we consider out of scope.
+We aim to focus on the core functionality of each mechanism.
+
+Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of DAS5 experiments and/or whether we have conducted a real-world deployment.
+Except for DevID, we evaluate each component using a comprehensive set of experiments that have been conducted on our DAS5 nation-wide compute cluster.
+
+Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of users or with an integration in Tribler.
+Tribler is our academic testbed and offers decentralized, anonymous file-sharing capabilities.
+Tribler has been downloaded by over 1.5 million users and enables us to test our ideas in a geo-distributed, real-world environment.
+We have evaluated TrustChain, for example, in the context of our anonymous file-sharing overlay to address free-riding behaviour.
+This longitudinal deployment allowed us to incrementally improve our software and refine our ideas.
+Due to legal considerations, we have been unable to provide an open-source implementation of the Internet-of-Money mechanism.
+
+We ensure that each mechanism is tested.
+Even though this is uncommon practice for research projects, we believe that a proper engineering methodology adds credibility to the presented mechanisms, helps reproducibility and is instrumental in getting a system ready for deployment.
 
 % simplicity?
 
-We believe this experimental research methodology is suitable for two reasons.
-First, it allows us to evaluate our ideas in an environment that closely resembles a real-world environment.
-Second, it directly leads to a software implementation that can be used by academia or industry.
-All developed software artefacts are available on our GitHub repository and contain unit tests to verify functional correctness.
+%We believe this experimental research methodology is suitable for two reasons.
+%First, it allows us to evaluate our ideas in an environment that closely resembles a real-world environment.
+%Second, it directly leads to a software implementation that can be used by academia or industry.
+%All developed software artefacts are available on our GitHub repository and contain unit tests to verify functional correctness.
 
 % existing research does X
 
