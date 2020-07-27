@@ -33,20 +33,47 @@ These markets has attracted research from many domains.
 TODO
 
 \section{Blockchain Technology}
-Blockchain technology had a profound impact on existing markets.
-This paradigm shift started in 2008 when Satoshi Nakamoto introduced Bitcoin, a decentralized cash system.\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.}
+In 2008, Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} introduced Bitcoin, a peer-to-peer cash system without banks.
+This profoundly shaped the way in which distributed systems are designed.
+Bitcoin challenge what has long been thought to be an impossible problem - reaching consensus in large-scale distributed systems without trusted intermediaries.
 %Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
-%The system is powered by a blockchain data structure which is a tamper-proof transaction ledger, secured and maintained by users themselves.
+Bitcoin is powered by a \emph{blockchain}, a distributed ledger that is fully secured and maintained by users themselves.
+The blockchain is a linear data structure consisting of blocks and each block contains one or more transactions.
+Except for the first block, each block is equipped with a hash pointer that points to the prior block in the chain.
+This makes blockchain tamper-evident since modifications in historical transactions can efficiently be detected.
 %Bitcoin is the first system to enable the controlled minting of digital cash without a bank.
 %Ten years later, blockchain technology is being researched within a large number of domains, including finance, health care, identity and real estate.
 %In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
 %At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
+The Bitcoin network maintains a single, authoritative copy of the blockchain ledger. that contains all transactions ever made.
+In Bitcoin, users submit signed transactions and each transaction has a transaction fee.
+Participants reach \emph{consensus} on which block and transactions are appended to the blockchain.
+All consensus participants, also called \emph{miners}, periodically propose a new block to be appended to the current blockchain.
+Then, each miner competes to solve a resource-intensive puzzle derived from the proposed block.
+The first miner to present a valid solution to the network can append its proposed block and gets rewarded with a fixed number of Bitcoin.
+In addition, the winning miner is rewarded with all transaction fees of the transactions within the block.
+
+% Centralized cryptocurrency marketplaces...
+
 \subsection{Smart Contracts}
 TODO
 
 \subsection{Blockchain-based Marketplaces}
-TODO
+The Bitcoin cryptocurrency and advancements in smart contract functionalities have demonstrated that it is possible for users to securely manage an ecosystem without trusted intermediaries.
+After the success of Bitcoin, researchers and system developers started to explore how blockchain technology can replace key components of electronic marketplaces which are mostly operated by centralized providers~\cite{subramanian2017decentralized}.
+We now outline how blockchain technology has been used to build new types of decentralized marketplaces, which we refer to as \emph{blockchain-based marketplaces}.
+
+Beaver, introduced by Soska et al., is one of the earliest proposals that leverage blockchain technology to build an anonymous marketplace without trusted intermediary~\cite{soska2016beaver}.
+Beaver uses a blockchain ledger to securely record user reviews and to store item listings while preserving privacy.
+Beaver positions itself as a mechanism that is Sybil-resistant against fake vendor reviews, a key issue in \enquote{traditional} online marketplaces.
+Beaver uses anonymous payment systems, e.g., Zerocash, as platform currency.
+The scalability of Beaver, however, is questionable since all data elements are stored on a distributed ledger secured by Proof-of-Work.
+
+Blockchain technology is increasingly being used to build decentralized cryptocurrency exchanges, also called \emph{DEXes}.
+DEXes enable the exchange of cryptocurrencies and other blockchain-based tokens without trusted intermediary.
+The first generation of DEXes limits trading to assets residing on the same blockchain.
+Notable examples include BitShares and Waves which have accumulated a market capitalization of X and Y dollars respectively.
 
 \section{Decomposing Blockchain-based Marketplaces}
 We now discuss the required components of blockchain-based marketplaces.
