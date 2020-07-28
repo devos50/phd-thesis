@@ -32,10 +32,10 @@ These markets has attracted research from many domains.
 \section{Online Commerce}
 TODO
 
-\section{Blockchain Technology}
+\section{The Rise of Blockchain}
 In 2008, Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} introduced Bitcoin, a peer-to-peer cash system without banks.
 This profoundly shaped the way in which distributed systems are designed.
-Bitcoin challenge what has long been thought to be an impossible problem - reaching consensus in large-scale distributed systems without trusted intermediaries.
+Bitcoin challenge what has long been thought to be an impossible problem, namely reaching consensus in open, large-scale distributed systems without trusted intermediaries.
 %Bitcoin is the first electronic cash system with significant adoption, compared to similar proposals, and has gained much interest from both academia and industry.
 Bitcoin is powered by a \emph{blockchain}, a distributed ledger that is fully secured and maintained by users themselves.
 The blockchain is a linear data structure consisting of blocks and each block contains one or more transactions.
@@ -50,14 +50,73 @@ The Bitcoin network maintains a single, authoritative copy of the blockchain led
 In Bitcoin, users submit signed transactions and each transaction has a transaction fee.
 Participants reach \emph{consensus} on which block and transactions are appended to the blockchain.
 All consensus participants, also called \emph{miners}, periodically propose a new block to be appended to the current blockchain.
+This block contains transactions that are selected by the miner.
 Then, each miner competes to solve a resource-intensive puzzle derived from the proposed block.
 The first miner to present a valid solution to the network can append its proposed block and gets rewarded with a fixed number of Bitcoin.
 In addition, the winning miner is rewarded with all transaction fees of the transactions within the block.
+The parameters in this consensus algorithm, also called \emph{Proof-of-Work}, are fixed such that a new block is created roughly every ten minutes.
 
-% Centralized cryptocurrency marketplaces...
+Even though its profound impact, we identify three key limitations of Bitcoin as currency.
+First, the throughput of the Bitcoin blockchain is theoretically limited to around seven transactions per second.
+This is by far not sufficient to handle global financial traffic, which usually requires throughputs of tens of thousands transactions per second.
+For example, the VISA credit card company is processing X transactions per second at peak times.
+Second, Proof-of-Work is a CPU-intensive algorithm and operating the Bitcoin network is estimated to consume as much energy as the country of Denmark.
+Finally, it is not secure to assume that a transaction is irreversible when it is included in a mined block.
+Users have to wait for six blocks to be created before their transaction is irreversibly included.
+In Bitcoin, this leads to transaction confirmation times of around one hour.
+
+These limitations have bootstrapped much research into more scalable consensus mechanisms.
+Much effort has been conducted to improve Proof-of-Work, mostly through parameter tuning.
+Other research has designed entirely new consensus mechanisms.
+Proof-of-Stake (PoS) is an alternative consensus mechanism where the creator of the next block is chosen by combinations of random selection and ones wealth (stake) or age in the network.
+PoS is more scalable compared to Proof-of-Work, however, a particular issue is that there is nothing at stake and users are free to vote for various blockchain histories.
+Delegated Proof-of-Stake is a semi-decentralized consensus algorithm where the members of an elected committee produces blocks in a round-robin fashion.
+Committee members that fail to produce a block within time can be voted out by other members.
 
 \subsection{Smart Contracts}
-TODO
+The functionality of Bitcoin and early cryptocurrencies is limited to the minting and transfer of blockchain tokens to other users.
+Ethereum, a blockchain solution released in 2015, was the first platform that enables developers to deploy \emph{smart contracts} on the blockchain ledger.
+Smart contracts are self-enforcing computer programs that reside on a blockchain that are automatically executed.
+The concept of smart contracts was first introduced in 1990 by Nick Szabo.
+A transaction in Ethereum can deploy a new smart contract on the blockchain or invoke a function of an existing smart contract.
+Smart contracts are deterministic to ensure Byzantine fault-tolerance.
+Users submitting transactions have to pay gas, the native currency of the Ethereum blockchain, to compensate miners.
+The amount of consumed gas depends on the computations executed by the function invocation.
+
+Smart contracts in Ethereum are written in the Solidity language.
+Solidity is an object-oriented programming language designed for code execution on a blockchain and runs in the Ethereum Virtual Machine (EVM).
+Other blockchain platforms such as Hyperledger Fabric enables developers to write smart contracts in Java, Javascript or Go.
+
+Smart contracts enable developers to build decentralized blockchain-based applications, also called DApps.
+Arguably the most common DApp on the Ethereum blockchain is an ERC20 token, which enables developers to issue and manage their own tokens.
+However, it is non-trivial to revoke a deployed smart contract when a vulnerability has been found.
+In 2016, the Ethereum network almost collapsed due to a re-entrance bug in the smart contract that managed the DAO.
+A hacker managed to compromise \$50 million worth of Ethereum tokens.
+As a result, it was decided to split the Ethereum network in two where one network builds upon the blockchain affected by the hack, and another network builds on an older version of the Ethereum blockchain.
+Therefore, security is of paramount importance when implementing smart contracts.
+
+\subsection{Custodial Cryptocurrency Exchanges}
+At the time of writing, there are over X cryptocurrencies and blockchain-managed tokens on Ethereum only.
+The proliferation of different digital assets has resulted in the deployment of cryptocurrency exchanges, mostly managed by a centralized authority.
+On these platforms, users can trade their cryptocurrency for other cryptocurrencies or fiat currencies such as Dollars.
+Cryptocurrency exchanges take a custodial approach: users have to transfer their funds to one of the wallets owned by the market operator.
+The market operator then initiates transfer operations to exchange the assets when a trading opportunity has been found.
+The biggest cryptocurrency exchange is Binance, with a 24-hour volume of \$16 billion at the time of writing.
+
+Trade through a trusted intermediary can facilitate value exchange between an extensive range of different blockchains, as long as the intermediary maintains wallets on the involved blockchains and can issue transactions in these systems to transfer the assets.
+Furthermore, they usually provide a convenient interface to users, making it easy to enter the market and participate in trade.
+However, the idea of having a trusted intermediary responsible for asset exchange conflicts with the vision of blockchain technology, which is to provide open ecosystems without intermediaries.
+Users are required to trust that the intermediary does not default and executes a trade on the behalf of the user.
+Furthermore, exchange operators sometimes lack the required knowledge to quickly scale up their infrastructure to meet increasing demand, leading to platform unavailability or even the inability to withdraw deposited funds from wallets.
+Assets are usually stored in a centralized location, making it an attractive and valuable target for hackers.
+In 2016, hackers compromised assets from Mt. Gox, the biggest cryptocurrency exchange at that time.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{introduction/assets/bitshares}
+	\caption{An online explorer provided by the BitShares DEX, showing recent and outstanding asset orders on the BitShares blockchain.}
+	\label{fig:bitshares_explorer}
+\end{figure}
 
 \subsection{Blockchain-based Marketplaces}
 The Bitcoin cryptocurrency and advancements in smart contract functionalities have demonstrated that it is possible for users to securely manage an ecosystem without trusted intermediaries.
@@ -74,6 +133,9 @@ Blockchain technology is increasingly being used to build decentralized cryptocu
 DEXes enable the exchange of cryptocurrencies and other blockchain-based tokens without trusted intermediary.
 The first generation of DEXes limits trading to assets residing on the same blockchain.
 Notable examples include BitShares and Waves which have accumulated a market capitalization of X and Y dollars respectively.
+On these markets, users can issue their own assets, transfer them to others, and trade these assets against other ones by publishing buy and sell orders on the blockchain.
+Some DEXes provide an online interface with information on the outstanding orders and latest trades.
+Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, visualizing recent and outstanding asset orders.
 
 \section{Decomposing Blockchain-based Marketplaces}
 We now discuss the required components of blockchain-based marketplaces.
