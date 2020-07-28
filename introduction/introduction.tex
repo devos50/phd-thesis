@@ -138,7 +138,18 @@ Some DEXes provide an online interface with information on the outstanding order
 Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, visualizing recent and outstanding asset orders.
 
 \section{Decomposing Blockchain-based Marketplaces}
-We now discuss the required components of blockchain-based marketplaces.
+Blockchain technology holds the promise to transform the market processes that currently require a trusted intermediary, e.g., when making payments to other peers.
+It is important to clearly define what a blockchain-based marketplace means in the context of this work.
+There is much confusion around the concept of blockchain-based marketplaces.
+For example, the OpenBazaar market does not store its listings on a blockchain ledger but uses cryptocurrencies for peer-to-peer payments between merchants and customers.
+In this work, \emph{a blockchain-based marketplace is a digital platform that leverages blockchain technology to carry out one or more of its critical operations}.
+
+To better understand how this technology connects to existing market components, we describe the required components of blockchain-based marketplaces.
+Figure~\ref{fig:electronic_markets} shows a decomposition of blockchain-based marketplaces.
+This figure is the result of our literature survey where we have assessed both published and unpublished work on electronic marketplaces that use blockchain technology.
+In general, we identify the following five mechanisms commonly used in blockchain-based marketplaces: \emph{matchmaking}, \emph{knowledge discovery}, \emph{settlement}, \emph{dispute resolution} and \emph{on-boarding}.
+For each mechanism, we list approaches commonly found in the considered problem domain.
+We now further discuss each identified mechanism. % the required components of blockchain-based marketplaces.
 
 \begin{figure}[t]
 	\centering
@@ -147,7 +158,59 @@ We now discuss the required components of blockchain-based marketplaces.
 	\label{fig:electronic_markets}
 \end{figure}
 
+\subsection{Knowledge Discovery}
+TODO
+
 \subsection{Settlement}
+TODO
+
+\subsubsection{Custodial}
+A common approach to exchange blockchain-based assets is by using the services of a trusted intermediary.
+A trade using a trusted intermediary completes as follows: two parties that agree on a trade transfer the assets for sale to one of the wallets owned by the trusted intermediary.
+When this intermediary has received both assets, it finishes the exchange by transferring the appropriate assets to the other party.
+In this approach, the trusted intermediary holds (temporary) ownership of the assets to be traded.
+Relying on a trusted intermediary removes counterparty risk for the trading parties, but it requires both parties to have faith that the intermediary does not default or compromise their assets.
+
+Trade through a trusted intermediary can facilitate value exchange between an extensive range of different blockchains, as long as the intermediary maintains wallets on the involved blockchains and can issue transactions in these systems to transfer the assets.
+This is usually not an issue in permissionless blockchains since anyone can create accounts or wallets by generating a new cryptographic key pair.
+Centralized cryptocurrency exchanges often facilitate asset trading across numerous permissionless blockchains.
+Some cryptocurrency exchanges process transactions worth millions of dollars in total daily.\footnote{See https://coinmarketcap.com/rankings/exchanges}
+In a permissioned blockchain environment, however, a trusted intermediary coordinating an asset exchange requires explicit approval from the operator to read and write transactions on the involved distributed ledgers.
+Allowing new parties in a permissioned blockchain might be undesirable by operators since it introduces additional legal and operational risks.
+
+\subsubsection{Atomic Swaps}
+The \emph{atomic swap} is a distributed coordination task that allows asset exchange between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
+Atomic swaps enable two parties to exchange blockchain-based assets with atomic guarantees: the asset exchange either completes or fails for both parties at any given time.
+We now explain the involved operations during an atomic swap between the public Bitcoin and Ethereum blockchains.
+Figure~\ref{fig:atomic_swap} visualizes the steps of an atomic swap between Alice and Bob, where Alice sells her Bitcoin in return for Ether (the native token of the Ethereum blockchain).
+First, Alice generates a random secret $ s $ and computes $ H(s) $, where $ H(\cdot) $ denotes a hash function.
+She then submits a hash-locked transaction, indicated by $ T_a(H(s)) $ (step \circled{1}), to the Bitcoin blockchain that transfers her Bitcoin to Bob's wallet address.
+A hash-locked transaction is only executed when the secret $ s $ is provided to it.
+Alice now sends $ H(s) $ to Bob (step \circled{2}).
+Bob then submits a transaction $ T_b(H(s)) $ with the same hash lock to the Ethereum blockchain, transferring his Ethereum to the account of Alice (step \circled{3}).
+Alice is now able to claim the assets held in custody by $ T_b(H(s)) $ (since she knows the value of $ s $), which in turn reveals $ s $ to Bob (step \circled{4}).
+Bob now completes the swap by submitting $ s $ to the $ T_a(H(s)) $ transaction on the Bitcoin blockchain, which unlocks the assets in $ T_a(H(s)) $ (step \circled{5}).
+To prevent the situation where assets are locked indefinitely if Alice refuses to reveal $ s $, Alice and Bob submit two additional time-locked transactions to ensure that assets in $ T_a(H(s)) $, respectively $ T_b(H(s)) $, can be claimed after some time $ t_1 $, respectively $ t_2 $.
+To address the situation where Alice claims the assets in both $ T_a(H(s)) $ and $ T_b(H(s)) $, it must hold that $ t_1 > t_2 $.
+These hash- and time-based agreements, also called Hashed Timelock Contracts (HTLCs), thus ensure trust-less, atomic asset exchange between trading parties, assuming that they claim the assets before the time-lock expires.
+Atomic swaps eliminate the risk of losing assets to an adversarial trader while trading.
+The HTLC atomic swap requires a total of four transactions.
+
+\subsubsection{Notary-based}
+Notary schemes are another solution for asset exchange where approval by a group of credible nodes (notaries) is required to perform some operation.
+Notary schemes aim to partially alleviate the trust issues arising when relying on a single trusted intermediary through the approval by a group of semi-trusted notaries instead.
+These notaries reach consensus on the occurrence of particular events, e.g., on the inclusion of a transaction on a distributed ledger.
+Compared to an asset exchange through a trusted intermediary, notary schemes assume a weaker trust model and can often withstand adversarial behavior of a fraction of the notaries.
+
+The Interledger project, introduced by Ripple, is the most advanced approach in this direction~\cite{thomas2015protocol}.
+Interledger proposes a notary-based protocol to conduct payments across different ledgers.
+In atomic mode, these payments are realized through atomic swaps and are coordinated by a different group of notaries for every involved blockchain.
+Interledger uses payment paths where additional intermediate platforms and their notaries are used to exchange assets between ledgers that do not have a direct connection.
+Interledger also supports bidirectional asset exchange but is vulnerable to a fraction of notaries colluding with one of the trading parties.
+External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
+The Hyperledger Quilt project provides a Java implementation of the Interledger protocol for permissioned blockchains~\cite{hyperledgerquilt}.
+
+\subsubsection{Fair Exchange}
 TODO
 
 \begin{figure*}[t]
@@ -318,7 +381,7 @@ In this thesis, we focus on \emph{matchmaking} and \emph{settlement} in electron
 Our work, however, is not limited to markets with blockchain technology.
 
 The overarching research question of this thesis is as follows:\\\\
-\emph{How can we improve matchmaking and settlement mechanisms in blockchain-based electronic markets?}\\\\
+\emph{How can we improve matchmaking and settlement mechanisms in blockchain-based marketplaces?}\\\\
 To answer our research question, we address the following key questions:
 
 \textbf{[RQ1] What is the state-of-the-art in blockchain-based electronic trading and asset exchange?}
