@@ -142,7 +142,7 @@ Blockchain technology holds the promise to transform the market processes that c
 It is important to clearly define what a blockchain-based marketplace means in the context of this work.
 There is much confusion around the concept of blockchain-based marketplaces.
 For example, the OpenBazaar market does not store its listings on a blockchain ledger but uses cryptocurrencies for peer-to-peer payments between merchants and customers.
-In this work, \emph{a blockchain-based marketplace is a digital platform that leverages blockchain technology to carry out one or more of its critical operations}.
+In this work, \emph{a blockchain-based marketplace is a digital platform that directly connects buyers and sellers, and leverages blockchain technology to carry out one or more of its critical operations}.
 
 To better understand how this technology connects to existing market components, we describe the required components of blockchain-based marketplaces.
 Figure~\ref{fig:electronic_markets} shows a decomposition of blockchain-based marketplaces.
@@ -159,7 +159,36 @@ We now further discuss each identified mechanism. % the required components of b
 \end{figure}
 
 \subsection{Knowledge Discovery}
-TODO
+Electronic marketplaces in general require a knowledge discovery mechanisms for market actors to enable value exchange.
+Market knowledge includes pricing and product information, and details of past transactions.
+Traditional electronic marketplaces usually store this information on centralized servers, deployed and managed by the market authority.
+A key advantage of this approach for market operators is that these servers are relatively easy to setup and enable fast access to market information by participants.
+Blockchain-based marketplaces usually avoid the storage of market information in a single location.
+Therefore, market participants are dependent on others to retrieve the latest market state.
+
+\subsubsection{Distributed Ledger}
+A common approach for blockchain-based marketplaces is to store all available information on a distributed ledger.
+This is, for example, the approach taken by DEXes like BitShares and Waves.
+All market interactions are stored within tamper-proof transactions on a distributed ledger secured with global consensus.
+Trades are either explicitly recorded in transactions, or can be derived from prior transactions.
+Users wishing to get the latest market state are required to synchronize with the full distributed ledger from the network.
+Since the distributed ledger might contain millions of transactions, some platform have setup a few \emph{full nodes} that remain synchronized in the network.
+These full nodes offer an API that users can query to quickly retrieve market information.
+
+\subsubsection{Order book}
+A common market type is a financial exchange where financial instruments like currencies or bonds are being traded.
+The buy and sell orders in these markets are usually bundled in an \emph{order book}.
+An order book lists the specific assets or services that are being bought or sold within a market.
+It provides traders with a convenient view on the current supply and demand.
+Depending on the market and assets being traded, the order book sometimes reveals the identity of a trader behind an open order, or their reputation scores (for instance, Airbnb shows the reputation of hosts).
+When presenting an order book to traders, ask and bid orders are usually sorted, i.e. based on their price.
+For orders with a price, ask orders are sorted ascending on price in the order book and bid orders descending on price (the best orders are presented first).
+%Market orders rarely end up in the order book as open order, since they are often fulfilled instantly.
+%A defining metric used by traders is the difference between the price of the highest ask order and the price of the lowest bid order, also called the \emph{bid-ask spread}.
+%For the order book shown in Figure \ref{fig:order_book}, the bid-ask spread is \$149.57 - \$149.54 = \$0.03.
+%This metric also indicates market liquidity, the degree to which assets can be quickly bought or sold.
+%A liquid market is often characterized by a low bid-ask spread.
+The set of all ask or bid orders at a specific price is called a \emph{price level}.
 
 \subsection{Settlement}
 TODO
@@ -558,8 +587,21 @@ Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchai
 
 \textbf{[Chapter 7] Conclusion.} We will end this thesis with the conclusion, a summary of the lessons learned, and suggestions for further work.
 
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.7\linewidth]{introduction/assets/tech_stack}
+	\caption{An overview of the research conducted at the Delft Blockchain Lab.}
+	\label{fig:dbl_tech_stack}
+\end{figure}
+
 \section{About the Delft Blockchain Lab}
-TODO
+The Delft Blockchain lab is Delft's initiative for research, education and training in blockchain technology and trust on the Internet.
+Figure~\ref{fig:dbl_tech_stack} outlines the research directions of the Delft Blockchain Lab, ranging from low-level primitives like biometric-based authentication to sector-specific business logic.
+At the lowest layers (depicted in green), we build, deploy and evaluate new solutions for managing ones identity in the physical world and on the Internet.
+We explore new blockchain solutions, including scalable consensus algorithms, Sybil-resistant reputation mechanisms.
+The TrustChain distributed ledger is presented in Chapter X.
+The other components of this thesis are mostly focussed on the research directions that are coloured yellow and red in Figure~\ref{fig:dbl_tech_stack}.
+For a detailed outline of our research efforts, we refer the reader to our published vision paper.
 
 %\newpage
 
