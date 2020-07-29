@@ -411,8 +411,23 @@ In Bitcoin, for example, users can easily transfer Bitcoin to others using diffe
 This is even the preferred practice when one wants to retain anonymity in the Bitcoin network.
 Similarly, many DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
 
-\subsection{Dispute Resolution}
+\subsection{Fraud Management}
+Fraud is a key concern in electronic marketplaces.
+A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during trade settlement, e.g., by not delivering the promised assets or goods.
+This kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
+Within blockchain-based marketplaces, counterparty fraud is often prevented since asset exchange is atomic: either all parties receive their assets or nothing happens.
+This approach works when assets can be exchanged directly, e.g., on a blockchain-powered DEX.
+Fraud management, however, is required when settlement depends on the actions by users.
+We identify different approaches to manage fraud.
+
+\subsubsection{Escrows}
 TODO
+
+\subsubsection{Collateral}
+Some blockchain-based marketplaces require users to deposit collateral before trading.
+This collateral is slashed when its depositor does not adhere to an agreement and therefore incentivise traders to follow the protocol.
+The XClaim protocol relies on collateral deposits to enable asset trading between distinct blockchain ledgers.
+When a participant deviates from the protocol, the collateral is slashed and wronged actors are reimbursed.
 
 %\section{Problem Statement}
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
