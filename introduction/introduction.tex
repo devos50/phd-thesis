@@ -396,8 +396,20 @@ Second, decentralized matchmaking should show higher tolerance against failure o
 However, this model increases bandwidth usage since orders are sent to multiple matchmakers.
 Also, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
-\subsection{On-boarding}
-TODO
+\subsection{Identity Management}
+Identity management is a key component of any electronic market.
+Traditional electronic marketplaces usually impose some form of identity validation before a user is allowed to engage in trade with other users.
+In this situation, the digital identity is linked to real-world credentials, e.g., a passport.
+Identity validation in electronic marketplaces has several purposes.
+First, it adds accountability of ones actions within the market in case of a dispute between a buyer and seller.
+Second, it prevents the situation where a user can easily re-enter the market under a different identity after having committed fraud.
+Third, identity verification is often part of the regulatory compliance of market operators, as often required by anti-money laundering policies.
+Most cryptocurrency exchanges managed by a central market authority require users to verify their identity before they can create buy or sell orders.
+
+In stark contrast with traditional marketplaces, a key property of blockchain technology is the ability to join the network under a pseudonym, using a locally generated cryptological keypair.
+In Bitcoin, for example, users can easily transfer Bitcoin to others using different digital identities.
+This is even the preferred practice when one wants to retain anonymity in the Bitcoin network.
+Similarly, many DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
 
 \subsection{Dispute Resolution}
 TODO
@@ -406,8 +418,7 @@ TODO
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
 
 \section{Research Questions}
-In this thesis, we focus on \emph{matchmaking} and \emph{settlement} in electronic markets.
-Our work, however, is not limited to markets with blockchain technology.
+In this thesis, we mainly focus on \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in electronic markets.
 
 The overarching research question of this thesis is as follows:\\\\
 \emph{How can we improve matchmaking and settlement mechanisms in blockchain-based marketplaces?}\\\\
