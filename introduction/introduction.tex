@@ -31,6 +31,15 @@ First, they have to match buyers and sellers, either through an automated matchm
 Second, the market has to facilitate transactions, including the delivery of goods from a seller to a buyer and associated payment flows.
 Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
 
+The standard approach when deploying electronic marketplaces is by having a market operator responsible for defining the trading environment.
+This market operator provides the required infrastructure for matchmaking and transaction processing, and acts as intermediary when a dispute arises between buyers and sellers.
+Inducing trust is a key objective of market intermediaries.
+For example, the ride-hailing company Uber ensures that its drivers have the right qualifications for the services they offer.
+Participants usually compensate the intermediary for their services through transaction fees.
+
+Advancements in information technology challenge the standard way electronic marketplaces are built.
+In particular, more and more electronic marketplaces are being decentralized and disintermediated. \todo{finish}
+
 In this thesis, we expand on the knowledge of blockchain-based electronic marketplaces which are decentralized systems that directly connect buyers and sellers.
 Whereas traditional electronic markets rely on a middleman to emerge trade between platform participants, in blockchain-based marketplaces economic activity emerges from direct interactions between sellers.
 The remainder of this introduction is structured as follows:, we first outline the impact of the Internet as infrastructure to conduct trade.
@@ -38,7 +47,7 @@ Next, we show how blockchain technology makes it possible to devise marketplaces
 Then, we discuss the critical components of blockchain-based marketplaces and present existing approaches to realise each component.
 Finally, we state the main research question that this thesis answers.
 
-\section{Digital Disintermediation}
+\section{Market Decentralization}
 TODO
 
 \section{The Rise of Blockchain}
@@ -140,6 +149,7 @@ The scalability of Beaver, however, is questionable since all data elements are 
 
 Blockchain technology is increasingly being used to build decentralized cryptocurrency exchanges, also called \emph{DEXes}.
 DEXes enable the exchange of cryptocurrencies and other blockchain-based tokens without trusted intermediary.
+A key advantage of DEXes is that users themselves remain in control of their funds and do not have to transfer ownership of their assets to the market operator.
 The first generation of DEXes limits trading to assets residing on the same blockchain.
 Notable examples include BitShares and Waves which have accumulated a market capitalization of X and Y dollars respectively.
 On these markets, users can issue their own assets, transfer them to others, and trade these assets against other ones by publishing buy and sell orders on the blockchain.
@@ -633,7 +643,10 @@ Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchai
 The Delft Blockchain lab is Delft's initiative for research, education and training in blockchain technology and trust on the Internet.
 Figure~\ref{fig:dbl_tech_stack} outlines the research directions of the Delft Blockchain Lab, ranging from low-level primitives like biometric-based authentication to sector-specific business logic.
 At the lowest layers (depicted in green), we build, deploy and evaluate new solutions for managing ones identity in the physical world and on the Internet.
-We explore new blockchain solutions, including scalable consensus algorithms, Sybil-resistant reputation mechanisms.
+These solutions include biometric-based authentication and physical unclonable functions, a method to securely store a private key.
+A part of our ongoing research includes a self-sovereign identity solution that is currently being tested and deployed in the Netherlands.
+
+Our research effort around distributed ledger technology includes scalable consensus algorithms and Sybil-resistant reputation mechanisms.
 The TrustChain distributed ledger is presented in Chapter X.
 The other components of this thesis are mostly focussed on the research directions that are coloured yellow and red in Figure~\ref{fig:dbl_tech_stack}.
 For a detailed outline of our research efforts, we refer the reader to our published vision paper.
