@@ -20,16 +20,16 @@
 %In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-Markets play a central role in the global economy, facilitating the exchange of services, goods and information.
-During the last decades, there has been dramatic increase in the use of of information technology to devise global online marketplaces, as demonstrated by major trading platforms like Amazon and eBay.
-On these platforms users routinely engage with other users with whom they never interacted before.
-More recently, companies acting in the sharing economy, like Uber (200X) and AirBnb (200X), forever shaped the notion of digital interactions between individuals over the Internet.
-These companies facilitate peer-to-peer resource sharing where strangers can share personal resources, like their house or car, in a trustworthy manner.
+Markets play a crucial role in the global economy, facilitating the exchange of services, goods and information between individuals and companies~\cite{bakos1998emerging}.
+The Internet provides the infrastructure to globally exchange information and to deploy large-scale electronic marketplaces, e.g., Amazon and eBay.
+A key property that sets electronic markets apart from their physical counterpart is that users on electronic markets routinely trade with other users with whom they never interacted before.
+During the last decade, this effect has been amplified by companies acting in the \emph{sharing economy}, like Uber and AirBnb.
+These companies facilitate peer-to-peer resource sharing where strangers can share personal resources, like their house or car, in a trustworthy manner.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}}
 
-In general, the role of marketplaces, electronic and otherwise, is three-fold~\cite{bakos1998emerging}.  % https://dl.acm.org/doi/pdf/10.1145/280324.280330
-First, they have to match buyers and sellers, either through an automated matchmaking process or by offering the required functionality for users to browse through the services or goods offered on the market.
-Second, the market has to facilitate transactions, including the delivery of goods from a seller to a buyer and associated payment flows.
-Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
+%In general, the role of marketplaces, electronic and otherwise, is three-fold~\cite{bakos1998emerging}.  % https://dl.acm.org/doi/pdf/10.1145/280324.280330
+%First, they have to match buyers and sellers, either through an automated matchmaking process or by offering the required functionality for users to browse through the services or goods offered on the market.
+%Second, the market has to facilitate transactions, including the delivery of goods from a seller to a buyer and associated payment flows.
+%Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
 
 The standard approach when deploying electronic marketplaces is by having a market operator responsible for defining the trading environment.
 This market operator provides the required infrastructure for matchmaking and transaction processing, and acts as intermediary when a dispute arises between buyers and sellers.
@@ -46,6 +46,9 @@ The remainder of this introduction is structured as follows:, we first outline t
 Next, we show how blockchain technology makes it possible to devise marketplaces without middleman.
 Then, we discuss the critical components of blockchain-based marketplaces and present existing approaches to realise each component.
 Finally, we state the main research question that this thesis answers.
+
+\section{Disintermediation in Markets}
+The goal of disintermediation in electronic markets is to unlock \enquote{true} peer-to-peer exchange without trusted middlemen.
 
 \section{Decentralization in Markets}
 The term \emph{decentralization} is defined as \enquote{the dispersion or distribution of functions and powers} by Merrian-Webster.
@@ -170,9 +173,6 @@ Notable examples include BitShares and Waves which have accumulated a market cap
 On these markets, users can issue their own assets, transfer them to others, and trade these assets against other ones by publishing buy and sell orders on the blockchain.
 Some DEXes provide an online interface with information on the outstanding orders and latest trades.
 Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, visualizing recent and outstanding asset orders.
-
-\section{Disintermediation in Markets}
-TODO
 
 \section{Blockchain-based Marketplaces}
 Given our definitions of decentralization and disintermediation in the context of electronic marketplaces, we now look how these concepts align with blockchain-based marketplaces.
