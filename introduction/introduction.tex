@@ -53,12 +53,8 @@ While the discussed mechanisms in this thesis focus on different aspects of mark
 %Then, we discuss the critical components of blockchain-based marketplaces and present existing approaches to realise each component.
 %Finally, we state the main research question that this thesis answers.
 
-\section{Disintermediation in Markets}
-The popularity of electronic commerce has resulted in much interest to act as intermediary between buyers and sellers to benefit from their interactions~\cite{clark1999electronic}.
-The goal of disintermediation in electronic markets is to unlock \enquote{true} peer-to-peer exchange without trusted middlemen.
-
 \section{Decentralization in Markets}
-The term \emph{decentralization} is defined as \enquote{the dispersion or distribution of functions and powers} by Merrian-Webster.
+The term \emph{decentralization} is defined by Merrian-Webster as \enquote{the dispersion or distribution of functions and powers}.
 It describe the process by which decision making is delegated away from a central, authoritative entity.
 Decentralization is widely used as a term within different branches of science, including economics, social sciences and computer science.
 Arguably, the most well-known type of decentralization is \emph{political decentralization} where the authority of national governments regarding policymaking is reduced, e.g., by delegating authority to provinces or municipalities.
@@ -169,7 +165,7 @@ We now outline how blockchain technology has been used to build new types of dec
 Beaver, introduced by Soska et al., is one of the earliest proposals that leverage blockchain technology to build an anonymous marketplace without trusted intermediary~\cite{soska2016beaver}.
 Beaver uses a blockchain ledger to securely record user reviews and to store item listings while preserving privacy.
 Beaver positions itself as a mechanism that is Sybil-resistant against fake vendor reviews, a key issue in \enquote{traditional} online marketplaces.
-Beaver uses anonymous payment systems, e.g., Zerocash, as platform currency.
+Beaver uses anonymous payment systems, e.g., Zerocash~\cite{sasson2014zerocash}, as platform currency.
 The scalability of Beaver, however, is questionable since all data elements are stored on a distributed ledger secured by Proof-of-Work.
 
 Blockchain technology is increasingly being used to build decentralized cryptocurrency exchanges, also called \emph{DEXes}.
@@ -180,6 +176,42 @@ Notable examples include BitShares and Waves which have accumulated a market cap
 On these markets, users can issue their own assets, transfer them to others, and trade these assets against other ones by publishing buy and sell orders on the blockchain.
 Some DEXes provide an online interface with information on the outstanding orders and latest trades.
 Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, visualizing recent and outstanding asset orders.
+
+\section{Disintermediation in Markets}
+The popularity of electronic commerce has resulted in much interest to act as middlemen between buyers and sellers to benefit from their interactions~\cite{clark1999electronic}.
+In many electronic markets, the role of matching buyers and sellers, and facilitating transactions is performed by a middlemen~\cite{bakos1998emerging}.
+A well-known example is PayPal~\cite{paypal}, a payment service provider offering settlement services to customers buying goods from merchants.
+PayPal not only process payments but it also acts as arbitrator when there a dispute between a buyer and seller arises.
+The services of \emph{trusted intermediaries} such as PayPal is at the core of electronic market and ensures that a trade between a buyer and seller who might not necessarily trust each other proceeds without disputes.
+
+Blockchain technology, and Bitcoin in particular, has challenged the need for trusted intermediaries.
+In traditional payment systems, a financial institution acts as intermediary and handles payment between different (possibly foreign) banks.
+Bitcoin has demonstrated that a decentralized system without financial institutions can be built, by leveraging cryptographic techniques.
+Since the introduction of Bitcoin, there has been much effort by both industry and academia to critically look at the necessity of trusted intermediaries, and potentially replace them with another mechanism, e.g., smart contracts~\cite{lande2018sok}.
+This process is also called \emph{disintermediation}.
+Disintermediation usually lowers costs, since trusted intermediaries charge the involved traders for their services.
+The process of disintermediation is tangential to the concept of decentralization (see Section X).
+In particular, disintermediation requires decentralization as its foundation~\cite{guo2016blockchain}.
+
+Disintermediation is a concept that pre-dates blockchain technology.
+The Internet enabled quicker and convenient access to information, therefore opening opportunities to replace traditional broker agents~\cite{wigand2020whatever}.
+A clear example of disintermediation can be found in the publishing market~\cite{giaglis1999disintermediation}.
+Information technology enables book buyers to quickly place their order and authors to only print their books when there is actual demand.
+This is also called printing-on-demand and removes the retailer from the traditional supply chain.
+
+In many scenarios, it has been proven to be possible to disintermediate from a technical perspective.
+Disintermediation is not always possible, nor desired.
+However, in many scenarios there is a need to safeguard certain processes by intermediaries, in particular when considering the financial sector.
+One might argue that electronic market require at least some intermediary to act as mediator between buyer and sellers if transactions are not atomic.
+From a regulatory perspective, an intermediary can be required by law, e.g., when there is a need to verify the identify of new or existing business relations (this is also known as Know-your-Customer).
+
+As also pointed out by other researchers, we argue that it is not likely that electronic markets will be fully disintermediated soon~\cite{zamani2018little}.
+Rather than complete disintermediation, it is more likely that the role of existing intermediaries will be transformed.
+For instance, financial institutions are currently exploring how distributed ledger technology can make their existing settlement services more efficient and reliable.
+Perhaps the most influential solution, Corda, is currently being deployed by R3, a consortium consisting world's leading financial institutions~\cite{brown2016introducing}.
+Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is aimed to eventually replace the SWIFT payment infrastructure.
+In practice, these solutions are not fully disintermediated since payments will still be processed by nodes operated by the involved financial institutions.
+
 
 \section{Blockchain-based Marketplaces}
 Given our definitions of decentralization and disintermediation in the context of electronic marketplaces, we now look how these concepts align with blockchain-based marketplaces.
