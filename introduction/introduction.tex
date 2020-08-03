@@ -21,7 +21,7 @@
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
 \dropcap{A} marketplace facilitates the exchange of services, goods and information between individuals and businesses~\cite{bakos1998emerging}.
-Marketplaces play an important role in our economy, enabling the exchange of value on a massive scale.
+Marketplaces play an essential role in our economy, enabling the exchange of value on a massive scale.
 Electronic commerce, or \emph{e-commerce}, makes up a large part of global conducted trade.
 A recent report estimates that e-commerce entails \$800 billion (the bottom-up estimate) to \$1.5 trillion (the top-down estimate)~\cite{ecommerceestimate}.
 %The Internet provides the infrastructure to globally exchange information and to deploy large-scale electronic marketplaces, e.g., Amazon and eBay.
@@ -36,22 +36,21 @@ During the last decades, however, companies acting in the \emph{sharing economy}
 %Second, the market has to facilitate transactions, including the delivery of goods from a seller to a buyer and associated payment flows.
 %Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
 
-The standard approach to devise electronic marketplaces is by deploying centralized infrastructure, fully operated and managed by a market operator.
-This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and for transaction processing (e.g., by providing payment services).
-In addition, the market operator can acts as trusted intermediary between buyers and sellers, leveraging its intermediate position to alleviate or address potential conflicts arising between traders.
-For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, and process all payments made by passengers.
+The standard approach to devise electronic marketplaces is by deploying centralized infrastructure, entirely operated and managed by a market operator.
+This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and transaction processing (e.g., by providing payment services).
+Also, the market operator can acts as a trusted intermediary between buyers and sellers, leveraging its intermediate position to alleviate or address potential conflicts arising between traders.
+For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, mediates in case of a dispute, and process all payments made by passengers.
 Market intermediaries usually charge users for their services through transaction fees.
 
 Advancements in information technology, in particular blockchain technology, have challenged the need for both authoritative market operators and trusted intermediaries.
-The Bitcoin currency, powered by a tamper-proof distributed ledger, has demonstrated that it is possible to build a cash system not under the ownership of a financial institution~\cite{nakamoto2008bitcoin}.
+The Bitcoin currency, powered by a tamper-proof distributed ledger, has demonstrated that it is possible to build a cash system, not under the ownership of a financial institution~\cite{nakamoto2008bitcoin}.
 Similarly, Ethereum enables developers to write legally-binding contractual logic without notaries~\cite{wood2014ethereum}.
-The notion of \emph{disintermediation}, removing trusted intermediaries, is closely related to the process of \emph{decentralization} where authority residing in a single entity is re-distributed over multiple entities.
-There is an increasing amount of research effort to disintermediate existing platforms with decentralized solutions such as distributed ledgers.
-These platforms includes electronic marketplaces.
+As we will elaborate, the notion of \emph{disintermediation}, removing trusted intermediaries, is closely related to the process of \emph{decentralization} where authority residing in a single entity is re-distributed over multiple entities.
+There is an increasing amount of research effort to disintermediate (parts of) electronic marketplaces and replace centralized components with decentralized solutions such as distributed ledgers.
 
-This thesis orients around decentralization and disintermediation in blockchain-based electronic marketplaces.
+This thesis focusses on around decentralization and disintermediation in blockchain-based electronic marketplaces.
 A key characteristic of blockchain-based marketplaces is that economic activity emerges from the direct interactions between sellers with minimal involvement of trusted intermediaries.
-In this work, we design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of electronic marketplaces.
+In this work, we design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
 These aspects include the storage and dissemination of market knowledge, matchmaking between buyers and sellers, and settlement.
 In the remainder of this introduction, we elaborate on the concept of decentralization and disintermediation, and outline blockchain-based marketplaces from a technical perspective.
 %While the discussed mechanisms in this thesis focus on different aspects of marketplaces, their common goal is to identify the role of trusted intermediaries and assess if theyr . 
