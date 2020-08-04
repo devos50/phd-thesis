@@ -224,19 +224,19 @@ Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is a
 \end{figure}
 
 \section{Blockchain-based Marketplaces}
-Given our definitions of decentralization and disintermediation in the context of electronic marketplaces, we now look how these concepts align with blockchain-based marketplaces.
-Blockchain technology holds the promise to transform the market processes that currently require a trusted intermediary, e.g., when making payments to other peers.
-It is important to clearly define what a blockchain-based marketplace means in the context of this work.
-There is much confusion around the concept of blockchain-based marketplaces.
-For example, the OpenBazaar market does not store its listings on a blockchain ledger but uses cryptocurrencies for peer-to-peer payments between merchants and customers.
-In this work, \emph{a blockchain-based marketplace is a digital platform that leverages blockchain technology to carry out one or more of its critical operations}.
+So far, we have discussed how blockchain technology can be used to build decentralized marketplaces and how cryptographic techniques can replace intermediaries in existing electronic markets.
+Now, we will shift our focus to blockchain-based marketplaces and elaborate on its components.
+First, it is crucial to carefully define what a blockchain-based marketplace means in the context of this work.
+We find that there is much confusion around the concept of blockchain-based marketplaces in literature and no unified definition of the former.
+This confusion is partially explained by the fact that electronic markets have many components, and blockchain technology can be used to replace multiple components.
+For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional overlay network to share product listings.
+In the context of this work, \emph{a blockchain-based marketplace is a distributed system that leverages blockchain technology to carry out one or more of its critical operations}.
 
-To better understand how this technology connects to existing market components, we describe the required components of blockchain-based marketplaces.
-Figure~\ref{fig:electronic_markets} shows a decomposition of blockchain-based marketplaces.
-This figure is the result of our literature survey where we have assessed both published and unpublished work on electronic marketplaces that use blockchain technology.
-In general, we identify the following five mechanisms commonly used in blockchain-based marketplaces: \emph{matchmaking}, \emph{knowledge discovery}, \emph{settlement}, \emph{dispute resolution} and \emph{on-boarding}.
-For each mechanism, we list approaches commonly found in the considered problem domain.
-We now further discuss each identified mechanism. % the required components of blockchain-based marketplaces.
+Figure~\ref{fig:electronic_markets} shows the components that make up a blockchain-based marketplace.
+This figure is the result of a literature survey where we have assessed both published and unpublished work on electronic marketplaces that leverage blockchain technology.
+We identify the following five components in blockchain-based marketplaces: \emph{matchmaking}, \emph{knowledge discovery}, \emph{settlement}, \emph{dispute resolution} and \emph{on-boarding}.
+We decompose these mechanisms into approaches used to devise the listed component.
+We now elaborate on each identified component and approaches.
 
 \subsection{Knowledge Discovery}
 Electronic marketplaces in general require a knowledge discovery mechanisms for market actors to enable value exchange.
@@ -513,20 +513,22 @@ When a participant deviates from the protocol, the collateral is slashed and wro
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
 
 \section{Research Questions}
-In this thesis, we mainly focus on \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in electronic markets.
+In this thesis, we focus on \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in electronic markets.
 
 The overarching research question of this thesis is as follows:\\\\
-\emph{How can we improve matchmaking and settlement mechanisms in blockchain-based marketplaces?}\\\\
-To answer our research question, we address the following key questions:
+\emph{How can we decentralize and disintermediate the critical components of blockchain-based marketplaces?}\\\\
+To answer our research question, we address the following five key questions:
 
-\textbf{[RQ1] What is the state-of-the-art in blockchain-based electronic trading and asset exchange?}
-To provide an answer to our research question, it is required to build an understanding of state-of-the-art approaches to blockchain-based trading, and their shortcomings.
-Even though there is much active research on blockchain-based decentralized exchanges and secure asset trading between heterogeneous blockchain platforms, the field lacks a systematic literature overview, an analysis of open challenges and suggestions for further research.
+\textbf{[RQ1] How can we build an efficient, scalable, and decentralized mechanism for the storage and dissemination of market information?}
+The way in which market information is shared and stored is essential in electronic marketplaces.
+Traditional marketplace store all market orders and product listings on a (centralized) server, which is prone to manipulation by the market operator.
+Blockchain-powered decentralized exchanges bundle all market information on a distributed ledger but has scalability limitations.
+Our goal is to build a scalable, tamper-proof and decentralized storage mechanism for market information.
 
 \textbf{[RQ2] How can we efficiently match market orders without centralized coordinator?}
 The predominant approach to order matchmaking in electronic markets is by using a centralized server, owned by the market operator.
 This approach, however, enables manipulation by the operator, resulting in an unfair system.
-Blockchain-based matchmaking has the potential to address fairness issues but is by far not scalable enough for usage by many marketplaces.
+Decentralized matchmaking has the potential to address fairness issues but is by far not scalable enough for usage by many marketplaces.
 We aim for an efficient matchmaking mechanism with fairness guarantees, not under the control of a single market operator.
 
 \textbf{[RQ3] How can improve settlement durations of (international) payment infrastructures?}
