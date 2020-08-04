@@ -513,6 +513,7 @@ When a participant deviates from the protocol, the collateral is slashed and wro
 %The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
 
 \section{Research Questions}
+\label{sec:research_questions}
 In this thesis, we focus on \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in electronic markets.
 
 The overarching research question of this thesis is as follows:\\\\
@@ -609,16 +610,24 @@ Due to legal considerations, we do not provide an open-source implementation of 
 	\label{fig:thesis_overview}
 \end{figure}
 
-\section{Contributions and Thesis Outline}
-After establishing the required background on decentralized applications and distributed ledger technology, Chapter \todo{X} highlights scalability limitations of state-of-the-art blockchain ledgers.
-Next, in Chapter \todo{X}, we design, implement and evaluate TrustChain: a scalable blockchain ledger that is based on fraud \emph{detection} instead of fraud \emph{prevention}.
-In Chapters \todo{X to Y}, we apply accountability primitives and fraud detection techniques in three well-established domains: financial transactions, two-sided marketplaces, and identity.
-Specifically, we make the following contributions in each chapter:\\
+\section{Thesis Outline and Contributions}
+This thesis consists of seven chapters.
+In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
+The content and contributions in each chapter are as follows:\\
 
-\textbf{[Chapter 2] SoK: Electronic Markets in the Age of Blockchain.} (Work in progress)
-In this chapter, we answer RQ2 and provide an extensive overview of existing approaches for online trade in the age of blockchain.\\
+\textbf{[Chapter 2] ConTrib: Preventing Free-riding Behaviour with Decentralized Micro-accounting.}
+In this chapter, we address RQ1 and build a mechanism for the micro-accounting of market data.
+To date, there is no accounting mechanism that is optimized to record small resource exchanges in large-scale systems.
+We present \ModelName{}, a scalable mechanism for micro-accounting of community interactions.
+Each individual in \ModelName{} maintains a hash chain of tamper-evident \emph{micro-records}.
+Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
+Manipulation is detected through continuous exploration of the DAG.
+We devise a system architecture with flexible validation and fraud policies.
+Our evaluation reveals that \ModelName{} scales to at least 130'000 micro-records per second and that advanced manipulation (chain forking) is detected within mere seconds.
+We leverage \ModelName{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
+This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.
 
-\todo{Work in progress}\\
+\todo{UNDER REVIEW}\\
 
 \textbf{[Chapter 3] MATCH: Accountable and Generic Matchmaking for Decentralized Applications.}
 In this chapter, we partially address RQ4 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
