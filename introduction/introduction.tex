@@ -565,33 +565,31 @@ Applying accountability and fraud detection could improve the software crowdsour
 \end{table*}
 
 \section{Research and Engineering Methodology}
-Blockchain technology is a relatively new and immature field.
+Our work is largely inspired by the limitations of blockchain technology.
+Blockchain is a relatively new and immature technology which research is dispersed among economics, computer science and social sciences.
 We identify two fundamentally different approaches to the adopted research methodology in this field.
-On one hand, published blockchain research in systems-oriented conferences follow an experimental methodology where the performance of the proposed mechanism is systematically evaluated using a comprehensive set of experiments and benchmarks.
-On the other hand, there is a vast body of research on the security aspects of distributed ledgers.
-This kind of research tend to follow a more theoretical approach through the use of formal proofs or small-scale protocol simulations.
+On the one hand, published blockchain research in systems-oriented conferences (e.g., USENIX) adopt an experimental methodology where the performance of the proposed mechanism is systematically evaluated using a comprehensive set of experiments and benchmarks.
+On the other hand, there is a vast body of fundamental research on the security aspects of distributed ledgers and their consensus algorithms.
+This body of research tend to follow a more theoretical approach through the use of formal proofs or small-scale protocol simulations.
 
-In this work, we adopt an experimental-driven approach where we answer each research question by designing, implementing and evaluating a system or mechanism.
-We then systematically evaluate the appropriate properties of each mechanism, and if feasible, we deploy our mechanisms to users to gather real-world results.
-For all of our proposed mechanisms, we aspire a practical solution, ready for deployment and usable by real users.
-
-Distributed systems can be complex software implementations with many components that work together.
-Specifying the scope of a system is a non-trivial challenge and failing to implement clear system boundaries can result in numerous performance bottlenecks and degradation of user experience when such a system is deployed.
-To this end, during the design of each mechanism we specify the boundaries of each system and state what we consider out of scope.
-We aim to focus on the core functionality of each mechanism.
-
+In this work, we adopt an experimental-driven approach where we answer each research question by designing, implementing and evaluating a decentralized system or mechanism.
+We then systematically evaluate the appropriate properties of each mechanism (e.g., scalability), and if feasible, we deploy our mechanisms to users to analyse our system in a real-world environment.
+For all of our proposed mechanisms, the goal is to build a solution that is ready for deployment and usable by real users.
 Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of DAS5 experiments and/or whether we have conducted a real-world deployment.
-Except for DevID, we evaluate each component using a comprehensive set of experiments that have been conducted on our DAS5 nation-wide compute cluster.
+Except for DevID, we evaluate each component using an appropriate set of experiments that have been conducted on our DAS5 nation-wide compute cluster~\cite{bal2016medium}.
 
-Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of users or with an integration in Tribler.
-Tribler is our academic testbed and offers decentralized, anonymous file-sharing capabilities.
-Tribler has been downloaded by over 1.5 million users and enables us to test our ideas in a geo-distributed, real-world environment.
-We have evaluated TrustChain, for example, in the context of our anonymous file-sharing overlay to address free-riding behaviour.
+Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of users or with an integration in Tribler~\cite{zeilemaker2011tribler}.
+Tribler is our open-source, academic testbed and offers decentralized, anonymous file-sharing capabilities.
+Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer hardware.
+We have evaluated TrustChain, for example, within Tribler to address free-riding behaviour.
 This longitudinal deployment allowed us to incrementally improve our software and refine our ideas.
-Due to legal considerations, we have been unable to provide an open-source implementation of the Internet-of-Money mechanism.
+To encourage reproducibility, we have published the implementation of each mechanism in a separate GitHub repository, including documentation and unit tests.
+Due to legal considerations, we do not provide an open-source implementation of the four reverse-engineered banking algorithms in our Internet-of-Money mechanism.
 
-We ensure that each mechanism is tested.
-Even though this is uncommon practice for research projects, we believe that a proper engineering methodology adds credibility to the presented mechanisms, helps reproducibility and is instrumental in getting a system ready for deployment.
+%Distributed systems can be complex software implementations with many components that work together.
+%Specifying the scope of a system is a non-trivial challenge and failing to implement clear system boundaries can result in numerous performance bottlenecks and degradation of user experience when such a system is deployed.
+%To this end, during the design of each mechanism we specify the boundaries of each system and state what we consider out of scope.
+%We aim to focus on the core functionality of each mechanism.
 
 % simplicity?
 
