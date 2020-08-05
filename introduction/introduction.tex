@@ -224,46 +224,46 @@ Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is a
 \end{figure}
 
 \section{Blockchain-based Marketplaces}
-So far, we have discussed how blockchain technology can be used to build decentralized marketplaces and how cryptographic techniques can replace intermediaries in existing electronic markets.
+So far, we outlined how blockchain technology is being applied to build decentralized marketplaces and how cryptographic techniques are capable of replacing trusted intermediaries in existing electronic markets.
 Now, we will shift our focus to blockchain-based marketplaces and elaborate on its components.
 First, it is crucial to carefully define what a blockchain-based marketplace means in the context of this work.
-We find that there is much confusion around the concept of blockchain-based marketplaces in literature and no unified definition of the former.
-This confusion is partially explained by the fact that electronic markets have many components, and blockchain technology can be used to replace multiple components.
-For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional overlay network to share product listings.
-In the context of this work, \emph{a blockchain-based marketplace is a distributed marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
+We observe that there is much ambiguity around the concept of blockchain-based marketplaces in academic work and no unified definition.
+This confusion is partially explained by the fact that electronic markets have many components, and blockchain technology can be applied to multiple components.
+For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants.
+In the context of this work, we define a blockchain-based marketplace as \emph{a distributed marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
-Figure~\ref{fig:electronic_markets} shows the components that make up a blockchain-based marketplace.
-This figure is the result of a literature survey where we have assessed both published and unpublished work on electronic marketplaces that leverage blockchain technology.
-We identify the following five components in blockchain-based marketplaces: \emph{matchmaking}, \emph{knowledge discovery}, \emph{settlement}, \emph{dispute resolution} and \emph{on-boarding}.
-We decompose these mechanisms into approaches used to devise the listed component.
-We now elaborate on each identified component and approaches.
+Figure~\ref{fig:electronic_markets} shows the components of a blockchain-based marketplace.
+This figure is the result of our literature analysis, where we consider both published and unpublished material on electronic marketplaces that leverage blockchain technology.
+We identify the following five components in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
+We decompose these components into commonly used approaches.
+We now elaborate on each component and associated approaches.
 
 \subsection{Information Management}
-Electronic marketplaces require a mechanism for the management of market information.
-Typical market information includes pricing and product data, and details of past transactions (which is often used to estimate the trustworthiness of market participants).
-Traditional electronic marketplaces take a centralized approach and store this information on their servers, deployed and fully managed by the market operator.
-A key advantage of this approach is that centralized servers are relatively easy to setup and maintain.
-Furthermore, they enable fast access to market information by participants.
-Since the market data is managed by the operator, it is prone to manipulation.
-Market operators can also influence what information is being served when being requested.
+Blockchain-based marketplaces require a mechanism to store and share market information.
+This market information includes product listings, outstanding orders, and details on historical transactions (which is often used to estimate the trustworthiness of market participants).
+Traditional electronic marketplaces take a centralized approach to information management and maintain all market data on their servers.
+The advantage of this approach is that centralized servers are relatively straightforward to set up and maintain.
+Furthermore, they enable the market operator to optimize the access to stored information by participants.
+However, since the operator manages the market information, it is prone to manipulation, e.g., by tampering with or filtering search results.
 
-We find that blockchain-based marketplaces tend to leverage decentralized techniques to store and share their market information.
-We identify two common approaches for data storage and dissemination, which are explained next.
+Except for a few DEXes (e.g., IDEX and EtherDelta), we find that most blockchain-based marketplaces take a decentralized approach to information management and refrain from storing market information on centralized servers.
+We identify two conventional approaches to data storage and dissemination of market information, which are outlined in the remainder of this subsection.
 
 \subsubsection{Distributed Ledger}
-A common approach for blockchain-based marketplaces is to persist all market information on a distributed ledger, e.g., a blockchain.
-This is the approach taken by many DEXes where the full market state is bundled within tamper-proof transactions on a distributed ledger, secured by a consensus mechanism.
-Users wishing to get the latest market state are required to request the full distributed ledger from the network.
+Many blockchain-based marketplaces persist their market information on a distributed ledger, e.g., a blockchain.
+In this situation, the full market state is stored within transactions on a tamper-proof distributed ledger, secured by a consensus mechanism.
+New users interested in the current market state are download to request the entire distributed ledger from the network.
 Since blockchain is an append-only data structure, no information is ever removed from the distributed ledger.
-Therefore, some blockchains have high storage requirements, e.g., the entire Bitcoin blockchain requires around 270GB of storage.
-Some blockchain-based markets provide one or more \emph{full nodes} that remain synchronized in the network and can be queried by interested traders.
+Therefore, some blockchains have relatively high storage requirements, for example, the entire Bitcoin blockchain requires around 290GB of storage at the time of writing.\footnote{https://www.blockchain.com/charts/blocks-size}
+Some blockchain-based marketplaces deploy one or more \emph{full nodes} that remain synchronized with the network and can be queried by market participants.
+These full nodes ensure quick bootstrapping in the network.
 
 \subsubsection{ InterPlanetary File System (IPFS)}
-The high costs associated with storing data on a blockchain has motivated some blockchain-based marketplaces to leverage another storage mechanism.
-For example, it is not feasible to store large data elements on a blockchain ledger.
+The high costs associated with storing data on a blockchain has motivated some blockchain-based marketplaces to leverage another storage mechanism besides a distributed ledger.
 The InterPlanetary File System (IPFS) is a decentralized, peer-to-peer network for the storage of and access to files, website, applications, and data~\cite{benet2014ipfs}.
-IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework built for decentralized protocols.
-OpenBazaar, one of the most popular decentralized marketplaces builds on IPFS to store and share market information.
+IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework created for decentralized protocols.
+OpenBazaar, one of the most popular decentralized marketplaces, builds on IPFS to store and share market information.
+FileCoin, a decentralized market for file storage, also leverages IPFS to store market data~\cite{benet2018filecoin}.
 %A common market type is a financial exchange where financial instruments like currencies or bonds are being traded.
 %The buy and sell orders in these markets are usually bundled in an \emph{order book}.
 %An order book lists the specific assets or services that are being bought or sold within a market.
