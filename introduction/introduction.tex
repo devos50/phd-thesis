@@ -278,8 +278,124 @@ OpenBazaar, one of the most popular decentralized marketplaces builds on IPFS to
 %A liquid market is often characterized by a low bid-ask spread.
 %The set of all ask or bid orders at a specific price is called a \emph{price level}.
 
+\subsection{Matchmaking}
+\label{sec:matchmaking}
+\emph{Matching} buyers and sellers is a prerequisite for online trade and therefore essential for marketplaces.
+Matchmaking is defined as the process of mediating supply and demand in markets, based on profile information~\cite{veit2003matchmaking}.\footnote{In multi-agent systems, a matchmaker is considered as an entity that only aggregates offers. Brokers aggregate both offers and requests. We will use the term matchmaker in this thesis since we found it to be more common in related work.}
+Notable examples are matching idle agents to incoming jobs or matching suppliers of specific assets to consumers who are interested in buying these assets.
+Inefficient matchmaking between participants decreases overall market efficiency and customer satisfaction~\cite{Wu2015TheM}.
+%For example, in a ride-hailing marketplace like Uber, it is key to match nearby drivers and passengers in a timely and efficient manner.
+For instance, prolonged suboptimal matching by Uber increases the waiting time for passengers and results in drivers having to traverse a greater distance to pick up their customers.
+Matchmaking depends on the individual constraints and preferences of market participants.
+%Similarly, inefficient matching of available computer resources to customers by cloud providers could violate service-level agreements, resulting in customer loss and reputational damage.
+
+
+In most electronic markets, a participant includes this information in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{veit2003matchmaking}.
+This order is then submitted to a matchmaker.
+In general, economic literature distinguishes between two types of orders: \emph{asks}, created by traders offering a specific asset, service, or resource, and \emph{bids}, created by interested buyers.
+%Each order can have multiple attributes attached, e.g., a price or a location.
+A matchmaker bundles open orders in a local data structure known as an \emph{order book}.
+The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on constraints and preferences included in each order.
+
+
+\subsubsection{Centralized Matchmaking}
+Centralized matchmaking is the most common approach to match market orders.
+Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
+Incoming offers and requests are matched with other requests and offers, respectively, according to a \emph{matching policy}.
+This model is widely adopted by commercialized marketplaces such as stock exchanges or service markets like Uber.
+The EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} decentralized exchanges adopt a centralized matchmaking model.
+
+A main advantage is that the centralized matchmaking model with a single server is relatively straightforward to implement, since no communication between peers, or order book synchronization is required.
+Also, since all orders are stored and matched by single matchmaker, orders are processed based on full market knowledge.
+With centralized matchmaking, the identity behind each order is only disclosed to the market operator, therefore protecting the privacy of individual traders.
+
+Unfortunately, the emergence of electronic trading in general gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{Mavroudis:2019iw}.
+For example, with centralized matchmakers, market operators are able to censor or delay specific orders.
+Information asymmetry between exchange operators and traders allows operators to exploit their information advantage, e.g., by front-running specific orders.
+From a systems perspective, centralized matchmaking has a low scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are created in the same time period.
+Another concern is fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
+
+%EtherDelta maintains a single server that stores an order book with all active orders.
+%Traders can browse the order book and trade against orders in the order book.
+%The trades are finalized on the blockchain, and the order is then removed from the EtherDelta order book.\todo{custodial vs non-custodial}
+%The IDEX exchange also deploys a centralized server but automatically matches orders submitted by makers and takers~\cite{AuroraLabs:B4jmyRY8}.
+%Specifically, traders lock their assets in the IDEX smart contract and submit their order to the IDEX server, which checks its validity.
+%The order is then executed by the Ethereum smart contract and the order book is updated according to the executed trade.
+
+\subsubsection{Federated Matchmaking}
+%Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
+Instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
+We refer to this approach as \emph{federated matchmaking}.
+The group of matchmakers can either be static (e.g., elected by a committee or a voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker).
+A trader now submits new orders to their preferred matchmaker (for example, based on the reliability or trustworthiness of individual matchmakers).
+The 0x~\cite{0x} and Swap protocols are notable examples of the federated matchmaking model.
+These protocols enable any users to act as matchmaker and therefore build an off-chain matchmaking network for orders that are trading tokens on Ethereum.
+
+%Blockchain-powered marketplaces based on the 0x and AirSwap protocols have adopted the federated matchmaking model~\cite{warren20170x}~\cite{oved2017swap}.
+%The 0x protocol uses off-chain order relaying and on-chain settlement, meaning that orders are created shared, and matched outside a blockchain.
+%A maker creates market liquidity in 0x by first selecting an available relayer.
+%Each relayer maintains an off-chain order book and charges a transaction fee for its services.
+%The maker then creates the order and specifies a fee which is given by the selected relayer.
+%Takers query the order book of relayers and if they intend to fulfill an order, they submit it to the Ethereum blockchain.
+%The Augur prediction market (see Section~\ref{sec:prediction_markets}) leverages the 0x protocol for order dissemination and matching.
+
+%The Swap protocol follows a similar off-chain matchmaking, on-chain settlement model~\cite{oved2017swap}.
+%In Swap, indexers aggregate trade intents created by market makers and takers.
+%The indexer informs takers when a matching trade intent has been found, upon which a peer-to-peer negotiation process starts between the matched maker and taker.
+%During this negotation process, a maker may contact an oracle to get a price suggestion.
+%When a maker and taker agree on a trade, the taker submits the agreement to an Ethereum smart contract, upon which the trade is executed and on-chain assets are exchanged.
+%We remark that both 0x and Swap are limited to trading Ethereum-based digital tokens and can therefore not be used for order processing of any blockchain-based asset.
+
+Federated matchmaking gives traders the opportunity to select their preferred matchmaker.
+When a matchmaker is suspected to treat incoming orders unfairly, traders can entrust their orders to another matchmaker instead.
+Furthermore, the unavailability of an individual matchmaker is less likely to stall all market activity since a trader can send their orders to another available matchmaker.
+However, the order book is fragmented across different matchmakers, potentially leading to less market efficiency and trading opportunities compared to centralized matchmaking.
+
+\subsubsection{Decentralized Matchmaking}
+%Scalability limitations, low fault tolerance, and uneven load balancing are inherent issues of centralized and federated matchmaking.
+The main idea of \emph{decentralized matchmaking} is that a single order is sent to multiple matchmakers simultaneously and matchmakers share their orders with other matchmakers.
+We distinguish between on-chain and off-chain decentralized matchmaking.
+
+\textbf{On-chain.}
+On-chain decentralized matchmaking relies on a smart contract to match incoming orders, or execute the matchmaking logic as part of the transaction validation.
+The orders are embedded in transactions and sent to multiple miners for inclusion on the blockchain.
+For example, Stellar has integrated DEX functionality that allows users to issue buy and sell orders for assets native to the Stellar blockchain~\cite{lokhava2019fast}.
+These orders are created using specific transaction types, that are matched with existing, outstanding orders already on the ledger.
+Similarly, the BitShares DEX offers specialized transactions to create new orders~\cite{schuh2015bitshares}.
+
+The main advantage of on-chain decentralized matchmaking is tight integration with the blockchain platform; no additional components are required to process and match orders.
+However, since users need to pay fees when creating new orders or when cancelling existing ones, order management can become costly.
+Furthermore, blockchain-based order matching can be orders of magnitude slower compared to centralized matchmaking, due to security requirements.
+On-chain matching protocols do not explicitly store established matches.
+Therefore, to reconstruct the order book at a specific block height, one needs to process all transactions up to that point.
+
+\textbf{Off-chain.}
+To increase trading efficiency, some blockchain-based marketplaces maintain the order book off-chain.
+Loopring is an order sharing protocol where new orders are sent to one or more relays in a mesh network~\cite{Wang:wt}.
+Relayers take the margin between two matched orders, or can charge a fixed fee for their services.
+The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{Zhang:kGvi0me4}.
+The protocol uses Shamir secret sharing to break down an order in multiple order fragments which are distributed through the network.
+%Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
+%Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
+%Relayers can optionally share orders with other relayers to increase liquidity, however, the whitepaper lacks technical details on how this is achieved specifically.
+
+% front-running in Loopring
+
+%An Ethereum smart contract, called the Registrar, describes the network topology such that it is hard for an adversary to fully reconstruct an original order.
+%Nodes cooperate with other nodes to check if their order fragments match, by computing a zero-knowledge proof.
+%When two order fragment match, an atomic swap is initiated between the two traders (also see Section~\ref{sec:atomic_swap}).
+%Note that this prevents an individual from estimating the total liquidity in the network.
+
+We identify two advantages of decentralized off-chain matchmaking compared to centralized and federated matchmaking.
+First, sharing orders between matchmakers can yield the same matching effectiveness compared to centralized matchmaking, depending on how orders are synchronized amongst matchmakers. %since orders can be synchronized amongst matchmakers.
+Second, decentralized matchmaking should show higher tolerance against failure of individual matchmakers.
+However, this model increases bandwidth usage since orders are replicated over multiple matchmakers.
+In addition, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
+
 \subsection{Settlement}
-TODO
+Blockchain-based marketplaces require a mechanism for a transaction to complete.
+The process of fulfilling the obligations by trading partners is also called \emph{settlement}.
+We now elaborate on four settlement techniques commonly found in blockchain-based marketplaces.
 
 \subsubsection{Custodial}
 A common approach to exchange blockchain-based assets is by using the services of a trusted intermediary.
@@ -313,11 +429,20 @@ These hash- and time-based agreements, also called Hashed Timelock Contracts (HT
 Atomic swaps eliminate the risk of losing assets to an adversarial trader while trading.
 The HTLC atomic swap requires a total of four transactions.
 
+\subsubsection{Fair Exchange}
+Fair exchange is a well-studied technique in computer science and is leveraged by a few blockchain-based marketplaces as settlement mechanism~\cite{pagnia2003fair}.
+An exchange is considered fair if either both of the parties receive the items they expect, or none of them do.
+The FairSwap protocol ensures fair exchange of digital goods by leveraging smart contracts~\cite{dziembowski2018fairswap}.
+The protocol is designed around the exchange of digital commodities and is therefore not usable for generic asset exchange across different blockchains.
+Optimistic fair exchange algorithms address counterparty risk by relying on the arbitration by a trusted third party when one of the involved traders attempt to cheat~\cite{asokan1997optimistic}.
+Optimistic fair exchange has originally been applied for the exchange of digital signatures but has recently been leveraged to ensure the execution of a cryptocurrency payment in exchange for a receipt~\cite{liu2018toward}.
+This class of algorithms, however, requires the participation of a trusted third party to resolve disputes.
+
 \subsubsection{Notary-based}
 Notary schemes are another solution for asset exchange where approval by a group of credible nodes (notaries) is required to perform some operation.
 Notary schemes aim to partially alleviate the trust issues arising when relying on a single trusted intermediary through the approval by a group of semi-trusted notaries instead.
 These notaries reach consensus on the occurrence of particular events, e.g., on the inclusion of a transaction on a distributed ledger.
-Compared to an asset exchange through a trusted intermediary, notary schemes assume a weaker trust model and can often withstand adversarial behavior of a fraction of the notaries.
+Compared to an asset exchange through a trusted intermediary, notary schemes assume a weaker trust model and can often withstand adversarial behaviour of a fraction of the notaries.
 
 The Interledger project, introduced by Ripple, is the most advanced approach in this direction~\cite{thomas2015protocol}.
 Interledger proposes a notary-based protocol to conduct payments across different ledgers.
@@ -325,179 +450,7 @@ In atomic mode, these payments are realized through atomic swaps and are coordin
 Interledger uses payment paths where additional intermediate platforms and their notaries are used to exchange assets between ledgers that do not have a direct connection.
 Interledger also supports bidirectional asset exchange but is vulnerable to a fraction of notaries colluding with one of the trading parties.
 External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
-The Hyperledger Quilt project provides a Java implementation of the Interledger protocol for permissioned blockchains~\cite{hyperledgerquilt}.
-
-\subsubsection{Fair Exchange}
-TODO
-
-\begin{figure*}[t]
-	\centering
-	\begin{subfigure}[t]{.33\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=.9\linewidth]{introduction/assets/centralized_matchmaking}
-		\caption{\emph{Centralized matchmaking}: new orders are always sent to a single matchmaker, usually a centralized system (server).}
-		\label{fig:centralized_matchmaking}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.33\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=.9\linewidth]{introduction/assets/federated_matchmaking}
-		\caption{\emph{Federated matchmaking}: new orders are sent to one of the available matchmakers in the network.}
-		\label{fig:federated_matchmaking}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.33\textwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=.9\linewidth]{introduction/assets/decentralized_matchmaking}
-		\caption{\emph{Decentralized matchmaking} (our proposal): new orders are sent to multiple matchmakers and shared between them.}
-		\label{fig:decentralized_matchmaking}
-	\end{subfigure}
-	\caption{Three models for order matching. Traders create offers and requests (colored green and red respectively), which are matched by matchmakers (depicted in blue).}
-	\label{fig:matching_models}
-\end{figure*}
-
-\subsection{Order Matchmaking}
-\label{sec:matchmaking}
-Automatically \emph{matching} customers is a prerequisite for online trade and therefore essential for electronic marketplaces.
-Matchmaking is defined as the process of mediating supply and demand in markets, based on profile information~\cite{Veit:2003fs}\footnote{In multi-agent systems, a matchmaker is considered as an entity that only aggregates offers. Brokers aggregate both offers and requests. We will use the term matchmaker in this paper since we found it to be more common in related work.}.
-Notable examples are matching idle agents to incoming jobs or matching suppliers of specific assets to consumers who are interested in buying these assets.
-Inefficient matchmaking between participants decreases overall market efficiency and customer satisfaction~\cite{Wu2015TheM}.
-%For example, in a ride-hailing marketplace like Uber, it is key to match nearby drivers and passengers in a timely and efficient manner.
-For instance, prolonged suboptimal matching by ride-hailing marketplaces such as Uber increases the waiting time for passengers and results in drivers having to traverse a greater distance to pick up their customers.
-%Similarly, inefficient matching of available computer resources to customers by cloud providers could violate service-level agreements, resulting in customer loss and reputational damage.
-
-In this section, we review different approaches to order matchmaking in electronic markets.
-Matchmaking depends on the individual constraints and preferences of market participants.
-In most electronic markets, a participant includes this information in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{Veit:2003fs}.
-This order is then submitted to a matchmaker.
-In general, economic literature distinguishes between two types of orders: \emph{asks}, created by traders offering a specific asset, service, or resource, and \emph{bids}, created by interested buyers.
-%Each order can have multiple attributes attached, e.g., a price or a location.
-The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on constraints and preferences included in each order.
-
-We identify three different approaches to order matchmaking, depicted in Figure~\ref{fig:matching_models}.
-With \emph{centralized matchmaking} (Figure~\ref{fig:centralized_matchmaking}), traders submit their asks and bids to a single server.
-With \emph{federated matchmaking} (Figure~\ref{fig:federated_matchmaking}), traders submit a new order to one of the servers of their choice.
-Finally, in \emph{decentralized matchmaking} (Figure~\ref{fig:decentralized_matchmaking}), traders submit their orders to one or more matchmakers.
-We further elaborate on each matchmaking model.
-
-\subsubsection{Centralized Matchmaking}
-Figure~\ref{fig:centralized_matchmaking} visualizes the centralized matchmaking model, which is the most common approach to match orders.
-Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
-This model is widely adopted by commercialized marketplaces such as stock exchanges or peer-to-peer service markets like Uber.
-A matchmaker bundles open orders in a local data structure known as an \emph{order book}.
-The order book stores all active asks and bids, and provide traders a convenient view on the current supply and demand.
-A new incoming ask or bid is then matched with other bids and asks, respectively, using a \emph{matching policy}.
-The most common matching policy used in cryptocurrency exchanges is the \emph{price-time} strategy, where orders are first matched based on the price, and then on their order creation time (older orders are prioritized).
-The order book is often optimized for fast order lookup and matching within a specific trading domain.
-
-The EtherDelta decentralized exchange is one of the first DEXes that adopt the centralized matchmaking model~\cite{Anonymous:brZbAflS}.
-EtherDelta maintains a single server that stores an order book with all active orders.
-Traders can browse the order book and trade against orders in the order book.
-The trades are finalized on the blockchain, and the order is then removed from the EtherDelta order book.\todo{custodial vs non-custodial}
-The IDEX exchange also deploys a centralized server but automatically matches orders submitted by makers and takers~\cite{AuroraLabs:B4jmyRY8}.
-Specifically, traders lock their assets in the IDEX smart contract and submit their order to the IDEX server, which checks its validity.
-The order is then executed by the Ethereum smart contract and the order book is updated according to the executed trade.
-
-A main advantage is that the centralized matchmaking model with a single server is relatively straightforward to implement, since no communication or order book synchronization is required.
-Also, since all orders are stored and matched by single matchmaker, orders are processed based on full market knowledge.
-The identity behind each order is only known to the market operator, therefore protecting the privacy of individual traders.
-
-Unfortunately, the emergence of electronic trading in general gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{Mavroudis:2019iw}.
-For example, the EtherDelta operator is able to censor specific orders.
-Furthermore, information asymmetry between exchange operators and traders allows operators to front-run specific orders (see Section X\todo{x}).
-The work of Mavroudis and Melton address fairness issues arising from the latency traders experience when submitting orders and gaining market information~\cite{Mavroudis:2019iw}.
-They propose Libra, an order reordering matching policy that alleviates the effects of uneven delays by the market infrastructure.
-Libra remains temporally fair, meaning that among all pairs of participants on it the probability that a slower participant succeeds in capturing a trading opportunity at the expense of a faster participant (who, responsive to the same stimulus, is also competing for the same opportunity) does not exceed 0.5.
-
-From a systems perspective, centralized matchmaking has a low scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are created in the same time period.
-Fault tolerance is another concern: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
-
-\subsubsection{Federated Matchmaking}
-Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
-Instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
-The group of matchmakers can either be static (e.g., elected by a committee or a voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker).
-A trader now submits new orders to their preferred matchmaker (for example, based on the reliability or trustworthiness of individual matchmakers).
-The 0x and Swap protocols are notable examples of the federated matchmaking model and are discussed next.
-
-%Blockchain-powered marketplaces based on the 0x and AirSwap protocols have adopted the federated matchmaking model~\cite{warren20170x}~\cite{oved2017swap}.
-The 0x protocol uses off-chain order relaying and on-chain settlement, meaning that orders are created shared, and matched outside a blockchain.
-A maker creates market liquidity in 0x by first selecting an available relayer.
-Each relayer maintains an off-chain order book and charges a transaction fee for its services.
-The maker then creates the order and specifies a fee which is given by the selected relayer.
-Takers query the order book of relayers and if they intend to fulfill an order, they submit it to the Ethereum blockchain.
-The Augur prediction market (see Section~\ref{sec:prediction_markets}) leverages the 0x protocol for order dissemination and matching.
-
-The Swap protocol follows a similar off-chain matchmaking, on-chain settlement model~\cite{oved2017swap}.
-In Swap, indexers aggregate trade intents created by market makers and takers.
-The indexer informs takers when a matching trade intent has been found, upon which a peer-to-peer negotiation process starts between the matched maker and taker.
-During this negotation process, a maker may contact an oracle to get a price suggestion.
-When a maker and taker agree on a trade, the taker submits the agreement to an Ethereum smart contract, upon which the trade is executed and on-chain assets are exchanged.
-We remark that both 0x and Swap are limited to trading Ethereum-based digital tokens and can therefore not be used for order processing of any blockchain-based asset.
-
-The federated matchmaking model gives traders the opportunity to use the services of their preferred matchmaker.
-Manipulative behaviour of one matchmaker then leads to the situation where traders select another, honest matchmaker.
-Furthermore, unavailability of an individual matchmaker is less likely to stall all market activity since a trader can send their orders to another available matchmaker.
-However, the order book is fragmented across different matchmakers, potentially leading to less market efficiency and liquidity, compared to matchmaking with an order book managed by a single entity.
-
-\subsubsection{Decentralized Matchmaking}
-%Scalability limitations, low fault tolerance, and uneven load balancing are inherent issues of centralized and federated matchmaking.
-The \emph{decentralized matchmaking} model is depicted in Figure \ref{fig:decentralized_matchmaking}.
-The main idea is that a single order is sent to multiple matchmakers simultaneously and matchmakers share their orders with other matchmakers (liquidity sharing).
-We distinguish between on-chain and off-chain decentralized matchmaking.
-
-\textbf{On-chain.}
-We now discuss on-chain matchmaking approaches that either rely on a smart contract to match incoming orders, or embed the matchmaking logic in the transaction validation logic.
-The Stellar protocol integrates DEX functionality that enables users to create buy and sell orders that trade assets native to the Stellar ledger~\cite{Lokhava:2019kd}.
-These orders are created using specific transaction types, that are matched with existing, outstanding orders during inclusion of the transaction in the ledger.
-The Stellar matching engine uses the price-time policy.
-Similarly, the BitShares blockchain provides functionality to create orders at the protocol level~\cite{Schuh:CsvWDxUZ}.
-
-The main advantage of on-chain matchmaking is tight integration with the blockchain platform; no external components such as a peer-to-peer overlay are needed to process orders.
-Instead, all orders can simply be processed by the blockchain logic.
-This also makes it more convenient for users to submit their orders.
-On the other hand, since users likely need to pay transaction fees when creating new orders or when cancelling existing ones, trading in bulk can become a costly process.
-Furthermore, blockchain-based order matching can be orders of magnitude slower compared to centralized matchmaking, due to security requirements.
-Finally, on-chain matching protocols do not explicitly store the history of matches.
-Therefore, the reconstruct the order book at a specific block height, one needs to process all transactions up to that point.
-
-\textbf{Off-chain.}
-To overcome transaction fees and slow transaction confirmation times, some platforms maintain a fully decentralized order book off-chain.
-An example of off-chain decentralized matchmaking is the Loopring protocol, which builds a decentralized order sharing protocol~\cite{Wang:wt}.
-Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
-New orders are sent to one or more relays in a mesh network.
-Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
-Relayers can optionally share orders with other relayers to increase liquidity, however, the whitepaper lacks technical details on how this is achieved specifically.
-Relayers take the margin between two matched orders, or can charge some fee.
-% front-running in Loopring
-
-The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{Zhang:kGvi0me4}.
-Specifically, it uses Shamir Secret Sharing to break down an order in multiple order fragments which are distributed through the network.
-An Ethereum smart contract, called the Registrar, describes the network topology such that it is hard for an adversary to fully reconstruct an original order.
-Nodes cooperate with other nodes to check if their order fragments match, by computing a zero-knowledge proof.
-When two order fragment match, an atomic swap is initiated between the two traders (also see Section~\ref{sec:atomic_swap}).
-Note that this prevents an individual from estimating the total liquidity in the network.
-
-We identify two advantages of this model over centralized and federated matchmaking.
-First, sharing orders between matchmakers can yield the same matching effectiveness compared to centralized matchmaking, depending on the order synchronization details. %since orders can be synchronized amongst matchmakers.
-Second, decentralized matchmaking should show higher tolerance against failure of individual matchmakers.
-However, this model increases bandwidth usage since orders are sent to multiple matchmakers.
-Also, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
-
-\subsection{Identity Management}
-Identity management is a key component of any electronic market.
-Traditional electronic marketplaces usually impose some form of identity validation before a user is allowed to engage in trade with other users.
-In this situation, the digital identity is linked to real-world credentials, e.g., a passport.
-Identity validation in electronic marketplaces has several purposes.
-First, it adds accountability of ones actions within the market in case of a dispute between a buyer and seller.
-Second, it prevents the situation where a user can easily re-enter the market under a different identity after having committed fraud.
-Third, identity verification is often part of the regulatory compliance of market operators, as often required by anti-money laundering policies.
-Most cryptocurrency exchanges managed by a central market authority require users to verify their identity before they can create buy or sell orders.
-
-In stark contrast with traditional marketplaces, a key property of blockchain technology is the ability to join the network under a pseudonym, using a locally generated cryptological keypair.
-In Bitcoin, for example, users can easily transfer Bitcoin to others using different digital identities.
-This is even the preferred practice when one wants to retain anonymity in the Bitcoin network.
-Similarly, many DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
+%The Hyperledger Quilt project provides a Java implementation of the Interledger protocol for permissioned blockchains~\cite{hyperledgerquilt}.
 
 \subsection{Fraud Management}
 Fraud is a key concern in electronic marketplaces.
@@ -517,8 +470,20 @@ This collateral is slashed when its depositor does not adhere to an agreement an
 The XClaim protocol relies on collateral deposits to enable asset trading between distinct blockchain ledgers.
 When a participant deviates from the protocol, the collateral is slashed and wronged actors are reimbursed.
 
-%\section{Problem Statement}
-%The key issue is that decentralized applications that are using blockchain technology are often not scalable enough.
+\subsection{Identity Management}
+Identity management is a key component of any electronic market.
+Traditional electronic marketplaces usually impose some form of identity validation before a user is allowed to engage in trade with other users.
+In this situation, the digital identity is linked to real-world credentials, e.g., a passport.
+Identity validation in electronic marketplaces has several purposes.
+First, it adds accountability of ones actions within the market in case of a dispute between a buyer and seller.
+Second, it prevents the situation where a user can easily re-enter the market under a different identity after having committed fraud.
+Third, identity verification is often part of the regulatory compliance of market operators, as often required by anti-money laundering policies.
+Most cryptocurrency exchanges managed by a central market authority require users to verify their identity before they can create buy or sell orders.
+
+In stark contrast with traditional marketplaces, a key property of blockchain technology is the ability to join the network under a pseudonym, using a locally generated cryptological keypair.
+In Bitcoin, for example, users can easily transfer Bitcoin to others using different digital identities.
+This is even the preferred practice when one wants to retain anonymity in the Bitcoin network.
+Similarly, many DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
 
 \section{Research Questions}
 \label{sec:research_questions}
