@@ -230,7 +230,7 @@ First, it is crucial to carefully define what a blockchain-based marketplace mea
 We find that there is much confusion around the concept of blockchain-based marketplaces in literature and no unified definition of the former.
 This confusion is partially explained by the fact that electronic markets have many components, and blockchain technology can be used to replace multiple components.
 For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional overlay network to share product listings.
-In the context of this work, \emph{a blockchain-based marketplace is a distributed system that leverages blockchain technology to carry out one or more of its critical operations}.
+In the context of this work, \emph{a blockchain-based marketplace is a distributed marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
 Figure~\ref{fig:electronic_markets} shows the components that make up a blockchain-based marketplace.
 This figure is the result of a literature survey where we have assessed both published and unpublished work on electronic marketplaces that leverage blockchain technology.
@@ -238,37 +238,45 @@ We identify the following five components in blockchain-based marketplaces: \emp
 We decompose these mechanisms into approaches used to devise the listed component.
 We now elaborate on each identified component and approaches.
 
-\subsection{Knowledge Discovery}
-Electronic marketplaces in general require a knowledge discovery mechanisms for market actors to enable value exchange.
-Market knowledge includes pricing and product information, and details of past transactions.
-Traditional electronic marketplaces usually store this information on centralized servers, deployed and managed by the market authority.
-A key advantage of this approach for market operators is that these servers are relatively easy to setup and enable fast access to market information by participants.
-Blockchain-based marketplaces usually avoid the storage of market information in a single location.
-Therefore, market participants are dependent on others to retrieve the latest market state.
+\subsection{Data Storage and Dissemination}
+Electronic marketplaces require a mechanism for data storage and dissemination.
+Typical market data includes pricing and product information, and details of past transactions (which is often used to estimate the trustworthiness of market participants).
+Traditional electronic marketplaces take a centralized approach and store this information on their servers, deployed and fully managed by the market operator.
+A key advantage of this approach is that centralized servers are relatively easy to setup and maintain.
+Furthermore, they enable fast access to market information by participants.
+Since the market data is managed by the operator, it is prone to manipulation.
+Market operators can also influence what information is being served when being requested.
+
+We find that blockchain-based marketplaces tend to leverage decentralized techniques to store and share their market information.
+We identify two common approaches for data storage and dissemination, which are explained next.
 
 \subsubsection{Distributed Ledger}
-A common approach for blockchain-based marketplaces is to store all available information on a distributed ledger.
-This is, for example, the approach taken by DEXes like BitShares and Waves.
-All market interactions are stored within tamper-proof transactions on a distributed ledger secured with global consensus.
-Trades are either explicitly recorded in transactions, or can be derived from prior transactions.
-Users wishing to get the latest market state are required to synchronize with the full distributed ledger from the network.
-Since the distributed ledger might contain millions of transactions, some platform have setup a few \emph{full nodes} that remain synchronized in the network.
-These full nodes offer an API that users can query to quickly retrieve market information.
+A common approach for blockchain-based marketplaces is to persist all market information on a distributed ledger, e.g., a blockchain.
+This is the approach taken by many DEXes where the full market state is bundled within tamper-proof transactions on a distributed ledger, secured by a consensus mechanism.
+Users wishing to get the latest market state are required to request the full distributed ledger from the network.
+Since blockchain is an append-only data structure, no information is ever removed from the distributed ledger.
+Therefore, some blockchains have high storage requirements, e.g., the entire Bitcoin blockchain requires around 270GB of storage.
+Some blockchain-based markets provide one or more \emph{full nodes} that remain synchronized in the network and can be queried by interested traders.
 
-\subsubsection{Order book}
-A common market type is a financial exchange where financial instruments like currencies or bonds are being traded.
-The buy and sell orders in these markets are usually bundled in an \emph{order book}.
-An order book lists the specific assets or services that are being bought or sold within a market.
-It provides traders with a convenient view on the current supply and demand.
-Depending on the market and assets being traded, the order book sometimes reveals the identity of a trader behind an open order, or their reputation scores (for instance, Airbnb shows the reputation of hosts).
-When presenting an order book to traders, ask and bid orders are usually sorted, i.e. based on their price.
-For orders with a price, ask orders are sorted ascending on price in the order book and bid orders descending on price (the best orders are presented first).
+\subsubsection{ InterPlanetary File System (IPFS)}
+The high costs associated with storing data on a blockchain has motivated some blockchain-based marketplaces to leverage another storage mechanism.
+For example, it is not feasible to store large data elements on a blockchain ledger.
+The InterPlanetary File System (IPFS) is a decentralized, peer-to-peer network for the storage of and access to files, website, applications, and data~\cite{benet2014ipfs}.
+IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework built for decentralized protocols.
+OpenBazaar, one of the most popular decentralized marketplaces builds on IPFS to store and share market information.
+%A common market type is a financial exchange where financial instruments like currencies or bonds are being traded.
+%The buy and sell orders in these markets are usually bundled in an \emph{order book}.
+%An order book lists the specific assets or services that are being bought or sold within a market.
+%It provides traders with a convenient view on the current supply and demand.
+%Depending on the market and assets being traded, the order book sometimes reveals the identity of a trader behind an open order, or their reputation scores (for instance, Airbnb shows the reputation of hosts).
+%When presenting an order book to traders, ask and bid orders are usually sorted, i.e. based on their price.
+%For orders with a price, ask orders are sorted ascending on price in the order book and bid orders descending on price (the best orders are presented first).
 %Market orders rarely end up in the order book as open order, since they are often fulfilled instantly.
 %A defining metric used by traders is the difference between the price of the highest ask order and the price of the lowest bid order, also called the \emph{bid-ask spread}.
 %For the order book shown in Figure \ref{fig:order_book}, the bid-ask spread is \$149.57 - \$149.54 = \$0.03.
 %This metric also indicates market liquidity, the degree to which assets can be quickly bought or sold.
 %A liquid market is often characterized by a low bid-ask spread.
-The set of all ask or bid orders at a specific price is called a \emph{price level}.
+%The set of all ask or bid orders at a specific price is called a \emph{price level}.
 
 \subsection{Settlement}
 TODO
