@@ -280,40 +280,34 @@ FileCoin, a decentralized market for file storage, also leverages IPFS to store 
 
 \subsection{Matchmaking}
 \label{sec:matchmaking}
-\emph{Matching} buyers and sellers is a prerequisite for online trade and therefore essential for marketplaces.
+\emph{Matchmaking} between buyers and sellers is a prerequisite for online trade and therefore essential for any marketplace.
 Matchmaking is defined as the process of mediating supply and demand in markets, based on profile information~\cite{veit2003matchmaking}.\footnote{In multi-agent systems, a matchmaker is considered as an entity that only aggregates offers. Brokers aggregate both offers and requests. We will use the term matchmaker in this thesis since we found it to be more common in related work.}
-Notable examples are matching idle agents to incoming jobs or matching suppliers of specific assets to consumers who are interested in buying these assets.
-Inefficient matchmaking between participants decreases overall market efficiency and customer satisfaction~\cite{Wu2015TheM}.
-%For example, in a ride-hailing marketplace like Uber, it is key to match nearby drivers and passengers in a timely and efficient manner.
-For instance, prolonged suboptimal matching by Uber increases the waiting time for passengers and results in drivers having to traverse a greater distance to pick up their customers.
 Matchmaking depends on the individual constraints and preferences of market participants.
-%Similarly, inefficient matching of available computer resources to customers by cloud providers could violate service-level agreements, resulting in customer loss and reputational damage.
+Notable examples are the matching of idle agents to incoming jobs or the matching of suppliers of specific assets to buyers with interest in these assets.
+Inefficient matchmaking between participants decreases overall market efficiency and customer satisfaction~\cite{Wu2015TheM}.
+For example, prolonged suboptimal matching in a ride-hailing market like Uber increases the waiting time for passengers and forces drivers to traverse a greater distance to pick up their customers.
 
-
-In most electronic markets, a participant includes this information in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{veit2003matchmaking}.
-This order is then submitted to a matchmaker.
-In general, economic literature distinguishes between two types of orders: \emph{asks}, created by traders offering a specific asset, service, or resource, and \emph{bids}, created by interested buyers.
-%Each order can have multiple attributes attached, e.g., a price or a location.
-A matchmaker bundles open orders in a local data structure known as an \emph{order book}.
-The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on constraints and preferences included in each order.
-
+In many blockchain-based markets, a trader includes its buy or sell intentions in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{veit2003matchmaking}.
+This order is then sent to one or more matchmakers.
+In general, economic literature distinguishes between two types of orders: \emph{offers}, created by traders offering a specific asset, service, or resource, and \emph{requests}, created by interested buyers.
+The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on the constraints and preferences included in each order.
+Matchmakers match incoming offers and requests with other requests and offers, respectively, according to a \emph{matching policy}.
 
 \subsubsection{Centralized Matchmaking}
-Centralized matchmaking is the most common approach to match market orders.
+\emph{Centralized matchmaking} is the most common approach to match market orders.
 Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
-Incoming offers and requests are matched with other requests and offers, respectively, according to a \emph{matching policy}.
-This model is widely adopted by commercialized marketplaces such as stock exchanges or service markets like Uber.
-The EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} decentralized exchanges adopt a centralized matchmaking model.
+This model is widely adopted by commercialized marketplaces such as stock exchanges (e.g., NYSE or NASDAQ) and resource-sharing markets (e.g., Uber and AirBnb).
+The EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} decentralized exchanges also adopt a centralized matchmaking model where all market orders are stored and matched on their servers.
 
-A main advantage is that the centralized matchmaking model with a single server is relatively straightforward to implement, since no communication between peers, or order book synchronization is required.
-Also, since all orders are stored and matched by single matchmaker, orders are processed based on full market knowledge.
+Centralized matchmaking with a single server is relatively straightforward to implement since all network communication follows the client-server model, i.e., there is no synchronization required between peers.
+Also, since all orders are stored and matched by a single matchmaker, orders can be processed based on full market knowledge and therefore matched optimally with existing orders.
 With centralized matchmaking, the identity behind each order is only disclosed to the market operator, therefore protecting the privacy of individual traders.
 
-Unfortunately, the emergence of electronic trading in general gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{Mavroudis:2019iw}.
-For example, with centralized matchmakers, market operators are able to censor or delay specific orders.
-Information asymmetry between exchange operators and traders allows operators to exploit their information advantage, e.g., by front-running specific orders.
-From a systems perspective, centralized matchmaking has a low scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are created in the same time period.
-Another concern is fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
+The emergence of electronic trading, in general, gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{mavroudis2019libra}.
+For example, with centralized matchmaking, the matchmaker is capable of censoring or delaying specific orders.
+Information asymmetry between market operators and traders allows matchmakers to exploit their information advantage, e.g., by front-running on specific orders.
+From a systems perspective, centralized matchmaking has lower scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period.
+Finally, centralized matchmaking exhibits low fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
 
 %EtherDelta maintains a single server that stores an order book with all active orders.
 %Traders can browse the order book and trade against orders in the order book.
