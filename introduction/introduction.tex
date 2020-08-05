@@ -219,7 +219,7 @@ Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is a
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\linewidth]{introduction/assets/decomposition}
-	\caption{A decomposition of electronic marketplaces in four different components. Each component is further decomposed in approaches if applicable.}
+	\caption{A decomposition of blockchain-based marketplaces in five distinct components. We further decompose each component in identified approaches.}
 	\label{fig:electronic_markets}
 \end{figure}
 
@@ -238,9 +238,9 @@ We identify the following five components in blockchain-based marketplaces: \emp
 We decompose these mechanisms into approaches used to devise the listed component.
 We now elaborate on each identified component and approaches.
 
-\subsection{Data Storage and Dissemination}
-Electronic marketplaces require a mechanism for data storage and dissemination.
-Typical market data includes pricing and product information, and details of past transactions (which is often used to estimate the trustworthiness of market participants).
+\subsection{Information Management}
+Electronic marketplaces require a mechanism for the management of market information.
+Typical market information includes pricing and product data, and details of past transactions (which is often used to estimate the trustworthiness of market participants).
 Traditional electronic marketplaces take a centralized approach and store this information on their servers, deployed and fully managed by the market operator.
 A key advantage of this approach is that centralized servers are relatively easy to setup and maintain.
 Furthermore, they enable fast access to market information by participants.
@@ -371,9 +371,9 @@ Therefore, to reconstruct the order book at a specific block height, one needs t
 
 \textbf{Off-chain.}
 To increase trading efficiency, some blockchain-based marketplaces maintain the order book off-chain.
-Loopring is an order sharing protocol where new orders are sent to one or more relays in a mesh network~\cite{Wang:wt}.
+Loopring is an order sharing protocol where new orders are sent to one or more relays in a mesh network~\cite{loopring}.
 Relayers take the margin between two matched orders, or can charge a fixed fee for their services.
-The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{Zhang:kGvi0me4}.
+The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{zhang2017republic}.
 The protocol uses Shamir secret sharing to break down an order in multiple order fragments which are distributed through the network.
 %Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
 %Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
@@ -454,36 +454,46 @@ External coordination is avoided in universal mode, which relies on incentives f
 
 \subsection{Fraud Management}
 Fraud is a key concern in electronic marketplaces.
-A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during trade settlement, e.g., by not delivering the promised assets or goods.
-This kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
-Within blockchain-based marketplaces, counterparty fraud is often prevented since asset exchange is atomic: either all parties receive their assets or nothing happens.
-This approach works when assets can be exchanged directly, e.g., on a blockchain-powered DEX.
-Fraud management, however, is required when settlement depends on the actions by users.
-We identify different approaches to manage fraud.
+A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
+In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
+Within blockchain-based marketplaces, however, counterparty fraud is often prevented since blockchain transactions are atomic: either both trading parties receive their assets or nothing happens.
+%This approach works when assets can be exchanged directly, e.g., on a blockchain-powered DEX.
+Fraud management, however, becomes instrumental when the settlement process is decoupled and requires both involved traders to transfer value to their counterparty. % depends on the actions by users.
+We identify two common approaches to manage fraud arising during a non-atomic trade: using escrow services and collateral.
 
 \subsubsection{Escrows}
-TODO
+Some blockchain-based marketplaces are using a third-party escrow service when a dispute arises.
+This escrow may be a single entity, e.g., another user in the marketplace, or a group of users with some authority to resolve the dispute.
+In the Bisq decentralized exchange, for example, users can make a call on mediators or arbitrators to resolve fraud.
+Mediators attempt to resolve the dispute but do not have authority over the funds being traded.
+Arbitrators, however, have the capability to redistribute assets being traded through the usage of multisignature techniques.
 
 \subsubsection{Collateral}
 Some blockchain-based marketplaces require users to deposit collateral before trading.
 This collateral is slashed when its depositor does not adhere to an agreement and therefore incentivise traders to follow the protocol.
-The XClaim protocol relies on collateral deposits to enable asset trading between distinct blockchain ledgers.
+The XClaim protocol relies on collateral deposits to enable asset trading between distinct blockchain ledgers~\cite{zamyatin2019xclaim}.
 When a participant deviates from the protocol, the collateral is slashed and wronged actors are reimbursed.
 
 \subsection{Identity Management}
-Identity management is a key component of any electronic market.
-Traditional electronic marketplaces usually impose some form of identity validation before a user is allowed to engage in trade with other users.
-In this situation, the digital identity is linked to real-world credentials, e.g., a passport.
+Users join a blockchain-based marketplace under a digital identity.
+Within the domain of blockchain-based marketplaces, we discuss two approaches to identity management: using pseudonyms and using real-world identities.
+
+\subsubsection{Pseudonyms}
+A key property of blockchain technology is the ability to join the network under a pseudonym, a disguised identity usually in the form of a cryptographic keypair.
+Users are then identified by their public key, and ensure authenticity of their transactions by signing the transactions with their private key.
+Since trading on a specific DEXes is usually contained within a single market environment, DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
+
+\subsubsection{Real-world Identities}
+% -> becomes required when inteacting with fiat money
+In traditional electronic marketplaces, this identity is usually linked to a real-world identity.
+Some blockchain-based markets enable the trade of fiat currency for cryptocurrencies, e.g., Bisq~\cite{bisq}.
 Identity validation in electronic marketplaces has several purposes.
 First, it adds accountability of ones actions within the market in case of a dispute between a buyer and seller.
 Second, it prevents the situation where a user can easily re-enter the market under a different identity after having committed fraud.
 Third, identity verification is often part of the regulatory compliance of market operators, as often required by anti-money laundering policies.
-Most cryptocurrency exchanges managed by a central market authority require users to verify their identity before they can create buy or sell orders.
-
-In stark contrast with traditional marketplaces, a key property of blockchain technology is the ability to join the network under a pseudonym, using a locally generated cryptological keypair.
-In Bitcoin, for example, users can easily transfer Bitcoin to others using different digital identities.
-This is even the preferred practice when one wants to retain anonymity in the Bitcoin network.
-Similarly, many DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
+For example, eBay requires its users to go through an identity verification process before they can buy or sell goods on the platform.
+In addition, many centralized cryptocurrency exchanges require user verification since these exchanges often allow payments with fiat money.
+%Although not within the scope of this work, it is worth mentioning how blockchain technology offers new insights on digital identities.
 
 \section{Research Questions}
 \label{sec:research_questions}
