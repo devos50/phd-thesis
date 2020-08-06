@@ -318,12 +318,14 @@ Finally, centralized matchmaking exhibits low fault tolerance: if the single mat
 
 \subsubsection{Federated Matchmaking}
 %Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
-Instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
-We refer to this approach as \emph{federated matchmaking}.
-The group of matchmakers can either be static (e.g., elected by a committee or a voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker).
-A trader now submits new orders to their preferred matchmaker (for example, based on the reliability or trustworthiness of individual matchmakers).
-The 0x~\cite{0x} and Swap protocols are notable examples of the federated matchmaking model.
-These protocols enable any users to act as matchmaker and therefore build an off-chain matchmaking network for orders that are trading tokens on Ethereum.
+
+\emph{Federated matchmaking} is an alternative approach where instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
+The set of matchmakers can either be static (e.g., elected by a committee or some voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker for others).
+A trader now submits new orders to their preferred matchmaker.
+The reliability or trustworthiness of individual matchmakers might impact this choice.
+The 0x~\cite{0x} and Swap trading protocols, enabling the trade of Ethereum tokens, have adopted the federated matchmaking model.
+Both protocols allow any user to act as matchmaker and therefore build an off-chain matchmaking network for orders.
+In practice, though, the most used matchmaker is the one provided by the protocol developers.
 
 %Blockchain-powered marketplaces based on the 0x and AirSwap protocols have adopted the federated matchmaking model~\cite{warren20170x}~\cite{oved2017swap}.
 %The 0x protocol uses off-chain order relaying and on-chain settlement, meaning that orders are created shared, and matched outside a blockchain.
@@ -340,35 +342,34 @@ These protocols enable any users to act as matchmaker and therefore build an off
 %When a maker and taker agree on a trade, the taker submits the agreement to an Ethereum smart contract, upon which the trade is executed and on-chain assets are exchanged.
 %We remark that both 0x and Swap are limited to trading Ethereum-based digital tokens and can therefore not be used for order processing of any blockchain-based asset.
 
-Federated matchmaking gives traders the opportunity to select their preferred matchmaker.
-When a matchmaker is suspected to treat incoming orders unfairly, traders can entrust their orders to another matchmaker instead.
-Furthermore, the unavailability of an individual matchmaker is less likely to stall all market activity since a trader can send their orders to another available matchmaker.
-However, the order book is fragmented across different matchmakers, potentially leading to less market efficiency and trading opportunities compared to centralized matchmaking.
+Federated matchmaking allows traders to select their preferred matchmaker.
+When a matchmaker is suspected of mistreating incoming orders, or when the matchmaker is unreliable, traders can entrust their orders to another matchmaker instead.
+This approach increases robustness against failure of individual matchmakers since a trader can send their orders to another available matchmaker in this situation.
+However, the market orders are fragmented now across different matchmakers, potentially leading to less market efficiency and trading opportunities compared to centralized matchmaking.
 
 \subsubsection{Decentralized Matchmaking}
-%Scalability limitations, low fault tolerance, and uneven load balancing are inherent issues of centralized and federated matchmaking.
-The main idea of \emph{decentralized matchmaking} is that a single order is sent to multiple matchmakers simultaneously and matchmakers share their orders with other matchmakers.
+The main idea of \emph{decentralized matchmaking} is that a single order is sent to multiple matchmakers simultaneously and matchmakers synchronize known orders with other matchmakers.
 We distinguish between on-chain and off-chain decentralized matchmaking.
 
 \textbf{On-chain.}
-On-chain decentralized matchmaking relies on a smart contract to match incoming orders, or execute the matchmaking logic as part of the transaction validation.
-The orders are embedded in transactions and sent to multiple miners for inclusion on the blockchain.
-For example, Stellar has integrated DEX functionality that allows users to issue buy and sell orders for assets native to the Stellar blockchain~\cite{lokhava2019fast}.
-These orders are created using specific transaction types, that are matched with existing, outstanding orders already on the ledger.
-Similarly, the BitShares DEX offers specialized transactions to create new orders~\cite{schuh2015bitshares}.
+On-chain decentralized matchmaking matches orders as part of the blockchain logic.
+This process either relies on a smart contract to match known orders or executes the matchmaking logic as part of the transaction validation.
+The market orders are embedded in transactions and sent to multiple miners for inclusion on the blockchain.
+For example, Stellar maintains an exchange on its distributed ledger and allows users to issue buy and sell orders for any asset that is native to the Stellar blockchain~\cite{lokhava2019fast}.
+In the same way, the BitShares DEX offers specialized transactions to create new or cancel existing orders~\cite{schuh2015bitshares}.
 
 The main advantage of on-chain decentralized matchmaking is tight integration with the blockchain platform; no additional components are required to process and match orders.
-However, since users need to pay fees when creating new orders or when cancelling existing ones, order management can become costly.
-Furthermore, blockchain-based order matching can be orders of magnitude slower compared to centralized matchmaking, due to security requirements.
-On-chain matching protocols do not explicitly store established matches.
-Therefore, to reconstruct the order book at a specific block height, one needs to process all transactions up to that point.
+However, since users need to pay fees when creating the transactions to manage their orders, order management can become costly, in particular when done in bulk.
+Furthermore, matching on a blockchain can be orders of magnitude slower compared to centralized matchmaking, due to the need to reach a network-wide consensus on all transactions.
+Finally, on-chain matching protocols do not explicitly store all established matches.
+Therefore, to reconstruct the order book at a specific block height, one needs to replay all transactions up to that block in the blockchain.
 
 \textbf{Off-chain.}
-To increase trading efficiency, some blockchain-based marketplaces maintain the order book off-chain.
-Loopring is an order sharing protocol where new orders are sent to one or more relays in a mesh network~\cite{loopring}.
-Relayers take the margin between two matched orders, or can charge a fixed fee for their services.
+Some blockchain-based marketplaces and protocols maintain the order book off-chain to lower the costs of order management.
+Loopring, for example, is an order sharing protocol where new orders are sent to one or more relays in an off-chain mesh network~\cite{loopring}.
+Relayers claim the margin between two matched orders, or can alternatively charge a fixed fee for their services.
 The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{zhang2017republic}.
-The protocol uses Shamir secret sharing to break down an order in multiple order fragments which are distributed through the network.
+The protocol uses Shamir secret sharing to break down an order in multiple order fragments which are distributed through the network, therefore hiding the identity of the order creator.
 %Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
 %Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
 %Relayers can optionally share orders with other relayers to increase liquidity, however, the whitepaper lacks technical details on how this is achieved specifically.
@@ -381,10 +382,10 @@ The protocol uses Shamir secret sharing to break down an order in multiple order
 %Note that this prevents an individual from estimating the total liquidity in the network.
 
 We identify two advantages of decentralized off-chain matchmaking compared to centralized and federated matchmaking.
-First, sharing orders between matchmakers can yield the same matching effectiveness compared to centralized matchmaking, depending on how orders are synchronized amongst matchmakers. %since orders can be synchronized amongst matchmakers.
-Second, decentralized matchmaking should show higher tolerance against failure of individual matchmakers.
+First, by sharing orders between matchmakers, one can achieve similar matching effectiveness compared to centralized matchmaking, depending on how quickly orders are synchronized amongst matchmakers.
+Second, decentralized matchmaking exhibits high tolerance against the failure of individual matchmakers and can withstand the failure or partition of a subset of all matchmakers.
 However, this model increases bandwidth usage since orders are replicated over multiple matchmakers.
-In addition, it might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
+It also might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
 \subsection{Settlement}
 Blockchain-based marketplaces require a mechanism for a transaction to complete.
