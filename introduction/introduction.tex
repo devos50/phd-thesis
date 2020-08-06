@@ -388,28 +388,36 @@ However, this model increases bandwidth usage since orders are replicated over m
 It also might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
 \subsection{Settlement}
-Blockchain-based marketplaces require a mechanism for a transaction to complete.
-The process of fulfilling the obligations by trading partners is also called \emph{settlement}.
-We now elaborate on four settlement techniques commonly found in blockchain-based marketplaces.
-
-\subsubsection{Custodial}
-A common approach to exchange blockchain-based assets is by using the services of a trusted intermediary.
+After two parties have agreed to trade, a value exchange must take place.
+The process of fulfilling the obligations by trading parties is called \emph{settlement}.
+In traditional marketplaces and many cryptocurrency exchanges, it is common practice to have a trusted intermediary settle a trade.
 A trade using a trusted intermediary completes as follows: two parties that agree on a trade transfer the assets for sale to one of the wallets owned by the trusted intermediary.
 When this intermediary has received both assets, it finishes the exchange by transferring the appropriate assets to the other party.
 In this approach, the trusted intermediary holds (temporary) ownership of the assets to be traded.
-Relying on a trusted intermediary removes counterparty risk for the trading parties, but it requires both parties to have faith that the intermediary does not default or compromise their assets.
+Relying on a trusted intermediary removes the risks when trading directly between the parties, but it requires both parties to have faith that the intermediary does not default or steal their assets.
 
-Trade through a trusted intermediary can facilitate value exchange between an extensive range of different blockchains, as long as the intermediary maintains wallets on the involved blockchains and can issue transactions in these systems to transfer the assets.
-This is usually not an issue in permissionless blockchains since anyone can create accounts or wallets by generating a new cryptographic key pair.
-Centralized cryptocurrency exchanges often facilitate asset trading across numerous permissionless blockchains.
-Some cryptocurrency exchanges process transactions worth millions of dollars in total daily.\footnote{See https://coinmarketcap.com/rankings/exchanges}
-In a permissioned blockchain environment, however, a trusted intermediary coordinating an asset exchange requires explicit approval from the operator to read and write transactions on the involved distributed ledgers.
-Allowing new parties in a permissioned blockchain might be undesirable by operators since it introduces additional legal and operational risks.
+%Trade through a trusted intermediary can facilitate value exchange between an extensive range of different blockchains, as long as the intermediary maintains wallets on the involved blockchains and can issue transactions in these systems to transfer the assets.
+%This is usually not an issue in permissionless blockchains since anyone can create accounts or wallets by generating a new cryptographic key pair.
+%Centralized cryptocurrency exchanges often facilitate asset trading across numerous permissionless blockchains.
+%Some cryptocurrency exchanges process transactions worth millions of dollars in total daily.\footnote{See https://coinmarketcap.com/rankings/exchanges}
+%In a permissioned blockchain environment, however, a trusted intermediary coordinating an asset exchange requires explicit approval from the operator to read and write transactions on the involved distributed ledgers.
+%Allowing new parties in a permissioned blockchain might be undesirable by operators since it introduces additional legal and operational risks.
+
+Blockchain-based marketplaces refrain from settlement through a trusted intermediary and either use cryptographic techniques to ensure atomicity, or rely on a group of semi-trusted peers to settle a trade.
+We outline three settlement techniques commonly found in blockchain-based marketplaces.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.6\linewidth]{introduction/assets/atomic_swap}
+	\caption{Sequence diagram of a successful HTLC-based atomic swap between Alice and Bob.}
+	\label{fig:atomic_swap}
+\end{figure}
 
 \subsubsection{Atomic Swaps}
-The \emph{atomic swap} is a distributed coordination task that allows asset exchange between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
+The \emph{atomic swap} is a distributed coordination task that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary or other semi-trusted parties~\cite{herlihy2018atomic}.
 Atomic swaps enable two parties to exchange blockchain-based assets with atomic guarantees: the asset exchange either completes or fails for both parties at any given time.
-We now explain the involved operations during an atomic swap between the public Bitcoin and Ethereum blockchains.
+We elaborate on the involved operations during an atomic swap by considering an asset exchange between the public Bitcoin and Ethereum blockchains.
+
 Figure~\ref{fig:atomic_swap} visualizes the steps of an atomic swap between Alice and Bob, where Alice sells her Bitcoin in return for Ether (the native token of the Ethereum blockchain).
 First, Alice generates a random secret $ s $ and computes $ H(s) $, where $ H(\cdot) $ denotes a hash function.
 She then submits a hash-locked transaction, indicated by $ T_a(H(s)) $ (step \circled{1}), to the Bitcoin blockchain that transfers her Bitcoin to Bob's wallet address.
@@ -426,26 +434,26 @@ The HTLC atomic swap requires a total of four transactions.
 
 \subsubsection{Fair Exchange}
 Fair exchange is a well-studied technique in computer science and is leveraged by a few blockchain-based marketplaces as settlement mechanism~\cite{pagnia2003fair}.
-An exchange is considered fair if either both of the parties receive the items they expect, or none of them do.
-The FairSwap protocol ensures fair exchange of digital goods by leveraging smart contracts~\cite{dziembowski2018fairswap}.
-The protocol is designed around the exchange of digital commodities and is therefore not usable for generic asset exchange across different blockchains.
+An exchange is considered fair if both of the parties receive the items they expect, or none of them do.
+Therefore, the atomic swap can be considered as a class of fair exchange protocols.
+The FairSwap protocol ensures a fair exchange of digital goods by leveraging smart contracts and zero-knowledge proofs~\cite{dziembowski2018fairswap}.
+The protocol, however, is designed around the exchange of digital commodities and is therefore not usable for generic asset exchange across different blockchains.
 Optimistic fair exchange algorithms address counterparty risk by relying on the arbitration by a trusted third party when one of the involved traders attempt to cheat~\cite{asokan1997optimistic}.
-Optimistic fair exchange has originally been applied for the exchange of digital signatures but has recently been leveraged to ensure the execution of a cryptocurrency payment in exchange for a receipt~\cite{liu2018toward}.
+Optimistic fair exchange has been initially applied for the exchange of digital signatures but has recently been leveraged to ensure the execution of a cryptocurrency payment in exchange for a receipt~\cite{liu2018toward}.
 This class of algorithms, however, requires the participation of a trusted third party to resolve disputes.
 
 \subsubsection{Notary-based}
-Notary schemes are another solution for asset exchange where approval by a group of credible nodes (notaries) is required to perform some operation.
+Notary-based schemes are another approach to trade settlement where the approval by a group of credible nodes (often called notaries) is required to perform some operation.
 Notary schemes aim to partially alleviate the trust issues arising when relying on a single trusted intermediary through the approval by a group of semi-trusted notaries instead.
 These notaries reach consensus on the occurrence of particular events, e.g., on the inclusion of a transaction on a distributed ledger.
-Compared to an asset exchange through a trusted intermediary, notary schemes assume a weaker trust model and can often withstand adversarial behaviour of a fraction of the notaries.
+Compared to an asset exchange through a trusted intermediary, notary schemes assume a weaker trust model compared to settlement with a trusted intermediary. Furthermore, they can usually withstand adversarial behaviour of a fraction of all notaries.
 
-The Interledger project, introduced by Ripple, is the most advanced approach in this direction~\cite{thomas2015protocol}.
+The Interledger project, pioneered by Ripple, is the most advanced approach in this direction~\cite{thomas2015protocol}.
 Interledger proposes a notary-based protocol to conduct payments across different ledgers.
 In atomic mode, these payments are realized through atomic swaps and are coordinated by a different group of notaries for every involved blockchain.
 Interledger uses payment paths where additional intermediate platforms and their notaries are used to exchange assets between ledgers that do not have a direct connection.
 Interledger also supports bidirectional asset exchange but is vulnerable to a fraction of notaries colluding with one of the trading parties.
 External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
-%The Hyperledger Quilt project provides a Java implementation of the Interledger protocol for permissioned blockchains~\cite{hyperledgerquilt}.
 
 \subsection{Fraud Management}
 Fraud is a key concern in electronic marketplaces.
