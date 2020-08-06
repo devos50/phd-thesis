@@ -456,30 +456,30 @@ Interledger also supports bidirectional asset exchange but is vulnerable to a fr
 External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
 
 \subsection{Fraud Management}
-Fraud is a key concern in electronic marketplaces.
+Fraud is a crucial concern in electronic marketplaces, in particular when a buyer and seller have never interacted before.
 A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
 In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
-Within blockchain-based marketplaces, however, counterparty fraud is often prevented since blockchain transactions are atomic: either both trading parties receive their assets or nothing happens.
+Within blockchain-based marketplaces, however, counterparty fraud is often prevented since blockchain transactions are atomic: either both trading parties receive their assets, or nothing happens.
 %This approach works when assets can be exchanged directly, e.g., on a blockchain-powered DEX.
-Fraud management, however, becomes instrumental when the settlement process is decoupled and requires both involved traders to transfer value to their counterparty. % depends on the actions by users.
-We identify two common approaches to manage fraud arising during a non-atomic trade: using escrow services and collateral.
+Fraud management, however, becomes instrumental when the settlement process is not atomic and requires both involved traders to move value to the counterparty manually. % depends on the actions of users.
+We identify two conventional approaches to manage fraud arising during a non-atomic trade in blockchain-based marketplaces: using escrow services and collateral.
 
 \subsubsection{Escrows}
 Some blockchain-based marketplaces are using a third-party escrow service when a dispute arises.
 This escrow may be a single entity, e.g., another user in the marketplace, or a group of users with some authority to resolve the dispute.
-In the Bisq decentralized exchange, for example, users can make a call on mediators or arbitrators to resolve fraud.
+In the Bisq decentralized exchange, for example, users can make a call on mediators or arbitrators to resolve fraud~\cite{bisq}.
 Mediators attempt to resolve the dispute but do not have authority over the funds being traded.
-Arbitrators, however, have the capability to redistribute assets being traded through the usage of multisignature techniques.
+Arbitrators, however, can redistribute traded assets through the usage of multi-signature techniques.
 
 \subsubsection{Collateral}
 Some blockchain-based marketplaces require users to deposit collateral before trading.
-This collateral is slashed when its depositor does not adhere to an agreement and therefore incentivise traders to follow the protocol.
-The XClaim protocol relies on collateral deposits to enable asset trading between distinct blockchain ledgers~\cite{zamyatin2019xclaim}.
-When a participant deviates from the protocol, the collateral is slashed and wronged actors are reimbursed.
+This collateral is slashed when its depositor does not adhere to an agreement or deviates from the protocol.
+The XClaim protocol, for example, relies on collateral deposits to enable asset trading between distinct blockchain ledgers~\cite{zamyatin2019xclaim}.
+When a participant deviates from the protocol, the collateral is slashed, and wronged actors are reimbursed.
 
 \subsection{Identity Management}
-Users join a blockchain-based marketplace under a digital identity.
-Within the domain of blockchain-based marketplaces, we discuss two approaches to identity management: using pseudonyms and using real-world identities.
+Traders enter a blockchain-based marketplace under a digital identity.
+We discuss two approaches to identity management in blockchain-based marketplaces: using pseudonyms and using real-world identities.
 
 \subsubsection{Pseudonyms}
 A key property of blockchain technology is the ability to join the network under a pseudonym, a disguised identity usually in the form of a cryptographic keypair.
