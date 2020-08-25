@@ -239,7 +239,7 @@ We decompose each challenge into commonly used solutions.
 We now elaborate on each challenge and associated approaches.
 
 \subsection{Information Management}
-A key problem in blockchain-based marketplaces is where to store the market information.
+Since blockchain-based marketplaces avoid using centralized data store, secure storage of market information is a key research challenge.
 This market information includes product listings, outstanding orders, and details on historical transactions (which is often used to estimate the trustworthiness of market participants).
 Traditional electronic marketplaces take a centralized approach to information management and maintain all market data on their servers.
 The advantage of this approach is that centralized servers are relatively straightforward to set up and maintain.
@@ -392,7 +392,7 @@ However, this model increases bandwidth usage since orders are replicated over m
 It also might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
 \subsection{Settlement}
-Secure \emph{settlement} in blockchain-based marketplaces is a difficult research challenge.
+Secure trade \emph{settlement} in blockchain-based marketplaces is a difficult research challenge.
 %After two parties have agreed to trade, a value exchange must take place.
 Settlement is the process of fulfilling the obligations by trading parties.
 In traditional marketplaces and many cryptocurrency exchanges, it is common practice to have a trusted intermediary settle a trade.
@@ -461,7 +461,7 @@ Interledger also supports bidirectional asset exchange but is vulnerable to a fr
 External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
 
 \subsection{Fraud Management}
-The management of fraud is a crucial challenge in any marketplace and closely related to settlement.
+The management of fraud is a crucial challenge in any marketplace and closely related to the settlement process.
 The risk of fraud typically occurs when a buyer and seller have never interacted before and therefore do not have a prior trust relation.
 A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
 In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
@@ -484,7 +484,7 @@ The XClaim protocol, for example, relies on collateral deposits to enable asset 
 When a participant deviates from the protocol, the collateral is slashed, and wronged actors are reimbursed.
 
 \subsection{Identity Management}
-The last identified research challenge in blockchain-based marketplaces is how to manage the digital identities of participants.
+The final research challenge we identified in blockchain-based marketplaces is how to manage the digital identities of participants.
 Traders enter a blockchain-based marketplace under a digital identity.
 We discuss two approaches to identity management in blockchain-based marketplaces: using pseudonyms and using real-world identities.
 
@@ -507,40 +507,45 @@ In addition, many centralized cryptocurrency exchanges require user verification
 
 \section{Research Questions}
 \label{sec:research_questions}
-In this thesis, we focus on \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in electronic markets.
+In this thesis, we focus on the scientific challenges around \emph{knowledge discovery}, \emph{matchmaking} and \emph{settlement} in blockchain-based marketplaces.
 
 The overarching research question of this thesis is as follows:\\\\
 \emph{How can we decentralize and disintermediate the critical components of blockchain-based marketplaces?}\\\\
 To answer our research question, we address the following five key questions:
 
 \textbf{[RQ1] How can we build an efficient, scalable, and decentralized mechanism for the storage and dissemination of market information?}
-The way in which market information is shared and stored is essential in electronic marketplaces.
+As discussed, information management is essential in electronic marketplaces.
 Traditional marketplace store all market orders and product listings on a (centralized) server, which is prone to manipulation by the market operator.
-Blockchain-powered decentralized exchanges bundle all market information on a distributed ledger but has scalability limitations.
+Blockchain-powered decentralized exchanges bundle all market information on a distributed ledger but this has severe scalability limitations.
 Our goal is to build a scalable, tamper-proof and decentralized storage mechanism for market information.
 
 \textbf{[RQ2] How can we efficiently match market orders without centralized coordinator?}
 The predominant approach to order matchmaking in electronic markets is by using a centralized server, owned by the market operator.
 This approach, however, enables manipulation by the operator, resulting in an unfair system.
 Decentralized matchmaking has the potential to address fairness issues but is by far not scalable enough for usage by many marketplaces.
-We aim for an efficient matchmaking mechanism with fairness guarantees, not under the control of a single market operator.
+In addition, off-chain decentralized matchmaking is not much researched.
+We aim for an efficient and decentralized matchmaking mechanism with fairness guarantees, not under the control of a single market operator.
 
-\textbf{[RQ3] How can improve settlement durations of (international) payment infrastructures?}
+\textbf{[RQ3] How can we improve the settlement durations of (international) payments?}
+Secure settlement is a key requirement for electronic marketplaces.
+Trade is often settled using real-world currency that is managed by a bank.
 A major problem of current banking systems is that the settlement duration of a payment between two different (international) banks is significant, often in the order of days.
 Furthermore, these payments require significant transaction fees to cover back-office costs.
-Blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially lead to a reduction of costs and lower transaction fees.
+%Leveraging the ideas of blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially leads to cost reductions.
+Our goal is to improve the settlement duration of international payments by leveraging blockchain technology.
 
-\textbf{[RQ4] How can we exchange assets managed by different blockchains?}
+\textbf{[RQ4] How can we securely exchange assets between any blockchain without a trusted intermediary?}
 Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
 Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
-The main issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible or slow.
-The question is how to address these issues and enable fast asset trading between different exchanges.
+A key issue we identify, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible, slow, and/or requires significant changes to the protocol.
+We aim for a generic mechanism to exchange assets between any blockchain.
+%The question is how to address these issues and enable fast asset trading between different exchanges.
 
-\textbf{[RQ5] How can we apply blockchain technology to improve software crowdsourcing markets?}
+\textbf{[RQ5] How can we apply blockchain technology to disintermediate in software crowdsourcing markets?}
 The engineering of blockchain-based applications such as exchanges is a challenging task and requires engineers with appropriate qualifications.
 Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
-Recent research proposes to leverage blockchain technology
-Applying accountability and fraud detection could improve the software crowdsourcing process.
+Recent research proposes to leverage blockchain technology to disintermediate in these markets.
+However, the proposed solutions are not generic and there are remaining issues regarding settlement using different currencies, and the storage of information.
 
 \begin{table*}[t]
 	\small
@@ -608,31 +613,34 @@ This thesis consists of seven chapters.
 In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
 The content and contributions in each chapter are as follows:\\
 
-\textbf{[Chapter 2] ConTrib: Preventing Free-riding Behaviour with Decentralized Micro-accounting.}
-In this chapter, we address RQ1 and build a mechanism for the micro-accounting of market data.
-To date, there is no accounting mechanism that is optimized to record small resource exchanges in large-scale systems.
+\textbf{[Chapter 2] ConTrib: Preventing Free-riding Behaviour with Universal Resource Accounting.}
+In this chapter, we address RQ1 and build a mechanism for the accounting of information.
+To date, there is no accounting mechanism that is optimized to small pieces of information in large-scale shared-resource systems.
 We present \ModelName{}, a scalable mechanism for micro-accounting of community interactions.
-Each individual in \ModelName{} maintains a hash chain of tamper-evident \emph{micro-records}.
+Each individual in \ModelName{} maintains a \emph{personal ledger} of tamper-evident \emph{micro-records}.
 Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
-Manipulation is detected through continuous exploration of the DAG.
+Manipulation, specifically the forking of ones personal ledger, can be efficiently detected since users continuously share and validate micro-records.
 We devise a system architecture with flexible validation and fraud policies.
-Our evaluation reveals that \ModelName{} scales to at least 130'000 micro-records per second and that advanced manipulation (chain forking) is detected within mere seconds.
+Our evaluation reveals that that fraud is detected within mere 25 seconds and that \ModelName{} scales to at least 130'000 micro-records per second.
 We leverage \ModelName{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
 This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.
+We leverage the accounting capabilities of \ModelName{} for several of the other mechanisms in this thesis.
+This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 3] MATCH: Accountable and Generic Matchmaking for Decentralized Applications.}
-In this chapter, we partially address RQ2 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
+\textbf{[Chapter 3] MATCH: A Decentralized Middleware for Fair Order Matchmaking.}
+In this chapter, we address RQ2 and focus on the matchmaking problem, the process of bringing market participants together based on individual preferences.
 Matchmaking is a cardinal, yet overlooked prerequisite for a fully decentralized exchange.
 Although numerous companies have deployed infrastructure for matchmaking, there is currently no solution that can be deployed within different trading domains.
 We present MATCH, a middleware for generic order matching.
 Since MATCH is agnostic about order specifications, the resulting system is highly flexible and reusable.
-In this work, we first present an alternative approach to order matching, named \emph{decentralized matchmaking}.
-The main idea is that new orders are disseminated to multiple matchmakers simultaneously and shared between matchmakers.
-We then design and implement a novel matching protocol and a middleware with full support for both existing matchmaking paradigms and decentralized matchmaking.
-Finally, we extensively evaluate desired system properties of MATCH under a real-world ride-hailing and asset trading workload.
-Our main finding is that decentralized matchmaking exhibits superior fault tolerance and load balancing, at the cost of moderately increased bandwidth usage and order completion time.
+We present MATCH, a decentralized middleware for fair order matchmaking.
+By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end-users to make their own educated decisions and to engage in direct negotiations with trade partners.
+This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmaking.
+We implement MATCH and evaluate our middleware using real-world ride-hailing and asset trading workloads.
+It is demonstrated that MATCH maintains high matching quality, even in the presence of malicious matchmakers.
+Further, we show that the bandwidth, memory usage, and order fulfill latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
 This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
@@ -656,7 +664,7 @@ This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 5] Internet-of-Money: Applying Accountability to Enable Real-time International Money Transfers.}
+\textbf{[Chapter 5] Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds.}
 In this chapter, we answer RQ4 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
 We address the challenging problem of giving money to others and relying on them to forward it.
 To identity fraud, we account money transfers between interacting strangers.
