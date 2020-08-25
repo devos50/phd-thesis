@@ -133,7 +133,7 @@ Smart contracts enable developers to build secure, decentralized blockchain-base
 Arguably the most common DApp on the Ethereum blockchain is an ERC20 token, which enables developers to issue and manage custom tokens.
 Besides ERC20 tokens, the Ethereum blockchain hosts almost 3'000 DApps at the time of writing, including lotteries, games, asset markets, voting, prediction markets and decentralized lending solutions.\footnote{https://www.stateofthedapps.com}
 Despite the growing DApps ecosystem, it is non-trivial to revoke or disable a deployed smart contract when a software bug has been exploited.
-In 2016, the Ethereum network almost collapsed due to a re-entrance bug in the smart contract that managed the Decentralized Autonomous Organization (DAO)~\cite{mehar2019understanding}.
+In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed the Decentralized Autonomous Organization (DAO)~\cite{mehar2019understanding}.
 A hacker managed to compromise \$50 million worth of Ethereum tokens.
 As a result, the Ethereum foundation decided to split (\emph{hard-fork}) the network in two where one network builds upon the blockchain affected by the hack, and another network operates on an older version of the Ethereum blockchain.
 Since then, there has been much effort to build tools for developers to increase the security and correctness of smart contracts~\cite{breidenbach2018enter}.
@@ -219,7 +219,7 @@ Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is a
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\linewidth]{introduction/assets/decomposition}
-	\caption{A decomposition of blockchain-based marketplaces in five distinct components. We further decompose each component in identified approaches.}
+	\caption{A decomposition of blockchain-based marketplaces into five scientific challenges. We further decompose each challenge into identified solutions.}
 	\label{fig:electronic_markets}
 \end{figure}
 
@@ -232,14 +232,14 @@ This confusion is partially explained by the fact that electronic markets have m
 For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants.
 In the context of this work, we define a blockchain-based marketplace as \emph{a distributed marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
-Figure~\ref{fig:electronic_markets} shows the components of a blockchain-based marketplace.
-This figure is the result of our literature analysis, where we consider both published and unpublished material on electronic marketplaces that leverage blockchain technology.
-We identify the following five components in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
-We decompose these components into commonly used approaches.
-We now elaborate on each component and associated approaches.
+Figure~\ref{fig:electronic_markets} shows the scientific challenges of designing a blockchain-based marketplace.
+This figure is the result of our literature analysis, where we have read both published and unpublished material on electronic marketplaces that leverage blockchain technology.
+We identify the following five scientific challenges in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
+We decompose each challenge into commonly used solutions.
+We now elaborate on each challenge and associated approaches.
 
 \subsection{Information Management}
-Blockchain-based marketplaces require a mechanism to store and share market information.
+A key problem in blockchain-based marketplaces is where to store the market information.
 This market information includes product listings, outstanding orders, and details on historical transactions (which is often used to estimate the trustworthiness of market participants).
 Traditional electronic marketplaces take a centralized approach to information management and maintain all market data on their servers.
 The advantage of this approach is that centralized servers are relatively straightforward to set up and maintain.
@@ -258,11 +258,15 @@ Therefore, some blockchains have relatively high storage requirements, for examp
 Some blockchain-based marketplaces deploy one or more \emph{full nodes} that remain synchronized with the network and can be queried by market participants.
 These full nodes ensure quick bootstrapping in the network.
 
-\subsubsection{ InterPlanetary File System (IPFS)}
+\subsubsection{Distributed Filesystem}
 The high costs associated with storing data on a blockchain has motivated some blockchain-based marketplaces to leverage another storage mechanism besides a distributed ledger.
+Distributed file systems have proven to be a robust solution for the storage of binary data across a network.
+There is a wide range of research on using Distributed Hash Tables (DHTs) for the structured storage of key-value pairs~\cite{maymounkov2002kademlia}.
+PeerMart, a decentralized marketplace for trading of Internet resources, leverages a DHT to store pricing information on offered resources~\cite{hausheer2006peermart}.
+
 The InterPlanetary File System (IPFS) is a decentralized, peer-to-peer network for the storage of and access to files, website, applications, and data~\cite{benet2014ipfs}.
 IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework created for decentralized protocols.
-OpenBazaar, one of the most popular decentralized marketplaces, builds on IPFS to store and share market information.
+OpenBazaar, one of the most popular decentralized marketplaces, builds on IPFS to store and share market information~\cite{openbazaar}.
 FileCoin, a decentralized market for file storage, also leverages IPFS to store market data~\cite{benet2018filecoin}.
 %A common market type is a financial exchange where financial instruments like currencies or bonds are being traded.
 %The buy and sell orders in these markets are usually bundled in an \emph{order book}.
@@ -294,7 +298,7 @@ The main objective of a matchmaker is a quick and effective mediation between in
 Matchmakers match incoming offers and requests with other requests and offers, respectively, according to a \emph{matching policy}.
 
 \subsubsection{Centralized Matchmaking}
-\emph{Centralized matchmaking} is the most common approach to match market orders.
+\emph{Centralized matchmaking} is the most common solution to match market orders.
 Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
 This model is widely adopted by commercialized marketplaces such as stock exchanges (e.g., NYSE or NASDAQ) and resource-sharing markets (e.g., Uber and AirBnb).
 The EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} decentralized exchanges also adopt a centralized matchmaking model where all market orders are stored and matched on their servers.
@@ -319,7 +323,7 @@ Finally, centralized matchmaking exhibits low fault tolerance: if the single mat
 \subsubsection{Federated Matchmaking}
 %Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
 
-\emph{Federated matchmaking} is an alternative approach where instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
+\emph{Federated matchmaking} is an alternative solution where instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
 The set of matchmakers can either be static (e.g., elected by a committee or some voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker for others).
 A trader now submits new orders to their preferred matchmaker.
 The reliability or trustworthiness of individual matchmakers might impact this choice.
@@ -388,8 +392,9 @@ However, this model increases bandwidth usage since orders are replicated over m
 It also might take longer before a new order is fulfilled in the case that it is sent to matchmakers that are unable to match this order immediately.
 
 \subsection{Settlement}
-After two parties have agreed to trade, a value exchange must take place.
-The process of fulfilling the obligations by trading parties is called \emph{settlement}.
+Secure \emph{settlement} in blockchain-based marketplaces is a difficult research challenge.
+%After two parties have agreed to trade, a value exchange must take place.
+Settlement is the process of fulfilling the obligations by trading parties.
 In traditional marketplaces and many cryptocurrency exchanges, it is common practice to have a trusted intermediary settle a trade.
 A trade using a trusted intermediary completes as follows: two parties that agree on a trade transfer the assets for sale to one of the wallets owned by the trusted intermediary.
 When this intermediary has received both assets, it finishes the exchange by transferring the appropriate assets to the other party.
@@ -456,7 +461,8 @@ Interledger also supports bidirectional asset exchange but is vulnerable to a fr
 External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
 
 \subsection{Fraud Management}
-Fraud is a crucial concern in electronic marketplaces, in particular when a buyer and seller have never interacted before.
+The management of fraud is a crucial challenge in any marketplace and closely related to settlement.
+The risk of fraud typically occurs when a buyer and seller have never interacted before and therefore do not have a prior trust relation.
 A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
 In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
 Within blockchain-based marketplaces, however, counterparty fraud is often prevented since blockchain transactions are atomic: either both trading parties receive their assets, or nothing happens.
@@ -478,6 +484,7 @@ The XClaim protocol, for example, relies on collateral deposits to enable asset 
 When a participant deviates from the protocol, the collateral is slashed, and wronged actors are reimbursed.
 
 \subsection{Identity Management}
+The last identified research challenge in blockchain-based marketplaces is how to manage the digital identities of participants.
 Traders enter a blockchain-based marketplace under a digital identity.
 We discuss two approaches to identity management in blockchain-based marketplaces: using pseudonyms and using real-world identities.
 
