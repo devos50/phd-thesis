@@ -547,10 +547,10 @@ Applying accountability and fraud detection could improve the software crowdsour
 	\centering
 	\begin{tabular}{ |c|c|c|c| }
 		\hline
-		\textbf{Chapter} & \textbf{Mechanism} & \textbf{DAS5 experiments?} & \textbf{Deployment?} \\ \hline
-		2 & TrustChain & yes & yes, integration in Tribler \\ \hline
-		3 & MATCH & yes & yes, integration in Tribler \\ \hline
-		4 & XChange & yes & yes, integration in Tribler \\ \hline
+		\textbf{Chapter} & \textbf{Mechanism} & \textbf{DAS5 experiments?} & \textbf{Deployment} \\ \hline
+		2 & TrustChain & yes & integration in Tribler \\ \hline
+		3 & MATCH & yes & integration in Tribler \\ \hline
+		4 & XChange & yes & integration in Tribler \\ \hline
 		5 & Internet-of-Money & yes & in-house testing \\ \hline
 		6 & DevID & no & user trial \\ \hline
 	\end{tabular}
@@ -561,7 +561,7 @@ Applying accountability and fraud detection could improve the software crowdsour
 \section{Research and Engineering Methodology}
 Our work is largely inspired by the limitations of blockchain technology.
 Blockchain is a relatively new and immature technology which research is dispersed among economics, computer science and social sciences.
-We identify two fundamentally different approaches to the adopted research methodology in this field.
+We identify two fundamentally different approaches to the adopted research methodology in this field, further contributing to an ever-widening gap between theory and practice.
 On the one hand, published blockchain research in systems-oriented conferences (e.g., USENIX) adopt an experimental methodology where the performance of the proposed mechanism is systematically evaluated using a comprehensive set of experiments and benchmarks.
 On the other hand, there is a vast body of fundamental research on the security aspects of distributed ledgers and their consensus algorithms.
 This body of research tend to follow a more theoretical approach through the use of formal proofs or small-scale protocol simulations.
@@ -572,10 +572,10 @@ For all of our proposed mechanisms, the goal is to build a solution that is read
 Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of DAS5 experiments and/or whether we have conducted a real-world deployment.
 Except for DevID, we evaluate each component using an appropriate set of experiments that have been conducted on our DAS5 nation-wide compute cluster~\cite{bal2016medium}.
 
-Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of users or with an integration in Tribler~\cite{zeilemaker2011tribler}.
+Driven by our focus on feasibility, we have deployed each mechanism proposed in this thesis, either to a small group of users or with an integration in Tribler~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic testbed and offers decentralized, anonymous file-sharing capabilities.
-Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer hardware.
-We have evaluated TrustChain, for example, within Tribler to address free-riding behaviour.
+Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer-grade hardware.
+For example, we have integrated TrustChain in Tribler to prevent free-riding behaviour during anonymous downloads.
 This longitudinal deployment allowed us to incrementally improve our software and refine our ideas.
 To encourage reproducibility, we have published the implementation of each mechanism in a separate GitHub repository, including documentation and unit tests.
 Due to legal considerations, we do not provide an open-source implementation of the four reverse-engineered banking algorithms in our Internet-of-Money mechanism.
