@@ -61,15 +61,17 @@ In the remainder of this introduction, we elaborate on the concept of decentrali
 
 \section{Decentralization in Markets}
 \label{sec:decentralization}
-Decentralized systems such as BitTorrent~\cite{pouwelse2005bittorrent}, Tor, and Bitcoin~\cite{nakamoto2008bitcoin} have seen successful adoption.
-However, within the context of Internet-deployed systems, there is no established, standard definition of decentralization.
+This work introduces \emph{decentralized} solutions for blockchain-based marketplaces.
+BitTorrent~\cite{pouwelse2005bittorrent}, Tor, and Bitcoin~\cite{nakamoto2008bitcoin} are prominent examples of decentralized solutions that have seen successful adoption.
+However, there is no established, standard definition of decentralization within the context of Internet-deployed systems.
 In general, the term \emph{decentralization} is defined as \enquote{the dispersion or distribution of functions and powers}.
 It describes the process by which decision making is delegated away from a central, authoritative entity.
 Decentralization is widely used as a term within different branches of science, including economics, social sciences and computer science.
 
-In computer science, the term \emph{decentralization} is increasingly being used to indicate systems where decisions are not taken by a single entity and where the authority is spread over its network members.
+In computer science, the term decentralization is increasingly being used to indicate systems where decisions are not taken by a single entity and where the authority is spread over its network members.
 Decentralization is usually accredited as a desirable property of a computer system, reducing privacy threats and raising the bar to manipulate and take down the entire system by adversarial actors~\cite{troncoso2017systematizing}.
 To date, however, the vast majority of popular Internet applications are centralized systems, e.g., YouTube, Netflix and Facebook.
+During the last decade, these systems have accumulated an unprecedented amount of power and market share.
 Centralized systems are relatively easy to setup and maintain since they have a single point of control, in contrast to decentralized networks.
 %The original vision of the Internet is an example of a decentralized systems, consisting of many autonomous, interlinked nodes.
 
@@ -629,7 +631,7 @@ This chapter is based on the following publication:
 
 \todo{UNDER REVIEW}\\
 
-\textbf{[Chapter 3] MATCH: A Decentralized Middleware for Fair Order Matchmaking.}
+\textbf{[Chapter 3] MATCH: a Decentralised Middleware for Fair Matchmaking in Peer-to-peer Markets.}
 In this chapter, we address RQ2 and focus on the matchmaking problem, the process of bringing market participants together based on individual preferences.
 Matchmaking is a cardinal, yet overlooked prerequisite for a fully decentralized exchange.
 Although numerous companies have deployed infrastructure for matchmaking, there is currently no solution that can be deployed within different trading domains.
@@ -637,13 +639,13 @@ We present MATCH, a middleware for generic order matching.
 Since MATCH is agnostic about order specifications, the resulting system is highly flexible and reusable.
 We present MATCH, a decentralized middleware for fair order matchmaking.
 By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end-users to make their own educated decisions and to engage in direct negotiations with trade partners.
-This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmaking.
+This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmakinc	g.
 We implement MATCH and evaluate our middleware using real-world ride-hailing and asset trading workloads.
 It is demonstrated that MATCH maintains high matching quality, even in the presence of malicious matchmakers.
 Further, we show that the bandwidth, memory usage, and order fulfill latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
 This chapter is based on the following publication:
 
-\todo{UNDER REVIEW}\\
+Martijn de Vos, Georgy Ishmaev and Johan Pouwelse, \enquote{MATCH: a Decentralised Middleware for Fair Matchmaking in Peer-to-peer Markets}, \emph{Middleware, 2020.}\\
 
 \textbf{[Chapter 4] XChange: A Scalable Asset Marketplace based on Accountability.}
 In this chapter, we answer RQ3 and introduce XChange, an asset marketplace based on accountability guarantees.
