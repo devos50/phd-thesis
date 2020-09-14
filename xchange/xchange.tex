@@ -1,25 +1,11 @@
-\chapter{XChange: Generic Asset Trading in Resource-constrained Environments}
+\chapter{XChange: A Universal Mechanism for Asset Exchange between Permissioned Blockchains}
 \label{chapter:xchange}
 
-\emph{An increasing number of industries rely on Internet-of-Things devices to track physical resources.
-	Blockchain technology provides primitives to represent these resources as digital assets on a secure distributed ledger.
-	Due to the proliferation of blockchain-based assets, there is an increasing need for a generic mechanism to trade assets between isolated platforms.
-	To date, there is no such mechanism without reliance on a trusted third party. }
-	
-\emph{In this work, we address this shortcoming and present XChange.
-	%Unlike existing approaches for decentralized asset trading, we decouple trade management and the actual exchange of assets.
-	XChange mediates trade of \emph{any} digital asset between isolated blockchain platforms while limiting the fraud conducted by adversarial parties.
-	We first describe a generic, five-phase trading protocol that establishes and executes trade between individuals.
-	This protocol accounts full trade specifications on a separate blockchain.
-	%We show with a theoretical analysis that the effectiveness of fraud conducted by adversarial parties is limited.
-	We then devise a lightweight system architecture, composed of all required components for a generic asset marketplace.}
-	
-\emph{We implement XChange and conduct real-world experimentation.
-	We leverage an existing, lightweight blockchain, TrustChain, to account all orders and full trade specifications.
-	By deploying XChange on multiple low-resource devices, we show that a full trade completes within half a second.
-	To quantify the scalability of our mechanism, we conduct further experiments on our compute cluster.
-	We conclude that the throughput of XChange, in terms of trades per second, scales linearly with the system load.
-	Furthermore, we find that XChange exhibits superior throughput and order fulfil latency compared to related decentralized exchanges, BitShares and Waves. }
+\emph{Permissioned blockchains are increasingly being used as a solution to record transactions between companies. Several use cases that leverage permissioned blockchains focus on the representation and management of real-world assets. Since the amount of incompatible blockchains is quickly growing, there is an increasing need for a universal mechanism to exchange, or trade, digital assets between these isolated platforms. There currently is no asset exchange mechanism available without a requirement for trusted intermediaries or without the need to modify deployed blockchain applications.}
+
+\emph{We address this shortcoming and present XChange, a universal mechanism for asset exchange between permissioned blockchains. Our mechanism records the progression of each trade within records on a dis- tributed log. XChange limits the economic gains of adversaries that could have committed fraud during a trade by preventing them from engaging in other trades. By inspecting trade records in the distributed log, every participant can detect if a trader is refraining from fulfilling its obligations during an ongoing trade.}
+
+\emph{We first present a four-phased protocol that coordinates an asset exchange between two traders. We then outline how trade records can be stored on TrustChain, which is a lightweight distributed ledger specifically built for the tamper-proof storage of data elements. We implement XChange and conduct real- world experiments. A deployment on low-resource devices reveals that the latency added to a trade by XChange is only 493 milliseconds. A scalability evaluation shows that XChange achieves over 1 000 trades per second and that its throughput, in terms of trades per second, scales linearly with the system load.}
 
 \newpage
 
