@@ -20,13 +20,12 @@
 %In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-\dropcap{A} marketplace facilitates the exchange of services, goods and information between individuals and businesses~\cite{bakos1998emerging}.
-They play an essential role in our economy, enabling the exchange of value on a massive scale.
-Electronic commerce, or \emph{e-commerce}, makes up a large part of global conducted trade.
-A recent report estimates that e-commerce entails \$800 billion (the bottom-up estimate) to \$1.5 trillion (the top-down estimate)~\cite{ecommerceestimate}.
+\dropcap{A} marketplace facilitates the exchange of services, goods and information between individuals and businesses.
+They play an essential role in our economy, enabling the exchange of value on both a local and worldwide scale.
+Electronic commerce makes up a large part of global trade and builds on Internet technology to electronically buy or sell products and digital services.
 %The Internet provides the infrastructure to globally exchange information and to deploy large-scale electronic marketplaces, e.g., Amazon and eBay.
-Large-scale electronic marketplaces like Amazon and eBay have long dominated the field of e-commerce.
-During the last decades, however, companies acting in the \emph{sharing economy} (e.g., Uber and AirBnb) have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources (e.g., cars and houses) with strangers.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}.}
+Amazon and eBay are well-known examples of large-scale Internet marketplaces that connect buyers and sellers.
+During the last decades, however, companies acting in the \emph{sharing economy}, such as Uber and AirBnb, have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources such as cars and houses with strangers.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}.}
 %On electronic markets, traders routinely trade with other traders with whom they never interacted before, unlike in many physical marketplaces.
 %During the last decade, this effect has been amplified by companies acting in the \emph{sharing economy}, like Uber and AirBnb.
 %The notion of sharing personal resources with strangers (e.g., cars and houses) has long been perceived as unreliable.
@@ -36,39 +35,43 @@ During the last decades, however, companies acting in the \emph{sharing economy}
 %Second, the market has to facilitate transactions, including the delivery of goods from a seller to a buyer and associated payment flows.
 %Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
 
-The standard approach to devise electronic marketplaces is by deploying centralized infrastructure, entirely operated and managed by a market operator.
+The standard approach to devise electronic marketplaces is by deploying centralized infrastructure, entirely operated and managed by an authoritative market operator.
 This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and transaction processing (e.g., by providing payment services).
-Also, the market operator can acts as a trusted intermediary between buyers and sellers, leveraging its intermediate position to alleviate or address potential conflicts arising between traders.
-For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, mediates in case of a dispute, and process all payments made by passengers.
+Also, the market operator often acts as a trusted intermediary between buyers and sellers, leveraging its intermediate position to address potential conflicts arising between traders.
+For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, mediates in case of a dispute, and processes all payments made by passengers.
 Market intermediaries usually charge users for their services through transaction fees.
 
 Advancements in information technology, in particular blockchain technology, have challenged the need for both authoritative market operators and trusted intermediaries.
 The Bitcoin currency, powered by a tamper-proof distributed ledger, has demonstrated that it is possible to build a cash system, not under the ownership of a financial institution~\cite{nakamoto2008bitcoin}.
 Similarly, Ethereum enables developers to write legally-binding contractual logic without notaries~\cite{wood2014ethereum}.
 As we will elaborate, the notion of \emph{disintermediation}, removing trusted intermediaries, is closely related to the process of \emph{decentralization} where authority residing in a single entity is re-distributed over multiple entities.
-There is an increasing amount of research effort to disintermediate (parts of) electronic marketplaces and replace centralized components with decentralized solutions such as distributed ledgers.
+There is an increasing amount of research effort to disintermediate different aspects of electronic marketplaces and to replace centralized components with decentralized solutions such as distributed ledgers.
 
 This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based electronic marketplaces.
-A key characteristic of blockchain-based marketplaces is that economic activity emerges from the direct interactions between sellers with minimal involvement of trusted intermediaries.
-In this work, we design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
-These aspects include the storage and dissemination of market knowledge, matchmaking between buyers and sellers, and settlement.
-In the remainder of this introduction, we elaborate on the concept of decentralization and disintermediation, and outline blockchain-based marketplaces from a technical perspective.
+A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
+In this thesis, we design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
+These aspects include identity management, fraud management, information management, matchmaking and settlement.
+In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and describe the five aspects of blockchain-based marketplaces.
 %While the discussed mechanisms in this thesis focus on different aspects of marketplaces, their common goal is to identify the role of trusted intermediaries and assess if theyr . 
 %The remainder of this introduction is structured as follows:, we first outline the impact of the Internet as infrastructure to conduct trade.
 %Next, we show how blockchain technology makes it possible to devise marketplaces without middleman.
 %Then, we discuss the critical components of blockchain-based marketplaces and present existing approaches to realise each component.
 %Finally, we state the main research question that this thesis answers.
 
-\section{Decentralization in Markets}
+\section{Decentralization in Blockchain-based Markets}
 \label{sec:decentralization}
-This work introduces \emph{decentralized} solutions for blockchain-based marketplaces.
-BitTorrent~\cite{pouwelse2005bittorrent}, Tor, and Bitcoin~\cite{nakamoto2008bitcoin} are prominent examples of decentralized solutions that have seen successful adoption.
+This work introduces five \emph{decentralized} solutions for blockchain-based marketplaces.
+Therefore, it is key to understand what decentralization means in the context of this thesis, and how blockchain-based marketplaces achieve decentralization.
+%Specifically, we define the term \emph{decentralization} in the context of this work, and show how this concept is applied by blockchain-based marketplaces.
+
+\subsection{What is Decentralization?}
+The anonymous communication protocol Tor~\cite{syverson2004tor} and the digital currency Bitcoin~\cite{nakamoto2008bitcoin} are prominent examples of decentralized Internet solutions that have seen successful adoption.
 However, there is no established, standard definition of decentralization within the context of Internet-deployed systems.
-In general, the term \emph{decentralization} is defined as \enquote{the dispersion or distribution of functions and powers}.
-It describes the process by which decision making is delegated away from a central, authoritative entity.
+Decentralization is defined by Merriam-Webster as \enquote{the dispersion or distribution of functions and powers}.
+It describes the process by which decision making is delegated away from a central, authoritative entity, for example, delegating decision making from a government to provinces or municipalities within a country.
 Decentralization is widely used as a term within different branches of science, including economics, social sciences and computer science.
 
-In computer science, the term decentralization is increasingly being used to indicate systems where decisions are not taken by a single entity and where the authority is spread over its network members.
+In computer science, the term decentralization is increasingly being used to indicate systems where decisions are not taken by a single entity and where the authority is spread over the network members.
 Decentralization is usually accredited as a desirable property of a computer system, reducing privacy threats and raising the bar to manipulate and take down the entire system by adversarial actors~\cite{troncoso2017systematizing}.
 To date, however, the vast majority of popular Internet applications are centralized systems, e.g., YouTube, Netflix and Facebook.
 During the last decade, these systems have accumulated an unprecedented amount of power and market share.
@@ -77,7 +80,7 @@ Centralized systems are relatively easy to setup and maintain since they have a 
 
 \subsection{Blockchain Technology}
 Blockchain technology has profoundly shaped the notion of decentralization in the domain of governance and computer networks~\cite{aste2017blockchain}.
-In 2008, Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is (still) unknown.} introduced the Bitcoin cryptocurrency, a peer-to-peer cash system without banks.
+In 2008, Satoshi Nakamoto\footnote{A pseudonym. The real identity behind the pseudonym is unknown.} introduced the Bitcoin cryptocurrency, a peer-to-peer cash system without banks.
 Bitcoin challenged what has long been thought to be an impossible problem: reaching distributed consensus on data in open, large-scale networks without trusted intermediaries.
 At the core of Bitcoin is a \emph{blockchain}, a distributed ledger that is fully secured and maintained by participating users.
 The blockchain is a chain consisting of blocks, and each block contains one or more transactions.
@@ -90,7 +93,7 @@ This pointer makes the blockchain structure tamper-evident since the modificatio
 %In particular, there has been much interest from the open-source developer community to build and deploy decentralized applications powered by blockchain technology.
 %At the time of writing, there are \todo{X} decentralized applications running only on the Ethereum blockchain.
 
-The Bitcoin network maintains a single, authoritative copy of the blockchain that contains all transactions ever made.
+The Bitcoin network maintains a blockchain that contains all transactions ever made.
 In Bitcoin, users submit signed transactions and pay fees to get their transactions embedded on the blockchain.
 A particular group of users, also called \emph{miners}, reach \emph{consensus} on which block and transactions enter the blockchain.
 Miners periodically propose a new block with transactions to be appended to the current blockchain.
@@ -100,7 +103,7 @@ The first miner to present a correct solution to the network can append its prop
 Furthermore, the winning miner can collect all transaction fees of the transactions within the block.
 The parameters in this consensus algorithm, also called \emph{Proof-of-Work} (PoW), are fixed such that a new block is created roughly every ten minutes.
 
-Even though its profound impact, we point out three limitations of the Bitcoin cryptocurrency.
+Despite much hype surrounding the Bitcoin ecosystem, we point out three limitations of the Bitcoin cryptocurrency.
 First, the throughput of Bitcoin is theoretically limited to around seven transactions per second.
 This throughput is by far not sufficient to handle global financial traffic on its blockchain, which usually requires throughputs of tens of thousands transactions per second.
 For example, the VISA credit card company is processing X transactions per second at peak times.
@@ -110,22 +113,23 @@ Therefore, users have to wait for six additional blocks (around one hour) to be 
 Third, PoW is a CPU-intensive algorithm.
 Operating the Bitcoin network is estimated to consume as much energy as Kansas City~\cite{stoll2019carbon}.
 
-The limitations of Bitcoin and Bitcoin-derived cryptocurrencies have bootstrapped much research into more scalable consensus mechanisms.
+The limitations of Bitcoin and Bitcoin-derived cryptocurrencies have inspired much research into more scalable consensus mechanisms.
 On the one hand, much research effort concentrates on improving the scalability of PoW, mostly through parameter tuning~\cite{karame2016security}.
 On the other hand, entirely new consensus mechanisms have been designed that are not based on computing power.
-For instance, Proof-of-Stake (PoS) is an alternative consensus mechanism where the creator of the next block is chosen by combinations of random selection and ones wealth (stake) or age in the network~\cite{king2012ppcoin}.
-PoS is more scalable compared to PoW, however, a particular issue is that there is nothing at stake and users are free to vote for various, possibly conflicting blockchain histories.
+For instance, Proof-of-Stake (PoS) is an alternative consensus mechanism where the creator of the next block is chosen by combinations of random selection and the wealth (stake) or age of individuals in the network~\cite{king2012ppcoin}.
+PoS is more scalable compared to PoW, however, a particular issue is that there is nothing at stake.
+This means that miners are free to vote for various, possibly conflicting blockchain histories without repercussions.
 Delegated Proof-of-Stake (dPoS) is a semi-decentralized consensus algorithm where the members of an elected committee produce blocks in a round-robin fashion~\cite{larimer2014delegated}.
 Committee members that fail to produce a block within time can be voted out by other members.
 
-\subsection{Decentralized Applications (DApps)}
+\subsection{Decentralized Blockchain Applications}
 The functionality of Bitcoin and early cryptocurrencies is limited to the minting and transfer of blockchain-based currencies to other users.
 Ethereum~\cite{wood2014ethereum}, a blockchain solution released in 2015, was the first platform that enables developers to deploy \emph{smart contracts} on the blockchain ledger.
 Ethereum enables developers to write and deploy custom application logic on a blockchain.
-Smart contracts, first introduced by Nick Szabo in 1990, are self-enforcing computer programs that are automatically executed and reside on a blockchain~\cite{szabo1996smart}.
+Smart contracts, introduced by Nick Szabo in 1990, are self-enforcing computer programs that are automatically executed and reside on a blockchain~\cite{szabo1996smart}.
 A transaction in Ethereum can deploy a new smart contract on the blockchain or invoke a function of an existing smart contract.
 Users submitting transactions have to pay gas, the native currency of the Ethereum blockchain, to compensate miners.
-The amount of consumed gas depends on the computations executed by the function invocation, e.g., expensive operations such as encryption or hashing, consume more gas.
+The amount of consumed gas depends on the computations executed by the function invocation where expensive operations such as encryption or hashing consume more gas.
 
 %Smart contracts in Ethereum are written in the Solidity language.
 %Solidity is an object-oriented programming language designed for code execution on a blockchain and runs in the Ethereum Virtual Machine (EVM).
@@ -137,42 +141,42 @@ Besides ERC20 tokens, the Ethereum blockchain hosts almost 3'000 DApps at the ti
 Despite the growing DApps ecosystem, it is non-trivial to revoke or disable a deployed smart contract when a software bug has been exploited.
 In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed the Decentralized Autonomous Organization (DAO)~\cite{mehar2019understanding}.
 A hacker managed to compromise \$50 million worth of Ethereum tokens.
-As a result, the Ethereum foundation decided to split (\emph{hard-fork}) the network in two where one network builds upon the blockchain affected by the hack, and another network operates on an older version of the Ethereum blockchain.
+As a result, the Ethereum foundation decided to split the network in two where one network builds upon the blockchain affected by the hack, and another network operates on an older version of the Ethereum blockchain.
 Since then, there has been much effort to build tools for developers to increase the security and correctness of smart contracts~\cite{breidenbach2018enter}.
 
-\subsection{Centralized Exchanges}
+\subsection{Centralized Cryptocurrency Exchanges}
 At the time of writing, there are over 6'000 different cryptocurrencies across hundreds of blockchain platforms.\footnote{https://coinmarketcap.com/all/views/all/}
 The proliferation of different digital assets has resulted in the deployment of centralized cryptocurrency exchanges, operated by a market authority.
 On these exchanges, users can trade their cryptocurrency for other cryptocurrencies or fiat currencies such as Dollars or Euros.
-Cryptocurrency exchanges take a \emph{custodial} approach: users have to transfer their funds to one of the wallets owned by the market operator for their trade to complete.
+When using the services of a centralized cryptocurrency exchanges, users have to deposit their funds to a wallet owned by the market operator for their trade to complete.
 Users create orders to buy or sell their cryptocurrencies.
-The market operator then matches the buy or sell order with others and transfers the cryptocurrencies when a trading opportunity has been found.
+The market operator then matches the buy or sell order with existing orders and transfers the ownership of cryptocurrencies when a trading opportunity has been found.
 Currently, the biggest cryptocurrency exchange is Binance, with a 24-hour volume of \$16 billion at the time of writing.\footnote{https://coinmarketcap.com/rankings/exchanges/}
 
 Centralized exchanges can facilitate trade between an extensive range of different blockchains, as long as the market operator maintains wallets on the involved blockchains and can issue transactions in these blockchain networks to transfer the assets.
 Furthermore, they usually provide a convenient interface to users, making it easy to enter the market and participate in trade.
 Yet, the idea of having an authoritative market operator responsible for asset exchange conflicts with the vision of blockchain technology, which is to provide open, decentralized ecosystems without intermediaries.
 Users are required to trust that the market operator does not default and correctly executes a trade on behalf of the user.
-Even worse, market operators sometimes lack the required knowledge to quickly scale up their infrastructure to meet increasing demand, leading to platform unavailability or even the inability to withdraw deposited funds from wallets.
-Managed cryptocurrencies are usually stored in a single location by the market operator, making it an attractive and valuable target for hackers.
+Market operators sometimes lack the required knowledge to quickly scale up their infrastructure to meet increasing demand, leading to platform unavailability or even the inability to withdraw deposited funds from wallets.
+Furthermore, deposited cryptocurrencies are usually stored in a single location by the market operator, making it an attractive and valuable target for hackers.
 In 2016, hackers compromised assets from Mt. Gox, the biggest cryptocurrency exchange at that time~\cite{trautman2014virtual}.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\linewidth]{introduction/assets/bitshares}
-	\caption{An online explorer provided by the BitShares DEX, showing recent and outstanding asset orders on the BitShares blockchain.}
-	\label{fig:bitshares_explorer}
-\end{figure}
+%\begin{figure}[t]
+%	\centering
+%	\includegraphics[width=\linewidth]{introduction/assets/bitshares}
+%	\caption{An online explorer provided by the BitShares DEX, showing recent and outstanding asset orders on the BitShares blockchain.}
+%	\label{fig:bitshares_explorer}
+%\end{figure}
 
-\subsection{Decentralized Exchanges}
+\subsection{Decentralized Cryptocurrency Exchanges}
 Blockchain technology is increasingly being used to build decentralized exchanges, also called \emph{DEXes}, to trade cryptocurrencies.
 DEXes enable direct peer-to-peer trading without a market operator.
-The first generation of DEXes limits trading to assets residing on the same blockchain.
-On these DEXes, users can issue custom assets, transfer assets to others, and trade assets with other users by publishing buy and sell orders on the blockchain.
+Usually, a DEX only allows the trading of assets residing on the same blockchain.
+On these DEXes, users can create their own assets, transfer owned assets to others, and trade assets with other users by publishing buy and sell orders on the blockchain.
 These orders are then automatically matched by miners during the validation of new transactions.
-As we will further elaborate in Section~\ref{sec:matchmaking}, order matchmaking can also proceed outside the blockchain to increase efficiency, e.g., AirSwap~\cite{swap}.
-Notable examples include Waves and BitShares which have accumulated a market capitalization of \$168 million and \$71 million dollars respectively at the time of writing.\footnote{https://coinmarketcap.com}
-Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, showing recent and outstanding asset orders.\footnote{https://wallet.bitshares.org}
+As we will further elaborate in Section~\ref{sec:matchmaking}, order matchmaking can also proceed outside the blockchain to increase efficiency.
+Notable examples of DEXes include Waves and BitShares, which have accumulated a market capitalization of \$168 million and \$71 million dollars, respectively, at the time of writing.\footnote{https://coinmarketcap.com}
+%Figure~\ref{fig:bitshares_explorer} shows an online explorer of the BitShares blockchain, showing recent and outstanding asset orders.\footnote{https://wallet.bitshares.org}
 
 We identify four advantages of DEXes over centralized cryptocurrency exchanges.
 First, DEXes enhance security during the trading process; a trade is usually an atomic operation, and there is minimal risk of losing funds.
@@ -184,21 +188,21 @@ Despite these advantages, many DEXes currently suffer from low liquidity and tra
 Furthermore, their transaction throughput depends on the consensus model used by the underlying blockchain, which might make them unsuitable for bulk trading.
 Finally, as DEXes are a relatively new technology, the user experience for traders can be perceived as overwhelming, in contrast to traditional exchanges which often provide a user-friendly trading interface.
 
-\section{Disintermediation in Markets}
+\section{Disintermediation in Blockchain-based Markets}
 In many physical and electronic marketplaces middlemen play a key role in the matching of buyers and sellers, and facilitating transactions between traders~\cite{bakos1998emerging}.
 The popularity of electronic commerce and the rise of new market models has resulted in much interest to act as \emph{trusted intermediary} to benefit from their interactions~\cite{clark1999electronic}.
 A well-known example of a trusted intermediary is PayPal~\cite{paypal}, a payment service provider for retailers.
 Besides providing payment services, PayPal also acts as arbitrator when a dispute between a buyer and seller arises.
 The ability to act as trusted intermediaries is at the core of electronic markets and their services help to ensures that a trade between a buyer and seller who might not necessarily trust each other proceeds without issues.
 
-Despite their prominent role, they increase the costs when trading since trusted intermediaries are usually profit-driven and charge the involved traders for their services
-This replacement process is also called \emph{disintermediation}.
-Disintermediation is very much related to the concept of decentralization, specifically, disintermediation requires decentralization as its foundation (see Section~\ref{sec:decentralization})~\cite{guo2016blockchain}.
+Despite their prominent role, trusted intermediaries increase the costs when trading since they are usually profit-driven and charge the involved traders for their services.
+As such, there is much interest in removing trusted intermediaries from the trading process, or \emph{disintermediation}.
+Disintermediation is defined by Merriam-Webster as \enquote{the elimination of an intermediary in a transaction between two parties}.
+Disintermediation is very much related to the concept of decentralization, specifically, disintermediation requires decentralization as its foundation~\cite{guo2016blockchain}.
 The debate around disintermediation in electronic markets dates back to the rise of the Internet itself. % is a concept that pre-dates blockchain technology.
-The Internet provided infrastructure to provide users with quick and convenient access to market information, therefore opening opportunities to replace traditional broker agents which primary role was to aggregate this market information~\cite{wigand2020whatever}.
+The Internet provided infrastructure to provide users with quick and convenient access to market information, therefore opening opportunities to replace traditional broker agents whose primary role was to aggregate this market information~\cite{wigand2020whatever}.
 A clear example of disintermediation can be found in the book publishing market~\cite{giaglis1999disintermediation}.
-Information technology enables book buyers to quickly place their order and allows authors to only print their books when there is actual demand.
-This market process, called \emph{printing-on-demand}, removes the retailer from the traditional book supply chain.
+Information technology enables book buyers to quickly place their order and allows authors to only print their books when there is actual demand, therefore removing the retailer from the book supply chain.
 
 Bitcoin and subsequent blockchain-related innovations have further challenged the need for trusted intermediaries.
 For example, a financial institution acts as intermediary in traditional payment systems and handles all payment between different (possibly foreign) banks.
@@ -208,40 +212,40 @@ Since the introduction of Bitcoin, there has been much effort by both industry a
 In many scenarios, it has been proven to be possible to replace trusted intermediaries with cryptographic techniques.
 Yet, disintermediation is not always possible, nor desired.
 In many scenarios there is a need to safeguard certain processes by traditional trusted intermediaries, in particular in the financial sector.
-One might argue that electronic market require at the very least some trusted intermediary to act as mediator between buyer and sellers if a trade is not an atomic operation.
+One might argue that electronic markets require at the very least some trusted intermediary to act as mediator between buyer and sellers if a trade is not an atomic operation.
 Furthermore, local regulations might require a trusted intermediary for certain market processes, e.g., when there is a need to verify the identify of new or existing business relations (this is also known as Know-your-Customer).
 
 As also pointed out by other researchers, we argue that it is unlikely that electronic markets will be fully disintermediated by blockchain technology soon~\cite{zamani2018little}.
 Rather than complete disintermediation, it is more likely that the role of existing intermediaries will change and their responsibilities will be reduced.
 Financial institutions are currently exploring how distributed ledger technology can make existing settlement services more efficient and reliable, and how it will transform their role.
-Perhaps the most influential solution, Corda, is currently being deployed by R3, a consortium consisting world's leading financial institutions~\cite{brown2016introducing}.
+Perhaps the most influential solution, Corda, is currently being deployed by R3, a consortium consisting of the world's leading financial institutions~\cite{brown2016introducing}.
 Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is aimed to eventually replace the SWIFT payment infrastructure.
 %In practice, these solutions are not fully disintermediated since payments will still be processed by nodes operated by the involved financial institutions.
 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=\linewidth]{introduction/assets/decomposition}
-	\caption{A decomposition of blockchain-based marketplaces into five scientific challenges. We further decompose each challenge into identified solutions.}
+	\caption{The five aspects of blockchain-based marketplaces. For each aspect, we identify existing mechanisms.}
 	\label{fig:electronic_markets}
 \end{figure}
 
-\section{Blockchain-based Marketplaces}
+\section{Aspects of Blockchain-based Marketplaces}
 So far, we outlined how blockchain technology is being applied to build decentralized marketplaces and how cryptographic techniques are capable of replacing trusted intermediaries in existing electronic markets.
-Now, we will shift our focus to blockchain-based marketplaces and elaborate on its components.
+Now, we will shift our focus to blockchain-based marketplaces and elaborate on their aspects.
 First, it is crucial to carefully define what a blockchain-based marketplace means in the context of this work.
-We observe that there is much ambiguity around the concept of blockchain-based marketplaces in academic work and no unified definition.
-This confusion is partially explained by the fact that electronic markets have many components, and blockchain technology can be applied to multiple components.
-For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants.
-In the context of this work, we define a blockchain-based marketplace as \emph{a distributed marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
+We observe that there is much ambiguity around the concept of blockchain-based marketplaces in academic work.
+This confusion is partially explained by the fact that electronic markets have different aspects, and blockchain technology can be applied to multiple aspects.
+For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants~\cite{openbazaar}.
+In the context of this work, we define a blockchain-based marketplace as \emph{a marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
-Figure~\ref{fig:electronic_markets} shows the scientific challenges of designing a blockchain-based marketplace.
-This figure is the result of our literature analysis, where we have read both published and unpublished material on electronic marketplaces that leverage blockchain technology.
-We identify the following five scientific challenges in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
-We decompose each challenge into commonly used solutions.
-We now elaborate on each challenge and associated approaches.
+Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace.
+This figure is the result of our literature analysis, where we have read scientific material on electronic marketplaces that leverage blockchain technology.
+We identify the following five aspects in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
+We decompose each aspect into commonly used mechanisms.
+We now elaborate on each aspect and the existing mechanisms.
 
 \subsection{Information Management}
-Since blockchain-based marketplaces avoid using centralized data store, secure storage of market information is a key research challenge.
+Electronic markets in general require a mechanism to manage and store all market information.
 This market information includes product listings, outstanding orders, and details on historical transactions (which is often used to estimate the trustworthiness of market participants).
 Traditional electronic marketplaces take a centralized approach to information management and maintain all market data on their servers.
 The advantage of this approach is that centralized servers are relatively straightforward to set up and maintain.
@@ -254,7 +258,7 @@ We identify two conventional approaches to data storage and dissemination of mar
 \subsubsection{Distributed Ledger}
 Many blockchain-based marketplaces persist their market information on a distributed ledger, e.g., a blockchain.
 In this situation, the full market state is stored within transactions on a tamper-proof distributed ledger, secured by a consensus mechanism.
-New users interested in the current market state are download to request the entire distributed ledger from the network.
+New users interested in the current market state are required to download the entire distributed ledger from the network.
 Since blockchain is an append-only data structure, no information is ever removed from the distributed ledger.
 Therefore, some blockchains have relatively high storage requirements, for example, the entire Bitcoin blockchain requires around 290GB of storage at the time of writing.\footnote{https://www.blockchain.com/charts/blocks-size}
 Some blockchain-based marketplaces deploy one or more \emph{full nodes} that remain synchronized with the network and can be queried by market participants.
@@ -266,7 +270,7 @@ Distributed file systems have proven to be a robust solution for the storage of 
 There is a wide range of research on using Distributed Hash Tables (DHTs) for the structured storage of key-value pairs~\cite{maymounkov2002kademlia}.
 PeerMart, a decentralized marketplace for trading of Internet resources, leverages a DHT to store pricing information on offered resources~\cite{hausheer2006peermart}.
 
-The InterPlanetary File System (IPFS) is a decentralized, peer-to-peer network for the storage of and access to files, website, applications, and data~\cite{benet2014ipfs}.
+The InterPlanetary File System (IPFS) is a decentralized peer-to-peer network for the storage of and access to files, websites, applications, and data~\cite{benet2014ipfs}.
 IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework created for decentralized protocols.
 OpenBazaar, one of the most popular decentralized marketplaces, builds on IPFS to store and share market information~\cite{openbazaar}.
 FileCoin, a decentralized market for file storage, also leverages IPFS to store market data~\cite{benet2018filecoin}.
@@ -284,6 +288,33 @@ FileCoin, a decentralized market for file storage, also leverages IPFS to store 
 %A liquid market is often characterized by a low bid-ask spread.
 %The set of all ask or bid orders at a specific price is called a \emph{price level}.
 
+\begin{figure*}[t]
+	\centering
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/centralized_matchmaking}
+		\caption{\emph{Centralized matchmaking}: a new order is always sent to a single matchmaker.}
+		\label{fig:centralized_matchmaking}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/federated_matchmaking}
+		\caption{\emph{Federated matchmaking}: a new order is sent to one of the available matchmakers.}
+		\label{fig:federated_matchmaking}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.33\textwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=.9\linewidth]{introduction/assets/decentralized_matchmaking}
+		\caption{\emph{Decentralized matchmaking} a new order is sent to multiple matchmakers.}
+		\label{fig:decentralized_matchmaking}
+	\end{subfigure}
+	\caption{Three approaches for matchmaking. Traders create offers and requests (coloured green and red respectively), which are matched by matchmakers (depicted in blue).}
+	\label{fig:matching_architectures}
+\end{figure*}
+
 \subsection{Matchmaking}
 \label{sec:matchmaking}
 \emph{Matchmaking} between buyers and sellers is a prerequisite for online trade and therefore essential for any marketplace.
@@ -295,15 +326,18 @@ For example, prolonged suboptimal matching in a ride-hailing market like Uber in
 
 In many blockchain-based markets, a trader includes its buy or sell intentions in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{veit2003matchmaking}.
 This order is then sent to one or more matchmakers.
-In general, economic literature distinguishes between two types of orders: \emph{offers}, created by traders offering a specific asset, service, or resource, and \emph{requests}, created by interested buyers.
+In general, the economic literature distinguishes between two types of orders: \emph{offers}, created by traders offering a specific asset, service, or resource, and \emph{requests}, created by interested buyers.
 The main objective of a matchmaker is a quick and effective mediation between incoming offers and requests, based on the constraints and preferences included in each order.
 Matchmakers match incoming offers and requests with other requests and offers, respectively, according to a \emph{matching policy}.
 
+In Figure~\ref{fig:matching_architectures} we show three approaches for matchmaking: \emph{centralized matchmaking}, \emph{federated matchmaking}, and \emph{decentralized matchmaking}.
+We now elaborate on each approach.
+
 \subsubsection{Centralized Matchmaking}
-\emph{Centralized matchmaking} is the most common solution to match market orders.
+Centralized matchmaking (Figure~\ref{fig:centralized_matchmaking}) is the most common solution to match market orders.
 Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
 This model is widely adopted by commercialized marketplaces such as stock exchanges (e.g., NYSE or NASDAQ) and resource-sharing markets (e.g., Uber and AirBnb).
-The EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} decentralized exchanges also adopt a centralized matchmaking model where all market orders are stored and matched on their servers.
+Note that centralized matchmaking can be implemented with a replicated system architecture, to ensure fault tolerance and availability.
 
 Centralized matchmaking with a single server is relatively straightforward to implement since all network communication follows the client-server model, i.e., there is no synchronization required between peers.
 Also, since all orders are stored and matched by a single matchmaker, orders can be processed based on full market knowledge and therefore matched optimally with existing orders.
@@ -315,6 +349,10 @@ Information asymmetry between market operators and traders allows matchmakers to
 From a systems perspective, centralized matchmaking has lower scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period.
 Finally, centralized matchmaking exhibits low fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
 
+Within the context of blockchain-based marketplaces we find that centralized matchmaking is widely adopted by centralized cryptocurrency exchanges.
+For DEXes, this model is uncommon since matchmaking can proceed as part of the blockchain logic.
+Notable exceptions are the Ethereum-based exchanges EtherDelta~\cite{etherdelta} and IDEX~\cite{idex} that deploy one or more servers to store and match market orders.
+
 %EtherDelta maintains a single server that stores an order book with all active orders.
 %Traders can browse the order book and trade against orders in the order book.
 %The trades are finalized on the blockchain, and the order is then removed from the EtherDelta order book.\todo{custodial vs non-custodial}
@@ -325,13 +363,13 @@ Finally, centralized matchmaking exhibits low fault tolerance: if the single mat
 \subsubsection{Federated Matchmaking}
 %Figure \ref{fig:federated_matchmaking} illustrates an alternative model for order matching: federated matchmaking.
 
-\emph{Federated matchmaking} is an alternative solution where instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
-The set of matchmakers can either be static (e.g., elected by a committee or some voting mechanism), or dynamic (e.g., each peer can opt-in to become a matchmaker for others).
-A trader now submits new orders to their preferred matchmaker.
-The reliability or trustworthiness of individual matchmakers might impact this choice.
-The 0x~\cite{0x} and Swap trading protocols, enabling the trade of Ethereum tokens, have adopted the federated matchmaking model.
-Both protocols allow any user to act as matchmaker and therefore build an off-chain matchmaking network for orders.
-In practice, though, the most used matchmaker is the one provided by the protocol developers.
+Federated matchmaking (Figure~\ref{fig:federated_matchmaking}) is an alternative approach where instead of relying on a central matchmaker, multiple (independent) matchmakers individually maintain an order book.
+The set of matchmakers can either be static, e.g., elected by a committee or some voting mechanism, or dynamic, e.g., each peer can opt-in to become a matchmaker for others.
+A new order is submitted to one of the available matchmakers, selected by the order creator.
+The reliability or trustworthiness of individual matchmakers might impact the choice for the preferred matchmaker.
+When a matchmaker is suspected of mistreating incoming orders, or when the matchmaker is unreliable, traders can entrust their orders to another matchmaker instead.
+This approach increases robustness against failure of individual matchmakers since a trader can send its order to another available matchmaker in this situation.
+However, the market orders are fragmented now across different matchmakers, potentially leading to sub-optimal market efficiency compared to centralized matchmaking.
 
 %Blockchain-powered marketplaces based on the 0x and AirSwap protocols have adopted the federated matchmaking model~\cite{warren20170x}~\cite{oved2017swap}.
 %The 0x protocol uses off-chain order relaying and on-chain settlement, meaning that orders are created shared, and matched outside a blockchain.
@@ -348,10 +386,12 @@ In practice, though, the most used matchmaker is the one provided by the protoco
 %When a maker and taker agree on a trade, the taker submits the agreement to an Ethereum smart contract, upon which the trade is executed and on-chain assets are exchanged.
 %We remark that both 0x and Swap are limited to trading Ethereum-based digital tokens and can therefore not be used for order processing of any blockchain-based asset.
 
-Federated matchmaking allows traders to select their preferred matchmaker.
-When a matchmaker is suspected of mistreating incoming orders, or when the matchmaker is unreliable, traders can entrust their orders to another matchmaker instead.
-This approach increases robustness against failure of individual matchmakers since a trader can send their orders to another available matchmaker in this situation.
-However, the market orders are fragmented now across different matchmakers, potentially leading to less market efficiency and trading opportunities compared to centralized matchmaking.
+%Federated matchmaking allows traders to select their preferred matchmaker.
+
+The 0x~\cite{0x} and Swap trading protocols, enabling the trade of Ethereum tokens, have adopted the federated matchmaking model.
+Both protocols allow any user to act as matchmaker and therefore build an off-chain matchmaking network for orders.
+We observe, however, that the most used matchmaker is often the one provided by the protocol developers.
+This makes the added benefit of this approach, compared to centralized matchmaking, questionable.
 
 \subsubsection{Decentralized Matchmaking}
 The main idea of \emph{decentralized matchmaking} is that a single order is sent to multiple matchmakers simultaneously and matchmakers synchronize known orders with other matchmakers.
