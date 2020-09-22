@@ -454,29 +454,51 @@ We outline three settlement techniques commonly found in blockchain-based market
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.6\linewidth]{introduction/assets/atomic_swap}
+	\includegraphics[width=.7\linewidth]{introduction/assets/atomic_swap}
 	\caption{Sequence diagram of a successful HTLC-based atomic swap between Alice and Bob.}
-	\label{fig:atomic_swap}
+	\label{fig:atomic_swap_intro}
 \end{figure}
 
 \subsubsection{Atomic Swaps}
-The \emph{atomic swap} is a distributed coordination task that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary or other semi-trusted parties~\cite{herlihy2018atomic}.
-Atomic swaps enable two parties to exchange blockchain-based assets with atomic guarantees: the asset exchange either completes or fails for both parties at any given time.
-We elaborate on the involved operations during an atomic swap by considering an asset exchange between the public Bitcoin and Ethereum blockchains.
+The \emph{atomic swap} is a protocol that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
+Atomic swaps enable two parties to exchange blockchain-based assets atomically: the asset exchange either completes or fails for both parties at any given time.\footnote{We remark that the atomicity property of the atomic swap depends protocol on the security of the underlying blockchains. If one of the blockchains is compromised by adversaries, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.}
+Atomic swaps eliminate the risk of losing assets to an adversarial trader during the exchange.
+The main idea is that trading users lock assets in a specialized transaction on the blockchain and both acknowledge the receipt of assets within a specific time period.
+This is achieved with \emph{Hash-Timelock Contracts}, a special transaction that leverages hash locks and time locks.
+A hash lock is a restriction that prevents the transfer of funds until the pre-image of a provided hash is revealed.
+A time lock is a primitive that locks funds until a specific time and prevents funds from being locked up for an indefinite amount of time during an atomic swap.
+This time lock should be well above the block confirmation time of the underlying blockchain to prevent the loss of funds during a blockchain reorganization.
+In practice, this value is often fixed to 24 hours.
 
-Figure~\ref{fig:atomic_swap} visualizes the steps of an atomic swap between Alice and Bob, where Alice sells her Bitcoin in return for Ether (the native token of the Ethereum blockchain).
-First, Alice generates a random secret $ s $ and computes $ H(s) $, where $ H(\cdot) $ denotes a hash function.
-She then submits a hash-locked transaction, indicated by $ T_a(H(s)) $ (step \circled{1}), to the Bitcoin blockchain that transfers her Bitcoin to Bob's wallet address.
-A hash-locked transaction is only executed when the secret $ s $ is provided to it.
-Alice now sends $ H(s) $ to Bob (step \circled{2}).
-Bob then submits a transaction $ T_b(H(s)) $ with the same hash lock to the Ethereum blockchain, transferring his Ethereum to the account of Alice (step \circled{3}).
-Alice is now able to claim the assets held in custody by $ T_b(H(s)) $ (since she knows the value of $ s $), which in turn reveals $ s $ to Bob (step \circled{4}).
-Bob now completes the swap by submitting $ s $ to the $ T_a(H(s)) $ transaction on the Bitcoin blockchain, which unlocks the assets in $ T_a(H(s)) $ (step \circled{5}).
-To prevent the situation where assets are locked indefinitely if Alice refuses to reveal $ s $, Alice and Bob submit two additional time-locked transactions to ensure that assets in $ T_a(H(s)) $, respectively $ T_b(H(s)) $, can be claimed after some time $ t_1 $, respectively $ t_2 $.
-To address the situation where Alice claims the assets in both $ T_a(H(s)) $ and $ T_b(H(s)) $, it must hold that $ t_1 > t_2 $.
-These hash- and time-based agreements, also called Hashed Timelock Contracts (HTLCs), thus ensure trust-less, atomic asset exchange between trading parties, assuming that they claim the assets before the time-lock expires.
-Atomic swaps eliminate the risk of losing assets to an adversarial trader while trading.
-The HTLC atomic swap requires a total of four transactions.
+We further explain the atomic swap by considering an asset exchange between Alice and Bob.
+Figure~\ref{fig:atomic_swap_intro} visualizes an atomic swap between Alice and Bob, where Alice sells her Bitcoin in return for Ether (the native token of the Ethereum blockchain).
+The basic atomic swap, first described by Tier Nolan, consists of the following six steps:
+
+\textbf{Step 1.} Alice generates a secret value $ s $ and computes $ H(s) $ where $ H(\cdot) $ is a secure hash function.
+
+\textbf{Step 2.} Alice submits a hash-timelock transaction $ T_1 $ to the Bitcoin blockchain, locking her Bitcoin and using $ H(s) $ for the hash lock. A party can claim these Bitcoin with another transaction that provides $ s $ within a specific time duration.
+
+\textbf{Step 3.} Alice sends the value of $ H(s) $ to Bob.
+
+\textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Bitcoin and using $ H(s) $ for the hash lock.
+
+\textbf{Step 5.} Since Alice knows $ s $, she claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. This reveals pre-image $ s $ to Bob.
+
+\textbf{Step 6.} Bob now claims Alice's Bitcoin locked in $ T_1 $ by submitting a transaction, $ T_4 $, to the Bitcoin blockchain, containing $ s $. The asset exchange is now complete.
+
+The above protocol requires a total of four transactions.
+Note how Alice is not able to claim assets without providing the opportunity for Bob to claim her assets.
+
+%First, Alice generates a random secret $ s $ and computes $ H(s) $, where $ H(\cdot) $ denotes a hash function.
+%She then submits a hash-locked transaction, indicated by $ T_a(H(s)) $ (step \circled{1}), to the Bitcoin blockchain that transfers her Bitcoin to Bob's wallet address.
+%A hash-locked transaction is only executed when the secret $ s $ is provided to it.
+%Alice now sends $ H(s) $ to Bob (step \circled{2}).
+%Bob then submits a transaction $ T_b(H(s)) $ with the same hash lock to the Ethereum blockchain, transferring his Ethereum to the account of Alice (step \circled{3}).
+%Alice is now able to claim the assets held in custody by $ T_b(H(s)) $ (since she knows the value of $ s $), which in turn reveals $ s $ to Bob (step \circled{4}).
+%Bob now completes the swap by submitting $ s $ to the $ T_a(H(s)) $ transaction on the Bitcoin blockchain, which unlocks the assets in $ T_a(H(s)) $ (step \circled{5}).
+%To prevent the situation where assets are locked indefinitely if Alice refuses to reveal $ s $, Alice and Bob submit two additional time-locked transactions to ensure that assets in $ T_a(H(s)) $, respectively $ T_b(H(s)) $, can be claimed after some time $ t_1 $, respectively $ t_2 $.
+%To address the situation where Alice claims the assets in both $ T_a(H(s)) $ and $ T_b(H(s)) $, it must hold that $ t_1 > t_2 $.
+%These hash- and time-based agreements, also called Hashed Timelock Contracts (HTLCs), thus ensure trust-less, atomic asset exchange between trading parties, assuming that they claim the assets before the time-lock expires.
 
 \subsubsection{Fair Exchange}
 Fair exchange is a well-studied technique in computer science and is leveraged by a few blockchain-based marketplaces as settlement mechanism~\cite{pagnia2003fair}.
