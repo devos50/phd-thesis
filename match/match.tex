@@ -20,6 +20,78 @@
 
 \section{Introduction}
 \label{sec:introduction}
+
+The deployment of peer-to-peer markets by companies operating in the sharing economy has been hailed to boost the global economy~\cite{malhotra2014dark}.
+Beyond the promises of increased economic welfare, the broader appeal of the sharing economy also lies with the development of new modes for the sharing of unused or underutilized assets, such as cars and houses. %, not unlike other collaborative mechanisms such as crowdfunding and open-source software development. %Reference. Benkler, Y., 2006. The Wealth of Networks: How Social Production Transforms Markets and Freedom, http://benkler.org/Benkler_Wealth_Of_Networks.pdf.
+%While there is no single definition for the sharing economy, it can be considered as an umbrella term for novel technology-enabled peer-to-peer markets, enabling new types of interactions on a global scale.
+%It has been suggested that the key defining characteristics of sharing economy are markets enabling direct peer-to-peer exchange or rent of under-utilized assets and resources.
+%Given the inclusive character of the sharing economy label, the estimates of its size and impact vary. 
+Estimations on the impact of the sharing economy suggest an increase in global revenue from \$14 billion in 2014 to \$335 billion by 2025, partially enabled by major platforms such as Uber (ride-hailing) and AirBnb (house-sharing)~\cite{pwcsharingeconomy}. %Reference. PricewaterhouseCoopers. (2015). Consumer Intelligence Series "The Sharing Economy", https://www.pwc.com/us/en/technology/publications/assets/pwc-consumer-intelligence-series-the-sharing-economy.pdf
+%Major companies in the sharing economy are Uber (ride-hailing) and AirBnb (house-sharing).
+
+The effect of these platforms on peer-to-peer markets, however, is not unequivocal.
+It has been argued that market operators exploit their prominent position and charge high transaction fees for their role as intermediary~\cite{schor2016debating}. %Reference.  (Shapiro 2020) https://onlinelibrary.wiley.com/doi/abs/10.1111/ntwe.12160 
+Market operators gain unprecedented power through the control of all the key enabling elements for electronic marketplaces, including settlement, arbitrage, and matchmaking~\cite{oecd2019,pepper2019,azevedo2016}.
+%These developments stand in stark contrast with the promises of early peer-to-peer markets, that were envisioned as the enabler for open, fair, and competitive ecosystems~\cite{trastour2002}.
+%Currently, however, such markets are mostly enabled by opaque, proprietary matchmaking mechanisms provided by the market operator %Reference. (Shapiro 2020)
+The latter element is of particular interest as at the dawn of e-commerce matchmaking solutions were envisioned to create open, fair, and competitive markets on the Internet~\cite{trastour2002}.
+
+Matchmaking in electronic markets can be considered as the process of mediating between supply and demand~\cite{veit2002multi}.
+Currently, centralized matchmaking is the approach taken by most commercial market operators~\cite{azevedo2016,oecd2019}.
+With centralized matchmaking, market operators deploy proprietary servers that are optimized to efficiently match new buy and sell orders with existing ones within a specific domain.
+A key advantage of centralized matchmaking is that the market operator can match incoming orders with the (current) best compatible order since they maintain all market information.
+%This approach also enables more simple software integration with other domain-specific services provided by the market operator.
+
+Unfortunately, this also enables market operators to exploit the marketplace through the practices of unfair matchmaking to increase intermediary revenues~\cite{hannak2014}.
+Manipulation in the matchmaking process was exposed through analysis of different e-commerce platforms and financial exchanges~\cite{oecd2019,mavroudis2019libra}.
+%The scale of this problem is highlighted by the current antitrust investigation into Amazon’s suspected unfair treatment of customers by the European Commission ~\cite{ec2019}.
+%It has been also argued that these developments not only introduce unfair competition in e-commerce but can also hurt the effectiveness of emerging peer-to-peer markets. %Reference. (Callo) https://digitalcommons.law.uw.edu/cgi/viewcontent.cgi?article=1046&context=faculty-articles
+An emblematic example of this issue is the practices of Uber, implementing price discrimination and phantom matches to manipulate the behaviour of users~\cite{calo2017taking}. %Reference. (Shapiro) 
+It has recently been demonstrated through experiments that the matchmaking algorithm of Uber undermines revenues of drivers to the advantages of the platform operator~\cite{bokanyi2019ride}.
+As researchers point out, unfair matchmaking is a complex, multilayered issue that can not be mitigated only with algorithmic adjustments~\cite{bokanyi2019ride}.
+We suggest that this problem requires a next step towards a different approach to matchmaking in peer-to-peer markets.
+
+It is technologically feasible to have market participants carry out the matchmaking process themselves, without trusted operator.
+In particular, blockchain technology provides the means to record and match market orders on a distributed ledger~\cite{subramanian2017decentralized}.
+Smart contracts, self-executing programs stored on a blockchain, are capable of executing the matchmaking logic~\cite{luu2016making}.
+Even though it seems like an appealing solution to fairness issues, the consensus algorithm managing the blockchain ledger is vulnerable to various attacks against fairness, specifically, \emph{transaction re-ordering} and \emph{front-running}~\cite{eskandari2019,kolluri2018,judmayer2019}.
+These attacks effectively allow consensus participants to influence how specific orders are matched.
+In addition to these threats, scalability issues inherent to all the blockchain protocols based on a global consensus carry significant limitations on the speed of matchmaking, as we will experimentally show in Section~\ref{sec:experiments_ethereum}~\cite{daian2019}.
+
+%Currently, most of these advancements aim to provide decentralized alternatives to one of the key building blocks of e-commerce: settlement.%Reference. 
+%However, decentralized settlement is not sufficient to ensure fair markets~\cite{pesch2019fictions}. %Reference. https://journals.sagepub.com/doi/full/10.1177/0306312719838339
+%We suggest that an accompanying approach for decentralized matchmaking is the next logic step towards fair peer-to-peer markets.
+
+The ineffectiveness of matchmaking on a blockchain is also identified by various decentralized exchanges that are operated by a blockchain, also called DEXes~\cite{eskandari2019,warren20170x,idex}.
+%At the moment there are little to none solutions providing fair matchmaking in different markets.
+In response, these DEXes opt for a federated approach where any participant can host a matchmaking server and can act as a matchmaker.
+In practice, most orders in these DEXes are managed by servers that are under the control of the exchange operator and therefore still carry limitations on the achievable level of fairness desirable on such markets.
+
+In summary, there is a dilemma of choice between two desirable properties of matchmaking mechanisms.
+%These contradictions effectively create a dilemma of choice 
+\emph{Efficiency} of matchmaking achievable through the concentration of orders by a trusted central party, versus provable \emph{fairness} of matchmaking achievable with the transparency of decentralized on-chain matchmaking.
+We argue, however, that this dilemma does not present an insurmountable obstacle for the implementation of efficient and fair matchmaking solutions.
+
+\textbf{Contributions.}
+We present MATCH, a decentralized middleware for fair matchmaking in peer-to-peer markets.
+Our solution is based on the principle of strictly decoupling the matching process from the negotiation of trade agreements.
+Our first contribution is the MATCH protocol (Section~\ref{sec:protocol}) where any user can act as a matchmaker for others.
+Matchmakers store open orders created by users, match incoming orders with existing ones, and inform order creators about potential matches.
+Users then engage in trade negotiation with prospective counterparties.
+This approach makes MATCH highly resistant against matchmakers which deviate from a standard matching algorithm. 
+The second contribution is the generic MATCH middleware architecture (Section~\ref{sec:architecture}).
+MATCH does not rely on the specifications of orders, and is therefore re-usable across different trading domains.
+%Order creators disseminate a new order to multiple matchmakers while avoiding network- wide replication of orders.
+
+%We evaluate MATCH using workloads for ride-hailing and asset trading, reconstructed from real world traces.
+We devise the first decentralized and fair alternative to the Uber ride-hailing market (Section~\ref{sec:taxi_experiments}), to the best knowledge of the authors.
+%We consider ride-hailing (Section~\ref{sec:taxi_experiments}) as a paradigmatic case to demonstrate how fair matchmaking can be achieved without market operator, even when the majority of drivers actively prioritize their own ride services during matchmaking.
+Even when 75\% of all drivers prioritize their own ride services during matchmaking, negotiated matches in our market maintain a high quality.
+%Unlike centralized matchmaking where orders can be prioritized, hidden, or delayed by a market operator, MATCH provides fair matching for counter-parties who then engage in a peer-to-peer negotiation process with prospective trading partners. 
+Furthermore, with a real-world asset trading workload (Section~\ref{sec:asset_trading_experiments}) we show that MATCH is asset-agnostic, enabling the deployment of open and universal matchmaking infrastructures.
+%Our experiments demonstrate that MATCH exhibits excellent resistance against selfish matchmakers attempting manipulate matches, while establishing matches with high quality.
+Finally, we show that MATCH has bandwidth usage and order fulfil latencies that are several orders of magnitude lower compared to matchmaking on an Ethereum blockchain (Section~\ref{sec:experiments_ethereum}). 
+
 %For decades, the ability to facilitate trade at a global scale has been at the core of many established companies operating on the Internet.
 %In 1995, Craigslist already offered an unmoderated mailing list where strangers could meet, negotiate and trade.
 %A few years later, eBay enabled traders and merchants to trade physical goods in a trusted manner.
@@ -60,24 +132,30 @@
 %For example, the key objective of companies acting in the sharing economy, such as AirBnb (house sharing) and Uber (ride hailing), is to bring individuals together that can engage in an exchange of service or goods. %, is to act as trusted middleman for the services provided or requested by individual platform participants.
 %Similarly, matching prospective traders with each other is a requirement for e-commerce platform operators such as eBay and Amazon.
 
-Online commerce platforms are pervasively used in both traditional and emerging markets. %As a result, however, they increasingly become critical infrastructure in our society~\cite{oecd2019}\cite{azevedo2016} and, with raising influence of a few global players, a systemic risk to everyday consumers.
+%Online commerce platforms are pervasively used in both traditional and emerging markets. However, increasingly becoming critical infrastructure in our society, these platforms also bring systemic risks to everyday consumers~\cite{azevedo2016}\cite{oecd2019}.The full potential of these developments is hard to assess yet, but some key trends are already evident such as an unprecedented concentration of power by a few centralized intermediaries~\cite{pepper2019}.
+%The operators of these platforms gain unprecedented power over market flows through the control of all the key enabling elements for marketplaces, including settlement, arbitrage, and matchmaking mechanisms.
+%The latter element is of particular interest in this work as at the dawn of e-commerce matchmaking solutions were envisioned as key enabling elements for open and competitive ecosystems of marketplaces~\cite{trastour2002}.
+
+%As a result, however, they increasingly become critical infrastructure in our society~\cite{oecd2019}\cite{azevedo2016} and, with raising influence of a few global players, a systemic risk to everyday consumers.
 %However, as they increasingly become critical infrastructure in our society influenced by a few global platforms, it also brings systemic risks to everyday consumers ~\cite{oecd2019}\cite{azevedo2016}.
-However, increasingly becoming critical infrastructure in our society, these platforms also bring systemic risks to everyday consumers~\cite{azevedo2016}\cite{oecd2019}.
+
 %Facilitating wide range of interactions between individuals and businesses on the global scale these platform intermediaries start to dominate both traditional and new markets~\cite{oecd2019}.
-The full potential of these developments is hard to assess yet, but some key trends are already evident such as an unprecedented concentration of power by a few centralized intermediaries~\cite{pepper2019}.
-The operators of these platforms gain unprecedented power over market flows through the control of all the key enabling elements for marketplaces, including settlement, arbitrage, and matchmaking mechanisms.
-The latter element is of particular interest in this work as at the dawn of e-commerce matchmaking solutions were envisioned as key enabling elements for open and competitive ecosystems of marketplaces~\cite{trastour2002}.
+
 %The latter element is of particular interest in this work since matchmaking services built on the principles of semantic web became earlier building blocks of scalable e-commerce~\cite{trastour2002}. \todo{not clear how this sentence fits in logically. Why is it of particular interest? Because of semantic web? Because of early e-commerce - then why is it still relevant today?} 
 %At the same time development of proprietary matchmaking solutions has significantly outpaced academic research in this area making it difficult to assess wider societal and economic impact
 %Effective \emph{matchmaking} between users is an essential enabling component for electronic marketplaces.
 
-Matchmaking in electronic markets can be considered as the process of mediating between the supply and demand created by users~\cite{veit2002multi}.
-Furthermore, matchmaking can be seen as a universal element for the coordination of economic activity in general, ranging from the matching of asset suppliers to interested buyers, to the assignment of incoming workloads to idle computing resources.
-%Ineffective matchmaking by market operators not only decreases overall market efficiency and customer satisfaction, but also can result in price discrimination and unfair markets~\cite{Wu2015TheM}\cite{mikians2012}. #This sentence is redundant
-Currently, \emph{centralized matchmaking} is the approach taken by most commercial market operators~\cite{oecd2019}\cite{azevedo2016}.
-These operators deploy centralized matchmaking servers that are optimized to efficiently match new orders with the existing ones within a specific application domain, which has two main advantages.
-Firstly, the market operator can match incoming orders with the (current) best compatible order, since all orders are stored on their servers.
-Secondly, centralized matchmaking enables more simple software integration with other domain-specific services provided by the same market operator.
+%Matchmaking in electronic markets can be considered as the process of mediating between the supply and demand created by users~\cite{veit2002multi}.
+%Furthermore, matchmaking can be seen as a universal element for the coordination of economic activity in general, ranging from the matching of asset suppliers to interested buyers, to the assignment of incoming workloads to idle computing resources.
+
+%Currently, \emph{centralized matchmaking} is the approach taken by most commercial market operators~\cite{oecd2019}\cite{azevedo2016}.
+%These operators deploy centralized matchmaking servers that are optimized to efficiently match new orders with the existing ones within a specific application domain, which has two main advantages.
+%Firstly, the market operator can match incoming orders with the (current) best compatible order, since all orders are stored on their servers.
+%Secondly, centralized matchmaking enables more simple software integration with other domain-specific services provided by the same market operator.
+
+%Such opaque, algorithmic matchmaking mechanisms often can be exploited by market-operators to increase their intermediary revenues, through unfair match-making. These practices were identified through different e-comerce platforms [ref]. And the scale of this problem is highlighted by the current antitrust investigation into Amazon's suspected unfair treatment of customers by the European Commission~\cite{ec2019}. It has been also argued that these developments not only introduce unfair competition in e-commerce but can undermine the emerging sharing economy [ref].
+
+%Emblematic of these issue are practices of Uber - operator of ride-hailing platform, implementing price discrimination and phantom matches to manipulate behaviour of its users [ref,ref]. It has been also demonstrated with experimental setups that Uber matchmaking algorithm undermines revenues of participants to the advantages of platforms operator[ref]. As researchers also point out this is a complex, multilayered issues that can not be mitigated only with adjustments in matchmaking algorithms[ref]. We suggest that this problem requires a radical re-thinking the role of trusted third parties as matchmakers. Decentralized matchmaking systems can be a first step towards mitigation of systemic risks stemming from the abuse of privileged intermediary position by market operators.
 
 %Ineffective matchmaking by market operators not only decreases overall market efficiency and customer satisfaction, but also can result in price discrimination and unfair markets~\cite{Wu2015TheM} \cite{mikians2012}.
 %For example, in a ride-hailing marketplace like Uber, it is key to match nearby drivers and passengers in a timely and efficient manner.
@@ -98,13 +176,13 @@ Secondly, centralized matchmaking enables more simple software integration with 
 
 %For these reasons centralized matchmaking is the approach taken by the most commercial market operators.
 %Unfortunately, due to the the proprietary nature of deployed matching algorithms they are specified and controlled by the market operator. 
-Unfortunately, many electronic markets deploy in-house, proprietary matchmaking solutions integrated with price personalization and recommender systems, fully specified and controlled by the market operator~\cite{hannak2014}.\footnote{Recommender systems can also be used to enable \enquote{price steering} by market operator - manipulating the order of search results for products and services in order to nudge users.}
+%Unfortunately, many electronic markets deploy in-house, proprietary matchmaking solutions integrated with price personalization and recommender systems, fully specified and controlled by the market operator~\cite{hannak2014}.\footnote{Recommender systems can also be used to enable \enquote{price steering} by market operator - manipulating the order of search results for products and services in order to nudge users.}
 %This raises up a question of contradictions between commercial interests of operators and the objectivity of chosen criteria for matchmaking efficiency~\cite{azevedo2016}.
 %Ineffective matchmaking by market operators not only decreases overall market efficiency and customer satisfaction, but also can result in price discrimination and unfair markets~\cite{Wu2015TheM} \cite{mikians2012}.
-Thus, market operators have the capability to modify the matching algorithm so that it gives an (unfair) advantage to specific users \cite{mikians2012}\cite{azevedo2016}.
-Consequentially, the orders of a user might not be matched with the currently best compatible order, resulting in a system that is void of any transparency in the matchmaking process.
-In this model users have to rely on the trustworthiness of the market operator to conduct the matchmaking of their orders in a fair manner and not to engage in price discrimination or other manipulative practices.
-The scale of this problem is highlighted by the current antitrust investigation into Amazon's suspected unfair treatment of customers by the European Commission~\cite{ec2019}.
+%Thus, market operators have the capability to modify the matching algorithm so that it gives an (unfair) advantage to specific users \cite{mikians2012}\cite{azevedo2016}.
+%Consequentially, the orders of a user might not be matched with the currently best compatible order, resulting in a system that is void of any transparency in the matchmaking process.
+%In this model users have to rely on the trustworthiness of the market operator to conduct the matchmaking of their orders in a fair manner and not to engage in price discrimination or other manipulative practices.
+%The scale of this problem is highlighted by the current antitrust investigation into Amazon's suspected unfair treatment of customers by the European Commission~\cite{ec2019}.
 %The most recent and particularly disturbing illustration is the illegal gouging of prices on the products sold directly by Amazon itself in the heat of COVID-19 epidemic \cite{talmon2020}. 
 
 %Specifically, this server iterates through all existing orders to find matches, based on a matching policy.
@@ -120,24 +198,24 @@ The scale of this problem is highlighted by the current antitrust investigation 
 %As a result, there exists a large range of non-compatible infrastructure for matchmaking in electronic markets.
 %\end{itemize}
 
-Recently, however, the necessity of a trusted centralized market operator has been challenged by the advancements in decentralized technologies such as blockchain.
+%The necessity of a trusted centralized market operator has been challenged by the advancements in decentralized technologies such as blockchain.
 %Advancements in decentralized technologies, e.g., blockchain technology, have questioned the role of trusted intermediaries.
-Blockchain technology provides the means to manage a distributed ledger on which users can securely transfer value (e.g., Bitcoin~\cite{nakamoto2019bitcoin}) or deploy decentralized applications (e.g., Ethereum~\cite{wood2014ethereum}) without explicit approval from a trusted third party.
-Decentralized exchanges (DEXes) operating on the basis of blockchain facilitate the trade of digital assets or services without the requirement for a market operator~\cite{subramanian2017decentralized}.
+%Blockchain technology provides the means to manage a distributed ledger on which users can securely transfer value (e.g., Bitcoin~\cite{nakamoto2019bitcoin}) or deploy decentralized applications (e.g., Ethereum~\cite{wood2014ethereum}) without explicit approval from a trusted third party.
+%Decentralized exchanges (DEXes) operating on the basis of blockchain facilitate the trade of digital assets or services without the requirement for a market operator~\cite{subramanian2017decentralized}.
 % have resulted in a new type of electronic market: blockchain-based exchanges, or DEXes.
 %The problem of efficient matchmaking is re-visited with the deployment of decentralized exchanges based on blockchain technology, also called DEXes.
 %These exchanges, also called DEXes, enable traders to securely trade cryptocurrencies and digital assets without a central market operator.
 %No trusted third party is needed for the exchange of value, unlike most existing electronic marketplaces.
 %In contrast to existing electronic marketplaces, markets powered by blockchain technology, also called DEXes, enable traders to securely exchange digital tokens without a trusted third party.
-The existing research on DEXes addresses the question on \emph{how} to securely exchange value between users, but deems order matchmaking as uninteresting or out of scope~\cite{daian2019}.
-Some DEXes provide one or more matchmaking servers that process market orders~\cite{eskandari2019} ~\cite{idex}\cite{warren20170x}.
-In practice, however, these approaches rely on a few or a single server and therefore still carries limitations on the achievable level of fairness and transparency desirable on such markets.
-Alternatively, the (on-chain) deployment of order matchmaking algorithms on a blockchain addresses the issue of transparency.
-Yet, scalability issues inherent to all the blockchain protocols based on a global consensus carry significant limitations on the speed at which matchmaking can be conducted (also see Section~\ref{sec:experiments_ethereum})~\cite{daian2019}.
-Apart from that, such on-chain implementations based on smart contracts where time and order of transaction execution is critical, demonstrate vulnerability to \emph{transaction re-ordering} and \emph{front-running} attacks ~\cite{eskandari2019}\cite{kolluri2018}\cite{judmayer2019}.
-These contradictions effectively create a dilemma of choice between two desirable properties of matchmaking mechanisms.
-Efficiency of matchmaking achievable through the concentration of orders by a trusted central party, versus provable fairness of matchmaking achievable with the transparency of decentralized on-chain matchmaking.
-We argue, however, that these contradictions do not present an insurmountable obstacle for the implementation of efficient and fair matchmaking solutions. 
+%The existing research on DEXes addresses the question on \emph{how} to securely exchange value between users, but deems order matchmaking as uninteresting or out of scope~\cite{daian2019}.
+%Some DEXes provide one or more matchmaking servers that process market orders~\cite{eskandari2019} ~\cite{idex}\cite{warren20170x}.
+%In practice, however, these approaches rely on a few or a single server and therefore still carries limitations on the achievable level of fairness and transparency desirable on such markets.
+%Alternatively, the (on-chain) deployment of order matchmaking algorithms on a blockchain addresses the issue of transparency.
+%Yet, scalability issues inherent to all the blockchain protocols based on a global consensus carry significant limitations on the speed at which matchmaking can be conducted (also see Section~\ref{sec:experiments_ethereum})~\cite{daian2019}.
+%Apart from that, such on-chain implementations based on smart contracts where time and order of transaction execution is critical, demonstrate vulnerability to \emph{transaction re-ordering} and \emph{front-running} attacks ~\cite{eskandari2019}\cite{kolluri2018}\cite{judmayer2019}.
+%These contradictions effectively create a dilemma of choice between two desirable properties of matchmaking mechanisms.
+%Efficiency of matchmaking achievable through the concentration of orders by a trusted central party, versus provable fairness of matchmaking achievable with the transparency of decentralized on-chain matchmaking.
+%We argue, however, that these contradictions do not present an insurmountable obstacle for the implementation of efficient and fair matchmaking solutions. \todo{Georgy (I commented out the contributions)}
 
 %is often performed by a centralized server that collects buy and sell orders, and match them. 
 %This centralized approach, however, stands in stark contrast to the decentralized ecosystems that blockchain technology enables.
@@ -176,21 +254,29 @@ We argue, however, that these contradictions do not present an insurmountable ob
 
 %Traditionally, this is performed by a centralized entity.
 
-\textbf{Contributions.}
-We present \emph{MATCH}, a decentralized middleware for fair order matchmaking, based on the principle of strictly decoupling the matching process from the negotiation of trade agreements. 
-The contribution of this work can be summarized as follows.
-Our first contribution is the MATCH \emph{protocol} where any user can act as a \emph{matchmaker} for others.
-Matchmakers store open orders created by users, matches incoming orders with existing ones, and inform order creators about potential matches.
-%Unlike deployed centralized approaches, the role of matchmakers is to \emph{notify} order creators about matching orders and potential counterparties; users then contact these potential counterparties and engage in a peer-to-peer negotiation process.
-Unlike the centralized matchmaking mechanism where orders can be prioritized, hidden, or delayed by a market operator, MATCH provides fair matching for counter-parties who then engage in a peer-to-peer negotiation process with prospective trading partners.
-And, since users themselves are ultimately responsible for deciding who they will negotiate with, MATCH exhibits resistance against matchmakers which deviate from an agreed matching algorithm.
-Order creators disseminate a new order to multiple matchmakers while avoiding network-wide replication of orders.
+%\textbf{Contributions.}
+%We present \emph{MATCH}, a decentralized middleware for fair order matchmaking, based on the principle of strictly decoupling the matching process from the negotiation of trade agreements. We evaluate MATCH using two workloads for ride-hailing and asset trading, reconstructed from real world traces. We consider ride-hailing as a paradigmatic case to demonstrate fair decentralized mechanisms for matchmaking. Unlike the centralized matchmaking mechanism where orders can be prioritized, hidden, or delayed by a market operator, MATCH provides fair matching for counter-parties who then engage in a peer-to-peer negotiation process with prospective trading partners.
 
-The second contribution is the MATCH middleware for fair order matchmaking.
-MATCH does not rely on the specifications of orders, and is therefore re-usable across different trading domains.
-We evaluate MATCH using two workloads for ride-hailing and asset trading, reconstructed from real-world traces.
-Our experiments demonstrate that MATCH exhibits excellent resistance against matchmakers that pursue selfish interests, while establishing matches with high quality.
-Furthermore, we show that MATCH has memory, bandwidth usage, and order fulfill latency that are several orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
+%Furthermore, with asset trading experiment we show that MATCH does not rely on the specifications of orders, and is therefore re-usable across different trading domains. Our experiments demonstrate that MATCH exhibits excellent resistance against selfish matchmakers attempting manipulate matches, while establishing matches with high quality. Furthermore, we show that MATCH has memory, bandwidth usage, and order fulfill latency that are several orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
+
+%Our main contribution is the MATCH protocol itself where any user can act as a matchmaker for others.
+%Matchmakers store open orders created by users, matches incoming orders with existing ones, and inform order creators about potential matches.
+%And, since users themselves are ultimately responsible for deciding who they will negotiate with, MATCH exhibits resistance against matchmakers which deviate from an agreed matching algorithm. 
+%Order creators disseminate a new order to multiple matchmakers while avoiding network-wide replication of orders. 
+
+%The contribution of this work can be summarized as follows.
+%Our first contribution is the MATCH \emph{protocol} where any user can act as a \emph{matchmaker} for others.
+%Matchmakers store open orders created by users, matches incoming orders with existing ones, and inform order creators about potential matches.
+%Unlike deployed centralized approaches, the role of matchmakers is to \emph{notify} order creators about matching orders and potential counterparties; users then contact these potential counterparties and engage in a peer-to-peer negotiation process.
+%Unlike the centralized matchmaking mechanism where orders can be prioritized, hidden, or delayed by a market operator, MATCH provides fair matching for counter-parties who then engage in a peer-to-peer negotiation process with prospective trading partners.
+%And, since users themselves are ultimately responsible for deciding who they will negotiate with, MATCH exhibits resistance against matchmakers which deviate from an agreed matching algorithm.
+%Order creators disseminate a new order to multiple matchmakers while avoiding network-wide replication of orders.
+
+%The second contribution is the MATCH middleware for fair order matchmaking.
+%MATCH does not rely on the specifications of orders, and is therefore re-usable across different trading domains.
+%We evaluate MATCH using two workloads for ride-hailing and asset trading, reconstructed from real-world traces.
+%Our experiments demonstrate that MATCH exhibits excellent resistance against matchmakers that pursue selfish interests, while establishing matches with high quality.
+%Furthermore, we show that MATCH has memory, bandwidth usage, and order fulfill latency that are several orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
 %First, in comparison to centralized exchanges, MATCH provides traders with an environment in which that is  \emph{fairness}.
 %Second, MATCH is designed around \emph{reliability} and can deal with crash failures of individual brokers.
 %Finally, MATCH is \emph{reusable} across different domains that require brokering of homogeneous orders, e.g., the sharing economy, peer-to-peer energy trading and decentralized cryptocurrency exchanges.
@@ -261,34 +347,41 @@ Furthermore, we show that MATCH has memory, bandwidth usage, and order fulfill l
 %We argue that the availability of such an order book 
 %To the best of our knowledge, we are the first to explore order brokering from the context of decentralized markets.
 
-\section{Centralized Order Matchmaking}
+%\newpage
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{match/assets/central_exchange_architecture}
+	\caption{A generic model for centralized matchmaking in peer-to-peer markets, using a single matchmaking server.}
+	\label{fig:central_exchange_architecture}
+\end{figure}
+
+\section{Towards Decentralized Matchmaking}
 \label{sec:centralized_order_matchmaking}
-We introduce the required components for our system by first considering a centralized matchmaking architecture.
-In this architecture, a single server stores and matches incoming orders.
+In our approach, users in a peer-to-peer market conduct the matchmaking process themselves.
+To elaborate on the components used in our solution, we first devise a generic, centralized model for matchmaking.
+We then identify technical concerns that arise when decentralizing this model.
 
-\subsection{A Generic Model for Centralized Order Matchmaking}
-A generic model for centralized order matchmaking is visualized in Figure~\ref{fig:central_exchange_architecture}.
-%We first explain a centralized approach to order matching and elaborate how a matchmaker processes orders, see Figure~\ref{fig:central_exchange_architecture}.
-Users create orders, which they then submit to the matchmaking server using a public API.
-Many electronic markets deploy one or more gateways that filter out invalid orders and mitigate targeted attacks on the server such as a DDoS attack~\cite{mavroudis2019libra}.
-Valid orders are inserted in the \emph{order book}, which is a local data structure that bundles all active and valid orders.
-%The implementation of the order book is often optimized to process orders with a specific format as quickly as possible.
-To prevent orders from being stored in the order book for an indefinite amount of time, each order usually times out after a specific duration.
-The order is then removed from the order book.
+\subsection{Centralized Matchmaking}
+We devise a generic model for centralized matchmaking in peer-to-peer markets, see Figure~\ref{fig:central_exchange_architecture}.
+This model is the starting point for our fair matchmaking solution and is inspired by existing architectures that have been widely used by financial markets~\cite{mavroudis2019libra,veit2003matchmaking}.
+Users create \emph{orders}, which they then submit to the matchmaking server.
+An order specifies interest to buy or sell assets, resources, or services (orders are further discussed in Section~\ref{sec:order_creation}).
+Many markets deploy one or more gateways that filter out invalid orders and mitigate targeted attacks on the matchmaking server, such as a DDoS attack~\cite{mavroudis2019libra}.
+Valid orders are inserted in the \emph{order book}, a local data structure that bundles all open and valid orders.
 
-Upon the insertion of a new order in the order book, the order is forwarded to the \emph{matching engine}.
+Upon the insertion of a new order in the order book, it is forwarded to the \emph{matching engine}.
 This component searches for existing orders in the order book that match with the newly submitted order.
 In particular, an incoming order should be matched with the current best compatible order(s).
 Whether two orders match is predicated by a \emph{matching policy}.
-For example, the price-time matching strategy is a predominant matching policy in financial trading systems~\cite{mavroudis2019libra}.
-This particular policy first matches orders based on their price and then based on their creation time as a tie-breaker (prioritizing older orders).
-The matching engine can establish multiple matches for a single order.
-For example, a buy order for a large quantity of stocks in a stock market can be matched with multiple (smaller) sell orders.
-When the matching engine has found one or more matches for an order, the matches should be \enquote{executed}, which is an application-dependent operation.
-In a financial exchange, for example, the assets as specified in the matched orders should be exchanged between the order creators (this operation is also called settlement).
-We model the component that executes established matches as the \emph{trading mechanism} (TM), which we consider external to the matchmaking architecture in Figure~\ref{fig:central_exchange_architecture}.
-After established matches have been executed by the TM, the affected orders in the order book are updated (or removed if they are completed), and the order creators are notified of the execution.
-Upon receiving a notification from the trading mechanism, the order creator internally updates the state of their affected order.
+For example, the price-time strategy is a predominant matching policy in financial markets where orders are first matched based on their price and then on their creation time (prioritizing older orders)~\cite{mavroudis2019libra}.
+The matching engine can establish multiple matches for a single order, e.g., a buy order for a large number of assets can be matched with multiple (smaller) sell orders.
+Established matches should be \enquote{executed}, which is an application-dependent operation.
+In a financial exchange, for example, the specified assets in the matched orders should be exchanged between the order creators.
+In a ride-hailing market, however, the driver and passenger should be put in contact with each other.
+We model the component that executes established matches as the \emph{trading mechanism} (TM), which we consider external to the model in Figure~\ref{fig:central_exchange_architecture}.
+After established matches have been executed by the TM, the affected orders in the order book are updated (or removed if they are completed), and the order creators are notified of the match execution.
+%Upon receiving a notification from the trading mechanism, the order creator internally updates the state of their affected order.
 %We assume that the TM executes matches in a first-come-first-serve manner.
 %After a match has been executed, the matched orders in the order book are updated (or removed if the order is completed), and the order creators are notified about this event.
 %This unit \enquote{executes} the established matches and ensures that the creators behind these orders trade the services as specified.
@@ -306,47 +399,39 @@ Upon receiving a notification from the trading mechanism, the order creator inte
 %This model is widely adopted by commercialized marketplaces such as stock exchanges or peer-to-peer service markets like Uber.
 %This matchmaker listens for new orders and matches incoming orders them with existing orders in the market.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=.8\linewidth]{match/assets/central_exchange_architecture}
-	\caption{A generic model for centralized order matchmaking, using a single server.}
-	\label{fig:central_exchange_architecture}
-\end{figure}
-
-\subsection{Towards Fair Order Matchmaking}
+\subsection{Decentralized Matchmaking}
 \label{sec:towards_fair_reliable_matchmaking}
-The model in Figure~\ref{fig:central_exchange_architecture} allows the server operator to conduct unfair matchmaking, that is, manipulate the matching engine or policy to prioritize the orders of specific users.
-In this work, we design a protocol (Section~\ref{sec:protocol}) and middleware (Section~\ref{sec:architecture}) that address this fairness issue.
-A key design principle of our solution is to avoid reliance on any trusted market operator for order matchmaking.
-%In particular, we propose a decentralized mechanism where any user can act as a matchmaker for others.
-%\subsection{Towards Decentralized Order Matchmaking}
-%\label{sec:towards_decentralized}
-%Given the shift towards decentralized approaches without trusted intermediaries, we devise a decentralized order matchmaking architecture, not operated by a trusted intermediary and suitable for an Internet deployment.
+The model in Figure~\ref{fig:central_exchange_architecture} allows the server operator to conduct unfair matchmaking by manipulating the matching engine (or policy) to hide, prioritize, or delay specific orders.
+To address this situation, we propose a solution where users (order creators) themselves carry out matchmaking while ensuring that no single user can authoritatively decide on how the orders of other users are executed.
+We first consider a basic, decentralized architecture where every user operates a single matchmaking server.
+A user then submits a new order to all matchmaking servers, and all servers forward established matches to the same TM.
+The TM executes incoming matches in a FCFS manner.
+%If an adversary now manipulates a strict subset of matchmaking servers, the TM would still be able to execute the best match for an order among all found matches by simply aggregating the incoming matches for a specific order during some time.
+%If there is at least one honest matchmaker that has established the current best match for a specific order, the TM should execute this match, therefore nullifying the impact of the manipulation.
+This approach, however, raises the following technical concerns:
 
-As a first step towards decentralized matchmaking, we replicate the matchmaking server in Figure~\ref{fig:central_exchange_architecture} $ n $  times (where $ n > 1 $).
-In this replicated matchmaking model, a user submits a new order to all $ n $ matchmaking servers, and all matchmaking servers forward established matches to the same TM.
-If the market operator did manipulate a strict subset of matchmaking servers, the TM would still be able to execute the best match for an order among all matches found by the matchmaking servers by simply aggregating the incoming matches for a specific order during some time.
-If there is at least one honest matchmaker that has established the current best match for a specific order, the TM will execute this match, therefore nullifying the impact of the manipulation by the market operator.
-However, this replicated matchmaking architecture raises the following performance and correctness concern:
-
-\emph{1) Is it required to disseminate a new order to all matchmaker servers?}
-In the replicated matchmaking model, we assume that a user sends a new order to all matchmaking servers.
-This results in full replication of the order book, under the assumption that all matchmaking servers eventually receive every new order.
-The problem is that a flooding-based message dissemination strategy leads to a serious performance degradation when the number of matchmaking servers increases, as illustrated by deployed peer-to-peer applications like Gnutella~\cite{chawathe2003making}.
-We address this concern by sending a new order to a small, random subset of all matchmaking servers (further described in Section~\ref{sec:order_dissemination}).
-
-\emph{2) How does a replicated matchmaking system process matches of the same order found by distinct matchmaking servers?}
+\emph{1) How does a decentralized matchmaking architecture process matches of the same order found by distinct matchmaking servers?}
 Deploying a single matchmaking server prevents the situation where distinct matchmaking servers submit the same or different (valid) matches for the same order to the TM.
-%Our replicated architecture can result in the scenario where distinct matchmakers submit different (valid) matches for the same order.
-Assuming a FCFS execution of incoming matches by the TM, having multiple matchmaking servers sending matches to the TM can result in the situation where matches of the same order are executed multiple times, resulting in an incorrect order state.
-To ensure correctness, our replicated matchmaking architecture requires logic to avoid that the same match is executed multiple times.
-When performing matchmaking on a blockchain, this issue is addressed by reaching consensus on a serialized sequence of the matches that are to be executed.
-Unfortunately, reaching this consensus is a resource-intensive process and severely limits the efficiency of blockchain technology for matchmaking, as we will experimentally show in Section~\ref{sec:experiments_ethereum}~\cite{vukolic2015quest}.
-Our answer to this correctness concern is to have matchmakers only \emph{notify} users about potential matches.
-Users then initiate negotiation with potential trade counterparties (further described in Section~\ref{sec:order_negotiation}).
-Upon reaching a trade agreement, both negotiating parties forward this agreement to the TM.
-The TM executes incoming trade agreements.
+Assuming a FCFS execution of incoming matches by the TM, having multiple matchmaking servers sending matches to the TM likely results in the situation where matches of the same order are executed multiple times, resulting in an incorrect order state.
+To ensure correctness, our replicated matchmaking architecture requires additional coordination. % to avoid that the same match is executed multiple times.
+
+One solution involves the periodic execution of a Byzantine fault tolerant consensus protocol by matchmaking servers to decide which matches are sent to the TM.
+Unfortunately, reaching consensus is a resource-intensive process and existing protocols, e.g., PBFT~\cite{castro1999practical} or Proof-of-Work~\cite{gervais2016security}, do not scale when the number of matchmaking servers or orders increases~\cite{vukolic2015quest}.
+We avoid the need for consensus by having users \emph{negotiate} trade agreements with potential counterparties (further described in Section~\ref{sec:order_negotiation}).
+Upon a positive negotiation outcome, these trade agreements, digitally signed by both parties, are sent to the TM and executed.
+Matchmakers only \emph{notify} users about potential matches for their orders.
+Since it is in the best interest of users to correctly manage their orders, rational users will not sign trade agreements that would result in an incorrect order state.
+
+%Users then initiate negotiation with potential trade counterparties (further described in Section~\ref{sec:order_negotiation}).
+%Upon reaching a trade agreement, both parties forward this agreement to the TM.
+%The TM executes incoming trade agreements.
 %Negotiating parties submit the negotiation outcome to the TM if they reached a trade agreement, which is then executed.
+
+\emph{2) Is it required to disseminate a new order to all matchmaking servers?}
+In the architecture described above, a user sends a new order to all matchmaking servers.
+This results in full replication of the order book, under the assumption that all matchmaking servers eventually receive every new order.
+The problem is that a flooding-based dissemination strategy leads to severe performance degradation when the number of matchmaking servers increases, as illustrated by deployed peer-to-peer applications like Gnutella~\cite{chawathe2003making}.
+We address this concern by sending a new order to a small, random subset of all matchmaking servers such that it is still likely that at least one honest matchmaking server receives compatible orders (further described in Section~\ref{sec:order_dissemination}).
 
 %If we assume that the MPU processes orders in a first-come-first-serve manner, matchmakers with a malicious intent can attempt to be the first to submit a sub-optimal match for some order to the MPU.\todo{relate to on-chain matching}
 %As an alternative, the MPU can collect multiple incoming matches and after some timeout, make a selection on which matches to execute.
@@ -358,7 +443,7 @@ The TM executes incoming trade agreements.
 %Furthermore, the MPU should not execute the same incoming match twice.\todo{relate to blockchain matching}
 %\item \emph{How can we prevent that sub-optimal matches established by a malicious broker are accepted by the match processor?}
 
-In the remainder of this work, we further elaborate on our solution for fair order matchmaking, named \emph{MATCH}.
+%In the remainder of this work, we further elaborate on our solution for fair order matchmaking, named \emph{MATCH}.
 
 %We consider an architecture where the brokering functionality is replicated over $ n $ potentially adversarial entities in the network.
 %Traders disseminate new orders to all $ n $ brokers in the network.
@@ -374,17 +459,16 @@ In the remainder of this work, we further elaborate on our solution for fair ord
 \end{figure*}
 
 \section{System and Threat Model}
-We now elaborate the system and threat model of MATCH.
+We address the aforementioned concerns and present a decentralized middleware for fair matchmaking, named \emph{MATCH}.
+We now outline the system and threat model of MATCH.
 %In this work, we specifically focus on resistance against matchmakers that pursue selfish interests.
 %The aim of MATCH is not to find a Pareto-efficient matching, which is not how most electronic markets operate.
 %This model is predominant choice of most electronic marketplaces.
 %If incentives are required, the MPU can award the matchmakers upon finding a successful match.
 %The threat model focusses on  fairness and reliability.
-
 % Does not need to work for millions! What's a reasonable network size?
-
-\subsection{System Model}
-We first provide a system model that specifies the market and order model, actors, and assumptions on the network.
+%\subsection{System Model}
+%We first provide a system model that specifies the market and order model, actors, and assumptions on the network.
 
 \textbf{Market and order model.}
 %Matchmaking depends on the individual constraints and preferences of market participants.
@@ -392,14 +476,15 @@ We first provide a system model that specifies the market and order model, actor
 %This order is then submitted to a broker.
 %Each order can have multiple attributes attached, e.g., a price or a location.
 %The main objective of a broker is a quick and effective mediation between incoming offers and requests.
-We adopt a continuous-auction model where incoming orders are matched in an opportunistic, first-come-first-serve (FCFS) manner.
-To model a two-sided market with supply and demand, we introduce two order types: \emph{offers} and \emph{requests}.
-Offers indicate interest to sell specific assets, services, or resources whereas requests signal an interest in buying these assets, services or resources.
+We adopt a continuous market model where orders are matched in a FCFS manner.
+This model is commonly used by peer-to-peer markets (e.g., by Uber).
+To represent a two-sided market with supply and demand, we introduce two order types: \emph{offers} and \emph{requests}.
+Offers, respectively requests, indicate interest to sell, respectively buy specific assets, services, or resources.
 %Besides a few required fields (see Section~\ref{sec:order_creation}), the order specification is not fixed.
-To ensure re-usability across different domains, matchmakers in MATCH can host multiple order books and therefore manage orders with differing specifications.
-Each order has a quantity $ q $, which is an integer value indicating the amount of assets, services or resources being offered or requested.
-The state of an order can be either \emph{open} (when the order has a positive quantity, $ q > 0 $), \emph{completed} (when all quantity in the order has been traded, $ q = 0 $), \emph{canceled} (when the order has been canceled by its creator) or \emph{expired} (when the timeout of the order has expired).
-The structure and content of an order is elaborated in Section~\ref{sec:order_creation}.
+To ensure re-usability across different markets, matchmakers in MATCH can host multiple order books and manage orders with differing specifications.
+Each order has a quantity $ q $, which is an integer value indicating the number of assets, services, or resources being offered or requested.
+The state of an order can be either \emph{open} (when the order has a positive quantity, $ q > 0 $), \emph{completed} (when all quantity in the order has been traded, $ q = 0 $), \emph{cancelled} (when the order has been cancelled by its creator) or \emph{expired} (when the timeout of the order has expired).
+The structure and content of an order are further elaborated in Section~\ref{sec:order_creation}.
 %Offers and requests of the same type are stored in the same order book.
 %Many electronic markets exclusively process homogeneous assets, services or resources that can be expressed with a fixed number of attributes.
 %Therefore, we limit the expressiveness of orders in this work such that it considers only homogeneous items.
@@ -410,9 +495,10 @@ The structure and content of an order is elaborated in Section~\ref{sec:order_cr
 %.  % \todo{we limit to one-dimensional matchmaking}
 
 \textbf{Actors.}
-Peers in the MATCH network can act as \emph{user}, \emph{matchmaker}, or both.
-Users submit offers and requests to peers that act as matchmaker.
-MATCH requires active participation of users in order to negotiate with other users (also see Section~\ref{sec:order_negotiation}) and thus requires users to be online for their order to be completed.
+We refer to an entity in the MATCH network as a \emph{node}.
+A node can act as a \emph{user}, \emph{matchmaker}, or take on both roles.
+Users disseminate offers and requests to matchmakers.
+MATCH requires the active participation of users to negotiate with other users and thus requires users to be online for their order to be completed (also see Section~\ref{sec:order_negotiation}).
 %Matchmakers store incoming orders from users in their order books and attempt to match them with exiting ones.
 %This incentive could further be improved further by introducing monetary incentives such as transaction fees, which is outside the scope of this work.
 %MATCH requires users to remain online while their order is not completed. %, and to ensure availability when negotiate a trade with matched parties.
@@ -432,32 +518,36 @@ MATCH requires active participation of users in order to negotiate with other us
 
 \textbf{Network.}
 We aim for MATCH to be deployed in a WAN environment.
-We consider an unstructured peer-to-peer network where each peer (user or matchmaker) knows the network addresses of all matchmakers.
-This can be achieved by maintaining a list of matchmakers, e.g., on a website or through a decentralized publishing network like the Kademlia DHT.
-New matchmakers enroll themselves on this list while matchmakers leaving the network un-enroll from this list.
-As we will show in Section~\ref{sec:order_dissemination}, MATCH is able to deal with offline  matchmakers that are still enrolled on the list.
+We consider an unstructured peer-to-peer network where each node knows the network addresses of active matchmakers.
+This can be achieved by maintaining a list of matchmakers, e.g., on a website or through a decentralized publishing network like the Kademlia DHT~\cite{maymounkov2002kademlia}.
+New matchmakers enrol themselves on this list while matchmakers leaving the network un-enrol from this list.
+As we show in Section~\ref{sec:order_dissemination}, MATCH is able to deal with offline matchmakers that are still enrolled on the list.
 Users periodically download the latest version of this list to keep up with the set of active matchmakers in MATCH.
 %Users periodically synchronize their local copy of this list with the latest published version.
 
 %Each peer in the network can act as a user, matchmaker, or both.
-Each peer possesses a public and private key, used to identify the peer and to sign outgoing network messages, respectively.
-Thus, all messages between peers are authenticated.
-We assume that the digital identity of each peer in MATCH is tied to a real-world identity, preventing uncontrolled identity creation (potentially resulting in a Sybil attack).
+Each node possesses a public and private key.
+The public key is used to identify the node in the network whereas the private key is used to sign all outgoing network messages.
+%Messages between nodes are authenticated.
+We assume that the digital identity of each node in MATCH is tied to a real-world identity, preventing uncontrolled identity creation (also known as the Sybil Attack)~\cite{douceur2002sybil}.
 %Identity validation should be performed by a Registration Authority (RA) which is external to our system.
 This is not an unrealistic requirement since many electronic marketplaces already impose identity verification in order to participate~\cite{damiani2003managing}.
+Identity verification can, for example, be achieved by using the services of a centralized registration authority.
+We note, however, that a centralized dependency might be undesirable in marketplaces with a decentralized structure.
+In such marketplaces, we encourage the use of (semi-)decentralised solutions for identity management, like self-sovereign identities~\cite{muhle2018survey,stokkink2020truly}.
 
-\subsection{Threats to Fairness}
+\textbf{Threat Model.}
 \label{sec:threat_model}
-In this work, our threat model orients around \emph{malicious matchmakers} that pursue selfish interest and match incoming orders according to their own policy.
-For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the hidden request instead, all without being exposed.
-The motivation to deviate from an agreed matching policy is often driven by economic incentives, e.g., when a matchmaker wants to match its own orders first.
-Malicious matchmakers affect market fairness since incoming orders could now be treated unequally.
-Matchmakers can also collude with other malicious matchmakers in order to gain economic benefit as a group.
-We assume that cryptographic protocols are secure and that malicious matchmakers are unable to forge digital signatures.
+In this work, our threat model orients around \emph{malicious matchmakers} that deviate from a standard matching policy and match incoming orders according to a custom policy.
+For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the hidden request instead.
+This threat model also captures collusion, the situation where a subset of matchmakers agrees to match orders according to a custom policy to gain economic benefit as a group.
+Malicious matchmakers are often driven by economic incentives, e.g., when a matchmaker wants to prioritize its own orders or when a group of matchmakers collectively attempt to drive competitors out of business by ignoring their orders.
+Malicious matchmakers directly affect market fairness since they treat incoming orders unequally.
+We assume that cryptographic protocols are secure and that the computational power of adversaries is bounded.
 %Specifically, an individual broker is able to deploy a custom matching policy which differs from the expected policy.
 %One cannot distinguish a peer that went offline or a peer that deliberately refuses to respond to incoming messages.
 %The MATCH protocol must take the presence of such peers into account.\todo{rewrite}
-%This also means that any broker can decide to ignore incoming orders and not process then further, essentially censoring the orders created by specific peers.
+%This also means that any broker can decide to e incoming orders and not process then further, essentially censoring the orders created by specific peers.
 %This is indistinguishable from the situation where a benign broker has crashed.
 
 %By a real-world evaluation with a realistic ride-hailing and asset trading workload, we show that our middleware shows desired system properties, like accuracy, fault-tolerance and resistance against malicious matchmakers.
@@ -679,24 +769,24 @@ We assume that cryptographic protocols are secure and that malicious matchmakers
 \section{The MATCH Protocol}
 \label{sec:protocol}
 We visualize the MATCH protocol and the message exchange between users and matchmakers in Figure~\ref{fig:match_data_flow}.
-In summary, the protocol proceeds as follows.
+The key idea behind our protocol is matchmakers only inform users about matches, and that users negotiate a trade directly with counterparties.
+%In summary, the protocol proceeds as f.
 First, users send new offers and requests to one or more matchmakers (\textcircled{1} + \textcircled{2}).
-Matchmakers match incoming orders with existing orders in their order books, and notify users about potential matches (\textcircled{3}).
+Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (\textcircled{3}).
 Users aggregate potential matches of a specific order in a match queue.
-Some period after receiving the first match for a specific order, a user selects an item stored in the associated match queue (\textcircled{4}), starting with the best match, and negotiates with the user behind the matched order (\textcircled{5} - \textcircled{7}).
-When the negotiating parties reach a trade agreement (in other words, intend to fulfill their orders with each other), they execute the negotiated trade agreement by sending it to the TM (\textcircled{8} + \textcircled{9}).
-These parties then inform the matchmakers about the trade so they can update the state of the affected orders accordingly (\textcircled{10} + \textcircled{11}).
-The matchmakers are also informed on a negative negotiation outcome.
+Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (\textcircled{4}), starting with the best match, and negotiates with the user behind the matched order (\textcircled{5} - \textcircled{7}).
+When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (\textcircled{8} + \textcircled{9}).
+The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (\textcircled{10} + \textcircled{11}).
+The matchmakers are also informed about a negative outcome during the negotiation process.
 If an order is still open, a user selects the next best item from the associated match queue, if it is non-empty, and initiates the next negotiation process.
 This repeats until the match queue is empty or the order is completed.
-The MATCH protocol is now explained in more detail.
+The steps in the MATCH protocol are now further explained.
 
-\begin{lstlisting}[language=json,firstnumber=1,float=t,caption=Example of an order in a ride-hailing market (in JSON format).,label=lst:order_example]
-{
-"timestamp": "2020-02-24T09:09:19+0000",
+\begin{lstlisting}[language=json,firstnumber=1,float=b,caption=An order in a ride-hailing market (in JSON format).,label=lst:order_example]
+{"timestamp": "2020-02-24T09:09:19+0000",
 "type": "RIDE",
 "timeout": 3600,
-"is_offer": false,
+"is_offer": false, // request for transportation
 "public_key": "82ae2f8f0c473cbdf63b920...",
 "signature": "d54af87c8f8e6d917729d14...",
 "identifier": 5,
@@ -704,8 +794,7 @@ The MATCH protocol is now explained in more detail.
 "data": {
 "latitude": "40.712776",
 "longitude": "-74.005974"
-}
-}
+} }
 \end{lstlisting}
 
 \subsection{Order Creation}
@@ -713,10 +802,10 @@ The MATCH protocol is now explained in more detail.
 In MATCH, users create new orders to indicate their willingness to buy or sell resources, services and assets.
 Listing~\ref{lst:order_example} exemplifies the structure of an order in MATCH that specifies a transportation request in a ride-hailing market.
 This order, in JSON format, includes the waiting location of the order creator in the \texttt{data} field.
-The content of the \texttt{data} field is flexible and depends on the trading context in which the order is created.
+The content of the \texttt{data} field is flexible and depends on the context in which the order is created.
 It can contain many attributes and constraints that affect how the order is matched.
 Each order has a \texttt{type} field which is a string value indicating the type of the order.
-The order type is used by matchmakers to apply the correct policies for validation and matching, and to store the order in the appropriate order book.
+The order type is used by matchmakers to apply the right policies for validation and matching, and to store the order in the appropriate order book.
 In Listing~\ref{lst:order_example}, the \texttt{RIDE} type indicates an order in a ride-hailing market.
 Similarly, an order with type \texttt{EUR/USD} can indicate an order trading Euro for Dollar.
 The \texttt{is\_offer} field is a flag that indicates whether the order is an offer or a request.
@@ -729,7 +818,7 @@ Together with the public key of the order creator, it uniquely identifies an ord
 The digital signature in an order allows matchmakers to verify its authenticity.
 Inclusion of the \texttt{timeout} value prevents orders from being included in order books for an indefinite amount of time.
 Finally, each order has a quantity, which is an integer value that specifies the amount of assets, services or resources being offered or requested.
-After order creation, a user serializes it in an \texttt{order} message and sends it to matchmakers.
+After creation, a user serializes the order in an \texttt{order} message and sends it to matchmakers.
 %With the inclusion of the public identity of the order creator and a digital signature, others can verify the authenticity of new orders and incoming messages from the network.
 %We assume that each peer involved in the MATCH protocol owns a digital key pair, used when signing or verifying orders and messages.
 %Moreover, we assume that digital signatures cannot be forged and that messages will eventually be delivered, if resubmitted often enough.
@@ -742,9 +831,9 @@ After order creation, a user serializes it in an \texttt{order} message and send
 %If the incoming order is valid, it will be inserted in the order book of the matchmaker and immediately matched.
 
 Users can cancel an open order, say $ O $, at any time by sending a \texttt{cancel} message with the identifier of $ O $ and its public key to matchmakers.
-A \texttt{cancel} message for order $ O $ should be sent to the same matchmakers as the \texttt{order} message that contained the description of $ O $.
-To achieve this, users keep track of the matchmakers to which they have sent an \texttt{order} message.
-Upon reception of a \texttt{cancel} message, matchmakers remove the canceled order from their order book.
+A \texttt{cancel} message for $ O $ should be sent to the same matchmakers as the \texttt{order} message that contained the description of $ O $.
+Therefore, users keep track of the matchmakers to which they have sent an \texttt{order} message.
+Upon reception of a \texttt{cancel} message, matchmakers remove the cancelled order from their order book.
 %The MATCH protocol supports the cancellation of orders.
 %When a matchmaker receives a \texttt{cancel} message for $ O $, it should remove $ O $ from its order book.
 
@@ -779,24 +868,25 @@ Upon reception of a \texttt{cancel} message, matchmakers remove the canceled ord
 %	\label{fig:dissemination_strategy_experiments}
 %\end{figure*}
 
-\begin{figure}[b]
-	\centering
-	\includegraphics[width=.75\linewidth]{match/assets/matching_idea}
-	\caption{The intuition behind order dissemination in MATCH.}
-	\label{fig:matching_idea}
-\end{figure}
+%\begin{figure}[b]
+%	\centering
+%	\includegraphics[width=\linewidth]{assets/matching_idea}
+%	\caption{The intuition behind order dissemination in MATCH.}
+%	\label{fig:matching_idea}
+%\end{figure}
 
 \subsection{Order Dissemination}
 \label{sec:order_dissemination}
 %We now present the order dissemination model of MATCH.
 In the replicated matchmaking model proposed in Section~\ref{sec:towards_fair_reliable_matchmaking}, a new order is disseminated to all matchmakers.
-This is not a scalable approach.
+%This is not a scalable approach.
 %Our replicated broker model discussed in Section \todo{X} assumes that each peer disseminates a new order to all available brokers.
-We now address question 1 from~Section~\ref{sec:towards_fair_reliable_matchmaking} and show how to considerably decrease the fanout of \texttt{order} messages (i.e., the number of matchmakers that a specific \texttt{order} message reaches) while still ensuring a high probability that a new order reaches a matchmaker with the current best matching order in their order book.
+We now address concern 2 from~Section~\ref{sec:towards_fair_reliable_matchmaking} and show how to considerably decrease the fanout of \texttt{order} messages (i.e., the number of matchmakers that a specific \texttt{order} message reaches) while still ensuring a high probability that a new order reaches a matchmaker with the current best matching order in their order book.
 Specifically, we send a new order to a random subset of all matchmakers.
-Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
-$ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
-The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one, even when the order fanout is low compared to the number of matchmakers (this is due to the birthday paradox).
+%Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
+Let $ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
+The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one, even when the order fanout is low compared to the number of matchmakers.
+This phenomena is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
 
 Determining to how many matchmakers a new order is sent, is key.
 In particular, we are interested in computing the probability that at least one matchmaker receives a matching offer and request.
@@ -813,12 +903,12 @@ P(R_{req} \cap R_{off} \neq \emptyset) = 1 - \mathlarger{\prod}_{i=0}^{f-1} \big
 \end{equation}
 
 The value of $ P(R_{req} \cap R_{off} \neq \emptyset) $ quickly increases when $ f $ increases.
-Even if $ m = 100'000 $ and $ f = 500 $ (i.e., orders are sent to only 0.5\% of all matchmakers), the probability that at least one matchmaker receives both a compatible offer and a request, is already 97.7\%.
-In this setting, it reduces the required fanout of an \texttt{order} message from 200'000 (when disseminating a new order to all matchmakers) to merely 1'000, therefore significantly reducing the network traffic required for order dissemination.
+Even if $ m = 100'000 $ and $ f = 500 $ (i.e., orders are sent to only 0.5\% of all matchmakers), the probability that at least one matchmaker receives both a matching offer and a request, is already 97.7\%.
+In this setting, it reduces the required fanout of an \texttt{order} message from 200'000 (when disseminating a new order to all matchmakers) to merely 1'000, thus significantly reducing the network traffic required for order dissemination.
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 %Applying the idea of Equation~\ref{eq:dissemination} requires an intuition on the total number of matchmakers, which can either be fixed by the software developers or be inferred using network estimation techniques~\cite{shames2012distributed}.
 Note that the value of $ m $ is known to users in MATCH since they possess a list of all matchmakers.
-Given a target value for $ P(R_{req} \cap R_{off} \neq \emptyset) $, users compute an appropriate value of the order fanout themselves.
+Given a target value for $ P(R_{req} \cap R_{off} \neq \emptyset) $, users compute an appropriate fanout value themselves.
 %In practice, the value of $ f $ should be tuned conservatively to account for network failures and matchmakers that are unreachable.
 %Our evaluation (Section~\ref{sec:experiments}), we show that this dissemination strategy still results in a near-optimal matching of orders.
 
@@ -828,11 +918,11 @@ Given a target value for $ P(R_{req} \cap R_{off} \neq \emptyset) $, users compu
 %These results are visualized in Figure~\ref{fig:dissemination_strategy_experiments}.\todo{explain}
 
 \textbf{Malicious Matchmakers.}
-Equation~\ref{eq:dissemination} assumes that all matchmakers in the set $ R_{req} \cap R_{off} $ act in a fair manner and actually inform order creators on the best matches, given the orders in their order book.
-Under our threat model, this is an unrealistic assumption for MATCH since matchmakers with selfish interests are actively undermining fairness.
-Therefore, we account for the situation where a fraction $ r $ of all matchmakers pursue selfish interests.
+Equation~\ref{eq:dissemination} assumes that all matchmakers in the set $ R_{req} \cap R_{off} $ follow the protocol and actually inform order creators when receiving matching orders.
+This assumption violates our threat model since malicious matchmakers can respond with sub-optimal matches, or not respond with matches at all.
+Therefore, we modify Equation~\ref{eq:dissemination} to account for the situation where a fraction $ r $ of all matchmakers is malicious.
 Intuitively, this situation would require a higher value of $ f $ in order to reach at least one honest matchmaker.
-We adjust Equation~\ref{eq:dissemination} and treat the response of a malicious matchmaker as if no response has been sent at all.
+%We adjust Equation~\ref{eq:dissemination} .
 %We model a malicious matchmaker as a peer that does not respond to incoming offers and requests that match.
 %Its behavior is therefore indistinguishable from being offline.
 %This also accounts for the situation where a malicious matchmaker matches according to selfish interest, which can be considered as \enquote{invalid} matches.
@@ -843,8 +933,12 @@ P(R_{req} \cap R_{off} \neq \emptyset) = 1 - \mathlarger{\prod}_{i=0}^{f-1} \big
 \label{eq:malicious_dissemination}
 \end{equation}
 
-Equation~\ref{eq:malicious_dissemination} also accounts for matchmakers who are not informing users about possible matches for their order, either intentionally (e.g., when hiding matches) or unintentionally (e.g., when the matchmaker has crashed).
-We show in the next subsection that this is an appropriate modeling of malicious matchmakers since their matches will likely be superseded by those from honest matchmakers when a user selects matches from the match queue.
+%Equation~\ref{eq:malicious_dissemination} now accounts for matchmakers that are  who are not informing users about possible matches for their order, either intentionally (e.g., when hiding matches) or unintentionally (e.g., when the matchmaker has crashed).
+We show in the next subsection that this is an appropriate modelling of malicious matchmakers.
+The rationale behind this model is as follows.
+The quality of matches from malicious matchmakers is likely to be lower compared to those received from honest matchmakers.
+Therefore, there is a high probability that the effect of malicious matchmakers is negated upon receiving matches from an honest matchmaker, since a user will process the matches of honest matchmakers first.
+Reaching honest matchmakers in the presence of malicious matchmakers requires a higher fanout value.
 
 %A matchmaker immediately matches incoming, valid orders with existing ones in their order book.
 %Orders are matched according to a matching policy, discussed in Section \ref{subsec:matching_engine}.
@@ -891,9 +985,16 @@ This network address is used by the receiver of the \texttt{match} message to in
 %A potential trade off of this policy is matching effectiveness, since orders might not be matched in an optimal manner, depending on the matchmakers a specific order is sent to.
 %We will discuss how to effectively pick the value of $ n $ further in this section.
 
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=.8\linewidth]{match/assets/negotiation_diagram}
+	\caption{The flow diagram (in UML format) when receiving a message during the negotiation process for a specific order.}
+	\label{fig:order_negotiation_diagram}
+\end{figure*}
+
 \subsection{Match Queue}
 \label{sec:match_queue}
-Upon receiving a \texttt{match} message from a matchmaker, a user contacts the creator of the matched order and initiates a negotiation process (see Section~\ref{sec:order_negotiation}).
+Upon receiving a \texttt{match} message from a matchmaker, a user contacts the creator of the matched order and initiates a negotiation process (further discussed in Section~\ref{sec:order_negotiation}).
 %After creating a new order, a trader can receive multiple \texttt{match} messages within a short period of time.
 A potential strategy is that the user immediately contacts another user upon the arrival of a \texttt{match} message.
 This possibly minimizes the time for an order to be completed.
@@ -902,7 +1003,9 @@ The quality of the received match described by the \texttt{match} message might 
 
 To address this issue, incoming \texttt{match} messages for a specific order are first stored in a \emph{match queue}.
 When a user receives the first \texttt{match} message for one of its offers (or requests), say $ O $, it creates a new match queue for $ O $.
-Each entry in the match queue of offer (or request) $ O $ is a tuple $ (a, R) $ where $ R $ is a request (or offer) that matches with offer (or request) $ O $, and $ a $ indicates the number of failed negotiation attempts for $ R $.
+Each entry in the match queue of offer (or request) $ O $ is a tuple $ (a, R) $ where $ R $ is a request (or offer) that matches with offer (or request) $ O $.
+$ a $ indicates the number of failed negotiation attempts for $ R $.
+The value of $ a $ is locally tracked by each user.
 %The number of retries indicates how many times we unsuccessfully negotiated with the creator of $ O_2 $.
 Removing items from the match queue is first based on $ a $ (item with a lower value of $ a $ have higher priority) and is then based on the quality of the match (the user prioritizes negotiation of matches with higher quality).
 The quality of a match is an application-specific metric that can be considered as the \enquote{distance} between an offer and a request, and is computed by the matching policy.
@@ -912,60 +1015,62 @@ An incoming \texttt{match} message can be inserted in multiple match queues, e.g
 %Since a trading partner might have quantity reserved in their order that is released later, we try to send another trade proposal later in this situation.
 
 %User store incoming \texttt{match} messages for a duration $ W_match $, after having received the first \texttt{match} message for a specific order.
-Before a user selects an item from a match queue, it waits for some duration $ W_{match} $, which we call the \emph{match window}.
+Before a user starts to select items from a match queue, it waits for some duration $ W_{match} $, which we call the \emph{match window}.
 The value of $ W_{match} $ should be carefully considered: a higher value of $ W_{match} $ increases the probability of receiving more and better matches but adds to the order completion time since a user has to wait longer before starting order negotiations.
 Decreasing $ W_{match} $, however, might result in missing better matches.
-$ W_{match} $ depends on the link latency of the network in which MATCH is deployed.
-Furthermore, $ W_{match} $ is influenced by the trading domain, e.g., passengers in a ride-hailing market can usually tolerate an additional wait time of a few seconds, whereas this increase might be unacceptable when a user quickly wants to buy some assets in response to events in an asset market.
+$ W_{match} $ also depends on the link latency of the peer-to-peer network.
+Furthermore, $ W_{match} $ is influenced by the trading domain, e.g., passengers in a ride-hailing market can usually tolerate an additional wait time of a few seconds, whereas this increase might be unacceptable when a user quickly wants to buy some assets in response to price fluctuations in an asset market.
 When the match window expires, a user removes the entry $ (a, R) $ with the best quality from the match queue and initiates the order negotiation process with the user that created $ R $.
 %Users prioritize the selection of items from the match queue first by the quality of the match, and then by $ r $.
 %To prevent traders from sending out \texttt{ProposeTrade} messages at roughly the same time (and thus increasing load on individual traders), we introduce a small \emph{propose window} $ W_p $ which is a random duration between the removal of an entry from a match queue, and sending out a \texttt{ProposeTrade} message.
 %Only when negotiation for an order fails or succeeds, the next entry is removed from the appropriate match queue, until the order is either canceled, expired or completed.
 %If order $ O $ is completed, the match queue associated with $ O $ is deleted.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\linewidth]{match/assets/negotiation_diagram}
-	\caption{The flow diagram (in UML format) when receiving a message during the negotiation process for a specific order.}
-	\label{fig:order_negotiation_diagram}
-\end{figure}
-
 \subsection{Order Negotiation}
 \label{sec:order_negotiation}
 
 In MATCH, users negotiate about their orders with other users.
-This negotiation approach increases resilience against malicious matchmakers since rational users choose to negotiate about the best incoming matches.
-When two negotiating users reach a trade agreement, both users send the agreement to the trading mechanism, upon which the trade is executed.
-This approach addresses question 2 in Section~\ref{sec:towards_fair_reliable_matchmaking} and requires minimal changes to the logic of the trading mechanism.
+This negotiation approach increases resilience against malicious matchmakers since rational users choose to negotiate about the best incoming matches in order to get the best deal.
+When two negotiating users reach a trade agreement, both users send the agreement to the TM, upon which the trade is executed.
+This approach addresses question 1 in Section~\ref{sec:towards_fair_reliable_matchmaking} and avoids the need for network-wide consensus.
 
 We now elaborate on the negotiation procedure between two users.
 In the following, we assume that user $ U_1 $ created offer $ O $, user $ U_2 $ created request $ R $, and these two orders match.
-Order negotiation, based on entry $ (a, O) $ in the match queue associated with $ R $, starts by $ U_2 $ locking quantity in $ R $.
-How much quantity is locked depends on the quantities in both $ O $ and $ R $.
-Specifically, a user ($ U_2 $ in our example) proposes to trade as much available quantity as possible, given the specifications of $ O $ and $ R $.
-Locking quantity in an order prevents a user from engaging in parallel negotiations for the same resources.
-MATCH does not enforce this lock since rational users will correctly manage their order quantities.
-Next, $ U_2 $ sends a \texttt{propose} message to $ U_1 $, containing the full specifications of $ R $, the identifier of $ O $, and the proposed quantity to trade.
+Now, $ U_2 $ has received a \texttt{match} message from a matchmaker, informing $ U_2 $ about matching offer $ O $.
+This puts entry $ (a, O) $ in the match queue associated with $ R $.
+Order negotiation, based on match queue entry $ (a, O) $, starts by $ U_2 $ locking quantity in request $ R $.
+How much quantity is locked depends on the available quantities in both $ O $ and $ R $.
+Specifically, $ U_2 $ proposes to trade as much available quantity as possible, given the specifications of $ O $ and $ R $.
+Explicitly locking quantity in an order prevents a user from engaging in parallel negotiations for the same resources.
+MATCH does not enforce the locking of quantity since we assume that rational users will correctly manage their orders.
+After locking the quantities in $ R $, $ U_2 $ sends a \texttt{propose} message to $ U_1 $, containing the full specifications of $ R $, the identifier of $ O $, and the proposed quantity to trade.
 
 Figure~\ref{fig:order_negotiation_diagram} shows the control flow in UML format when a user receives specific messages during the order negotiation process.
-We elaborate this control flow in more detail, using the negotiation between users $ U_1 $ and $ U_2 $ as example.
-When $ U_1 $ receives a \texttt{propose} message from $ U_2 $, it first checks if its order contained in the \texttt{propose} message, $ O $, is still open.
-If $ O $ is expired, has been canceled, or has been completed already, $ U_2 $ responds with a \texttt{reject} message, containing the reject reason.
-When $ U_2 $ receives this \texttt{reject} message, it unlocks the locked quantity for that negotiation and selects the next item from the match queue of its request $ R $.
-Since matchmakers might have outdated information about $ O $ (e.g., when $ O $ has been completed), $ U_2 $ forwards the \texttt{reject} message to the matchmakers that informed $ U_2 $ about the match with $ O $.
+We elaborate the negotiation process between users $ U_1 $ and $ U_2 $ according to Figure~\ref{fig:order_negotiation_diagram}.
+When $ U_1 $ receives a \texttt{propose} message from $ U_2 $, it first checks if its offer $ O $, which identifier is contained in the \texttt{propose} message, is still open.
+If $ O $ is expired, has been cancelled, or has been completed already, $ U_2 $ immediately responds with a \texttt{reject} message, containing the reject reason.
+When $ U_2 $ receives the \texttt{reject} message from $ U_1 $, it unlocks the locked quantity for that negotiation and selects the next entry from the match queue of its request $ R $.
+Since matchmakers might have outdated information about $ O $ (e.g., when $ O $ has been completed but the matchmaker has not been notified about this event), $ U_2 $ forwards the \texttt{reject} message to the matchmakers that informed $ U_2 $ about the match with $ O $.
 Matchmakers then update the state of $ O $ accordingly when receiving a \texttt{reject} message.
 
-If offer $ O $ is open, $ U_1 $ determines if it has any unlocked quantity in the order left.
-If there is no unlocked quantity available for trade, $ U_1 $ sends a \texttt{busy} message back to $ U_2 $, indicating that it currently has no room for negotiation due to pending negotiations for that order with other users.
+If offer $ O $ is open, $ U_1 $ first determines if the incoming proposal is acceptable.
+This step depends on the trading domain and specifically on the application-specific data in the order.
+For example, a matchmaker in a ride-hailing market can establish a valid match between a passenger and driver.
+However, this match might be unacceptable for one of the matched parties (e.g., when the geographic separation between the parties is too large).
+If $ U_1 $ finds the proposal unacceptable, it sends a \texttt{reject} message to $ U_2 $.
+
+If the proposal is acceptable, $ U_1 $ checks if it has any unlocked quantity in the offer $ O $.
+If there is no unlocked quantity available for trade, $ U_1 $ responds with a \texttt{busy} message to $ U_2 $, indicating that it currently has no room for negotiation.
+In this situation, $ U_1 $ is already engaged in negotiations for that order with other users.
 Upon receiving a \texttt{busy} message, $ U_2 $ unlocks the locked quantity in $ R $ and re-adds the entry associated with the failed negotiation to the match queue of $ R $, incrementing $ a $ by one.
 Re-adding this entry to the match queue will cause $ U_2 $ to initiate a negotiation with $ U_1 $ again later.
-To prevent a user from immediately retrying to negotiate again, a user waits a random period (between 1 and 2 seconds) before sending out another \texttt{propose} message for an entry in the match queue with $ a > 0 $.
+To prevent a user from immediately retrying a failed negotiation, a user waits a random period (between 1 and 2 seconds) before sending out another \texttt{propose} message when processing a match queue entry with $ a > 0 $.
 
 If offer $ O $ has unlocked quantity, $ U_1 $ checks whether the full proposed quantity can be traded.
 If so, $ U_1 $ sends an \texttt{accept} message to $ U_2 $, thereby accepting the proposal of $ U_2 $.
 $ U_1 $ also forwards the \texttt{accept} message to the matchmakers that proposed the match so they can update the state of this order in their order book.
-If the proposed quantity is unavailable in $ O $, $ U_1 $ makes a counter-proposal by locking as much quantity as possible in $ O $ and by sending a \texttt{proposal} message back to $ U_2 $ with a different (but lower) quantity.
-$ U_1 $ and $ U_2 $ keep sending \texttt{propose} messages with differing quantities until one of them responds with an \texttt{accept} or a \texttt{reject} message.
+If the proposed quantity is unavailable in $ O $, $ U_1 $ makes a counter-proposal by locking as much quantity as possible in $ O $ and by sending a \texttt{proposal} message back to $ U_2 $ with this (lower) quantity.
+$ U_1 $ and $ U_2 $ keep sending \texttt{propose} messages with differing quantities until one of them responds with either an \texttt{accept} or a \texttt{reject} message.
 
 %During the second phase of the matching protocol traders negotiate a trade based on an incoming \texttt{match} message (see Figure \ref{fig:matching_protocol_2}).
 
@@ -990,8 +1095,8 @@ $ U_1 $ and $ U_2 $ keep sending \texttt{propose} messages with differing quanti
 
 It could be that one of the involved parties does not respond during a negotiation, e.g., to deliberately lock quantity in the orders of another user.
 %In this case, $ t_1 $ will never receive a response from $ t_2 $.
-Therefore, all outgoing messages by a during order negotiation have a fixed \emph{negotiation window}, indicated by $ W_{neg} $, after which the user leaves the negotiation.
-When this window expires, any locked quantity for this negotiation is released so it can be re-used in other negotiations for the same order.
+To address this situation, all outgoing messages during order negotiation have a fixed \emph{negotiation window}, indicated by $ W_{neg} $, after which the user leaves the negotiation.
+When this window expires, any locked quantity for this negotiation is released and incoming messages regarding the expired negotiation are ignored.
 
 %We prevent this by having a trader aggregate multiple incoming \texttt{matches} for the same order before sending out trade proposals.
 %After receiving the first \texttt{match} message for a specific order, a trader waits for a fixed duration in seconds which we refer to as the \emph{matching window}, denoted by $ w $.
@@ -1021,7 +1126,8 @@ When this window expires, any locked quantity for this negotiation is released s
 \subsection{Match Execution and Order Updates}
 Upon reaching a trade agreement between two negotiating users, it should be executed by the trading mechanism.
 To execute a trade agreement, one party sends the \texttt{propose} message to the TM and the other party sends the \texttt{accept} message to the TM (step \textcircled{8} and \textcircled{9} in Figure~\ref{fig:match_data_flow}).
-The TM executes the trade after having received both messages.
+Each message contains the digital signature of its creator.
+The TM executes the trade after having received both these messages.
 %Both users then internally update their order.
 Next, each involved party individually inform the matchmakers that originally received their order about the match execution by sending an \texttt{update} message (step \textcircled{10} and \textcircled{11} in Figure~\ref{fig:match_data_flow}).
 This message contains the order with an updated quantity, specifying the new interests of the order creator after the match has been executed.
@@ -1063,44 +1169,47 @@ Upon receiving an \texttt{update} message, matchmakers update the state of the c
 We now present the MATCH middleware architecture, visualized in Figure~\ref{fig:matching_architecture}.
 Each user and matchmaker deploy a single instance of the MATCH middleware as a shared runtime library.
 Communication with the middleware by external applications proceeds through an API, which specifications are included in our open-source implementation.
-In the following, we elaborate on the components in the MATCH middleware architecture.
+We now elaborate on the components in the MATCH middleware architecture.
 %We now present the architecture of MATCH, our distributed order matching mechanism.
 %The overall architecture and information flow is presented in Figure \ref{fig:matching_architecture}.
 %We briefly elaborate on the individual components.
 
 \textbf{Network layer.}
 The network layer passes incoming messages to the MATCH overlay logic and routes outgoing messages to their intended destination.
-This layer can be implemented using any networking library with support for peer-to-peer communication.
+This layer can be implemented using any networking library with support for peer-to-peer communication and authenticated messaging.
 %We should note however that further optimizations can be made in network topology, depending on the domain to which MATCH is applied.
 %This lowers generality and re-usability.
 %The network has a random topology and each peer $ p $ maintains a connection to $ i $ other random peers.
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.75\linewidth]{match/assets/matching_architecture}
+	\includegraphics[width=\linewidth]{match/assets/matching_architecture}
 	\caption{The MATCH middleware architecture.}
 	\label{fig:matching_architecture}
 \end{figure}
 
 \textbf{Overlay logic.}
 The overlay logic processes incoming messages received by the network layer. %, such as new orders, matches and received from the network. % various routines that execute when a specific message is received.
-It inserts incoming \texttt{match} messages to the appropriate match queue, discussed in Section~\ref{sec:match_queue}.
+It inserts incoming \texttt{match} messages in the appropriate match queue, discussed in Section~\ref{sec:match_queue}.
 It contains policies for order \emph{validation} which specify how the validity of an incoming order with a given type is determined.
 The validation policy takes into consideration the attributes in the \texttt{data} field of the order (see Listing~\ref{lst:order_example}), and checks whether they are valid with respect to a trading domain.
 For example, a validation policy for orders in a ride-hailing market should check whether the latitude and longitude coordinates are included and within a valid range (-90 to 90).
-These validation policies can, for example, be distributed through a website and downloaded by users and matchmakers that are interesting in participation within a specific trading domain.
-Incoming orders deemed invalid by the validation policy are discarded and not processed further.
+We envision that developers share the implementation of these policies through some distribution medium (e.g., a website).
+To increase the trustworthiness and security of these policies, the policy implementations should be auditable and attestable by other developers and auditors.
+These validation policies can then downloaded by users and matchmakers that are interesting in participation within a specific trading domain.
+We provide developers the means to create custom validation policies, enabling order validation in different trading contexts.
+Incoming orders deemed invalid by the validation policy are discarded and not processed.
 
 %New incoming orders received by overlay logic are first checked for validity; if valid they are dispatched to both the order book (so they can be inserted) and the matching engine, which attempts to find matches for this new order.
 
 \textbf{Order books.}
-Each matchmaker can host multiple order books, colored green in Figure~\ref{fig:matching_architecture}, which store orders with differing types.
-For example, MATCH can maintain a stock trading order book that stores orders to buy or sell Euros for Dollars, and another ride-hailing order book that stores transportation requests and ride offers.
-Maintaining multiple order books is a key property of MATCH and results in a single and reusable matchmaking solution that can be deployed within different domains.
-New order books are created on demand, based on the type of incoming orders.
+Each matchmaker can host multiple order books, coloured green in Figure~\ref{fig:matching_architecture}, which store orders with differing types.
+For example, MATCH can maintain an asset trading order book that stores orders to buy or sell Euros for Dollars, and another ride-hailing order book that stores transportation requests and ride offers.
+Maintaining multiple order books is a key property of MATCH and results in a single and reusable matchmaking solution that can be deployed across different domains.
+%New order books are created on demand, based on the type of incoming orders.
 
 \textbf{Matching engine.}
-Valid incoming orders are passed to the matching engine, colored red in Figure~\ref{fig:matching_architecture}.
+Valid incoming orders are passed to the matching engine, coloured red in Figure~\ref{fig:matching_architecture}.
 The matching engine attempts to match incoming offers and requests with existing requests and offers, respectively.
 It contains \emph{matching policies} which predicate whether a specific offer and request match, based on the order type and specifications.
 %It takes a buy and a sell order as input and determines whether there is a match, based on one or more attributes of these orders.
@@ -1112,7 +1221,7 @@ Similar to validation policies, matching policies are published on a website or 
 
 \textbf{Negotiation stores.}
 To correctly process incoming messages from negotiation counterparties, MATCH requires state storage of outgoing messages during order negotiation.
-This state is stored in a \emph{negotiation store}, colored yellow in Figure~\ref{fig:matching_architecture}.
+This state is stored in a \emph{negotiation store}, coloured yellow in Figure~\ref{fig:matching_architecture}.
 For each negotiation, a new negotiation store is created, a unique identifier is generated, and this identifier is appended to each message associated with this negotiation.
 Counterparties are required to include the same identifier in response messages.
 Incoming negotiation messages containing an unknown identifier are discarded by users.
@@ -1126,7 +1235,7 @@ We consider this component external to MATCH.
 The trading mechanism notifies the overlay logic when the trade is executed.
 This notification includes one or more transaction identifiers and a boolean value indicating whether the trade was successful or not.
 We assume that the trading mechanism provides atomic guarantees: either the full negotiated match is executed or nothing is being executed.
-This guarantee is, for example, provided by smart contracts, applications that runs on top of a blockchain (also see Section~\ref{sec:experiments_ethereum})~\cite{Luu2016MakingSC}.
+This guarantee is, for example, provided by smart contracts, applications that runs on top of a blockchain (also see Section~\ref{sec:experiments_ethereum})~\cite{luu2016making}.
 %The trading mechanism the notifies the overlay logic with the outcome of the trade.
 %We consider three different trade outcomes: succeeded, when all assets have successfully been exchange between two parties, or failed, when an error occurred during the trading process.
 %The trade outcome is then broadcast to matchmakers (see phase III in Section~\ref{subsec:protocol_phase_3}).
@@ -1275,31 +1384,31 @@ This guarantee is, for example, provided by smart contracts, applications that r
 \label{sec:experiments}
 We implement the MATCH protocol and middleware in the Python 3 programming language, spanning a total of 6.511 lines of source code (SLOC), without comments.
 The implementation uses the \texttt{asyncio} library for asynchronous event processing.
-The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging.\footnote{Library name omitted for double-blind review.}
-For efficiency, message exchange between users and matchmakers uses UDP protocol.
-Order negotiation proceeds using the TCP protocol since this flow requires bilateral and reliable message exchange.
-All software artifacts of MATCH (source code, tests, and documentation) are available online.\footnote{Can be requested through the Program Chair.}
+The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+For efficiency, message exchange between users and matchmakers uses UDP.
+Order negotiation proceeds using TCP since this flow requires bilateral and reliable message exchange.
+All software artifacts of MATCH (source code, tests, and documentation) are available online.\footnote{See \url{https://github.com/Tribler/anydex-core/tree/match-middleware20}}
 
 In Section~\ref{sec:taxi_experiments} and~\ref{sec:asset_trading_experiments}, we subject the MATCH middleware to two workloads for ride-hailing and asset trading, reconstructed from real-world traces.
 These experiments demonstrates that MATCH maintains high matching quality, is resilient against malicious matchmakers, and is reusable across different trading domains.
-In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmaking on an Ethereum blockchain and show that MATCH uses considerably less bandwidth and memory, and has superior order fulfill latencies.
+In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmaking on an Ethereum blockchain and show that MATCH uses considerably less bandwidth and has superior order fulfil latencies.
 %Afterwards, we provide a summary with recommendations for each policy and their performance with regard to various system properties.
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/taxi_quality.pdf}
 		\caption{Matching quality w. different fanouts $ f $}
 		\label{fig:taxi_quality}
 	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:taxi_fairness_fixed}
 	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_adaptive.pdf}
 		\caption{Impact of selfish matching (adaptive $ f $)}
@@ -1310,7 +1419,7 @@ In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmakin
 \end{figure*}
 
 %\subsection{Experimental Setup}
-All experiments are conducted on our nation-wide university cluster, allowing us to run multiple instances of MATCH on different compute nodes.
+All experiments are conducted on our nation-wide university cluster, allowing us to run multiple instances of MATCH on different compute nodes~\cite{bal2016medium}.
 It contains 48 compute nodes, each one equipped with dual 8-core E5-2630v3 CPU and 64GB of memory, running CentOS 6.
 %More detailed specifications of the hardware and runtime environment are found online.
 %On each compute node, we run at most 150 instances of MATCH when experimenting with the ride-hailing workload, and at most 64 instances under the asset trading workload (the latter workload results in a higher load on each compute node).
@@ -1320,7 +1429,7 @@ This also accounts for runtime variability of latency present in real-world netw
 Table~\ref{table:experiment_parameters} summarizes the variables that are used in this section.
 The negotiation window ($ W_{neg} $) is fixed to five seconds, which is well above the highest observed round-trip time in the PlanetLab latency dataset.
 The match window ($ W_{match} $) is fixed to two seconds.
-These values should be increased when MATCH is deployed in networks with higher link latency, since it then might take longer for \texttt{match} and negotiation messages to be received.
+These values should be increased when MATCH is deployed in networks with higher link latency, since it then can take longer for \texttt{match} or negotiation messages to arrive.
 %We run each experiment at least five times (except for the load balancing and order fulfillment latency experiments) and average the results.
 %Similar to the notation in Section~\ref{sec:order_dissemination}, in the following we use $ m $ to indicate the total number of matchmakers, $ f $ to indicate the order fanout, and $ r $ to indicate the fraction of malicious matchmakers.
 
@@ -1344,13 +1453,17 @@ These values should be increased when MATCH is deployed in networks with higher 
 
 \subsection{Ride-hailing Experiments}
 \label{sec:taxi_experiments}
-The first set of experiments focuses on the matching quality and fairness of the MATCH middleware under a ride-hailing workload.
-This workload contains temporal information about ride offers and requests created by drivers and passengers, respectively.
-Each order in the ride-hailing workload has a quantity of one, ensuring that a ride request is matched with at most one offer (one-to-one matching).
+Unfair matchmaking in ride-hailing markets is a prominent threat to both drivers and passengers~\cite{bokanyi2019ride,calo2017taking}.
+%Ride-hailing, popularized by companies like Uber and Lyft, is currently one of the largest peer-to-peer markets~\cite{kooti2017analyzing}.
+We leverage the MATCH middleware to devise a decentralized alternative to ride-hailing platforms like Uber and Lyft. % where drivers perform fair matchmaking themselves. %, even when a subset of drivers match with selfish interest.
+In this market, drivers perform matchmaking themselves.
+The first set of experiments focuses on the matching quality and fairness of MATCH in a ride-hailing environment.
+The used workload contains temporal information about ride offers and requests created by drivers and passengers, respectively.
+Each order in the workload has a quantity of one, ensuring that a ride request is matched with at most one ride offer.
 
 \textbf{Workload specification.}
 The workload is reconstructed from historical traces of taxi rides published by the government of New York~\cite{tlc2017nyc}.
-We analyze the traces and subtract 2'100 ride offers and requests during the busiest period in 2015: November 1, 00:59:57 to November 1, 01:01:16 (datasets published after 2015 did not include geographic information on drivers and passengers).
+We analyse the traces and subtract 2'100 ride offers and requests during the busiest period in 2015: November 1, 00:59:57 to November 1, 01:01:16 (datasets published after 2015 did not include geographic information on drivers and passengers).
 We assume a total of 1'100 drivers and 1'000 passengers, to resemble the situation where drivers are waiting idly for passengers.
 First, drivers indicate their willingness to transport passengers by creating offers containing their waiting location, during 55 seconds (we wait 50 milliseconds between the creation of subsequent ride offers).
 After this period, passengers submit requests containing their pick-up location, during almost 77 seconds.
@@ -1358,10 +1471,11 @@ After all passengers have submitted their request, we leave the experiment runni
 Since the workload does not provide information on the identity of individual passengers or drivers, it is assumed that each passenger creates one request throughout the experiment. %, which is matched with one ride offer.
 This assumption does not lead to skewed results since a passenger does not create multiple ride requests within short time~\cite{pham2017oride}.
 
-For the ride-hailing workload, we implement the matching policy such that it minimizes the distance between passengers and drivers.
-Specifically, the policy computes the geographic (haversine) distance between the location included in offers and requests.
-In this context, matching quality is defined as the average distance between matched passengers and drivers, which we also call the \emph{match distance}.
-This quality metric follows related work on ride-hailing~\cite{pham2017oride}.
+For the this workload, we implement the matching policy such that it minimizes the distance between passengers and drivers, to reduce waiting times for passengers.
+Specifically, the policy computes the geographic (haversine) distance between the locations included in offers and requests.
+In this market, we define the matching quality as the average distance between matched passengers and drivers, which we also call the \emph{match distance}.
+%We believe this is an adequate metric since it is directly correlated with the total distance that drivers have to traverse, which we aim to minimize.
+This quality metric is also used by related work on matchmaking in ride-hailing markets~\cite{pham2017oride}.
 %Matching is based on the great-circle distance between a driver and a passenger.
 %Note that matching is one-to-one: each ride request is matched with exactly one ride offer.
 
@@ -1375,27 +1489,27 @@ This centralized approach results in an average match distance of 0.544km, and i
 Figure \ref{fig:taxi_quality} shows that the average match distance increases when there are more matchmakers under a fixed order fanout.
 Also, the match distance increases when the order fanout decreases.
 In particular, It becomes less likely that (good) matches for offers and requests are found when either the number of matchmakers increases or the order fanout decreases.
-The matching quality decreases significantly when $ f = 30 $ and $ m $ increases. E.g., for $ m = 2'000 $, the average match distance increases to 0.607km, 9.5\% higher compared to the baseline.
+The match distance increases significantly when $ f = 30 $ and $ m $ increases. E.g., for $ m = 2'000 $, the average match distance increases to 0.607km, 9.5\% higher compared to the baseline.
 %For $ m = 2'000 $ and $ f = 60 $, each ride request required \todo{X} negotiations on average.
 
 Remarkably, for lower values of $ f $ and $ m $, \emph{MATCH outperforms the performance of centralized matchmaking, in terms of matching quality.}
-We explain this behavior as follows.
+We explain this behaviour as follows.
 With our ride-hailing workload, centralized matchmaking can immediately match a ride request with a ride offer.
-The overall match quality, however, might be improved when batching incoming orders, since it could have been better to assign an already-matched driver to a passenger that created its request later during the experiment.
+The overall match quality, however, might be improved when batching incoming ride requests, since it could have been better to assign an already-matched driver to a passenger that created its request later during the experiment.
 Call markets, for example, operate in batches, where incoming orders are first aggregated over time and then matched at predetermined time intervals.
-In MATCH, users aggregate potential matches during the match window, $ W_{match} $, resembling this behavior.
-Therefore, the matching quality in MATCH can exceed that of centralized FIFO matchmaking because of match aggregation by users, at the cost of a larger order fulfill time.
+In MATCH, users aggregate potential matches during the match window, $ W_{match} $, resembling this behaviour.
+Therefore, the matching quality in MATCH can exceed that of centralized FIFO matchmaking because of match aggregation by users, at the cost of a larger order fulfil time.
 
 \textbf{Impact of selfish matching.}
-We show how selfish behavior of malicious matchmakers impacts the quality in MATCH.
-We model a malicious matchmaker as a driver that matches an incoming ride request from a passenger with its own service offer.
-This captures the economic incentive of drivers to prioritize their own services during matchmaking.
+We show how selfish behaviour of malicious matchmakers impacts the matching quality.
+We model a malicious matchmaker as a driver that matches an incoming ride request from a passenger with its own service offer first.
+This captures the economic incentive of drivers to prioritize their own ride services.
 
 Figure~\ref{fig:taxi_fairness_fixed} shows the average match distance under a fixed order fanout ($ f = 50 $) when increasing the number of matchmakers.
-We vary $ r $, up to 50\% of all matchmakers ($ r = 0.5 $).
+We vary $ r $, up to 75\% of all matchmakers ($ r = 0.75 $).
 Figure~\ref{fig:taxi_fairness_fixed} shows that increasing both $ m $ and $ r $ has a negative impact on the matching quality in MATCH.
 The problem is that a malicious matchmaker matches the requests of passengers with its own offer, while it likely would have established a better match if the matchmaker would have been honest.
-Therefore, we also consider a adaptive order fanout, based on the values of both $ r $ and $ m $.
+Therefore, we also consider an adaptive order fanout, based on the values of both $ r $ and $ m $.
 Specifically, $ f $ is fixed to the lowest integer value such that $ P(R_{req} \cap R_{off} \neq \emptyset) \geq 0.95 $.
 Figure~\ref{fig:taxi_fairness_adaptive} visualizes these results with an adaptive order fanout.
 The order fanout is 63 with $ m = 2'000 $ and $ r=0 $.
@@ -1403,7 +1517,7 @@ Formula~\ref{eq:malicious_dissemination} describes that when 50\% of the matchma
 Figure~\ref{fig:taxi_fairness_adaptive} shows that the average match distance remains largely the same, even when increasing the total number of matchmakers.
 These results show that in a network with 2'000 matchmakers, by increasing the order fanout by only 15, MATCH can tolerate with 50\% of all matchmakers acting maliciously and still produce a matching quality that is on par with the situation where all matchmakers are honest.
 %We remark that by sending an order to 15 additional matchmakers in a network with 2'000 matchmakers, and with 50\% of these matchmakers acting malicious, MATCH still achieves a matching quality comparable to that of a centralized matchmaking approach.
-In practice, the exact value of $ r $ is not known a-priori and MATCH developers should therefore fix the order fanout to account for an upper bound for the malicious fraction (for example, many BFT consensus algorithms tolerate up to $ r = \frac{1}{3} $).
+In practice, the exact value of $ r $ is not known a-priori and MATCH developers should therefore fix the order fanout to account for an upper bound for the malicious fraction (e.g., many BFT consensus algorithms tolerate up to $ r = \frac{1}{3} $~\cite{castro1999practical}).
 
 %Whereas a passenger is matched with exactly one driver, in the asset trading workload orders can be partially fulfilled by multiple other ones.
 %Since matching is not one-to-one, each matchmaker can send multiple match messages for a single order and we suspect that this increases bandwidth usage and processing overhead.
@@ -1430,19 +1544,19 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 
 \begin{figure*}[t!]
 	\centering
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/asset_trading_quality.pdf}
 		\caption{Matching quality w. different fanouts $ f $}
 		\label{fig:asset_trading_quality}
 	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:asset_trading_fairness_fixed}
 	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
+	\begin{subfigure}{.66\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_adaptive.pdf}
 		\caption{Impact of selfish matching (adaptive $ f $)}
@@ -1454,13 +1568,16 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 
 \subsection{Asset Trading Experiments}
 \label{sec:asset_trading_experiments}
-The ride-hailing workload involves offers and requests that are matched on a one-to-one basis and are never canceled.
-When deploying MATCH in a domain where digital assets are traded, orders can often be partially fulfilled and are commonly canceled (e.g., in high-frequency trading).
-Therefore, we conduct the same experiments described in Section~\ref{sec:taxi_experiments} with an asset trading workload. % the performance of MATCH is evaluated with an asset trading workload.
-Again, the focus is on the match quality and the impact of malicious matchmakers.
+We now evaluate MATCH in an asset trading domain.
+Driven by the popularity of blockchain-based assets, major peer-to-peer markets have emerged to facilitate cryptocurrency exchange between traders~\cite{bentov2019tesseract}.
+MATCH enables traders to perform matchmaking of orders themselves in a fair manner, without entrusting their orders to a market operator.
+Unlike our previous experiments, the workload used in our upcoming experiments involves offers and requests that be partially fulfilled and are commonly cancelled.
+%When deploying MATCH in a domain where digital assets are traded, orders can often be partially fulfilled and are commonly cancelled (e.g., in high-frequency trading).
+We conduct the same matching quality and fairness experiments described in Section~\ref{sec:taxi_experiments} with an asset trading workload. % the performance of MATCH is evaluated with an asset trading workload.
+%Again, the focus is on the match quality and the impact of malicious matchmakers.
 
-To the best of our knowledge, there is no standardized definition for the matching quality of orders with partial fulfillment.
-Therefore, after each experiment with the asset trading workload, we determine the matching quality as follows: all orders that are not canceled or fulfilled are added to a single order book, starting with the first order created.
+To the best of our knowledge, there is no standardized definition for the matching quality of orders with partial fulfilment.
+Therefore, after each experiment with the asset trading workload, we determine the matching quality as follows: all orders that are not cancelled or fulfilled are added to a single order book, starting with the first order created.
 When adding these orders to the order book, we sum the number of matches returned by the matching engine, which yields our matching quality.
 %For the asset trading experiments, matching quality is defined as the additional number of matches found when adding all open orders to a single order book after the experiment ends, starting with the first order created. %after the experiment by adding all open orders to a single order book, starting with the first order created.
 Intuitively, this definition indicates how many additional matches a central matchmaker would have found if it had knowledge of all open orders.
@@ -1469,10 +1586,10 @@ In the worst case, our middleware would have missed 6'450 matches, which is the 
 When running the asset trading workload, the matching engine matches orders according to the \emph{price-time} matching policy~\cite{mavroudis2019libra}.
 
 \textbf{Workload specification.}
-The asset trading workload contains buy and sell orders that have been published on the blockchain ledger of BitShares~\cite{schuh2015bitshares}.
+The asset trading workload contains buy and sell orders that have been published on the blockchain ledger of BitShares~\cite{schuh2017bitshares}.
 BitShares is a blockchain-based decentralized exchange where users can create, issue and trade digital assets.
-New orders are submitted to dedicated validator peers, which include incoming orders in a block on the blockchain.
-We have analyzed the entire BitShares blockchain since its inception and extracted all buy and sell orders, and order cancellations.
+New orders are submitted to dedicated validator nodes, which include incoming orders in a block on the blockchain.
+We have analysed the entire BitShares blockchain since its inception and extracted all buy and sell orders, and order cancellations.
 To generate load on our system, we determined when most orders were created for five minutes.
 %Next, we take a subset of the orders that result in the highest load (trading activity) for a period of five minutes.
 The result is a workload with 942 order cancellations, 12'253 offers and 3'342 requests involving 121 unique asset types.
@@ -1502,7 +1619,7 @@ Users creating multiple smaller orders with similar specifications are reaching 
 
 \textbf{Impact of selfish matching.}
 We demonstrate the effect of malicious matchmakers on the matching quality in our asset trading workload, both with a fixed and adaptive order fanout.
-Under the asset trading workload, we model a malicious matchmaker as a peer that purposefully does not inform the party behind an incoming order about the match with the best price.
+Under the asset trading workload, we model a malicious matchmaker as a node that purposefully does not inform the party behind an incoming order about the match with the best price.
 Essentially, a malicious matchmaker \enquote{hides} order book entries from the order creator.
 %Instead, the matchmaker intends to re-use this pricing information for one of its own orders later.
 
@@ -1556,13 +1673,13 @@ It shows that for all settings, MATCH only misses under ten matches on average.
 
 \subsection{Comparison with On-chain Matchmaking}
 \label{sec:experiments_ethereum}
-We compare the bandwidth usage, memory usage and order fulfill latencies of MATCH with that of matchmaking on an Ethereum blockchain, using both the ride-hailing and asset trading workloads.
+We compare the bandwidth usage and order fulfil latencies of MATCH with that of matchmaking on an Ethereum blockchain, using both the ride-hailing and asset trading workloads.
 %Specifially, we conduct matchmaking on a private Ethereum blockchain.
-Ethereum is the most mature blockchain platform that enables the execution of generic-purpose smart contracts, and is the most used platform to deploy smart contracts in general.
+Ethereum is the most mature blockchain platform that enables the execution of generic-purpose smart contracts, and is the most used platform to deploy smart contracts in general~\cite{wood2014ethereum}.
 
-We setup a private Ethereum network consisting of 400 instances running \texttt{geth}, an Ethereum client written in Go.\footnote{https://github.com/ethereum/go-ethereum}
-Ethereum uses a Proof-of-Work consensus mechanism in which participants, also called miners, compete with their compute resources.
-Specifically, each miner continuously solves an algorithmic puzzle and the first miner to find a valid solution to the puzzle, can extend the blockchain with one block.
+We setup a private Ethereum network consisting of 400 instances running \texttt{geth}, an Ethereum client written in Go.\footnote{See \url{https://github.com/ethereum/go-ethereum}}
+Ethereum uses a Proof-of-Work consensus mechanism in which participants, also called miners, compete to include transactions on the blockchain.
+Specifically, each miner continuously solves an algorithmic puzzle and the first miner to find a valid solution to the puzzle, can extend the blockchain with one block with transactions.
 We fix \texttt{geth} such that each instance mines on at most one CPU core.
 We fix the gas limit (indicating the maximum amount of computation that can be done within a block) to 10'000'000, in line with the public Ethereum network.
 To accurately compare the performance of MATCH and Ethereum, we run both workloads in MATCH with 400 instances, and adjust our workload accordingly.
@@ -1570,75 +1687,79 @@ We fix $ m = 400 $, $ f = 30 $ and $ r = 0 $.
 Since a smart contract enforces the correct execution of a particular matching policy, we run MATCH with 400 honest matchmakers.
 
 \textbf{Smart contracts.}
-For each workload, we implement a smart contract in the Solidity programming language.
+For both workloads, we implement a smart contract in the Solidity programming language.
 The smart contract for the ride-hailing workload maintains two lists containing open offers and requests.
-Submission of a new ride offer and request is done by issuing a transaction with geographic information that invokes the \texttt{ride\_offer} and \texttt{ride\_request} method, respectively.
+Submission of a new ride offer and request is done by issuing a transaction with geographic information that invokes the \texttt{ride\_offer} and \texttt{ride\_request} methods in the smart contract, respectively.
 Invocation of these methods triggers a loop through the list of active offers or request, and finds the matching order that minimizes the distance between the passenger and driver.
 The algorithmic complexity when matching a single offer and request is $ O(n) $ where $ n $ is the number of open requests and offers, respectively.
 To avoid computationally expensive trigonometry operations when computing the Haversine distance, latitude and longitude coordinates are projected to Universal Transverse Mercator (UTM) coordinates and the Manhattan distance is used as a norm in the smart contract.
-Compared to using latitude and longitude coordinates in combination with the Haversine distance, this conversion results in an accuracy loss of only 0.35\%.
+This results in an accuracy loss of only 0.35\%.
 
-For the asset trading workload, we adopt an existing and deployed order book implementation.\footnote{https://github.com/makerdao/maker-otc/tree/master/src}
+For the asset trading workload, we adopt an existing and deployed order book implementation.\footnote{See \url{https://github.com/makerdao/maker-otc/tree/master/src}}
 This smart contract implements a market to trade digital tokens that reside on the Ethereum blockchain.
-To quantify the overhead of order matchmaking, we remove the token transfer after matching from the smart contract but leave the implemented price-time matchmaking logic intact.
-
-\begin{figure*}[t!]
-	\centering
-	\begin{subfigure}{.33\columnwidth}
-		\centering
-		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_bandwidth.pdf}
-		\caption{Total bandwidth usage}
-		\label{fig:ethereum_bandwidth}
-	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_memory.pdf}
-		\caption{Maximum memory usage}
-		\label{fig:ethereum_memory}
-	\end{subfigure}%
-	\begin{subfigure}{.33\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}
-		\caption{Order fulfill latency}
-		\label{fig:ethereum_latencies}
-	\end{subfigure}
-	\caption{The total bandwidth usage, the maximum memory usage across matchmakers, and the distribution of order fulfill latencies of on-chain matchmaking on Ethereum and in MATCH, under the ride-hailing and asset trading workloads.}
-	\label{fig:ethereum_experiments}
-\end{figure*}
+Orders are bundled in a limit order book and organized in distinct price levels.
+This allows for a strategic search for order matches and avoids the need for a full linear scan through all offers and requests.
+This order book organization is predominantly used by financial exchanges.
+To quantify the overhead of order matchmaking, we remove the operation that transfers token ownership after matching from the smart contract but leave the implemented price-time matchmaking logic intact.
 
 \textbf{Bandwidth usage.}
 We measure the aggregated bandwidth usage of all instance of MATCH and Ethereum, see Figure~\ref{fig:ethereum_bandwidth}.
 Ethereum requires over 20GB of network traffic for the ride-hailing workload.
 In comparison, MATCH uses dramatically less bandwidth compared to Ethereum-based matchmaking.
 MATCH only requires 41.6MB of aggregate network traffic under the ride-haling workload, and 20.7MB under the asset trading workload.
-The high bandwidth usage of Ethereum is a direct consequence of the requirement for full state replication.
-Specifically, each submitted transaction and produced block is disseminated to all active Ethereum instances, resulting in a significant amount of network traffic.
+The high bandwidth usage of Ethereum is a direct consequence of the full replication of state.
+Specifically, each transaction and block is disseminated to all active Ethereum instances, resulting in a significant amount of network traffic.
 
-\textbf{Memory usage.}
-We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
-At peak, Ethereum requires 2.8GB of memory to store pending transactions.
-This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
-Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
-In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
+\begin{figure}[t!]
+	\centering
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_bandwidth.pdf}
+		\caption{Total bandwidth usage}
+		\label{fig:ethereum_bandwidth}
+	\end{subfigure}%
+	%	\begin{subfigure}{.66\columnwidth}
+	%		\centering
+	%		\includegraphics[width=\columnwidth]{assets/plots/ethereum_memory.pdf}
+	%		\caption{Maximum memory usage}
+	%		\label{fig:ethereum_memory}
+	%	\end{subfigure}%
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}
+		\caption{Order fulfil latency}
+		\label{fig:ethereum_latencies}
+	\end{subfigure}
+	\caption{The total bandwidth usage and the distribution of order fulfil latencies of on-chain matchmaking on Ethereum and in MATCH, under the ride-hailing and asset trading workloads.}
+	\label{fig:ethereum_experiments}
+\end{figure}
 
-\textbf{Order fulfill latencies.}
+%\textbf{Memory usage.}
+%We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
+%At peak, Ethereum requires 2.8GB of memory to store pending transactions.
+%This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
+%Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
+%In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
+
+\textbf{Order fulfil latencies.}
 In Figure~\ref{fig:ethereum_latencies}, we show the time it takes to complete orders in MATCH and Ethereum, for both workloads.
-Specifically, this is the time between order creation and order fulfillment.
+Specifically, this is the time between order creation and order fulfilment.
 For the ride-hailing workload, we only consider the completion time of requests made by passengers, since drivers are waiting for incoming requests.
 Figure~\ref{fig:ethereum_latencies} shows that the average order completion time of MATCH under the ride-hailing workload is 2.46 seconds and increases under the asset trading workload to 5.02 seconds.
-Since users aggregate \texttt{match} messages during the match window, the order fulfill latency in MATCH is at least $ W_{match} $ (which is fixed to two seconds in our experiments).
-In comparison, the average order fulfill latency in Ethereum is 258.2 and 53.6 seconds under the ride-hailing and asset trading workload, respectively.
+Since users aggregate \texttt{match} messages during the match window, the order fulfil latency in MATCH is at least $ W_{match} $ (which is fixed to two seconds in our experiments).
+In comparison, the average order fulfil latency in Ethereum is 258.2 and 53.6 seconds under the ride-hailing and asset trading workload, respectively.
 We argue that in a ride-hailing market, the latencies experienced when performing matchmaking on an Ethereum blockchain would be unacceptable for both passengers and drivers.
 
 \begin{figure}[b]
 	\centering
-	\includegraphics[width=.75\linewidth]{match/assets/plots/tx_pool}
-	\caption{The size of the Ethereum transaction pool when running the ride-hailing and asset trading workload.}
+	\includegraphics[width=\linewidth]{match/assets/plots/tx_pool}
+	\caption{The size of the transaction pool during our Ethereum experiments, under the ride-hailing and asset trading workloads.}
 	\label{fig:ethereum_tx_pool}
 \end{figure}
 
 \textbf{Ethereum transaction pool.}
-To further analyze the large differences in order fulfill latencies between MATCH and Ethereum, we visualize the size of the Ethereum transaction pool (as maintained by a single Ethereum instance) during the experiment in Figure~\ref{fig:ethereum_tx_pool}.
+To further analyse the large differences in order fulfil latencies between MATCH and Ethereum, we visualize the size of the Ethereum transaction pool (as maintained by a single Ethereum instance) during the experiment in Figure~\ref{fig:ethereum_tx_pool}.
+This figure shows the time into the experiment on the horizontal axis and the number of transactions in the pool on the vertical axis.
 The transaction pool contains transactions that are not yet included in a block on the blockchain by a miner.
 Note how Ethereum becomes congested under the asset trading workload quickly after starting the experiment.
 Around 70 seconds into the asset trading experiment, the transaction pool contains 1'713 unconfirmed transactions that are buying or selling assets.
@@ -1650,44 +1771,53 @@ Passengers start to submit ride requests 100 seconds into the experiment.
 Similar to the asset trading workload, the size increase of the Ethereum transaction pool shows that the blockchain is unable to handle the load of incoming transaction, causing congestion.
 180 seconds into the experiment, the number of unconfirmed transactions decreases.
 Further inspection of the blockchain reveals that only around ten transactions with a ride request are included in each block.
-We explain this behavior as follows.
-In Ethereum, the sum of gas usage of all transactions in each block cannot exceed 10'000'000 gas.
-The gas cost of matching ride requests scales with the number of open ride offers and decreases over time during the experiment since there are less offers to compare with.
-Note how after 500 seconds into the experiment, the number of unconfirmed transactions decreases more quickly for the ride-hailing experiment.
+We explain this behaviour as follows.
+In Ethereum, the sum of gas usage of all transactions in a block cannot exceed 10'000'000 gas.
+The gas cost of matching ride requests scales with the number of open ride offers and decreases during the experiment since there are less offers to compare with.
+Note how after 500 seconds into the ride-hailing experiment, the number of unconfirmed transactions decreases quickly.
 
 %Overall, our comparison experiments highlight the resource costs associated with transparent matchmaking.
 
 \section{Related Work}
-Matchmaking (or brokering) is a core concept in publish/subscribe architectures.
-In centralized publish/subscribe architectures, a single server brokers incoming messages between publishers and subscribers~\cite{Carzaniga2001DesignAE}.
-Decentralized approaches either flood events through the entire network, or route these events based on their topic or content~\cite{Banavar1999AnEM}~\cite{Carzaniga2004ARS}.
-We believe that decentralized, content-based routing of orders (events) can be a promising starting point for an alternative order matching mechanism~\cite{Li2005CompositeSI}.
-Traders then act as publishers and route orders (events) to matchmakers, which subscribe to specific types of orders. % a distributed order book mechanism can be modelled as a content-based publish-subscribe system where subscribers (potential buyers) subscribe to order events generated by publishers (potential sellers).
-However, publish/subscribe architectures aim for eventual delivery to \emph{all} interested subscribers, which is not a scalable approach when many orders are submitted.
+Matchmaking (or brokering) is a core concept in publish/subscribe (Pub/Sub) architectures.
+In centralized Pub/Sub architectures, a single server brokers incoming messages between publishers and subscribers~\cite{Carzaniga2001DesignAE}.
+Decentralized approaches either flood events through the entire network, or route these events based on their topic or content~\cite{banavar1999efficient,carzaniga2004routing}.
+In contrast to Pub/Sub systems, MATCH does not ensure that events (orders) are eventually delivered to all subscribers (matchmakers).
 
-Resource allocation, the assignment of compute resources to incoming jobs, requires matchmaking~\cite{czajkowski1998resource}.
+%We believe that decentralized, content-based routing of orders (events) can be a promising starting point for an alternative order matching mechanism~\cite{Li2005CompositeSI}.
+%Traders then act as publishers and route orders (events) to matchmakers, which subscribe to specific types of orders. % a distributed order book mechanism can be modelled as a content-based publish-subscribe system where subscribers (potential buyers) subscribe to order events generated by publishers (potential sellers).
+%However, publish/subscribe architectures aim for eventual delivery to \emph{all} interested subscribers, which is not a scalable approach when many orders are submitted.
+
+Resource allocation, the assignment of compute resources to incoming jobs, also requires matchmaking~\cite{czajkowski1998resource}.
 %Various matchmaking architectures have been proposed in the context of resource allocation.
 Most work on resource allocation aims to find an optimal assignment between resources and jobs, whereas our work focuses on establishing any match~\cite{ludwig2012matchmaking}.
 In this context, we identify two matchmaking approaches described in literature.
-The first approach is to use market mechanisms that coordinate the matchmaking process, e.g., by a continuous double auction mechanism~\cite{gomoluch2003market} \cite{mihailescu2010distributed} \cite{Buyya2002EconomicMF}.
+The first approach is to use market mechanisms that coordinate the matchmaking process, e.g., by a continuous double auction mechanism~\cite{gomoluch2003market,mihailescu2010distributed,Buyya2002EconomicMF}.
 Market-based matching approaches increase allocation efficiency but compromise on computational efficiency since it requires synchronization mechanisms.
-The second matchmaking approach is to deploy one or more dedicated (centralized) brokers~\cite{raman1998matchmaking} \cite{frey2002condor} \cite{ebrahimi2004matchmaking}.
+The second approach to matchmaking is to deploy one or more dedicated (centralized) brokers~\cite{raman1998matchmaking,frey2002condor,ebrahimi2004matchmaking}.
 
-Motivated by the scalability and load balancing issues of centralized matchmaking, various researchers explored the usage of multiple, independent matchmakers~\cite{azab2008adaptive}~\cite{edinger2016decentralized}~\cite{Abdullah2010EffectOT}~\cite{sigdel2005framework}.
-Matchmakers usually operate within their own administrative domain, acting as a broker for a specific set of peers.
+Motivated by the scalability and load balancing issues of centralized matchmaking, various researchers explored the usage of multiple, independent matchmakers~\cite{azab2008adaptive,edinger2016decentralized,abdullah2010effect,sigdel2005framework}.
+Matchmakers usually operate within their own administrative domain, acting as a broker for a specific set of nodes.
 %The work of Sigdel et al. specifically addresses load balancing issues and present a hybrid solution where matchmakers are automatically deployed when the system load increases~.
 %While comparable to the federated matchmaking model, their architecture lacks scientific evaluation under a realistic workload.
-The work of Shafran et al. evaluates a distributed matchmaking model where orders are cached by intermediate agents~\cite{Shafran2008TowardsBD}.
+The work of Shafran et al. evaluates a distributed matchmaking model where orders are cached by intermediate agents~\cite{shafran2008towards}.
 Their work, however, only considers one-to-one matching.
 
 With the proliferation of blockchain-based tokens, there have been various proposals for matchmaking architectures that complement decentralized exchanges.
 These architectures aim to avoid transaction fees and expensive on-chain matchmaking by relying on an off-chain order matching service, and on-chain order execution.
 IDEX, an Ethereum-based decentralized exchange, uses a centralized server for order matchmaking~\cite{idex}.
-In AirSwap, \emph{indexers} mediate trade between makers, peers who create an order, and takers, who fulfill existing orders~\cite{swap}. %, and act as matchmakers.
+In AirSwap, \emph{indexers} mediate trade between makers, nodes who create an order, and takers, who fulfil existing orders~\cite{swap}. %, and act as matchmakers.
 In contrast to MATCH, a user can only send a new order to a single AirSwap indexer.
 The 0x protocol uses a similar matchmaking approach since traders send a new order to exactly one matchmaker~\cite{warren20170x}.
 The Loopring protocol is similar to the decentralized matching model of MATCH since traders submit orders to one or more \emph{relay nodes}~\cite{loopring}.
-Their protocol description, however, lacks details on the dissemination strategy of orders to matchmakers.
+The protocol description, however, lacks details on the dissemination strategy of orders to matchmakers.
+
+Auctions are related to order matchmaking since they also provide a mechanism to allocate resources from sellers to buyers.
+PeerMart is a decentralized auction mechanism that uses sets of distributed brokers~\cite{haussheer2005decentralized}.
+There have been various proposals to run Ethereum-based auctions while preserving the privacy of bidders~\cite{galal2018verifiable,galal2018succinctly}.
+Yet, auctions and order matchmaking are different economic primitives with differing goals.
+In contrast to order matchmaking, timeframes (and time limitations) are critical in auctions.
+Furthermore, auctions have higher security requirements and need (time-bounded) coordination amongst participants, e.g., to determine the winning bidder.
 
 % Focus on economics
 %We identify two major differences between our MATCH infrastructure and existing matchmaking infrastructures for blockchain-managed tokens.
@@ -1696,14 +1826,14 @@ Their protocol description, however, lacks details on the dissemination strategy
 %This work is the first to systematically evaluate properties of decentralized order matchmaking, to our best knowledge.
 
 \section{Conclusions}
-We have presented MATCH, a decentralized middleware for fair order matchmaking.
+We have presented MATCH, a decentralized middleware for fair matchmaking in peer-to-peer markets.
 Our work addresses fairness concerns associated with the use of in-house, proprietary solutions controlled by a market operator.
-In the MATCH protocol, users send new orders to a small, random subset of matchmakers, which then inform users about potential matches.
+In the MATCH protocol, users send new orders to a small, random subset of matchmakers, which inform users about potential matches.
 Users then engage in peer-to-peer negotiation about matches with other users.
-This approach makes MATCH resilient against matchmaker with selfish interests.
+This approach makes MATCH resilient against matchmakers who deviate from a standard matching policy.
 We have devised the MATCH middleware architecture, suitable for deployment in a WAN environment.
 %We improved upon existing matchmaking models and introduced the decentralized matchmaking paradigm, where orders are sent to multiple matchmakers and actively shared between them.
 %The decentralized matchmaking model yields high fault tolerance and good load balancing, at the cost of additional communication overhead and order fulfill latency.
 %We have presented both a novel three-phase matching protocol, based on match notifications and peer-to-peer trade negotiation, and a middleware with effective order dissemination and synchronization policies.
-We have experimentally proven resistance against malicious matchmakers in a ride-hailing and asset trading domain, showing that MATCH still establishes matches with high quality.
+We have experimentally proven resistance against malicious matchmakers in a ride-hailing and asset trading domain, showing that MATCH still establishes high-quality matches.
 Our comparison experiments have showed that the resource usage of MATCH is considerably lower compared to that of matchmaking on an Ethereum blockchain.
