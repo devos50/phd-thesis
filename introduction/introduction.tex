@@ -21,12 +21,12 @@
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
 \dropcap{A} marketplace facilitates the exchange of services, goods and information between individuals and businesses.
-They play an essential role in our economy, enabling the exchange of value on both a local and worldwide scale.
-Electronic commerce makes up a large part of global trade and builds on Internet technology to electronically buy or sell products and digital services.
+They play an essential role in our economy, enabling the exchange of value on local and global scale.
+A large part of all conducted trades proceeds on electronic marketplaces that leverage Internet technology to electronically buy or sell products and digital services.
+On electronic marketplaces, users routinely trade with other users with whom they never interacted before, unlike in many physical marketplaces.
 %The Internet provides the infrastructure to globally exchange information and to deploy large-scale electronic marketplaces, e.g., Amazon and eBay.
-Amazon and eBay are well-known examples of large-scale Internet marketplaces that connect buyers and sellers.
-During the last decades, however, companies acting in the \emph{sharing economy}, such as Uber and AirBnb, have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources such as cars and houses with strangers.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}.}
-%On electronic markets, traders routinely trade with other traders with whom they never interacted before, unlike in many physical marketplaces.
+Amazon and eBay are well-known examples of large-scale Internet marketplaces that facilitate the exchange of goods between buyers and sellers.
+During the last decades, companies acting in the \emph{sharing economy}, such as Uber and AirBnb, have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources such as cars and houses with strangers.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}.}
 %During the last decade, this effect has been amplified by companies acting in the \emph{sharing economy}, like Uber and AirBnb.
 %The notion of sharing personal resources with strangers (e.g., cars and houses) has long been perceived as unreliable.
 
@@ -39,19 +39,19 @@ The standard approach to devise electronic marketplaces is by deploying centrali
 This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and transaction processing (e.g., by providing payment services).
 Also, the market operator often acts as a trusted intermediary between buyers and sellers, leveraging its intermediate position to address potential conflicts arising between traders.
 For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, mediates in case of a dispute, and processes all payments made by passengers.
-Market intermediaries usually charge users for their services through transaction fees.
+Market intermediaries usually charge users for the provided services through transaction fees.
 
 Advancements in information technology, in particular blockchain technology, have challenged the need for both authoritative market operators and trusted intermediaries.
 The Bitcoin currency, powered by a tamper-proof distributed ledger, has demonstrated that it is possible to build a cash system, not under the ownership of a financial institution~\cite{nakamoto2008bitcoin}.
 Similarly, Ethereum enables developers to write legally-binding contractual logic without notaries~\cite{wood2014ethereum}.
 As we will elaborate, the notion of \emph{disintermediation}, removing trusted intermediaries, is closely related to the process of \emph{decentralization} where authority residing in a single entity is re-distributed over multiple entities.
-There is an increasing amount of research effort to disintermediate different aspects of electronic marketplaces and to replace centralized components with decentralized solutions such as distributed ledgers.
+There is an increasing amount of research effort to disintermediate different aspects of electronic marketplaces and to replace centralized components with decentralized solutions, such as distributed ledgers.
 
 This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based electronic marketplaces.
-A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
-In this thesis, we design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
+%A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
+We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
 These aspects include identity management, fraud management, information management, matchmaking and settlement.
-In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and describe the five aspects of blockchain-based marketplaces.
+In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and elaborate on the five aspects of blockchain-based marketplaces.
 %While the discussed mechanisms in this thesis focus on different aspects of marketplaces, their common goal is to identify the role of trusted intermediaries and assess if theyr . 
 %The remainder of this introduction is structured as follows:, we first outline the impact of the Internet as infrastructure to conduct trade.
 %Next, we show how blockchain technology makes it possible to devise marketplaces without middleman.
@@ -60,8 +60,8 @@ In the remainder of this introduction, we define the concepts of decentralizatio
 
 \section{Decentralization in Blockchain-based Markets}
 \label{sec:decentralization}
-This thesis introduces five \emph{decentralized} solutions for blockchain-based marketplaces.
-Therefore, it is key to understand what decentralization means in the context of this thesis, and how blockchain-based marketplaces achieve decentralization.
+This thesis discusses five \emph{decentralized} solutions for blockchain-based marketplaces.
+Therefore, it is important to understand what decentralization means in the context of this thesis, and how blockchain-based marketplaces achieve decentralization.
 %Specifically, we define the term \emph{decentralization} in the context of this work, and show how this concept is applied by blockchain-based marketplaces.
 
 \subsection{What is Decentralization?}
@@ -461,28 +461,29 @@ We outline three settlement techniques commonly found in blockchain-based market
 
 \subsubsection{Atomic Swaps}
 The \emph{atomic swap} is a protocol that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
-Atomic swaps enable two parties to exchange blockchain-based assets atomically: the asset exchange either completes or fails for both parties at any given time.\footnote{We remark that the atomicity property of the atomic swap depends protocol on the security of the underlying blockchains. If one of the blockchains is compromised by adversaries, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.}
+Atomic swaps enable two parties to exchange blockchain-based assets in an atomic manner: the asset exchange either completes or fails for both parties at any given time.\footnote{We remark that the atomicity property of the atomic swap protocol depends on the security of the underlying blockchains. If one of the blockchains is compromised by adversaries, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.}
 Atomic swaps eliminate the risk of losing assets to an adversarial trader during the exchange.
-The main idea is that trading users lock assets in a specialized transaction on the blockchain and both acknowledge the receipt of assets within a specific time period.
+The main idea is that trading users lock their assets in a specialized transaction on the blockchain in such a way that no single party can claim both locked assets.
 This is achieved with \emph{Hash-Timelock Contracts}, a special transaction that leverages hash locks and time locks.
-A hash lock is a restriction that prevents the transfer of funds until the pre-image of a provided hash is revealed.
-A time lock is a primitive that locks funds until a specific time and prevents funds from being locked up for an indefinite amount of time during an atomic swap.
-This time lock should be well above the block confirmation time of the underlying blockchain to prevent the loss of funds during a blockchain reorganization.
-In practice, this value is often fixed to 24 hours.
+A hash lock is a restriction that prevents the transfer of assets until the pre-image of a provided hash is revealed.
+A time lock is a primitive that locks assets until a specific time.
+They prevent the assets being traded from being locked up indefinitely during an atomic swap.
+This time lock should be well above the block confirmation time of the underlying blockchain to prevent the loss of assets during a blockchain reorganization.
+In practice, this value is often fixed to several hours.
 
-We further explain the atomic swap by considering an asset exchange between Alice and Bob.
-Figure~\ref{fig:atomic_swap_intro} visualizes an atomic swap between Alice and Bob, where Alice sells her Bitcoin in return for Ether (the native token of the Ethereum blockchain).
-The basic atomic swap, first described by Tier Nolan, consists of the following six steps:
+We further explain the atomic swap by considering a trade with Bitcoin and Ether (the native token of the Ethereum blockchain).
+Figure~\ref{fig:atomic_swap_intro} visualizes an atomic swap between two parties, Alice and Bob, where Alice sells her Bitcoin in return for Ether.
+The basic atomic swap, described by Tier Nolan~\cite{nolan2016atomic}, consists of the following six steps:
 
 \textbf{Step 1.} Alice generates a secret value $ s $ and computes $ H(s) $ where $ H(\cdot) $ is a secure hash function.
 
-\textbf{Step 2.} Alice submits a hash-timelock transaction $ T_1 $ to the Bitcoin blockchain, locking her Bitcoin and using $ H(s) $ for the hash lock. A party can claim these Bitcoin with another transaction that provides $ s $ within a specific time duration.
+\textbf{Step 2.} Alice submits a hash-timelock transaction $ T_1 $ to the Bitcoin blockchain, locking her Bitcoin and using $ H(s) $ for the hash lock. A party can claim the Bitcoin held by $ T_1 $ with another transaction that provides $ s $, within a specific time duration.
 
-\textbf{Step 3.} Alice sends the value of $ H(s) $ to Bob.
+\textbf{Step 3.} Alice sends $ H(s) $ to Bob using any communication medium.
 
 \textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Bitcoin and using $ H(s) $ for the hash lock.
 
-\textbf{Step 5.} Since Alice knows $ s $, she claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. This reveals pre-image $ s $ to Bob.
+\textbf{Step 5.} Alice claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. $ T_3 $ unlocks the hash-lock in $ T_2 $. This reveals pre-image $ s $ to Bob.
 
 \textbf{Step 6.} Bob now claims Alice's Bitcoin locked in $ T_1 $ by submitting a transaction, $ T_4 $, to the Bitcoin blockchain, containing $ s $. The asset exchange is now complete.
 
@@ -636,7 +637,7 @@ This body of research tends to follow a theoretical approach through the use of 
 In this thesis, we adopt an experimental approach where we answer each research question by designing, implementing and evaluating a decentralized system or mechanism.
 %We then systematically evaluate the appropriate properties of each mechanism (e.g., scalability), and if feasible, we deploy our mechanisms to users to analyse our system in a real-world environment.
 For all of our proposed mechanisms, our goal is to build a solution that is ready for deployment and usable by real users.
-We have implemented each mechanism in the Python programming language, often within a few thousand lines of code.
+We have implemented each mechanism in the Python programming language, usually within a few thousand lines of code.
 We utilize an existing networking library for networking primitives, which is developed by our lab.\footnote{https://github.com/tribler/py-ipv8}
 Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of experiments on our nation-wide compute cluster (the DAS5~\cite{bal2016medium}) and how we have conducted our deployment.
 Except for DevID, we evaluate each system with an appropriate set of experiments that have been conducted on the DAS5.
@@ -652,11 +653,11 @@ We attempt to make our research reproducible by publishing the implementation of
 Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms in our Internet-of-Money mechanism.
 
 The complexity of real-world systems often posed a challenge when deploying our mechanisms.
-For example, shortly after the initial deployment of the MATCH mechanism in Tribler, a group of students forged a specific packet that would crash a Tribler instance.
+For example, shortly after the initial deployment of the MATCH mechanism in Tribler (see Chapter~\ref{chapter:match}), students forged a specific packet that would crash a Tribler instance.
 Specifically, we forgot to check whether the timeout value of an order was within a valid range.
 Tribler would forward the packet to other connected peers before crashing.
 Therefore, this bug affected a large part of our network and we immediately deployed a fix for this behaviour by releasing a new version of Tribler.
-Despite the large efforts required to get a system deployed and operational, this process has been tremendously helpful in discovering both critical design flaws and smaller implementation errors.
+Despite the large efforts required to get a system deployed and operational, this process has been tremendously helpful in discovering both critical design flaws and minor implementation errors.
 
 %Distributed systems can be complex software implementations with many components that work together.
 %Specifying the scope of a system is a non-trivial challenge and failing to implement clear system boundaries can result in numerous performance bottlenecks and degradation of user experience when such a system is deployed.
