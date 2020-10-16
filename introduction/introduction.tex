@@ -20,13 +20,13 @@
 %In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-\dropcap{A} marketplace facilitates the exchange of services, goods and information between individuals and businesses.
-They play an essential role in our economy, enabling the exchange of value on local and global scale.
+\dropcap{M}arketplaces facilitates the exchange of services, goods and information between individuals and businesses.
+They play an essential role in our economy, enabling the exchange of value on a local and a global scale.
 A large part of all conducted trades proceeds on electronic marketplaces that leverage Internet technology to electronically buy or sell products and digital services.
 On electronic marketplaces, users routinely trade with other users with whom they never interacted before, unlike in many physical marketplaces.
 %The Internet provides the infrastructure to globally exchange information and to deploy large-scale electronic marketplaces, e.g., Amazon and eBay.
 Amazon and eBay are well-known examples of large-scale Internet marketplaces that facilitate the exchange of goods between buyers and sellers.
-During the last decades, companies acting in the \emph{sharing economy}, such as Uber and AirBnb, have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources such as cars and houses with strangers.\footnote{This is also known as \enquote{stranger sharing}~\cite{schor2016debating}.}
+During the last decades, companies acting in the \emph{sharing economy}, such as Uber and AirBnb, have expanded the notion of e-commerce by offering global marketplaces for the sharing of personal resources such as cars and houses with strangers.
 %During the last decade, this effect has been amplified by companies acting in the \emph{sharing economy}, like Uber and AirBnb.
 %The notion of sharing personal resources with strangers (e.g., cars and houses) has long been perceived as unreliable.
 
@@ -36,7 +36,7 @@ During the last decades, companies acting in the \emph{sharing economy}, such as
 %Third, the market has to provide institutional infrastructure for fraud management, dispute resolution and regulatory compliance.
 
 The standard approach to devise electronic marketplaces is by deploying centralized infrastructure, entirely operated and managed by an authoritative market operator.
-This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and transaction processing (e.g., by providing payment services).
+This market operator provides the required primitives for bringing buyers and sellers together, for the management of market information (e.g., product listings), and for transaction processing (e.g., by providing payment services).
 Also, the market operator often acts as a trusted intermediary between buyers and sellers, leveraging its intermediate position to address potential conflicts arising between traders.
 For example, the ride-hailing company Uber ensures that its drivers are sufficiently qualified to offer their services to passengers, mediates in case of a dispute, and processes all payments made by passengers.
 Market intermediaries usually charge users for the provided services through transaction fees.
@@ -47,10 +47,12 @@ Similarly, Ethereum enables developers to write legally-binding contractual logi
 As we will elaborate, the notion of \emph{disintermediation}, removing trusted intermediaries, is closely related to the process of \emph{decentralization} where authority residing in a single entity is re-distributed over multiple entities.
 There is an increasing amount of research effort to disintermediate different aspects of electronic marketplaces and to replace centralized components with decentralized solutions, such as distributed ledgers.
 
+% TODO logische volgorde: information management -> matchmaking -> settlement -> fraud mangement -> identity management
+
 This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based electronic marketplaces.
 %A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
-We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
-These aspects include identity management, fraud management, information management, matchmaking and settlement.
+We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.\todo{beter uitleggen - geen 1:1 mapping}
+These aspects include information management, matchmaking, settlement, fraud management and identity management.
 In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and elaborate on the five aspects of blockchain-based marketplaces.
 %While the discussed mechanisms in this thesis focus on different aspects of marketplaces, their common goal is to identify the role of trusted intermediaries and assess if theyr . 
 %The remainder of this introduction is structured as follows:, we first outline the impact of the Internet as infrastructure to conduct trade.
@@ -148,7 +150,7 @@ Since then, there has been much effort to build tools for developers to increase
 At the time of writing, there are over 6'000 different cryptocurrencies across hundreds of blockchain platforms.\footnote{https://coinmarketcap.com/all/views/all/}
 The proliferation of different digital assets has resulted in the deployment of centralized cryptocurrency exchanges, operated by a market authority.
 On these exchanges, users can trade their cryptocurrency for other cryptocurrencies or fiat currencies such as Dollars or Euros.
-When using the services of a centralized cryptocurrency exchanges, users have to deposit their funds to a wallet owned by the market operator for their trade to complete.
+When using the services of a centralized cryptocurrency exchange, users have to deposit their funds to a wallet owned by the market operator for their trade to complete.
 Users create orders to buy or sell their cryptocurrencies.
 The market operator then matches the buy or sell order with existing orders and transfers the ownership of cryptocurrencies when a trading opportunity has been found.
 Currently, the biggest cryptocurrency exchange is Binance, with a 24-hour volume of \$16 billion at the time of writing.\footnote{https://coinmarketcap.com/rankings/exchanges/}
@@ -182,7 +184,7 @@ We identify four advantages of DEXes over centralized cryptocurrency exchanges.
 First, DEXes enhance security during the trading process; a trade is usually an atomic operation, and there is minimal risk of losing funds.
 Second, users themselves remain in control of their funds when trading on a DEX and do not have to transfer ownership of their assets to the market operator.
 Third, the transaction fees associated with trading on a DEX are usually lower compared to a centralized exchange since there is no profit-driven intermediary.
-Forth, DEXes allow users to remain anonymous, whereas centralized exchanges often require the validation of one's identity.
+Fourth, DEXes allow users to remain anonymous, whereas centralized exchanges often require the validation of one's identity.
 
 Despite these advantages, many DEXes currently suffer from low liquidity and trading volume, making them less attractive for long-term trading.
 Furthermore, their transaction throughput depends on the consensus model used by the underlying blockchain, which might make them unsuitable for bulk trading.
@@ -200,12 +202,12 @@ As such, there is much interest in removing trusted intermediaries from the trad
 Disintermediation is defined by Merriam-Webster as \enquote{the elimination of an intermediary in a transaction between two parties}.
 Disintermediation is very much related to the concept of decentralization, specifically, disintermediation requires decentralization as its foundation~\cite{guo2016blockchain}.
 The debate around disintermediation in electronic markets dates back to the rise of the Internet itself. % is a concept that pre-dates blockchain technology.
-The Internet provided infrastructure to provide users with quick and convenient access to market information, therefore opening opportunities to replace traditional broker agents whose primary role was to aggregate this market information~\cite{wigand2020whatever}.
+The Internet provided infrastructure that offers users quick and convenient access to market information, therefore opening opportunities to replace traditional broker agents whose primary role was to aggregate this market information~\cite{wigand2020whatever}.
 A clear example of disintermediation can be found in the book publishing market~\cite{giaglis1999disintermediation}.
 Information technology enables book buyers to quickly place their order and allows authors to only print their books when there is actual demand, therefore removing the retailer from the book supply chain.
 
 Bitcoin and subsequent blockchain-related innovations have further challenged the need for trusted intermediaries.
-For example, a financial institution acts as intermediary in traditional payment systems and handles all payment between different (possibly foreign) banks.
+For example, a financial institution acts as intermediary in traditional payment systems and handles all payments between different (possibly foreign) banks.
 By leveraging cryptographic techniques, cryptocurrencies have demonstrated that a decentralized payment system without financial institutions is possible.
 Since the introduction of Bitcoin, there has been much effort by both industry and academia to critically assess the necessity of trusted intermediaries, and potentially replace them with another mechanism, e.g., smart contracts on Ethereum~\cite{lande2018sok}.
 
@@ -231,17 +233,16 @@ Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is a
 
 \section{Aspects of Blockchain-based Marketplaces}
 So far, we outlined how blockchain technology is being applied to build decentralized marketplaces and how cryptographic techniques are capable of replacing trusted intermediaries in existing electronic markets.
-Now, we will shift our focus to blockchain-based marketplaces and elaborate on their aspects.
+Now, we will shift our focus to the aspects of blockchain-based marketplaces.
 First, it is crucial to carefully define what a blockchain-based marketplace means in the context of this thesis.
 We observe that there is much ambiguity around the concept of blockchain-based marketplaces in academic work.
 This confusion is partially explained by the fact that electronic markets have different aspects, and blockchain technology can be applied to multiple aspects.
 For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants~\cite{openbazaar}.
 In the context of this thesis, we define a blockchain-based marketplace as \emph{a marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
-Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace.
+Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace, which are \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
 This figure is the result of our literature analysis, where we have read scientific material on electronic marketplaces that leverage blockchain technology.
-We identify the following five aspects in blockchain-based marketplaces: \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
-We decompose each aspect into commonly used mechanisms.
+We decompose each aspect into commonly used mechanisms.\todo{remove one aspects}
 We now elaborate on each aspect and the existing mechanisms.
 
 \subsection{Information Management}
@@ -311,7 +312,7 @@ FileCoin, a decentralized market for file storage, also leverages IPFS to store 
 		\caption{\emph{Decentralized matchmaking} a new order is sent to multiple matchmakers.}
 		\label{fig:decentralized_matchmaking}
 	\end{subfigure}
-	\caption{Three approaches for matchmaking. Traders create offers and requests (coloured green and red respectively), which are matched by matchmakers (depicted in blue).}
+	\caption{Three approaches for matchmaking. Traders create offers and requests (coloured green and red respectively), which are matched by matchmakers (depicted in blue).\todo{poppetje -> server}}
 	\label{fig:matching_architectures}
 \end{figure*}
 
@@ -397,7 +398,7 @@ This makes the added benefit of this approach, compared to centralized matchmaki
 The main idea of \emph{decentralized matchmaking} is that a single order is sent to multiple matchmakers simultaneously.
 In addition, matchmakers are able to synchronize known orders with other matchmakers.
 
-This approach exclusively used in the context of blockchain-based marketplaces, to the best knowledge of the authors.
+This approach is exclusively used in the context of blockchain-based marketplaces, to the best knowledge of the authors.
 Most DEXes that operate on a blockchain use \emph{on-chain} decentralized matchmaking.
 This process either relies on a smart contract to match known orders or executes the matchmaking logic as part of the transaction validation.
 The market orders are embedded in transactions and sent to miners for inclusion on the blockchain.
@@ -414,7 +415,7 @@ Some blockchain-based marketplaces maintain the order book \emph{off-chain} to l
 Loopring, for example, is an order sharing protocol where new orders are sent to one or more relays in an off-chain mesh network~\cite{loopring}.
 Relayers claim the margin between two matched orders, or can alternatively charge a fixed fee for their services.
 The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{zhang2017republic}.
-The protocol uses Shamir secret sharing~\cite{shamir1979share} to break down an order in multiple order fragments which are distributed through the network, therefore hiding the identity of the order creator.
+The protocol uses Shamir secret sharing~\cite{shamir1979share} to break down an order in multiple order fragments which are distributed through the network, thus hiding the identity of the order creator.
 %Loopring is able to mix and match multiple orders in circular trade, also called order rings, therefore increasing liquidity.
 %Order rings are submitted to a smart contract, e.g., on Ethereum, where the trade is then executed.
 %Relayers can optionally share orders with other relayers to increase liquidity, however, the whitepaper lacks technical details on how this is achieved specifically.
@@ -464,7 +465,7 @@ The \emph{atomic swap} is a protocol that is commonly used to exchange assets be
 Atomic swaps enable two parties to exchange blockchain-based assets in an atomic manner: the asset exchange either completes or fails for both parties at any given time.\footnote{We remark that the atomicity property of the atomic swap protocol depends on the security of the underlying blockchains. If one of the blockchains is compromised by adversaries, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.}
 Atomic swaps eliminate the risk of losing assets to an adversarial trader during the exchange.
 The main idea is that trading users lock their assets in a specialized transaction on the blockchain in such a way that no single party can claim both locked assets.
-This is achieved with \emph{Hash-Timelock Contracts}, a special transaction that leverages hash locks and time locks.
+This is achieved with \emph{Hash-Timelock Contracts} (HTLCs), a special transaction that leverages hash locks and time locks.
 A hash lock is a restriction that prevents the transfer of assets until the pre-image of a provided hash is revealed.
 A time lock is a primitive that locks assets until a specific time.
 They prevent the assets being traded from being locked up indefinitely during an atomic swap.
@@ -475,13 +476,13 @@ We further explain the atomic swap by considering a trade with Bitcoin and Ether
 Figure~\ref{fig:atomic_swap_intro} visualizes an atomic swap between two parties, Alice and Bob, where Alice sells her Bitcoin in return for Ether.
 The basic atomic swap, described by Tier Nolan~\cite{nolan2016atomic}, consists of the following six steps:
 
-\textbf{Step 1.} Alice generates a secret value $ s $ and computes $ H(s) $ where $ H(\cdot) $ is a secure hash function.
+\textbf{Step 1.} Alice generates a secret value $ s $ and computes $ H(s) $, where $ H(\cdot) $ is a secure hash function.
 
 \textbf{Step 2.} Alice submits a hash-timelock transaction $ T_1 $ to the Bitcoin blockchain, locking her Bitcoin and using $ H(s) $ for the hash lock. A party can claim the Bitcoin held by $ T_1 $ with another transaction that provides $ s $, within a specific time duration.
 
 \textbf{Step 3.} Alice sends $ H(s) $ to Bob using any communication medium.
 
-\textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Bitcoin and using $ H(s) $ for the hash lock.
+\textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Bitcoin and also using $ H(s) $ for the hash lock.
 
 \textbf{Step 5.} Alice claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. $ T_3 $ unlocks the hash-lock in $ T_2 $. This reveals pre-image $ s $ to Bob.
 
@@ -525,7 +526,7 @@ Interledger also supports bidirectional asset exchange but is vulnerable to a fr
 %External coordination is avoided in universal mode, which relies on incentives for participants to behave honestly and not to commit fraud.
 
 \subsection{Fraud Management}
-The management of fraud is a crucial challenge in any marketplace and closely related to the settlement process.
+The management of fraud is a crucial challenge in any marketplace and is closely related to the settlement process.
 The risk of fraud typically occurs when a buyer and seller have never interacted before and therefore do not have a prior trust relation.
 A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
 In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
@@ -597,7 +598,7 @@ Furthermore, these payments require significant transaction fees to cover back-o
 %Leveraging the ideas of blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially leads to cost reductions.
 Our goal is to improve the settlement duration of international payments by leveraging blockchain technology.
 
-\textbf{[RQ4] How can assets securely be exchanged between any blockchain without a trusted intermediary?}
+\textbf{[RQ4] How can assets securely be exchanged between any blockchain without a trusted intermediary?}\todo{verwerk aspect keywords in RQs}
 Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
 Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
 A key issue we identify, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible, slow, and/or requires significant changes to the protocol.
@@ -630,7 +631,7 @@ However, the proposed solutions are not generic and there are remaining issues r
 Our work is inspired by the limitations of blockchain technology.
 Blockchain is a relatively new technology of which research is conducted in economics, computer science and social sciences.
 We identify two main research approaches in this field.
-On the one hand, published blockchain research in systems-oriented conferences (e.g., Middleware, DEBS and OSDI) adopt experimental methods where the performance of proposed mechanisms is evaluated using a comprehensive set of experiments and benchmarks.
+On the one hand, published blockchain research in systems-oriented conferences adopts experimental methods where the performance of proposed mechanisms is evaluated using a comprehensive set of experiments and benchmarks.
 On the other hand, there is a vast body of theoretical research on the security aspects of distributed ledgers and their consensus algorithms.
 This body of research tends to follow a theoretical approach through the use of formal proofs or protocol simulations.
 
@@ -641,14 +642,12 @@ We have implemented each mechanism in the Python programming language, usually w
 We utilize an existing networking library for networking primitives, which is developed by our lab.\footnote{https://github.com/tribler/py-ipv8}
 Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of experiments on our nation-wide compute cluster (the DAS5~\cite{bal2016medium}) and how we have conducted our deployment.
 Except for DevID, we evaluate each system with an appropriate set of experiments that have been conducted on the DAS5.
-During this thesis, we worked with colleagues that do not have a background in distributed systems.
-For example, Georgy Ishmaev framed the research problem that MATCH addresses within the broader scope of socio-ethical implication of matching platforms for peer-to-peer markets.
 
 Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of colleagues or with an integration in Tribler~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic research vehicle and offers decentralized, anonymous file-sharing capabilities.
 Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer-grade hardware.
 For example, we have integrated TrustChain in Tribler to prevent free-riding behaviour in our anonymous peer-to-peer overlay.
-This longitudinal deployment has allowed us to incrementally improve our software and refine our ideas.
+This two-year deployment period of TrustChain has allowed us to incrementally improve our software and refine our ideas.
 We attempt to make our research reproducible by publishing the implementation of each mechanism, including documentation and unit tests, on GitHub.\footnote{Links to the implementation are provided in the remaining chapters of this thesis.}
 Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms in our Internet-of-Money mechanism.
 
@@ -695,12 +694,12 @@ We present \ModelName{}, a scalable mechanism for micro-accounting of community 
 Each individual in \ModelName{} maintains a \emph{personal ledger} of tamper-evident \emph{micro-records}.
 Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
 Manipulation, specifically the forking of ones personal ledger, can be efficiently detected since users continuously share and validate micro-records.
-We devise a system architecture with flexible validation and fraud policies.
+We devise a system architecture with flexible validation and fraud policies.\todo{do not mention fraud?}
 Our evaluation reveals that that fraud is detected within mere 25 seconds and that \ModelName{} scales to at least 130'000 micro-records per second.
 We leverage \ModelName{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
 This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.
 We leverage the accounting capabilities of \ModelName{} for several of the other mechanisms in this thesis.
-This chapter is based on the following publication:
+This chapter is based on the following publication: \todo{mention Pim Otte paper}
 
 \todo{UNDER REVIEW}\\
 
@@ -710,12 +709,12 @@ Matchmaking is a cardinal, yet overlooked prerequisite for a fully decentralized
 Although numerous companies have deployed infrastructure for matchmaking, there is currently no solution that can be deployed within different trading domains.
 We present MATCH, a middleware for generic order matching.
 Since MATCH is agnostic about order specifications, the resulting system is highly flexible and reusable.
-We present MATCH, a decentralized middleware for fair order matchmaking.
 By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end-users to make their own educated decisions and to engage in direct negotiations with trade partners.
-This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmakinc	g.
+This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmaking.
 We implement MATCH and evaluate our middleware using real-world ride-hailing and asset trading workloads.
 It is demonstrated that MATCH maintains high matching quality, even in the presence of malicious matchmakers.
-Further, we show that the bandwidth, memory usage, and order fulfill latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
+Further, we show that the bandwidth, memory usage, and order fulfil latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain.
+The author of this thesis has collaborated with Georgy Ishmaev, who framed the research problem that MATCH addresses within the broader scope of socio-ethical implication of matching platforms for peer-to-peer markets.
 This chapter is based on the following publication:
 
 Martijn de Vos, Georgy Ishmaev and Johan Pouwelse, \enquote{MATCH: a Decentralised Middleware for Fair Matchmaking in Peer-to-peer Markets}, \emph{Middleware, 2020.}\\
@@ -731,18 +730,18 @@ We describe a generic trading protocol that establishes trade between individual
 We prove with a theoretical analysis that the effectiveness of fraud conducted by adversarial parties is limited.
 Furthermore, we devise a novel market architecture, composed of all required components for a decentralized asset marketplace.
 We implement the XChange mechanism and conduct real-world evaluations.
-To account market activity in a tamper-proof manner, we use an existing scalable blockchain ledger, TrustChain.
+To record market activity in a tamper-proof manner, we use an existing scalable blockchain ledger, TrustChain.
 By deploying XChange on multiple low-resource devices, we show that a full trade can be completed within 500 milliseconds.
 To analyze the scalability and bandwidth usage, we conduct further experiments on our compute cluster and deploy up to 500 XChange instances.
 Our main finding is that the throughput of XChange, in terms of trades per second, scales linearly with the network size.
-This chapter is based on the following publication:
+This chapter is based on the following publication: \todo{mention liquidity conference paper}
 
 \todo{UNDER REVIEW}\\
 
 \textbf{[Chapter 5] Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds.}
 In this chapter, we answer RQ4 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
 We address the challenging problem of giving money to others and relying on them to forward it.
-To identity fraud, we account money transfers between interacting strangers.
+To identify fraud, we record money transfers between interacting strangers.
 This work represents a small step towards a generic infrastructure for trust, moving beyond proven, single-vendor platforms like eBay, Uber and AirBnb.
 Expanding upon trust relations, we designed, implemented and evaluated an overlay network: \emph{Internet-of-Money}.
 Internet-of-Money is capable of real-time money transfers to different banks by routing funds through individuals (\emph{money routers}).
@@ -771,7 +770,7 @@ To demonstrate the practical value of DevID, we build the competition-based plat
 On dAppCoder clients are able to submit their ideas and developers can find work.
 dAppCoder utilizes DevID portfolios to match these clients and developers.
 We fully implement our ideas and conduct a deployment trial.
-Our trial demonstrates that DevID is efficient at storing portfolio records.
+Our trial demonstrates that DevID is efficient at storing portfolio records.\todo{rol mitchell}
 This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
