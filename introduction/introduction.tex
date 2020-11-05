@@ -51,8 +51,9 @@ There is an increasing amount of research effort to disintermediate different as
 
 This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based electronic marketplaces.
 %A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
-We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.\todo{beter uitleggen - geen 1:1 mapping}
+We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
 These aspects include information management, matchmaking, settlement, fraud management and identity management.
+Each introduce mechanism focusses on one or more of these aspects.
 In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and elaborate on the five aspects of blockchain-based marketplaces.
 %While the discussed mechanisms in this thesis focus on different aspects of marketplaces, their common goal is to identify the role of trusted intermediaries and assess if theyr . 
 %The remainder of this introduction is structured as follows:, we first outline the impact of the Internet as infrastructure to conduct trade.
@@ -236,10 +237,12 @@ So far, we outlined how blockchain technology is being applied to build decentra
 Now, we will shift our focus to the aspects of blockchain-based marketplaces.
 First, it is crucial to carefully define what a blockchain-based marketplace means in the context of this thesis.
 We observe that there is much ambiguity around the concept of blockchain-based marketplaces in academic work.
-This confusion is partially explained by the fact that electronic markets have different aspects, and blockchain technology can be applied to multiple aspects.
+This confusion is partially explained by the fact that electronic markets have different aspects, and blockchain technology can be applied to all of these aspects.
 For example, OpenBazaar is a decentralized marketplace that leverages cryptocurrencies for peer-to-peer payments between merchants and customers but uses a traditional peer-to-peer network to share product listings amongst participants~\cite{openbazaar}.
 In the context of this thesis, we define a blockchain-based marketplace as \emph{a marketplace that leverages blockchain technology to carry out one or more of its critical operations}.
 
+We break up blockchain-based marketplaces in five different aspects.
+We then assess how the concepts of decentralization and disintermediations relate to each aspect.
 Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace, which are \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
 This figure is the result of our literature analysis, where we have read scientific material on electronic marketplaces that leverage blockchain technology.
 We decompose each aspect into commonly used mechanisms.\todo{remove one aspects}
@@ -682,7 +685,7 @@ Despite the large efforts required to get a system deployed and operational, thi
 \end{figure}
 
 \section{Thesis Outline and Contributions}
-This thesis consists of seven chapters.
+This thesis consists of seven chapters.\todo{contrib <-> fraud, explain}
 In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
 Figure~\ref{fig:thesis_overview} shows the mechanisms introduced in this thesis, and visualizes the aspect(s) that each mechanism relates to.
 The content and contributions in each chapter are as follows:\\
@@ -694,12 +697,15 @@ We present \ModelName{}, a scalable mechanism for micro-accounting of community 
 Each individual in \ModelName{} maintains a \emph{personal ledger} of tamper-evident \emph{micro-records}.
 Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
 Manipulation, specifically the forking of ones personal ledger, can be efficiently detected since users continuously share and validate micro-records.
-We devise a system architecture with flexible validation and fraud policies.\todo{do not mention fraud?}
+We devise a system architecture with flexible validation and fraud policies.
+We remark that this particular kind of fraud differs from fraud that occurs during settlement.
 Our evaluation reveals that that fraud is detected within mere 25 seconds and that \ModelName{} scales to at least 130'000 micro-records per second.
 We leverage \ModelName{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
 This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.
 We leverage the accounting capabilities of \ModelName{} for several of the other mechanisms in this thesis.
-This chapter is based on the following publication: \todo{mention Pim Otte paper}
+This chapter is based on the following two publications:
+
+Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant scalable blockchain}, \emph{Future Generation Computer Systems, Special Issue on Cryptocurrency and Blockchain Technology}, 2017, Elsevier.\\
 
 \todo{UNDER REVIEW}\\
 
@@ -734,7 +740,9 @@ To record market activity in a tamper-proof manner, we use an existing scalable 
 By deploying XChange on multiple low-resource devices, we show that a full trade can be completed within 500 milliseconds.
 To analyze the scalability and bandwidth usage, we conduct further experiments on our compute cluster and deploy up to 500 XChange instances.
 Our main finding is that the throughput of XChange, in terms of trades per second, scales linearly with the network size.
-This chapter is based on the following publication: \todo{mention liquidity conference paper}
+This chapter is based on the following two publications:
+
+Martijn de Vos and Johan Pouwelse,, \enquote{XChange: A Decentralized, Blockchain-based Mechanism for Generic Trade at Scale}, \emph{ninth Erasmus Liquidity Conference}, 2019 (no proceedings)
 
 \todo{UNDER REVIEW}\\
 

@@ -2,7 +2,56 @@
 \addcontentsline{toc}{chapter}{Summary}
 \setheader{Summary}
 
-Your summary.
+Digital marketplaces play an essential role in our economy.
+The standard approach to devise such marketplaces is by deploying centralized infrastructure, entirely operated and managed by an authoritative market operator.
+Traditional marketplaces often use trusted intermediaries to store the available market information and to handle different parts of a trade, such as payment processing and dispute resolution.
+
+Advancements in information technology have challenged the need for both authoritative market operators and trusted intermediaries.
+These advancements have resulted in blockchain-based marketplaces that are capable of facilitating trade directly between peers, without centralized control and trusted intermediaries.
+These marketplaces adopt blockchain technology to carry out one or more of its critical operations by replacing social trust with cryptographic primitives.
+As such, blockchain-based marketplaces are capable of \emph{decentralizing} and \emph{disintermediating} different components of digital marketplaces.
+Decentralization refers to the concept of delegating decision making and activities away from a central authority.
+Disintermediation reduces or removes the involvement of trusted intermediaries when trading.
+
+This thesis introduces innovative approaches to decentralize and disintermediate all aspects of blockchain-based marketplaces.
+We identify five aspects of blockchain-based marketplaces, namely information management, matchmaking, settlement, fraud management, and identity management.
+We then design, implement and deploy five decentralized mechanisms.
+Each introduced mechanism focusses on one or two aspects of blockchain-based marketplaces.
+Throughout this thesis, we adopt an experimental approach where feasibility and real-world deployment are essential goals of our proposed solutions.
+
+In Chapter 1, we describe the five identified aspects of blockchain-based marketplaces and outline existing approaches that disintermediate and decentralize these aspects.
+We present our research questions, outline our research and engineering methodology, and summarize the key contributions of this work.
+
+In Chapter 2, we introduce a universal accounting mechanism, named ConTrib, to account work in decentralized applications.
+With ConTrib, each peer maintains a \emph{personal ledger} containing tamper-evident records.
+A record describes performed work between peers and links to other records.
+Fraud, operating multiple copies of a personal ledger in secret, is detected by continuously exchanging records and by verifying the consistency of incoming records against known ones.
+We perform a two-year deployment trial of ConTrib to address free-riding behaviour in Tribler, our decentralized file-sharing application.
+ConTrib also underlines several other mechanisms introduce in this thesis.
+
+In Chapter 3, we introduce MATCH, a decentralized middleware for fair matchmaking in peer-to-peer markets.
+MATCH addresses manipulation concerns associated with marketplaces under central control.
+By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end-users to make their own educated decisions and to engage in direct negotiations with trade partners.
+This approach makes MATCH highly resilient against malicious matchmakers that deviate from a specific matching policy.
+
+In Chapter 4, we introduce a universal and decentralized settlement mechanism, named XChange.
+XChange enables trustworthy asset trade between permissioned blockchains without the requirement for a trusted intermediary, collateral deposits or modifications to deployed applications.
+Our mechanism records the progression of each trade within records on a distributed log.
+XChange limits the economic gains of adversaries that have committed fraud during a trade by preventing them from engaging in other trades.
+By inspecting the trade records in the distributed log, every participant can detect if a trader is refraining from fulfilling its obligations during an ongoing trade.
+
+In Chapter 5, we introduce Internet-of-Money, a mechanism for real-time and international money transfers between different banks.
+The key idea is to break up a slow intra-bank payment into multiple fast inter-bank payments.
+A money transfer uses one or more volunteer-based services, \emph{money routers}, to complete an intra-bank payment.
+This approach reduces the duration of intra-bank payments from days to mere seconds.
+To identity fraud by money routers, we record all payments with our ConTrib accounting mechanism.
+We build and deploy an overlay network to discover available money routers and to send money to arbitrary bank accounts.
+
+Finally, in Chapter 6, we introduce DevID, an identity management solution for software developers.
+DevID bundles developer information within records on a distributed ledger.
+Developers can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements.
+To demonstrate the practical value of DevID, we build and deploy a decentralized crowdsourcing marketplace that utilizes DevID portfolios.
+Our user trial demonstrates that DevID is efficient at storing portfolio records.
 
 \chapter*{Samenvatting}
 \addcontentsline{toc}{chapter}{Samenvatting}
@@ -10,7 +59,7 @@ Your summary.
 
 {\selectlanguage{dutch}
 
-  Samenvatting in het Nederlands.
+TODO
 }
 
 
