@@ -1,4 +1,85 @@
 \chapter{Conclusion}
 \label{conclusion}
 
-The conclusions of your thesis.
+In this thesis, we have introduced five mechanisms to decentralize or disintermediate certain aspects of blockchain-based marketplaces.
+Using our universal ConTrib accounting mechanism, market information can securely be stored in a decentralized manner by peers themselves.
+With our decentralized MATCH middleware, participants can perform order matchmaking in peer-to-peer markets themselves.
+Our XChange trading mechanism enables asset trading between permissioned blockchains without any requirement for a trusted third party.
+The decentralized Internet-of-Money overlay enables fast and international money transfers without gross settlement by a central bank.
+Finally, DevID and DAppCoder is capable of disintermediating software crowdsourcing markets and allows software developers to build self-hosted, durable portfolios without data management by a trusted third party.
+
+\section{Conclusions}
+The main conclusions of this thesis are as follows:
+
+\begin{enumerate}
+	\item In Chapter~\ref{chapter:trustchain}, we have built ConTrib, a universal accounting mechanism.
+	With a two-year deployment trial of ConTrib in our peer-to-peer application Tribler, we have successfully addressed free-riding behaviour in our Tor-like overlay.
+	Our ConTrib mechanism is highly suitable for accounting data within different application domains.
+	In this thesis alone, we have leveraged ConTrib for accounting of data elements in XChange (Chapter~\ref{chapter:xchange}), Internet-of-Money (Chapter~\ref{chapter:iom}) and DevID (Chapter~\ref{chapter:devid}).
+	
+	\item Our decentralized MATCH middleware, presented in Chapter~\ref{chapter:match}, is resilient against manipulation during order matchmaking.
+	This manipulation is a significant concern in peer-to-peer markets under central ownership.
+	MATCH performs high-quality matchmaking and does so with bandwidth and memory overhead orders of magnitude lower compared to matchmaking on a blockchain.
+	We are the first to experiment with a fair alternative to the Uber ride-hailing market.
+	
+	\item In Chapter~\ref{chapter:xchange}, we have presented a new approach for asset trading between permissioned blockchains.
+	Compared to existing trading approaches that either require third party intervention or modifications to deployed blockchain logic, our approach is fully decentralized and is compatible with all permissioned blockchains.
+	Peers account ll trading activity in a distributed log, and users will not trade with suspected fraudsters until an identified dispute is resolved.
+	This approach limits the economic damage that adversaries can cause.
+	
+	\item In Chapter~\ref{chapter:iom}, we show how we have reduced the settlement duration of intra-bank payments from days to mere seconds.
+	Our decentralized overlay, Internet-of-Money, is fully compatible with existing banking infrastructure.
+	
+	\item In Chapter~\ref{chapter:devid}, we introduce unified, blockchain-based portfolios with DevID.
+	DevID solves the problem that the portfolio of developers is usually scattered across centralized platforms, and vendor locked, making it hard to get an accurate impression of the developers' skills.
+	Our fully decentralized software crowdsourcing leverages DevID portfolio to match clients with developers, without trusted intermediaries.
+	
+	\item \emph{Detecting} fraud, instead of preventing it, is an efficient and overlooked approach that can be applied to improve different aspects of blockchain-based marketplaces.
+	In Chapter~\ref{chapter:trustchain}, we have demonstrated that fraud, targeted at the ConTrib data structure, can be detected within seconds.
+	In Chapter~\ref{chapter:xchange}, we detect fraud and violate the liveness of malicious peers, preventing them from causing further harm.
+	Finally, in Chapter~\ref{chapter:iom}, we leverage fraud detection to identify malicious money routers and show that the economic gains by adversaries are manageable.
+	
+	\item Incremental settlement, the act of breaking up an individual payment into multiple smaller ones, is an effective risk mitigation strategy.
+	We have applied this strategy to reduce value-at-stake in our XChange trading mechanism (Chapter~\ref{chapter:xchange}) and our Internet-of-Money overlay (Chapter~\ref{chapter:iom}).
+\end{enumerate}
+
+% Full fraud prevention is often unnecessary
+
+% Incremental payments are awesome
+
+\section{Future Directions}
+Many opportunities remain to decentralize and disintermediate the aspects of blockchain-based marketplaces.
+We end this thesis by outlining a few ideas per chapter for further directions.
+
+\begin{enumerate}
+	\item in Chapter~\ref{chapter:trustchain}, we have introduced the universal accounting mechanism ConTrib.
+	Interesting future work would be to improve the probability of fraud detection further when sharing records.
+	We believe that more sophisticated dissemination techniques can improve the security of our mechanism.
+	For example, the dissemination of records can take the record payload into consideration, where \enquote{important} records are shared amongst more peers.
+	Another research angle can focus on an adaptive number of back-pointers in records, where \enquote{important} records bear more links.
+	
+	\item In Chapter~\ref{chapter:match}, we have presented MATCH, our decentralized middleware for fair matchmaking in peer-to-peer markets.
+	Even though we show that MATCH is highly resistant against malicious matchmakers, we considered the identification of such matchmakers outside the scope of our work.
+	A natural extension of MATCH would be to leverage ConTrib and account order dissemination and proposed matches.
+	By replaying the events in ones personal ledger, deviation from a particular matching policy can be detected.
+	We also suggest exploring statistical approaches for the detection of malicious behaviour.
+	Specifically, our random dissemination model results in a particular distribution of the order book entries over peers in the network.
+	By inspecting incoming match proposals, long-term deviation from a matching policy can then be detected with a certain probability.
+	
+	\item in Chapter~\ref{chapter:xchange}, we have introduced a universal asset trading mechanism between permissioned blockchains.
+	An important question that remains is how our mechanism can be used to trade assets between public blockchains, for example, Ethereum.
+	The critical problem when deploying our mechanism in a public setting is the ability to quickly generate a new identity after committing fraud.
+	The use of collateral deposits that are slashed when a peer undisputedly commits fraud can help to avoid this threat.
+	
+	\item In Chapter~\ref{chapter:iom}, we have presented our international money transfer mechanism, named Internet-of-Money.
+	A shortcoming of our approach is that the magnitude of an intra-bank payment is limited by the balance constraints of money routers in the circuit.
+	Once a money router has depleted its balance in one connected bank account, this router might be unable to route further payments.
+	Rebalancing the router requires a conventional payment which can be slow.
+	A promising research avenue is to rebalance money routers using Internet-of-Money functionality itself.
+	
+	\item In Chapter~\ref{chapter:devid}, we have introduced blockchain-based portfolios for software developers.
+	We also designed and implemented a decentralized crowdsourcing market.
+	We believe that there are opportunities to devise new processes for securely linking third-party assets with DevID portfolios.
+	Possible research efforts can focus on large-scale deployment of DAppCoder and integration of our tools in collaboration software like GitHub.
+	This would also include a cryptocurrency-based remuneration system.
+\end{enumerate}
