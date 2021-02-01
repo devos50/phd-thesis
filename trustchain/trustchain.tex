@@ -1,31 +1,35 @@
-\chapter{ConTrib: Preventing Free-riding Behaviour with Decentralized Micro-accounting}
+\chapter{ConTrib: Maintaining Fairness in Decentralized Big Tech Alternatives by Accounting Work}
 \label{chapter:trustchain}
 
-\emph{We present \ModelName{}, a universal accounting mechanism to prevent abuse in shared-resource systems.
-%In contrast to existing work, \ModelName{} does not make assumptions on the connected applications.
-In \ModelName{}, each individual maintains a personal ledger with \emph{records}.
-%A serialized micro-record with an empty payload is only 275 bytes and efficient to transfer.
-Micro-records describe past interactions and link to other ones, resulting in a global, interconnected graph.
-Fraud, specifically the forking of ones personal ledger, is detected by participants themselves through the exchange and validation of micro-records.
-We devise a system architecture and implement it.
-Our evaluation shows that forking of a personal ledger can be detected within a minute and with reasonable bandwidth overhead.
-We also find that that the throughput of \ModelName{} scales linearly with the network size.
-To explore \ModelName{} in a realistic environment, we deploy our mechanism in a Tor-like overlay and show how free-riders are detected.
-This trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} users.}
+\emph{\enquote{Big Tech} companies provide digital services used by billions of people.
+Recent developments, however, have shown that these companies often abuse their unprecedented market dominance for selfish interests.
+Meanwhile, decentralized applications without central authority are gaining traction.
+Decentralized applications critically depend on its users working together.
+Ensuring that users do not consume too many resources without reciprocating is a crucial requirement for the sustainability of such applications.}
+
+\emph{We present \ModelName{}, a universal mechanism to maintain fairness in decentralized applications by accounting the work performed by peers.
+In \ModelName{}, participants maintain a personal ledger with tamper-evident records.
+A record describes some work performed by a peer and links to other records.
+Fraud in \ModelName{} occurs when a peer illegitimately modifies one of the records in its personal ledger.
+This is detected through the continuous exchange of random records between peers and by verifying the consistency of incoming records against known ones.
+Our simple fraud detection algorithm is highly scalable, tolerates significant packet loss, and exhibits relatively low fraud detection times.
+We experimentally show that fraud is detected within seconds and with low bandwidth requirements.
+To demonstrate the applicability of our work, we deploy \ModelName{} in the \Tribler{} file-sharing application and successfully address free-riding behaviour.
+This two-year trial has resulted in over \TrialRecords{} records, created by more than \TrialUsers{} users.}
 
 \newpage
 
 \section{Introduction}
 
-During the last decades, \enquote{Big Tech} companies have obtained significant market dominance in the information technology industry~\cite{frost2019bigtech}.
+Over the last decades, \enquote{Big Tech} companies have obtained an unprecedented market dominance in the industry for information technology~\cite{frost2019bigtech}.
 Companies such as Google, Amazon, Facebook, and Apple are omnipresent in our current society and even have the means of acting as small states, inhabited by billions of users worldwide.
-By continuously broadening their activities, these companies seek to expand their virtual territory and seek to obtain monopolistic control over enabling elements for digital services, such as access to the Internet~\cite{best2014internet}.
+By continuously broadening their activities, these companies seek to expand their virtual territory and seek to obtain monopolistic control over the enabling elements for digital services, such as access to the Internet~\cite{best2014internet}.
 
 The societal impact of \enquote{Big Tech} companies is a double-edged sword.
-On the one hand, these companies are facilitating new modes of digital interaction between users, and also give rise to new business models.
+On the one hand, these companies are facilitating new modes of digital interaction between users and enable new business models.
 The sharing economy is a prime example of this phenomena.
-It is made up by digital markets for the trustworthy exchange of personal resources, such as houses and cars, between strangers~\cite{schor2016debating}.
-This exchange process is a concept that has long been confined to trusted individuals, such as family and friends~\cite{frenken2019putting}.
+It is made up by digital markets for the trustworthy exchange of personal assets (e.g., houses and cars) between strangers~\cite{schor2016debating}.
+Sharing personal assets is a concept that has long been confined to trusted individuals, such as family and friends~\cite{frenken2019putting}.
 Likewise, media platforms such as YouTube provide the required infrastructure for new forms of user engagement through video weblogging or \enquote{vlogging}.
 
 On the other hand, it has become apparent that \enquote{Big Tech} companies tend to exploit their established market position and are increasingly involved in regulatory or political battles.
@@ -33,32 +37,47 @@ This behaviour sometimes goes undetected for years.
 For example, researchers have only recently demonstrated that Uber actively manipulates the matchmaking process between passengers and drivers for commercial interests, therefore decreasing platform fairness and income equality of drivers~\cite{bokanyi2019ride}.
 Similarly, Apple is currently under antitrust investigation by the European Commission that is assessing whether Apples' rules for developers on the distribution of apps via the App Store violate competition rules~\cite{kotapati2020antitrust}.
 
-These concerning developments have contributed to increased efforts around the deployment of \emph{decentralized} applications that avoid centralized ownership.
-Decentralized applications delegate the decision making away from a single authority.
+These concerning developments have contributed to an increase in the deployment of \emph{decentralized} applications.
+Decentralized applications avoid centralized ownership and delegate the decision making away from a single authority.
 A decentralized application mainly operates through the direct cooperation and information exchange between users, which we call \emph{peers}.
 Arguably, Bitcoin is the most influential solution in this direction and provides a decentralized cash system without the supervision by an authoritative bank~\cite{nakamoto2019bitcoin}.
 The underlying data structure of Bitcoin, a blockchain, is at the core of numerous decentralized applications~\cite{bashir2018mastering}.
 At the time of writing, there are thousands of decentralized applications deployed on the Ethereum blockchain alone~\cite{wood2014ethereum}.
 These decentralized applications include marketplaces, auctions, voting systems, lotteries, and games.
 
-In contrast to the applications deployed by a company, decentralized applications are fully maintained by peers, without or with minimal involvement of a third party.
+In contrast to the applications deployed by \enquote{Big Tech} companies, decentralized applications are fully maintained by peers, without coordination by a third party.
 Decentralized applications require peers to pool their computer resources to provide the desired services to participants.
-Specifically, peers have to communicate with other peers over the Internet, have to dedicate some computational power to process incoming messages, and frequently have to persist data.
+Specifically, peers have to communicate with other peers, have to dedicate computational power to process incoming network messages, and frequently have to store data generated by other peers.
 Some decentralized applications critically depend on the voluntary contribution of computer resources by peers.
 Bitcoin, for example, prevents the uncontrolled minting of digital coins through a resource-based consensus mechanism executed by miners~\cite{nakamoto2019bitcoin}.
-These miners continuously solve a computational puzzle, a resource-intensive task that is required to the system secure.
-Likewise, the Tor network provides anonymity by routing Internet traffic through volunteered relay and exit nodes~\cite{dingledine2004tor}.
+These miners continuously attempt to solve a computational puzzle, a resource-intensive task that decides who can append transactions to the blockchain ledger.
+Another volunteer-based application is Tor, providing anonymity by routing Internet traffic through user-operated relay and exit nodes~\cite{dingledine2004tor}.
 
-Unfortunately, cooperation between peers in decentralized applications is hard to maintain.
-Failing to reward peers for performing work can result in an unfair situation where peers can enjoy the services provided by other peers without reciprocating for longer times.
-This detrimental behaviour, also called \emph{free-riding}, can degrade network performance in the long term, as dedicated peers will notice that their work is in vain and will ultimately leave~\cite{locher2006free}.
-Measurements have demonstrated that free-riding often prevails in cooperative networks such as BitTorrent and Tor~\cite{sirivianos2007free}.
-Since the cooperation between peers is at the heart of decentralized technology, we argue that this notion of fairness is a crucial requirement for \emph{any} decentralized application to ensure long-term sustainability~\cite{jelasity2004detection}.
-With the renewed interest in decentralized alternatives for \enquote{Big Tech}, inducing fairness in decentralized applications is a significant challenge.
+Unfortunately, long-term cooperation between peers in decentralized applications is non-trivial to achieve.
+Not rewarding peers for performing work can result in an unfair situation where peers enjoy the services provided by others, without contributing computer resources in return.
+This detrimental behaviour, also called \emph{free-riding}, can degrade network health in the long term, as dedicated peers will ultimately leave~\cite{locher2006free}.
+Measurements have shown that free-riding often prevails in cooperative applications such as BitTorrent and Tor~\cite{sirivianos2007free}.
+Since the cooperation between peers is at the heart of decentralized technology, we argue that this form of fairness is a crucial requirement for \emph{any} decentralized application to ensure long-term sustainability~\cite{jelasity2004detection}.
+With the renewed interest in decentralized alternatives for \enquote{Big Tech}, ensuring fairness in decentralized applications is a significant challenge.
 %Blockchain technology addresses this issue by requiring peers to pay a transaction fee when issuing transactions.
 %Yet, the detection of abuse is non-trivial since the relevant data might not be immediately available. % is dispersed across the network.
 %However, the deployment of decentralized platforms poses new technical challenges that have to be addressed.
 %These challenges include identity management, data availability, inducing cooperative behaviour amongst peers, and abuse management.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.9\linewidth]{trustchain/assets/trust_cycle}
+	\caption{Addressing fairness issues in decentralized networks through work accounting, reputation and resource allocation. This work introduces a lightweight mechanism for secure work accounting.}
+	\label{fig:trust_cycle}
+\end{figure}
+
+A promising approach to address these fairness issues is by deploying a decentralized reputation mechanism, and allocate resource based on trust scores of individuals.
+This process is visualized in Figure~\ref{fig:trust_cycle}.
+First, users account all performed and consumed work in the network within records.
+A reputation mechanism then computes trustworthiness scores of users, based on created records.
+A user decides who to help based on a resource management algorithm.
+In general, users with low reputation scores should be refused services whereas trusted users enjoy preferential treatment from others.
+There currently is no accounting mechanism that is specifically built to account work performed and consumed by peers in decentralized networks, to the best of our knowledge.
 
 %Since an operator has access to all historical events in a centralized system, detecting and addressing the abuse of resources is straightforward to achieve.
 %This is more challenging in decentralized systems since information is dispersed across the network.
@@ -98,48 +117,52 @@ With the renewed interest in decentralized alternatives for \enquote{Big Tech}, 
 
 % One paragraph explaining how accounting in big-tech alternatives is different from existing work (e.g., PeerReview, Lifting, ...)
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=.7\linewidth]{trustchain/assets/contrib_app_interaction}
-	\caption{Decentralized applications can use \ModelName{} to account the work performed by peers within tamper-evident \emph{records}. These records are used by connected applications to detect free-riders and fraudsters, which are added to a blacklist. Applications can then choose to refuse services to the peers on the blacklist.}
-	\label{fig:interaction_with_apps}
-\end{figure}
-
 % Argue about fairness?
 % https://pdf.sciencedirectassets.com/272436/1-s2.0-S1084804516X00185/1-s2.0-S1084804516302788/main.pdf
 
 \textbf{Our Solution.}
-We induce fairness in decentralized applications by storing the description of work performed by peers in a distributed data structure.
-Our universal mechanism, named \ModelName{}, is capable of accounting performed work within different decentralized applications.
+We specifically focus on the accounting of work performed by peers, which is crucial to ensure fairness within decentralized applications.
+In this work, we design, implement and evaluate a universal data store, named \ModelName{}.
+\ModelName{} is capable of accounting work within different decentralized applications.
+Examples of work include storing files on behalf of other peers, performing computations, or relaying network packets.
 With \ModelName{}, each peer maintains a \emph{personal ledger} with tamper-evident \emph{records}.
-Records are created between two peers and describe some work performed by a peer for another peer, e.g., data exchange or file storage.
-The design of \ModelName{} is lightweight and straightforward, yet enables the quick detection of \emph{fraud} targeted at the data structure.
-This fraud occurs when a malicious peer forks its personal ledger and operates multiple versions of it in secret.
-Peers continuously request random records from other peers and disseminate newly created records in the network.
-To detect fraud, peers verify the consistency of incoming records with the ones in their local storage.
+The \ModelName{} records can then be used by an application to determine the trustworthiness of individuals, e.g., with a reputation algorithm.
+Consequently, users have a natural incentive to increase their social standing by modifying or removing records.
+This misbehaviour is a key threat to the integrity of the \ModelName{} data structure.
+We refer to the illegitimate modification of a record as fraud.
+To detect fraud, peers continuously request random records from other peers and disseminate newly created records in the network.
+Peers verify the consistency of incoming records with the ones stored in their database.
 
-\ModelName{} enables connected applications to select which information should be recorded.
-Figure~\ref{fig:interaction_with_apps} shows how a decentralized application can leverage \ModelName{} by accounting work, and by requesting records in the network to gather evidence of free-riding behaviour.
-Each application maintains a blacklist with both free-riders and peers that have committed fraud by manipulating records.
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.7\linewidth]{trustchain/assets/contrib_app_interaction}
+	\caption{Decentralized applications can use \ModelName{} to account the work performed by peers within tamper-evident \emph{records}. These records are used by connected applications to detect free-riders and fraudsters, which are added to a local blacklist. Applications can then choose to refuse services to the peers on the blacklist.}
+	\label{fig:interaction_with_apps}
+\end{figure}
+
+\ModelName{} enables connected applications to select which work should be accounted.
+Figure~\ref{fig:interaction_with_apps} shows how a decentralized application can leverage \ModelName{} to account work.
+By inspecting the records in personal ledgers, an application can gather evidence of free-riding behaviour.
+Each application maintains a local blacklist with both free-riders and peers that have committed fraud.
 Peers refrain from performing work for peers on the blacklist.
-\ModelName{} is built to alleviate fairness concerns in a wide range of decentralized applications, including peer-assisted video distribution, anonymous communication networks, and distributed learning environments.
-%Since \ModelName{} is agnostic about the application layer, different decentralized solutions can leverage \ModelName{} to securely record resource contributions and consumptions.
+\ModelName{} can be deployed to alleviate fairness concerns in a wide range of decentralized applications, including peer-assisted video distribution, anonymous communication networks, and distributed learning environments.
 
-We implement \ModelName{} and evaluate different parameters that affect the efficiency of fraud detection, and on the communication overhead.
-As we will demonstrate, fraud can be detected within a minute on average, even in networks with 10'000 malicious peers and under a conservative strategy for record exchange.
-We also show that \ModelName{} highly tolerates packet loss and transient network failures.
+We implement \ModelName{} and evaluate how different parameters impact the efficiency of fraud detection and the network usage.
+We find that fraud can be detected within seconds on average, even in larger networks with 10'000 peers where every peer commits fraud, and under a conservative strategy for record exchange.
+We also show that \ModelName{} highly tolerates packet loss.
 
-To show the effectiveness of \ModelName{} in a realistic environment, we employ our accounting mechanism to address free-riding behaviour in \Tribler{}, a decentralized application downloaded by over 1.7 million users~\cite{pouwelse2008tribler}.
-We use \ModelName{} to account bandwidth exchanges in \Tribler{}s' Tor-like overlay and use the accounted information to refuse services to free-riders.
+To show the effectiveness of \ModelName{} in a realistic environment, we employ our accounting mechanism to address free-riding behaviour in \Tribler{}.
+\Tribler{} is a decentralized application downloaded by over 1.7 million users~\cite{pouwelse2008tribler}.
+We specifically use \ModelName{} to account bandwidth exchanges in \Tribler{}s' Tor-like overlay and use the accounted work to refuse services to free-riders.
 Our two-year measurements have resulted in over \TrialRecords{} records, created by more than \TrialUsers{} users.
-This large-scale deployment trial is a milestone in our ongoing research effort to solve the tragedy-of-the-commons in self-organizing Internet communities~\cite{de2018blockchain}.
+This large-scale deployment trial is a key milestone in our ongoing research effort to solve the tragedy-of-the-commons within Internet communities~\cite{de2018blockchain}.
 
 The main contribution of this work is four-fold:
 \begin{enumerate}
-	\item \ModelName{}, a \emph{universal mechanism} that induces fairness in decentralized application by accounting work (Section~\ref{sec:micro_accounting} and \ref{sec:detecting_fraud}).
-	\item A \emph{system architecture} around \ModelName{} with application-provided policies for record validation (Section~\ref{sec:system_architecture}).
-	\item An \emph{implementation} and \emph{evaluation} of \ModelName{} with up to 10'000 peers, revealing the scalability of our mechanism and showing that fraud is detected within a minute on average (Section~\ref{sec:implementation_evaluation}).
-	\item A \emph{large-scale deployment trial} of \ModelName{} in \Tribler{}, involving \TrialUsers{} Internet-recruited volunteers. This trial successfully addresses free-riding behaviour in \Tribler{} (Section~\ref{sec:deployment}).
+	\item \ModelName{}, a \emph{universal mechanism} that maintains fairness in decentralized application by accounting work (Section~\ref{sec:micro_accounting}).
+	\item An efficient \emph{fraud detection mechanism} to detect the illegitimate tampering of created records in \ModelName{} (Section~\ref{sec:detecting_fraud}).
+	\item An \emph{implementation} and \emph{evaluation} of \ModelName{} with up to 10'000 peers, demonstrating the scalability of our mechanism and showing that fraud can be detected within seconds on average (Section~\ref{sec:system_architecture} and Section~\ref{sec:implementation_evaluation}).
+	\item A \emph{two-year deployment trial} of \ModelName{} in \Tribler{}, involving \TrialUsers{} Internet-recruited volunteers. This trial successfully addresses free-riding behaviour in \Tribler{} (Section~\ref{sec:deployment}).
 \end{enumerate}
 
 % We introduce ...
@@ -295,83 +318,97 @@ The main contribution of this work is four-fold:
 % White-washing
 
 \section{Background and Problem Description}
-The challenge at hand is to address free-riding behaviour and induce fairness in decentralized applications.
-Many solutions reward peers for performing work in the system~\cite{ma2004incentive}.
-We first outline two existing approaches to incentivize the cooperation of peers, namely trade-based and trust-based incentives~\cite{ruffo2007fairpeers}.
-Finally, we describe the requirements for our solution and elaborate on accompanying challenges.
+This work addresses fairness issues in decentralized applications, in particularly free-riding behaviour.
+Many decentralized applications integrate a mechanism to reward peers for performing work~\cite{ma2004incentive}.
+We first outline two incentive mechanisms that address free-riding by peers, namely trade-based and trust-based incentives~\cite{ruffo2007fairpeers}.
 
-\subsection{Trade-based Approaches}
-With trade-based approaches, performed work by peers is remunerated using a credit or payment system.
-This remuneration either occurs immediately after the work is performed, or a peer performs payments in batches.
-The main idea is to rewarded work with credits, whereas peers that use the services of other peers are required to pay.
+\subsection{Trade-based Incentives}
+With trade-based incentives, performed work by peers is remunerated using a credit or payment system.
+Peers that use the services of other peers are required to pay for that service.
+Remuneration either occurs immediately after the work is performed or when a certain number of payments is outstanding.
 The accrued credits can either be converted to real-world money or are merely useful to show the dedication of a particular peer.
-BOINC is a well-known volunteer computing project rewards users for their computational power with virtual credits~\cite{anderson2019boinc}.
+BOINC is a well-known volunteer computing project that rewards users with virtual credits for processing scientific workloads~\cite{anderson2019boinc}.
 
-Blockchain technology relies on financial remuneration to keep the system secure~\cite{easley2019mining}.
-Miners, dedicated peers that invest computational power to maintain the blockchain ledger, are usually rewarded for their efforts by the system and by users that issue new transactions.
-Users pay fees to get their transaction included in the distributed ledger.
-Miners then collect these fees when including transactions in the blockchain.
-Some decentralized applications have adopted cryptocurrencies as a payment system to reward performed work.
-Filecoin is a decentralized system where users pay a fee to have their data stored by peers~\cite{benet2018filecoin}.
+Blockchain technology also relies on financial remuneration to keep the system secure~\cite{easley2019mining}.
+Miners, dedicated peers that maintain the blockchain ledger, are usually rewarded for their efforts.
+Specifically, users pay a small fee for each transaction and miners then these fees when including their transactions in the blockchain.
+Other decentralized applications have adopted cryptocurrencies as a payment system to reward the performed work.
+Filecoin is a decentralized system where users pay with a blockchain-based token to have their data stored by peers~\cite{benet2018filecoin}.
 Likewise, TorCoin proposes a mechanism where the relay and exit nodes \enquote{mine} a Bitcoin-derived cryptocurrency by relaying Internet traffic~\cite{ghosh2014torpath}.
 
-Even though trade-based incentives are frequently used to incentivize work, remuneration techniques are not an adequate solution for any decentralized applications, for the following two reasons~\cite{hummel2003earning}.
+Even though trade-based incentives are frequently used to incentivize work, remuneration is not an adequate solution for any decentralized applications, for the following three reasons~\cite{hummel2003earning}.
 First, they require the integration of a secure payment infrastructure which complicates the system design and potentially enables new forms of attack, such as coin forgery and double-spending.
-If a central authority is used to keep track of each peer's balance, there now is a single-point-of-failure.
-Second, remuneration can result in new forms of unfairness where a few rich peers exclusively enjoy the services of a decentralized application.
-This situation could arise, for example, when operating peer-to-peer auctions for the allocation of services.
+Using a central authority to keep track of each peer's balance introduces a central component and poses a single-point-of-failure.
+Second, remuneration requires peers to determine the price of a digital service, which can be hard to estimate.
+Third, remuneration can result in new forms of unfairness where a few affluent peers exclusively enjoy the services of a decentralized application.
+This situation could arise when operating peer-to-peer auctions for the allocation of services.
 
-\subsection{Trust-based Approaches}
-With trust-based approaches, community members are indirectly reciprocated for their work, for example, by getting preferential treatment.
-This often involves peers keeping track of the long-term contributions of each peer.
-This requires infrastructure to account all performed work by peers~\cite{meulpolder2009bartercast}.
-The details of accounted work can then be used by the application to detect if a specific peer is free-riding.
-In practice, the accounted work is usually fed into a reputation algorithm that outputs a ranking~\cite{karakaya2009free}.
-If the ranking of a specific peer is low, the application can decide to refuse serving this peer until its ranking has improved.
-%Blockchain technology also provides accounting capabilities and empowers users with a distributed ledger to securely store their interactions~\cite{underwood2016blockchain}.
-%However, we consider blockchain unsuitable for accounting purposes since maintaining the distributed ledger is prohibitively expensive.\todo{defend this statement}
+\subsection{Trust-based Incentives}
+Applications implementing trust-based incentives indirectly reward community members for their work.
+For example, the system can reward dedicated peers with preferential treatment or provide them access to exclusive services.
+This approach often requires peers to keep track of the long-term contributions of other peers using accounting infrastructure~\cite{meulpolder2009bartercast}.
+The specifications of accounted work can then be used by the application to detect how a particular peer has contributed to the system.
+For instance, the accounted work can be used by a reputation algorithm that outputs a ranking of peers~\cite{karakaya2009free}.
+If the ranking of a specific peer is below a threshold, the application can decide to refuse to perform work for this peer until its ranking has improved.
+We outline related work that uses work accounting and trust-based incentives.
+For an overview of (decentralized) reputation mechanisms and trust models, we refer the interested reader to existing work~\cite{hendrikx2015reputation,bellini2020blockchain}.
 
-Wallach et al., present different mechanisms for the fair sharing of resources in decentralized applications through the usage of log inspections and random auditing~\cite{wallach2003enforcing}.
-Their work, however, exclusively focusses on storage-based systems.
-To the best of our knowledge, their design is not reusable for other decentralized applications, limiting the applicability of their work.
-Similarly, the work of Osipkov et al., describe an accounting mechanism for file-sharing networks where each peer maintains a set of witnesses that monitors all transactions of that peer~\cite{osipkov2006robust}.
+Perhaps the most popular decentralized application is BitTorrent, a peer-to-peer file exchange protocol~\cite{cohen2003incentives}.
+In BitTorrent, each peer has a limited number of slots to allocate to other peers.
+The system uses tit-for-tat, a cooperation strategy where a counterparty loses its slot when it stops to reciprocate.
+This simple strategy leads to higher network utilization since long-term free-riders will not be allocated slots.
+BitTorrent does not persist all contributions and consumptions of other peers, of but tracks the performance of connected peers for each download.
 
-LiFTinG and AcTinG are protocols for tracking free-riding behaviour in gossip-based systems~\cite{guerraoui2010lifting,mokhtar2014acting}.
-The LiFTinG protocol exploits the message dynamics between peers, e.g., that the content received by a peer is further propagated according to the protocol.
+The InterPlanetary File System (IPFS) is a decentralized system for file storage and exchange~\cite{benet2014ipfs}.
+IPFS breaks up files into blocks, which are identifiable by a content identifier.
+The original IPFS whitepaper describes bitSwap, a set of tools to exchange blocks while addressing free-riding behaviour through block bartering.
+It ensures that peers are incentivized to seed blocks by pair-wise tracking of outstanding \enquote{balances}.
+Peers that do not sufficiently share blocks will be ignored by others.
+
+Wallach et al. present different mechanisms for the fair sharing of resources in decentralized applications~\cite{wallach2003enforcing}.
+These mechanisms ensure that each peer maintains a log with actions and includes random auditing of logs.
+The applicability of their work is exclusive to storage-based application and is not reusable for other decentralized applications.
+Osipkov et al. describe an accounting mechanism for file-sharing applications~\cite{osipkov2006robust}.
+Specifically, each peer maintains a set of witnesses that monitors all transactions of that peer.
+
+LiFTinG and AcTinG are protocols for tracking free-riding behaviour in gossip-based applications~\cite{guerraoui2010lifting,mokhtar2014acting}.
+The LiFTinG protocol exploits the message dynamics between peers and verifies that the content received by a peer is further propagated according to the protocol.
 The design depends on a statistical approach and cross-checking of logs to detect free-riders but is not reusable for applications beyond gossip.
+AcTinG is a gossip-based dissemination protocol that is resistant against colluding rational peers.
 
-Another approach is to maintain a distributed ledger that tracks the work in decentralized applications.
-%Vegvisir is a partition-tolerant blockchain that leverages conflict-free replicated data types (CRDTs) to build a direct acyclic graph with transactions~\cite{karlsson2018vegvisir}.
+Other approaches maintain a distributed ledger that store information in decentralized applications.
+Seuken and Parkes introduce a Sybil-resistant accounting mechanism based on transitive trust~\cite{seuken2014sybil}.
 PeerReview is an accountability mechanism to record message exchange between peers~\cite{haeberlen2007peerreview}.
 Peers store all network messages in a local log.
-Dedicated witnesses continuously audit peers and detect whether a peer deviates from the protocol.
+Dedicated witnesses continuously audit peers and detect whether a peer has deviated from the protocol.
 The FullReview protocol extends PeerReview by addressing selfish behaviour with a game-theoretical model~\cite{diarra2014fullreview}.
-%Their work also describes an experiment that shows how free-riding behaviour in multicast can be detected.
-Otte et al., present TrustChain, a Sybil-resistant reputation mechanism with an accompanying accounting mechanism~\cite{otte2017trustchain}.
+Otte et al. present TrustChain, a Sybil-resistant reputation mechanism with an accompanying accounting mechanism~\cite{otte2017trustchain}.
 The authors apply their mechanism to address free-riding behaviour in a file-sharing network.
 We find that peers in TrustChain cannot engage in the recording of multiple interactions simultaneously, significantly limiting the achievable throughput.
-Crosby et al., presents a data structure for tamper-evident logging~\cite{crosby2009efficient}.
-This data structure is primarily focussed on the logging of unilateral system events on a server.
+Crosby et al. present a data structure for tamper-evident logging~\cite{crosby2009efficient}.
+This data structure orients around the efficient logging of unilateral system events on a server.
+Peermint is an accounting mechanism designed for market-based management of decentralized applications~\cite{hausheer2005peermint}.
 
 \subsection{Problem Description}
 \label{sec:problem_description}
-There currently is no \emph{universal} accounting mechanism that is capable of addressing free-riding behaviour and improve fairness in decentralized applications.
+There currently is no \emph{universal} accounting mechanism that can be used to address fairness issues in decentralized applications, to the best of our knowledge.
 We address this shortcoming and describe three challenges when designing such a mechanism.
 
 \textbf{Challenge I: Universality.}
-The accounting solutions that we have identified so far are built for a single application type and are infeasible to re-use across different domains.
-We believe that universality is an important requirement to address fairness concerns in decentralized applications.
+The trust-based solutions that we have identified so far are designed for usage within a single application domain and are infeasible to re-use.
+We believe that universality is an important property to address fairness concerns in novel decentralized applications.
 
-\textbf{Challenge II: Avoid Central Authorities.}
-To keep our system reusable and generic, we avoid \emph{any} decision making by entities with leveraged authorities and central servers.
-The lack of a central authority makes our mechanism \emph{fully decentralized}.
+\textbf{Challenge II: Full Decentralization without Central Authority.}
+To keep our system reusable and universal, we avoid \emph{any} decision making by entities with leveraged authorities and central servers.
+The lack of a central authority makes our mechanism \emph{fully decentralized} and easier to deploy.
 In general, decentralized mechanisms are less vulnerable to large-scale attacks, tend to scale better, and are more resilient to failure.
 They also are an excellent architectural fit with existing decentralized applications without central authorities.
 
 \textbf{Challenge III: Fraud Detection.}
-When accounting work in a decentralized application, peers will have a natural incentive to misrepresent the magnitude of their efforts to inflate their social standing, or to hide information unfavourable to their standing~\cite{meulpolder2009bartercast}.
+Peers have a natural incentive to misrepresent the magnitude of their efforts to inflate their social standing or to hide information unfavourable to their standing~\cite{meulpolder2009bartercast}.
 Our accounting mechanism must address the completeness and correctness of the stored information.
 We must \emph{detect the manipulation or hiding of accounted information} and punish adversarial peers accordingly.
+We consider the accounting of events that have not occurred in the application out of scope.
 %Since different applications are likely to have differing visions on how fraud should be managed, we leave this decision to the application.
 
 %For example, overuse in a file-sharing system can result in a temporary, e.g., 24-hour, ban or even result in ostracization from the community.
@@ -447,54 +484,59 @@ We must \emph{detect the manipulation or hiding of accounted information} and pu
 
 \section{Accounting Work with \ModelName{}}
 \label{sec:micro_accounting}
-The design of our accounting mechanism, named \ModelName{}, is inspired by the tamper-proof properties of blockchain ledgers, but does not require peers to reach agreement on a coherent history of records.
-As such, inappropriate behaviour of a few peers does not result in system-wide failures.
-In summary, \ModelName{} optimistically detects the illegitimate modification of records while keeping the computational requirements and bandwidth overhead low.
-Decentralized applications account the work performed by peers within \emph{records}.
-Each peer organizes their records in a \emph{personal ledger}.
+The design of our universal accounting mechanism, named \emph{\ModelName{}}, is inspired by the tamper-evident properties of blockchain but does not require peers to reach consensus on a coherent history of records.
+Instead, \ModelName{} optimistically detects the illegitimate modification of records while keeping the computational overhead and bandwidth requirements low.
+Decentralized applications can account the work performed by peers within tamper-evident \emph{records}.
 A record describes some work performed by one peer for another peer.
-Records point to prior records in the same personal ledger, and also to records in the personal ledger of others.
+Each peer organizes their records in a \emph{personal ledger}.
+Records point to prior records in the same personal ledger and also point to records in the personal ledger of others.
 The latter pointer captures an agreement between two peers.
-Peers continuously exchange records with other random peers.
-By validating the consistency of incoming records against known ones, fraud can irrefutably be proven.
-\ModelName{} enables the construction of an irrefutable fraud proof which can be shared with others.
+Peers continuously exchange records with other random peers and request records in the personal ledgers of others.
+By validating the consistency of incoming records against known ones, a peer can irrefutably prove fraud attempts to other peers.
 
 We further elaborate on the design of \ModelName{}.
 We first outline the network and threat model.
 We then describe the \ModelName{} data structure and show how \ModelName{} accounts the work in decentralized applications.
-%In \ModelName{}, an interaction indicates a small contribution or consumption of resources.
-%The accounting of this interaction can proceed before or after the resources have been exchanged.
 
 \subsection{Network Model}
 \label{sec:network_model}
-\ModelName{} builds on a peer-to-peer network.
-We assume an unstructured network structure all peers maintain roughly the same number of connections with other peers.
-Unstructured networks are relatively straightforward to maintain and highly resilient against churn.
-Network bootstrapping and peer discovery functionality should be provided by the adopted network library.
+The \ModelName{} mechanism is built on a peer-to-peer network.
+We assume an unstructured network structure.
+Unstructured networks are relatively straightforward to maintain and are highly resilient against churn.
+We assume that the used networking library handles network bootstrapping and peer discovery.
 We also assume that the communication channels between peers are unreliable and unordered (e.g., by using the UDP communication model).
-The arrival time of messages is not upper bounded and outbound messages can fail to arrive at the intended destination.
-Each peer is in possession of a cryptographic keypair, consisting of a public and private key.
-The public key uniquely identify the peer whereas the private key is used to digitally sign records and outgoing network messages.
+The arrival time of messages is not upper-bounded, and outbound messages can fail to arrive at their intended destination.
+Each peer has a cryptographic key pair, consisting of a public and private key.
+The public key acts as a unique identifier of the peer in the network, whereas the private key is used to sign records and outgoing network messages.
 We consider attacks targeted at the network layer, e.g., the Eclipse Attack, outside the scope of this work.
 
-A prominent threat in peer-to-peer applications is the Sybil Attack, where an adversary operates multiple identities to either inflate its own social standing or to subvert the network~\cite{douceur2002sybil}.
-This is particularly important in open Internet communities, where the cost of creating a new digital identity is often negligible.
-We consider the full implications of the Sybil Attack outside the scope of our work.
-We believe, however, that self-sovereign identities are a promising avenue that can complement decentralized networks to address this threat~\cite{stokkink2018deployment}.
+A significant threat in Internet-deployed applications is the Sybil Attack, where an adversary operates multiple identities to subvert the network~\cite{douceur2002sybil}.
+The Sybil Attack frequently occurs in open Internet communities, where the cost of creating a new digital identity is often negligible.
+Although the \ModelName{} mechanism does not include defences against Sybil identities, we argue that this threat can be mitigated with well-established techniques that complement \ModelName{} in a deployment setting.
+A basic defence mechanism is to have peers solve a computational puzzle when they wish to join the network~\cite{li2012sybilcontrol}.
+In addition, using a Sybil-resistant reputation mechanism that processes \ModelName{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
+We also consider self-sovereign identities as a promising solution that can bolster decentralized networks with long-term identities~\cite{stokkink2018deployment}.
 
-We also consider misreporting, the inaccurate recording of work that have not actually occurred in the system, beyond the scope of this work.
-This is challenging to address in a generic way since there is not always a straightforward method to determine if some work has actually occurred in the system.
-Some protocols leverage cryptographic techniques to prove the accuracy of performed work, e.g., Proof-of-Storage or Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
-These proofs, however, cannot be used beyond a specific application domain.
-Misreporting can also detected and taken into consideration by the algorithm that processes the accounted work~\cite{seuken2010accounting}.
+We consider misreporting, the accounting of work that has not occurred in the application, beyond the scope of this work.
+Misreporting is challenging to address in a generic manner since there is not always a straightforward method to assess if some accounted work is legitimate.
+Some protocols use cryptographic techniques to prove the accuracy of performed work, for example, Proof-of-Storage and Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
+These proofs, however, cannot easily be used across different application domains.
 
 \subsection{Threat Model}
 \label{sec:threat_model}
-Our threat model orients around malicious peers that strategically manipulate their \ModelName{} records, either by sharing tampered records or by withholding specific records.
-For example, a peer can try to inflate the amount of work it has performed in the past by changing one of its records.
-In \ModelName{}, this attacks manifests by users operating on multiple copies of their personal ledger, possibly returning records from different ledger copies to distinct peers.
-As discussed in Section~\ref{sec:problem_description}, we require that this malicious behaviour can be detected.
-We assume that the compute power of adversaries is bounded and that cryptographic primitives are secure.
+Our threat model orients around malicious peers that attack the integrity of the \ModelName{} data structure.
+This attack proceeds through the strategic modification of \ModelName{} records.
+For example, a peer can inflate the amount of work it has performed by modifying one of the records in its personal ledger.
+We refer to the illegitimate modification of \ModelName{} records as \emph{fraud}.
+Even though this definition may seem limited, we argue that this kind of fraud is a fundamental threat to the \ModelName{} data structure.
+In particular, our definition of fraud also entails a more advanced form of record manipulations where peers collude to erase a particular interaction from history.
+In a reputation system, for example, this would happen when a well-trusted peer temporarily boosts the reputation of another peer by accounting some work and then attempts to hide the existence of this interaction later.
+Reverting this interaction requires both counterparties to either override or remove the associated records, which we consider as fraud.
+We note that a particular fraud instance in our system involves at most two guilty peers.
+As we discussed in Section~\ref{sec:problem_description}, we require that fraud is detected.
+We assume that the computing power of adversaries is bounded and that cryptographic primitives are secure.
+
+% Hiding?
 
 %A particular treat is when peers collude in order to record false information, e.g., a bandwidth upload that has not actually occurred within the system.
 %It is non-trivial to verify whether the interaction has actually occurred in the system and therefore, we consider this attack outside our scope.
@@ -529,160 +571,136 @@ We assume that the compute power of adversaries is bounded and that cryptographi
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.75\linewidth]{trustchain/assets/interaction}
-	\caption{The process of recording work between peers $ a $ and $ b $ using two records: a proposal $ P $ and a confirmation $ C $.}
+	\caption{The process of recording work between peers $ a $ and $ b $ within two records: a proposal $ P $ and a confirmation $ C $.}
 	\label{fig:interaction}
 \end{figure}
 
 \subsection{Recording Interactions}
 \label{sec:recording_interactions}
-\ModelName{} records performed work in \emph{records}.
-A record describes some work performed by a particular peer for another peer.
-%Each micro-record is either a \emph{proposal} or a \emph{confirmation}.
 Some work that involves peers $ a $ and $ b $ is recorded using two records: one \emph{proposal} created by $ a $ and one \emph{confirmation} created by $ b $.
-This process is visualized in Figure~\ref{fig:interaction}.
-First, $ a $ creates a proposal record that records work involving $ b $ (step \circled{1}).
-We refer to this proposal as $ P $.
-We define proposal $ P $, created by peer $ a $, as a tuple with the following attributes:
+W.l.o.g., we assume that the accounted work is performed by peer $ a $ for peer $ b $.
+The process of accounting this work is visualized in Figure~\ref{fig:interaction}.
+First, $ a $ creates a proposal record, which we refer to as $ P $ (step \circled{1}).
+Proposal $ P $, created by peer $ a $, is a tuple with the following four attributes:
 \begin{align*}
 	P = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \texttt{sig})
 \end{align*}
-$ P $ contains the public key of peers $ a $ and $ b $ (\texttt{pubKey} and \texttt{pubKeyOther}, respectively), an application-specific payload \texttt{payload}, and a digital signature \texttt{sig} by $ a $ over the record content in binary form.
-We will use this notation when describing our fraud detection algorithms in Section~\ref{sec:detecting_fraud}.
-The payload can be an arbitrary blob of data and is provided by the application.
-To increase the resilience against manipulation, we extend records with additional fields later.
-%A transaction is a generic description of any interaction between users, for instance, making an agreement or recording a trade.
-%We consider a transaction to be the result of \emph{any} interaction between users, like transferring assets or recording agreements. %We intentionally consider a transaction to be a description of any interaction between two users.
-% As a result, it can describe almost every interaction between two or more users, like asset transfers or generic agreements.
-After $ a $ included all described fields in the proposal, the record is persisted to $ a $'s database, sent to $ b $, and disseminated to $ f $ random users in the peer-to-peer network (step \circled{2}).
+$ P $ contains the public key of peers $ a $ and $ b $ (\texttt{pubKey} and \texttt{pubKeyOther}, respectively), an application-specific payload (\texttt{payload}), and a digital signature (\texttt{sig}) created by $ a $ of the record in binary form.
+The \texttt{payload} attribute is an arbitrary blob of data and is provided by the connected application.
+To increase the resilience against manipulation, we extend records with additional fields in the next section.
+After peer $ a $ has included all described attributes in the proposal, it persists the record to its database, sends the proposal to $ b $, and disseminated the proposal to $ f $ random peers in the network (step \circled{2}).
 We refer to $ f $ as the \emph{fanout} value.
 
-%A micro-record created by user $ a $, capturing an interacting with $ b $ is defined as a tuple $ R_{a,i} = (i, a_{pk}, b_{pk}, t, p, s_{a,i}, h_{a,i-1}, l, h_{b,l}) $.
-%All fields in $ R_{a,s} $ are listed and described in Table~\ref{tab:micro_record}.
-%Every micro-record is equipped with a sequence number $ i \in \mathbb{Z} $ that indicates the index of the micro-record in the personal ledger of the creating user.
-%It also contains the public keys of both interacting users.
-%A micro-record created by $ a $ contains a hash pointer ($ h_{a,i-1} $) to the previous micro-record in the personal ledger of $ a $.
-
-When $ b $ receives the proposal $ P $, $ b $ verifies its validity.
+When peer $ b $ receives the proposal $ P $, $ b $ verifies its validity.
 It is during this step that fraud is detected.
-The validation logic of records is discussed later in this work, see in Section~\ref{sec:detecting_fraud}.
-If the incoming proposal $ P $ is valid, $ b $ determines if the payload in $ P $ truthfully describes the performed work, according to the knowledge of $ b $.
-If not, $ b $ ignores the incoming proposal and takes no further action.
-Otherwise, $ b $ creates and signs a confirming record, denoted by $ C $, that confirms $ P $ (step \circled{3}).
-This confirmation contains the same fields as the proposal $ P $ and also includes the hash of $ P $.
-We define confirmation $ C $, created by peer $ b $, as the following tuple:
+The validation logic of incoming records is elaborately discussed in Section~\ref{sec:detecting_fraud}.
+If the incoming proposal $ P $ is deemed valid, the connected application determines if the payload in $ P $ truthfully describes the performed work.
+If $ P $ considered invalid, $ b $ ignores the incoming proposal and takes no further action.
+Otherwise, $ b $ creates a confirming record that confirms $ P $ (step \circled{3}).
+This confirmation, denoted by $ C $, contains the same attributes as the proposal $ P $ and also includes the hash of $ P $.
+Confirmation $ C $, created by peer $ b $ is a tuple with the following five attributes:
 \begin{align*}
 	C = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \texttt{proposalHash}, \texttt{sig})
 \end{align*}
 
-The value of \texttt{prevHash} is given by $ H(P) $, where $ H(\cdot) $ is a secure hash function.
-We call the \texttt{prevHash} value in $ C $ the \emph{confirmation pointer}.
-After the creation of $ C $, $ b $ persists the confirmation to its database, sends it to $ a $, and disseminates both $ P $ and $ C $ to $ f $ random peers (step \circled{4}).
-Upon the reception of $ C $, $ a $ validates $ C $ and persists the confirmation if it is valid.
-Both parties are now in possession of the proposal and confirmation that together prove work between these parties.
-The process of recording interactions is lightweight since it requires minimal computational power and data exchange. 
-We also note that users can engage in the recording of multiple interactions simultaneously.
-%This ensures liveness of \ModelName{}, even when the counterparty refuses to confirm a proposal or goes offline.
-
-%The encoding format of the payload $ p $ depends on the application in which the interaction has taken place.
-
-%The creator of the micro-record digitally signs the micro-record and includes the signature.
-%It also confirms that both parties agree with the transaction itself.
-%Digital signatures can be effectively verified by others.
-
-%To ensure that micro-records are replicated in the network when $ A $ or $ B $ goes offline, each new micro-record is disseminated to $ f $ random users in the network by default.
-%We refer to $ f $ as the fanout.
-%Each transaction has a \emph{type} field, indicating its purpose.
-%Blocks are linked together by a (hash) pointer that points to the prior block in each individual ledger.
-%Both transacting parties digitally sign the transaction they are involved in by using any secure digital signing algorithm (TrustChain uses the ECDSA algorithm).
-%These digital signatures are included in a block, which ensures that participation by both parties is irrefutable.
-%It also confirms that both parties agree with the content within the transaction.
-%Others can efficiently verify digital signatures in blocks since the digital identities of both interacting parties (their public keys) are also included in a block.
-%After all required signatures have been added to a block, the block is appended to the individual ledgers of the two interacting parties and committed to their local databases.
-%TrustChain also allows unilateral transactions without any counterparty.
-%The block with a unilateral transaction is only signed by the issuing party and then committed to their individual ledger.
+The value of \texttt{proposalHash} is computed by $ H(P) $, where $ H(\cdot) $ is a secure hash function.
+We call the \texttt{proposalHash} attribute in $ C $ the \emph{confirmation pointer}.
+After the creation of $ C $, peer $ b $ persists the confirmation to its database, sends it to $ a $, and disseminates both $ P $ and $ C $ to $ f $ random peers (step \circled{4}).
+Upon the reception of $ C $, peer $ a $ validates the $ C $ and persists the confirmation if it is valid.
+Both parties are now in possession of proposal $ P $ and confirmation $ C $ that together prove an agreement on work between these parties.
+The process of accounting work is lightweight since it requires minimal computational power and data exchange. 
+Also, peers can engage in the recording of multiple interactions simultaneously.
 
 A potential risk is that $ b $ refuses to confirm $ P $, even though the incoming proposal is valid and contains the correct work details.
-This could, for example, happen when confirming $ P $ negatively impacts $ b $'s social standing.
-This leaves $ a $ with an unconfirmed proposal, which alone is not sufficient evidence to convince other users of the interaction between $ a $ and $ b $.
-In this situation, $ a $ will add $ b $ to a local blacklist, refusing to serve $ b $ until $ b $ has confirmed $ P $.
-To minimize the loss for $ a $ in this situation, we suggest that decentralized applications using \ModelName{} frequently record work.
-%Since the interactions in connected shared-resource applications should be of low value, $ a $ has contributed minimal resources to $ b $ without being accounted, which is likely to be an acceptable loss for $ a $.
+This could, for example, occur when confirming $ P $ negatively impacts $ b $'s social standing.
+This leaves $ a $ with an unconfirmed proposal, which alone is not sufficient evidence to convince other peers of the performed work by $ a $ for $ b $.
+When $ b $ refuses to sign an incoming proposal, $ a $ will add $ b $ to the local blacklist managed by applications, refusing to perform work for $ b $ until $ b $ has confirmed $ P $.
+The losses for $ a $ depend on the magnitude of the (unconfirmed) work performed for $ b $.
+To minimize these losses, we suggest that decentralized applications record small units of works using \ModelName{}.
+For example, a file-sharing application can choose to account unconfirmed work when it reaches a threshold, e.g., 10 MB of traffic exchanged.
+Depending on the granularity of accounting, this approach can significantly reduce the impact of peers refusing to acknowledge the contributions of their counterparties.
 
 \subsection{Improving Resilience by Linking Records}
-%Note how the blockchain structure in Figure \ref{fig:trustchain_tutorial_2} allows user $ A $ to modify blocks in their individual ledger without being detected by others.
-%In particular, $ A $ can reorder the blocks in its individual ledger since validity can quickly be restored by recomputing all hashes.
-%In most blockchain applications, the global consensus mechanism prevents this kind of manipulation.
-To prevent the modification of created records, we organize all records of the same peer in a tamper-evident \emph{personal ledger}, incrementally ordered by creation time.
-We do so by making the following four extensions to proposal and confirmation records.
+To prevent the modification of created records, we enforce each peer in \ModelName{} to link their records together in a \emph{personal ledger}, incrementally ordered by creation time.
+Linking records will also make it harder for malicious peers to hide specific records.
+We make the following four modifications to records:
 
 \begin{enumerate}
-	\item First, we extend each record with the hash of the previous record in the personal ledger of the creator.
-	The modification of a particular record now changes the hash of subsequent records, a feature that enables us to detect modifications quickly (also see Section~\ref{sec:detecting_fraud}).
-	The first record in a personal ledger contains a hash with a value of $ \bot $.
-	\item Second, we include a sequence number $ s \in \mathbb{Z} $ in each record that is incremented by one when a new record is added to ones personal ledger.
+	\item First, we include a sequence number $ s \in \mathbb{Z} $ in each record that is incremented by one when a new record is added to one's personal ledger.
 	The sequence number of the first record in the personal ledger is 1.
+	\item Second, each record now includes the hash of the prior record in the personal ledger of the creator.
+	This modification makes the \ModelName{} data structure comparable to a hash chain, e.g., as used by blockchain applications.
+	The modification of a particular record now changes the hash of subsequent records, a feature that enables us to detect illegitimate changes to stored records (also see Section~\ref{sec:detecting_fraud}).
+	The previous hash of the first record in a personal ledger is empty and referred to as $ \bot $.
 	\item Third, we extend the confirmation pointer with the sequence number of the proposal record that it confirms.
-	\item Forth, we include at most $ b $ additional hash pointers in each record to distinct, prior records in the same personal ledger.
-	We refer to this set as $ S $, and call its elements \emph{back-pointers}.
-	As we will further show in Section~\ref{sec:detecting_fraud}, the inclusion of multiple prior pointers speeds up the detection of fraud.
-	The required prior records pointed to by some record $ R $ are deterministically given by a pseudo-random function $ \sigma $ that takes the public key of the record creator and the sequence number of $ R $ as input.
-	$ \sigma $ returns a set with at most $ b $ sequence numbers of prior records that should be pointed to.
-	All \ModelName{} instances must use the same implementation of $ \sigma $, which we achieve by bundling its implementation in the \ModelName{} software.
+	\item Forth, we include at most $ b $ additional hashes in each record of distinct, prior records in the same personal ledger.
+	We indicate the set with these hashes with $ S $ and call these hashes \emph{back-pointers}.
+	As we will further show in Section~\ref{sec:detecting_fraud}, the inclusion of these back-pointers significantly speeds up the detection of fraud.
+	The required back-pointers in some record $ R $ are deterministically given by a pseudo-random function $ \sigma $ that takes the public key of the record creator and the sequence number of $ R $ as input.
+	$ \sigma $ returns a set with at most $ b $ prior records which hashes should be included in $ R $.
+	All peers must use the same version of $ \sigma $, which we achieve by bundling its implementation in the \ModelName{} software.
 \end{enumerate}
 
-These modifications change the definition of proposal and confirmation records.
-We refer to the record with sequence number $ i $ in the personal ledger of peer $ a $ as $ \mathcal{L}_i^a $.
-We re-define a proposal $ P $, created by peer $ a $ and with counterparty $ b $, as:
+The above modifications change the attributes of proposal and confirmation records.
+We re-define a proposal $ P $, created by peer $ a $ and with counterparty $ b $, as follows:
 \begin{align*}
 	P = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \texttt{sig}, \textcolor{ao}{\texttt{seqNum}}, \textcolor{ao}{\texttt{prevHash}}, \textcolor{ao}{\texttt{backPointers}})
 \end{align*}
-The variables coloured green are new compared to our previous definitions.
-\texttt{seqNum} refers to the sequence number of $ P $, $ H(\mathcal{L}_{s-1}^a) $ indicates the hash of the previous record, and $ S $ is the set with prior pointers (where $ |S| \leq b $).
-We re-define a confirmation $ C $, created by peer $ b $, as tuple:
+The variables coloured green are new compared to our previous definition of $ P $.
+\texttt{seqNum} refers to the sequence number of $ P $, \texttt{prevHash} indicates the hash of the previous record, and \texttt{backPointers} is the set with back-pointers (where $ |S| \leq b $).
+We re-define a confirmation $ C $, created by peer $ b $, as follows:
 \begin{align*}
 	C = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \textcolor{ao}{\texttt{linkInfo}}, \texttt{sig},\\
 	\textcolor{ao}{\texttt{seqNum}}, \textcolor{ao}{\texttt{prevHash}}, \textcolor{ao}{\texttt{backPointers}})
 \end{align*}
 
-Note that we replaced the \texttt{proposalHash} variable with \texttt{linkInfo}.
-\texttt{linkInfo} contains the link information to the proposal, and is defined as a tuple with the hash and sequence number of the referred proposal record.
+We extend confirmations with the same attributes as a proposal but replace the \texttt{proposalHash} attribute with \texttt{linkInfo}.
+This is in accordance with our third modification.
+\texttt{linkInfo} is now defined as a tuple with the hash and sequence number of the referred proposal record:
+\begin{align*}
+	C.\texttt{linkInfo} = (\texttt{hash}, \texttt{seqNum})
+\end{align*}
 
-The creation and confirmation of records yields the graph structure as shown in Figure \ref{fig:fullchain}.
-Figure \ref{fig:fullchain} shows a part of the \ModelName{} graph with six records, created by three distinct users.
-We show required fields (e.g., the signature and payload) in each record.
-Same-coloured records are part of a single personal ledger, and confirmations have a dashed border.
+Creating records yields the graph structure, as shown in Figure \ref{fig:fullchain}.
+Figure \ref{fig:fullchain} shows a part of the \ModelName{} graph with six records, created by three distinct peers ($ a $, $ b $ and $ c $).
+Same-coloured records are part of a single personal ledger, and arrows represent hash pointers to other records.
+Proposals have a solid border whereas confirmations have a dashed border.
 Note how the record in $ a $'s personal ledger with sequence number 55 is unconfirmed.
-For presentation clarity, we only show the hash pointer to the prior record in one’s personal ledger.
-The process of recording interactions is non-blocking, lightweight and avoids network-wide consensus: recording a bilateral interaction only requires two digital signatures and the exchange of two records.
-%This property makes fraud impractical to hide since a counterparty is able to proof malicious activities by revealing his block with the disputed transaction.
-
-%A key difference, though, is that \ModelName{} does not require network-wide consensus on all stored records.
-%Each block now has exactly two incoming and two outgoing (hash) pointers, except for the last block in an individual ledger, which only has two incoming pointers.
+For presentation clarity, we only show the pointer to the prior record in one's personal ledger and omit additional back-pointers from the figure.
 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.9\linewidth]{trustchain/assets/fullchain}
-	\caption{A part of the \ModelName{} DAG with five users and six records: four proposals and two confirmations (indicated by dashed borders). The proposal created by user $ A $ is unconfirmed.}
+	\caption{A part of the \ModelName{} DAG, involving five peers and six records: four proposals (solid borders) and two confirmations (dashed borders). The proposal created by user $ a $ with sequence number 55 is unconfirmed.}
 	\label{fig:fullchain}
 \end{figure}
 
+\ModelName{} publicly accounts work in interlinked personal ledgers.
+Since all performed work is publicly stored and accessible, other users might acquire and analyse \ModelName{} records to reveal potentially sensitive information, e.g., the time at which a particular user is online or the interaction patterns between users.
+To reduce this threat, we outline two techniques that applications can use to enhance privacy.
+First, applications can account performed and consumed work in \emph{batches}.
+For example, an application can record all outstanding contributions and consumptions every hour, therefore hiding granular work statistics.
+Second, an application can add some noise to the amount of work being accounted (\emph{fuzzy accounting}).
+This technique effectively reduces linkability, e.g., when accounting traffic that is being relayed through multiple hops.
+We believe that the combined power of these two techniques provides sufficient privacy guarantees for most decentralized applications.
+A more advanced approach, used by the Monero cryptocurrency, leverages ring signatures and zero-knowledge proofs to hide the amounts of work performed~\cite{bunz2018bulletproofs,poelstra2018confidential}.
+This approach would, however, require fundamental changes to \ModelName{} and we leave this enhancement for further work.
+
 \section{Detecting Fraud}
 \label{sec:detecting_fraud}
-We require that \ModelName{} detects malicious tampering of the records in a personal ledger.
+We require that \ModelName{} detects illegitimate tampering of the records in a personal ledger.
 \ModelName{} is built around fraud \emph{detection} instead of \emph{prevention}.
 We argue this is a reasonable assumption for two reasons.
-First, decentralized applications do not require the prevention of fraud~\cite{krishnan2002virtual}.
-Fraud prevention is desired when the system manages monetary value, which is not the case when considering work accounting.
-Second, preventing fraud is often a resource-intensive process that requires users to reach a consensus on all created records, e.g., using classical BFT algorithms or Proof-of-Work~\cite{vukolic2015quest}.
-The requirement to reach consensus would severely limit the scalability and applicability of \ModelName{}.
+First, decentralized applications often do not require the prevention of fraud~\cite{krishnan2002virtual}.
+We argue that fraud prevention is disproportional in the context of work accounting.
+Second, preventing fraud is often a resource-intensive process that requires peers to reach a consensus on all created records, e.g., by using classical BFT algorithms or Proof-of-Work~\cite{vukolic2015quest}.
+The requirement to reach consensus would severely limit the scalability of \ModelName{}.
 
-%First, we highlight how an adversary would commit fraud in \ModelName{}.
-Fraud in \ModelName{} proceeds when an adversary branches (or forks) its personal ledger and operates multiple personal ledgers in secret, possibly with a common prefix of records.
-This fraud, for example, happens when an adversary attempts to hide a specific record by replacing it with another one.
-This would result in pairs of records with the same sequence number and the same creator, but with a different hash.
-The adversary can then return conflicting records to distinct peers.
-A key objective of \ModelName{} is to quickly detect such conflicting records.
-%This fraud model aligns with related work on free-riding behaviour in peer-to-peer networks~\cite{haeberlen2007peerreview}.
+Fraud in \ModelName{} occurs when a peer illegitimately modifies one of the records in their personal ledger.
+This fraud, for example, happens when an adversary attempts to hide a specific record in the personal ledger by replacing it with another one.
+This action would result in pairs of records with the same sequence number and the same creator, but with a different hash.
+This violates the integrity of the \ModelName{} data structure.
+A key objective of \ModelName{} is to detect such conflicting records quickly.
 
 %According to our threat model, manipulation in \ModelName{} involves an adversary maintaining two different personal ledgers, possibly with a common prefix.
 %In related literature, this is often referred to as double-spending or chain forking.
@@ -699,67 +717,70 @@ A key objective of \ModelName{} is to quickly detect such conflicting records.
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.75\linewidth]{trustchain/assets/fraud_scenario_1}
-		\caption{\emph{Scenario I}: $ R_1 $ and $ R_2 $ have the same sequence number but a different hash. this provides an irrefutable proof of fraud.}
+		\caption{\emph{Scenario I}: Records $ R_1 $ and $ R_2 $ have the same sequence number but a different hash. The pair $ (R_1, R_2) $ is irrefutable proof that peer $ a $ has forked its personal ledger.}
 		\label{fig:fraud_scenario_1}
 	\end{subfigure}%
 	\begin{subfigure}[t]{.5\textwidth}
 		\centering
 		\captionsetup{width=.89\linewidth}
 		\includegraphics[width=.75\linewidth]{trustchain/assets/fraud_scenario_2}
-		\caption{\emph{Scenario II}: $ R_1 $ and $ R_2 $ point to a record with the same sequence number and creator, but a different hash. This reveals an inconsistency.}
+		\caption{\emph{Scenario II}: Records $ R_3 $ and $ R_4 $ both contain a back-pointer to the record with sequence number 54 but their hashes differ. The pair $ (R_3, R_4) $ is irrefutable proof that peer $ a $ has forked its personal ledger.}
 		\label{fig:fraud_scenario_2}\vspace{0.9cm}
 	\end{subfigure}
 	\begin{subfigure}[t]{.5\textwidth}
 		\centering
 		\captionsetup{width=.89\linewidth}
 		\includegraphics[width=\linewidth]{trustchain/assets/fraud_scenario_3}
-		\caption{\emph{Scenario III}: $ R_1 $ and $ R_2 $ point to a record with the same sequence number and creator, but a different hash. This reveals an inconsistency.}
+		\caption{\emph{Scenario III}: Records $ R_1 $ and $ R_2 $ contain a differing hash of $ a $'s record with sequence number 54. This reveals an inconsistency.}
 		\label{fig:fraud_scenario_3}\vspace{0.9cm}
 	\end{subfigure}
 	\begin{subfigure}[t]{.6\textwidth}
 		\centering
-		\captionsetup{width=.93\linewidth}
+		\captionsetup{width=.89\linewidth}
 		\includegraphics[width=.98\linewidth]{trustchain/assets/fraud_scenario_4}
-		\caption{\emph{Scenario IV}: $ R_1 $ and $ R_3 $ confirm a record with the same sequence number and creator, but a different hash. This reveals an inconsistency.}
+		\caption{\emph{Scenario IV}: Records $ R_1 $ and $ R_3 $ both confirm $ a $'s record with sequence number 54, but they contain a different hash. This reveals an inconsistency.}
 		\label{fig:fraud_scenario_4}
 	\end{subfigure}
-	\caption{Four scenarios which allows a peer to either expose fraud (forking of a personal ledger), or to detect an inconsistency. The colour of each record indicates the identity of its creator (blue for $ a $, green for $ b $ and red for $ c $). Solid and dashed records indicate proposals, respectively confirmations. Opaque records are not in possession by the peer.}
+	\caption{Four scenarios that allows a peer to either expose fraud (forking of a personal ledger), or to detect an inconsistency (without assigning blame). The colour of each record indicates the identity of its creator (blue for $ a $, green for $ b $ and red for $ c $). Solid and dashed records indicate proposals, respectively confirmations. Opaque records are not in possession by the peer.}
 	\label{fig:fraud_scenarios}
 \end{figure*}
 
 \subsection{Detecting Forks}
 \label{sec:detecting_forks}
-Fraud in \ModelName{} is detected by sharing records with random peers, and by verifying the consistency of included hash pointers in these incoming records against known ones.
-%In \ModelName{}, users continuously request micro-records in the personal ledger of other users, and the micro-records that confirm the requested micro-records.
-This simple approach enables quick fraud detection through the collective effort of peers.
-%When a user refuses to send requested micro-records to a requester within reasonable time, the requester blacklists that user and refuses to share resources with that user.
-In Figure~\ref{fig:fraud_scenarios}, we visualize four identified scenarios in which we can either expose an adversarial peer (scenario I and II), or detect an inconsistency without assigning blame (scenario III and IV).
-Each scenario shows records that a peer has in its local database, or does not have.
+Fraud in \ModelName{} is detected by sharing newly created records with other peers, and by requesting random records in the personal ledgers of others.
+Each peer assesses the consistency of incoming records with the ones in its local database.
+This simple approach allows for quick detection of fraud through the collective effort of peers.
+In Figure~\ref{fig:fraud_scenarios}, we visualize four identified scenarios in which we can either expose an adversarial peer (scenario I and II) or detect an inconsistency without assigning blame (scenario III and IV).
+Each scenario shows the situation from a single peer's perspective and highlights records that a peer has in its local database, or does not have.
 Records not in the possession by a peer are faded.
 Records with the same colour are created by the same peer.
-We discuss each scenario and elaborate how they lead to either fraud exposure or inconsistency detection.
+We discuss each scenario and elaborate on how they either lead to fraud exposure or the detection of an inconsistency.
 
 \begin{itemize}
 	\item \textbf{Scenario I}. 
-	The first scenario, visualizes in Figure~\ref{fig:fraud_scenario_1}, captures the situation where a peer can directly expose a fork in ones personal ledger.
-	This personal ledger in Figure~\ref{fig:fraud_scenario_2} has been forked since record $ R_1 $ and $ R_2 $ have the same sequence number but a different hash.
-	As soon as another peer, say $ b $, receives $ R_1 $ while already having $ R_2 $, or receives $ R_2 $ while already having $ R_1 $, the pair $ (R_1, R_2) $ is sufficient evidence to expose the fraud by $ a $ and to prove that $ a $ has forked its personal ledger.
-	Note that $ b $ does not need to have $ R_3 $ to detect or prove this fraud.
+	The first scenario, visualized in Figure~\ref{fig:fraud_scenario_1}, describes a situation where a peer can directly expose a fork in the personal ledger of peer $ a $.
+	The personal ledger of peer $ a $ has been forked since records $ R_1 $ and $ R_2 $ have the same sequence number but a different hash.
+	As soon as another peer, say $ b $, receives $ R_1 $ while already having $ R_2 $, or receives $ R_2 $ while already having $ R_1 $, the pair $ (R_1, R_2) $ is sufficient evidence to expose the fraud by $ a $.
+	The digital signature by $ a $ in the records prove that $ a $ deliberately created both records.
+	Note that $ b $ does not need to have $ R_3 $ to detect nor to prove this fraud.
 	We call the pair $ (R_1, R_2) $ a \emph{fraud proof}.
-	Fraud proofs are by default shared within a \texttt{FraudProof} message with other peers in the \ModelName{} network.
-	\item \textbf{Scenario II}. The second scenario describes the situation where one can prove fraud through the hashes in the prior pointer set $ S $.
-	Figure~\ref{fig:fraud_scenario_2} shows four records created by the same peer.
-	Records $ R_3 $ and $ R_4 $ contain the hash of the record with sequence number 54 in $ S $, however, they point to records with a different hash.
-	The pair $ (R_3, R_4) $ can now be used to construct a fraud proof.
+	Fraud proofs are by default shared with other peers in the network through a \texttt{FraudProof} message.
+	\item \textbf{Scenario II}. The second scenario describes the situation where one can prove fraud by detecting inconsistencies in the included back-pointers of records.
+	Figure~\ref{fig:fraud_scenario_2} shows four records created by peer $ a $.
+	Records $ R_3 $ and $ R_4 $ contain the hash of the record with sequence number 54 in the back-pointer set; however, these back-pointers describe the same record with a different hash.
+	The pair $ (R_3, R_4) $ is irrefutable proof that peer $ a $ has committed fraud and can be used to construct a fraud proof.
 	\item \textbf{Scenario III}.
-	Figure~\ref{fig:fraud_scenario_3} shows the scenario where a peer receives proposal $ R_1 $ and already has confirmation $ R_2 $, or receives confirmation $ R_2 $ while already having proposal $ R_1 $.
-	The peer does not have $ R_3 $ and $ R_4 $.
-	The hash pointer to the prior record in $ R_1 $ differs from the hash pointer in the confirmation $ R_2 $.
-	This indicates an inconsistency that is either introduced by user $ a $ forking its personal ledger at height 54, or by $ b $ having included an invalid hash pointer in $ R_2 $.
-	A peer that encounters this situation during the validation optimistically sends the pair $ R_1 $ and $ R_2 $ within a \texttt{Inconsistency} message to other peers.
+	Figure~\ref{fig:fraud_scenario_3} shows a third scenario where a peer receives proposal $ R_1 $ and already has confirmation $ R_2 $, or receives confirmation $ R_2 $ while already having proposal $ R_1 $.
+	The peer does not have records $ R_3 $ and $ R_4 $.
+	The hash of record $ R_3 $ in $ R_1 $ differs from the hash in the confirmation pointer in $ R_2 $.
+	This situation reveals an inconsistency that is either introduced by peer $ a $ forking its personal ledger at height 54, or by $ b $ having included a wrong hash in $ R_2 $.
+	To assign blame, the peer that is validating the incoming record requires either $ R_3 $ or $ R_4 $.
+	A peer that encounters this situation sends the pair ($ R_1 $, $ R_2 $) within a \texttt{Inconsistency} message to other random peers, hoping that others will be able to expose the malicious peer.
 	\item \textbf{Scenario IV.}
-	Figure~\ref{fig:fraud_scenario_3} highlights another scenario where a user encounters two confirmations ,$ R_1 $ and $ R_3 $, created by different users, that point to a record with the same public key and sequence number, but a differing hash.
-	This either indicates a fork of the personal ledger of $ a $, or it can be the result of an invalid pointer in one of the confirmations.
+	Figure~\ref{fig:fraud_scenario_4} highlights the fourth scenario where a peer either receives confirmation $ R_1 $ while already having confirmation $ R_3 $, or vice versa.
+	Both confirmations point to a record with the same public key and sequence number, but the hash of this record differs.
+	This situation either indicates a fork of the personal ledger of $ a $, or it can be the result of an invalid pointer in one of the confirmations.
+	Similar to scenario III, the validating peer sends the pair ($ R_1 $, $ R_3 $) within a \texttt{Inconsistency} message to other, random peers.
 \end{itemize}
 
 %The other two scenarios, displayed in Figure~\ref{fig:fraud_scenario_2} and Figure~\ref{fig:fraud_scenario_3}, enables the detection of an inconsistency but one cannot assign blame without more context.
@@ -772,10 +793,10 @@ We discuss each scenario and elaborate how they lead to either fraud exposure or
 %To prove this fraud, the transaction counterparty reveals both the correct block and the invalid block created by $ A $.
 
 \begin{algorithm}[!t]
-	\label{alg:record_data_validation}
 	\caption{The validation of the fields in record $ R $.}
+	\label{alg:record_data_validation}
 	\begin{algorithmic}[1]
-		\Procedure{validateRecordFields}{$ R $}  \Comment{Step 1}
+		\Procedure{validateFields}{$ R $}  \Comment{Step 1}
 		\State $ valid \leftarrow $ true
 		\If{$ R.seqNum < 1 $}
 		\State $ valid \leftarrow $ false
@@ -809,18 +830,80 @@ We discuss each scenario and elaborate how they lead to either fraud exposure or
 
 \subsection{Record Validation Logic}
 \label{sec:validation_logic}
-Based on the four scenarios identified in Section~\ref{sec:detecting_forks}, we devise and describe the validation logic of an incoming record $ R $.
+Based on the four identified scenarios, we design and describe the validation logic of an incoming record $ R $.
 Each peer keeps track of known hashes in a dictionary named \texttt{knownHashes}.
-The key of this dictionary is a tuple with the public key and sequence number of records, and the value of dictionary entries is the hash of the record.
+This dictionary is indexed with a tuple, containing the public key and sequence number of a record.
+The value of dictionary entries is the hash of the record being queried.
 %To simplify the validation logic, proposals and confirmations have the same fields.
 %The confirmation pointer is implemented with three fields: \textsc{linkPublicKey}, \textsc{linkSeqNum} and \textsc{linkHash}.
 %In a proposal, these fields are set to \textsc{null}.
 %Each user maintains a dictionary \textsc{hashes} with known hashes.
-The validation logic of incoming records consists of the following five steps.
+The validation logic of incoming records consists of the following five steps:
 
 \begin{algorithm}[t]
+	\caption{The consistency validation of hashes in an incoming record against known ones.}
+	\label{alg:record_validation_step4}
+	\begin{algorithmic}[1]
+		
+		\Procedure{validateHashes}{R}  \Comment{Step 4}
+		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
+		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
+		\State \Return false
+		\EndIf
+		\State
+		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
+		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
+		\If{$ known \not= \bot $ \textbf{and} $ hash \not= known $}
+		\State \Return false
+		\EndIf
+		\EndFor
+		\State \Return true
+		\EndProcedure
+		
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Step 1.}
+We first verify the validity of the fields in incoming record $ R $.
+This step is performed by the \textsc{validateFields} procedure, which returns a boolean value indicating whether the fields in the record are valid or not.
+A pseudocode description of this procedure is given in Listing~\ref{alg:record_data_validation}.
+This step validates the sequence number (line 3), the included public keys (line 7 and 11), and the digital signature (line 9).
+If the incoming record is a confirmation, it also verifies that the sequence number in the \texttt{linkInfo} attribute is within a valid range (line 5).
+It also checks whether the hash of the prior record is sane when the record is the first in ones personal ledger (line 13).
+This step does not compare the validity of $ R $ within the context of other records.
+Any error in the included fields of $ R $ is computationally efficient to detect and likely originates from a software bug.
+
+\textbf{Step 2.}
+Next, we query the database for a record with the same public key and sequence number as the incoming record $ R $.
+If such a record $ R' $ is in the database, we check the equality of $ R $ and $ R' $ by performing a comparison between their included fields.
+If $ R \not= R' $, we have detected a fork in the personal ledger of the creator behind $ R $.
+We then share the fraud proof $ (R, R') $ with other peers in the network.
+During this step, we detect the fraud described by scenario I in Section~\ref{sec:detecting_forks}.
+
+\textbf{Step 3.}
+Then, we verify if the hash pointers in the incoming record are consistent with known ones.
+This is performed by the \textsc{validateHashes} procedure which pseudocode description is given in Listing~\ref{alg:record_validation_step4}.
+This procedure first checks whether the \texttt{prevHash} attribute in $ R $ is consistent with the information in the \texttt{knownHashes} dictionary (line 3).
+We then iterate over all included back-pointers and verify the consistency of these hashes with the entries in the \texttt{knownHashes} dictionary (line 6-10).
+We can detect the inconsistency described by scenario II during this step.
+
+\textbf{Step 4.}
+Next, we compare incoming record $ R $ with a link record, if such a record is available in the database.
+When $ R $ is a proposal, we get the corresponding confirmation from the database, and if $ R $ is a confirmation, we get the corresponding proposal.
+This step is performed by the the \textsc{validateLink} procedure which pseudocode description is given in Listing~\ref{alg:record_validation_step3}.
+We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
+We check whether the public keys included in the proposal and confirmation are consistent (line 9), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 11-14).
+We detect the inconsistency described by scenario III during this step (line 15-17).
+
+\textbf{Step 5.}
+Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
+As we will further outline in Section~\ref{sec:system_architecture}, decentralized applications using \ModelName{} should implement a \emph{validation} policy that denotes whether the payload of an incoming record is valid in the context of the connected application.
+
+If any of the above steps fail, the record is considered invalid.
+
+\begin{algorithm}[t]
+	\caption{The validation of an incoming record against a linked record.}
 	\label{alg:record_validation_step3}
-	\caption{Validating an incoming record against a linked record.}
 	\begin{algorithmic}[1]
 		\Procedure{validateLink}{R}  \Comment{Step 3}
 		\State $ linked \leftarrow db $.\textsc{getLinked(R)}
@@ -849,80 +932,27 @@ The validation logic of incoming records consists of the following five steps.
 	\end{algorithmic}
 \end{algorithm}
 
-\textbf{Step 1.}
-We first verify the validity of the data elements included in $ R $.
-This is performed by the \textsc{validateRecordFields} procedure, which returns a boolean value indicating if the record is well-structured or not.
-Its implementation can be found in Listing~\ref{alg:record_data_validation}.
-This step validates the sequence number (line 3), the included public keys (line 7 and 11), and the digital signature (line 9).
-If the incoming record is a confirmation, it verifies that the sequence number in the \texttt{linkInfo} attribute is within a valid range (line 5).
-It also checks whether the hash of the prior record is sane when the record is the first in ones personal ledger (line 13).
-Any error in the included data elements of $ R $ is computationally efficient to detect and is likely to be the result of a software bug.
-
-\textbf{Step 2.}
-Next, we query the database for a record with the same public key and sequence number as the incoming record $ R $.
-If such a linked record $ R' $ is in the database, we check the equality of $ R $ and $ R' $ by doing a pairwise comparison of all included data elements.
-If $ R \not= R' $, we have detected a fork in the personal ledger of the creator of $ R' $.
-We then share the fraud proof $ (R, R') $ with other peers in the network.
-We detect the inconsistency described by scenario I during this step.
-
-\textbf{Step 3.}
-Next, we compare incoming record $ R $ with its counterpart, if available in the database.
-This step is performed by the the \textsc{validateLink} procedure, outlined in Listing~\ref{alg:record_validation_step3}.
-We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
-If $ R $ is a proposal, the linked record must be a confirmation and vice versa.
-We check whether the public keys included in the proposal and confirmation are consistent (line 9), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 11-14).
-We detect the inconsistency described by scenario III during this step (line 15-17).
-
-\textbf{Step 4.}
-Next, we verify if the pointers in the incoming record are consistent with known ones.
-This is performed by the \textsc{validateLedgerLinks} procedure which implementation is given in Listing~\ref{alg:record_validation_step4}.
-This procedure first checks whether the \texttt{prevHash} attribute in $ R $ is consistent with the information in the \texttt{knownHashes} dictionary (line 3).
-We then iterate over the included back-pointers and verify their consistency with the entries in the \texttt{knownHashes} dictionary (line 6-10).
-We detect the inconsistency described by scenario II during this step.
-
-\textbf{Step 5.}
-Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
-As we will further outline in Section~\ref{sec:system_architecture}, shared-resource applications using \ModelName{} should implement a \emph{validation} policy that denote whether the payload of an incoming micro-record is valid in the context of the application.
-
-\begin{algorithm}[t]
-	\label{alg:record_validation_step4}
-	\caption{Validating the consistency of pointers in an incoming record with known ones.}
-	\begin{algorithmic}[1]
-		
-		\Procedure{validateLedgerLinks}{R}  \Comment{Step 4}
-		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
-		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
-		\State \Return false
-		\EndIf
-		\State
-		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
-		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
-		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
-		\State \Return false
-		\EndIf
-		\EndFor
-		\State \Return true
-		\EndProcedure
-		
-	\end{algorithmic}
-\end{algorithm}
-
 \subsection{Exchanging Records with Other Peers}
 \label{sec:exchanging_records}
-The detection of fraud requires adequate strategies to exchange records between other peers in the network.
-\ModelName{} relies both on a \emph{push-based} and a \emph{pull-based} exchange of records.
+The detection of fraud in \ModelName{} depends on peers exchanging records with each other.
+A peer is motivated to share collected records with others since they might eventually reveal fraud conducted by one of their former counterparties.
+So far, we have not discussed how records are disseminated.
+Record dissemination is an essential process that affects the speed at which fraud can be detected.
+For example, a slow record exchange strategy is likely to increase fraud detection times compared to more aggressive record dissemination.
+We consider both \emph{push-based} and \emph{pull-based} exchange of records, which is explained next.
 
 \textbf{Pull-based Record Exchange.}
-Each peer by default requests (pulls) records from other random peers at a fixed rate by sending out \texttt{Query} messages.
-Applications can choose to send out \texttt{Query} messages to specific peers to build profile information about that peer, e.g., to detect free-riders.
-A \texttt{Query} message contains a list of sequence numbers that the recipient should send back.
-When receiving a \texttt{Query} message, the recipient includes linked proposal or confirmation records in the response.
-When a peer does not answer with records within reasonable time, a requesting peer adds $ a $ to the blacklist managed by the connected application.
+Each peer by default requests (pulls) records from other random peers at a fixed rate by sending out \texttt{Request} messages.
+Applications can choose to send out \texttt{Request} messages to specific peers to build profile information about that peer, e.g., to detect free-riders.
+A \texttt{Request} message contains a list of sequence numbers that the recipient should send back.
+When receiving a \texttt{Request} message, the recipient also includes linked proposal or confirmation records in the response.
+When a peer $ a $ does not respond with records within a reasonable time, the requesting peer adds $ a $ to the local blacklist.
 
 \textbf{Push-based Record Exchange.}
-\ModelName{} also supports push-based record exchange, where the creator of a record disseminates it to $ f $ random other peers (as discussed in Section~\ref{sec:recording_interactions}).
-This push-based exchange allows for quick detection of forking since the probability of no user receiving two conflicting records quickly goes to zero, even when the network size increases~\cite{osipkov2007combating}.
-Furthermore, immediately disseminating a record in the network helps with record availability in case peers go offline.
+\ModelName{} also supports push-based record exchange, where the creator of a record disseminates it to $ f $ random other peers (as also discussed in Section~\ref{sec:recording_interactions}).
+This push-based exchange allows for quick detection of fraud since the probability of no user receiving two conflicting records goes to zero quickly, even when the network size increases~\cite{osipkov2007combating}.
+Even if the malicious peer refrains from broadcasting a conflicting record, the counterparty is very likely to do so, assuming there is no collusion between interacting peers.
+Immediate dissemination of created records in the network also increases record availability when the sending peer goes offline.
 
 \begin{figure*}[t]
 	\centering
@@ -931,98 +961,66 @@ Furthermore, immediately disseminating a record in the network helps with record
 	\label{fig:system_architecture}
 \end{figure*}
 
+\subsection{Limitations}
+%In Section~\ref{sec:micro_accounting} and~\ref{sec:detecting_fraud}, we have described how \ModelName{} records are created and how fraud is detected.
+Even though our simple algorithm can detect the modification of records, the probabilistic nature of our algorithm can render \ModelName{} unsuitable for deployment in specific application domains.
+Since fraud detection is a probabilistic approach, some fraud instances can take relatively long to be uncovered (e.g., several minutes).
+We also encountered this behaviour during our experiments (see Section~\ref{sec:implementation_evaluation}).
+At the same time, we argue that this is not an insurmountable problem in decentralized applications where performed work holds no or low monetary value.
+
+Since our algorithm is based on fraud \emph{detection}, \ModelName{} is not suitable for applications that require a high level of security, as is the case with decentralized financial applications.
+We believe that blockchain technology provides more appropriate security guarantees for such application domains, at the cost of increased resource usage and lower scalability.
+
+Finally, we note that \ModelName{} is mainly built for the lightweight accounting of work in decentralized applications.
+In its current state, \ModelName{} cannot capture more complicated operations, e.g., executing arbitrary logic like smart contracts.
+However, as demonstrated by recent research advancements, a lightweight accounting mechanism can be an enabling component to devise novel types of decentralized applications with dynamic risk guarantees~\cite{de2020xchange,de2019devid,de2018real}.
+
+% Limitations:
+% 1. optimistic detection of fraud -> not everything is detected
+% 2. fraud detection is a probablistic process -> detection can take long, depending on several factors
+
 \section{System Architecture}
 \label{sec:system_architecture}
-%We present the components of our middleware, which is visualized in Figure~\ref{fig:system_architecture}.
-%We consider peer-to-peer communities without centralized server.
-%We also deem threats at the network layer, such as the Sybil Attack and the Eclipse Attack, outside scope of this work.
-
-%\subsection{Underlying Model for Resource Management}
-%Figure~\ref{fig:model} shows the underlying model of our middleware.
-%This model is inspired by prior work on deterring free-riders in BitTorrent networks based on reputation, and consists of three components~\cite{seuken2010accounting,meulpolder2009bartercast}.
-%An \emph{accounting mechanism} (see Section X) stores all resource contributions and consumptions by agents.
-%These actions are embedded in tamper-proof and light-weight records, and shared with other individuals in the network.
-%Each individual collects records from others, eventually building a local database.
-%These records are then passed to a \emph{reputation algorithm} that determines the trustworthiness of individuals it knows about.
-%Even though accounting mechanisms and reputation mechanisms share similarities, they are incomparable as discussed in the work of Seuken et al.~\cite{seuken2010accounting}.
-%There exists a large number of decentralized reputation algorithm.
-%The output of the reputation algorithm is a mapping from the identity of individuals to a trust score.
-%These trust scores are used by the \emph{allocation policy} to provide access to some common good.
-%The interactions following the allocation are accounted and public, and influence subsequent trust scores.
-%For example, if a peer $ A $ downloads from another peer $ B $, the trust score of peer $ B $ most likely increases whereas the scores of peer $ A $ decreases.
-
-We devise a system architecture around our \ModelName{} data structure (see Figure~\ref{fig:system_architecture}) and elaborate its components.
-%We also demonstrate how resource-sharing applications can leverage the described system architecture and leverage \ModelName{} for resource accounting.
-The network layer is the lowest layer in our architecture and provides the primitives for decentralized communication and messaging.
-This layer can be realised using existing frameworks to build peer-to-peer overlay networks, e.g., libp2p.\footnote{See \url{https://libp2p.io}}
-%Mitigation of network threats, e.g., the Sybil and Eclipse attacks, should be addressed by the communication layer.
+We devise a system architecture of our \ModelName{} mechanism, see Figure~\ref{fig:system_architecture}).
+The network layer is the lowest layer in our architecture and provides the primitives for decentralised communication and peer discovery.
+This layer can be realised using existing frameworks to build peer-to-peer overlay networks, for example, libp2p.\footnote{See \url{https://libp2p.io}}
 
 \textbf{Record Manager.}
-The record manager interacts with the network layer to disseminate records and to process incoming ones.
-It queues incoming records for validation and persists incoming fraud proofs to the database.
-It also manages the confirmation of incoming, valid proposal records that are targeted at that peer.
+The record manager interacts with the network layer to disseminate records and processes incoming ones.
+It queues incoming records for validation and persists incoming fraud proofs to the database and connected application.
+It also manages the confirmation of incoming and valid proposals targeted at that peer.
 Applications using \ModelName{} should provide a \emph{confirmation policy} that predicates whether an incoming proposal should be confirmed.
-%When micro-records arrive from the network, the record manager first checks if it has been received before.
-%If not, it schedules the micro-record for validation.
 
 \textbf{Validator.}
-The validator assesses the validity of incoming records according to the algorithms described in Section~\ref{sec:validation_logic}.
-%We distinguish between validation on \emph{record-level} and \emph{data-level}.
-%Validation on record-level verifies the whether the micro-record itself is valid, e.g., whether it contains a valid digital signature and whether the micro-record is in alignment with other known micro-records in the personal ledger.
-%These validation rules are application-agnostic.
-%Validation on data-level verifies integrity of the micro-record with respect to an application context.
-%Note that the validator might not have sufficient information to validate an incoming micro-record on data-level and therefore must collect more micro-records first.
+The validator determines the validity of incoming records according to the algorithms described in Section~\ref{sec:validation_logic}.
 Connection applications can provide a custom \emph{validation policy}.
-If implemented, this validation policy is invoked during step 5, when the application-specific payload is validated.
-The flexibility to provide custom validation and confirmation policies makes \ModelName{} universal and reusable across different application domains.
-
-%\begin{algorithm}[b]
-%	\SetAlgoLined
-%	\small
-%	\KwData{Micro-record \emph{R}, database \emph{db}}
-%	\lIf{$ R $.$sequence\_number < 1 $}{\Return{} \textbf{false}}
-%	\lIf{f}{\Return{} \textbf{false}}
-
-%	\caption{The validation of a micro-record}
-%\end{algorithm}
+If provided, this validation policy is invoked during step 5, when the application-specific payload in a record is validated.
+The flexibility to provide custom validation and confirmation policies for incoming records makes \ModelName{} universal and reusable across different application domains.
 
 \textbf{Persistence.}
 Records and fraud proofs are persisted in a database.
-The \ModelName{} system architecture provides an interface for the queries made to the database and supports different database architectures, e.g., structured or unstructured storage models.
-All query databases by \ModelName{} are routed through a \emph{cache}, which is an intermediary component that pre-loads all records in the personal ledger of the operating peer.
-This allows \ModelName{} to quickly respond to incoming record queries.
-%Micro-records of ones own personal ledger are cached in an intermediary \emph{record cache} in order to quickly respond to incoming queries.
-%The record cache stores intermediate records for quick lookup when receiving a query for micro-records in ones personal chain.
-%When initiating \ModelName{}, it pre-loads the micro-records of the operating user in the cache.
-This cache interacts with the database for the retrieval and storage of records and fraud proofs.
+The \ModelName{} system architecture provides an interface for the queries made to the database and supports different database architectures, e.g., structured or unstructured models.
+Our system architecture includes a record \emph{cache}, which is an intermediary component that stores all records in the personal ledger of the operating peer in memory.
+This cache allows \ModelName{} to quickly respond to incoming record queries in the personal ledger of the operating peer.
+This cache forwards queries to the database for the retrieval and storage of records and fraud proofs.
 
-To limit the growth of the database and to keep the storage overhead manageable, an application can choose to periodically prune the database when it reaches a storage threshold.
-In our implementation, we start pruning when at least 1 million records have been stored.
-Applications may increase or decrease this number, depending on the storage capacities of participating peers.
-The default pruning strategy of \ModelName{} continuously removes the record with the lowest database insertion timestamps, until the database size has reached its storage threshold again.
-The pruning of older records might cause some forks to go undetected, since records are removed before a fraud proof can be constructed.
-As we will show in Section~\ref{sec:fraud_detection_experiment}, forks in \ModelName{} are quickly detected and there should be ample time to detect inconsistencies before relevant records are removed.
+To contain the growth of the database and to keep the storage overhead manageable, an application can choose to periodically prune the \ModelName{} database when a storage threshold is reached.
+In our implementation, by default, we start pruning when at least one million records have been stored.
+Applications may increase or decrease this number, depending on the storage capacities of participating peers and the deployment environment.
+The default pruning strategy of \ModelName{} continuously removes the record with the lowest database insertion timestamps until the database size has reached its storage threshold again.
+The pruning of older records might cause some forks to go undetected since records are removed before a fraud proof can be constructed.
+As we will show in Section~\ref{sec:fraud_detection_experiment}, most forks in \ModelName{} are quickly detected, and there should be ample time to detect inconsistencies before relevant records are pruned.
 
 \textbf{Fraud Management.}
-When the validator exposes fraud, or when it receives an incoming fraud proof, the connected applications are notified of the event and can punishment the misbehaving peer accordingly.
+When the validation algorithm exposes fraud, or when \ModelName{} receives an incoming fraud proof, the connected applications are notified of the fraud and can punish the misbehaving peer accordingly.
 For example, a fraud policy in a bandwidth sharing application could decide to not serve the fraudster for some time.
-The decentralized application should store the digital identities of fraudsters in a local blacklist.
+The decentralised application store the digital identities of fraudsters in a local blacklist.
 
-%Despite enforcing a temporal order in a personal ledger, there is no notion of physical event time in \ModelName{}.
-%Even if we would extend micro-records with a timestamp field, there is no guarantee that the included timestamp is accurate.
-%This inaccuracy prevents resource-sharing applications using \ModelName{} to utilize time-based policy, e.g., banning adversarial users for 24-hours after the moment the fraud has been committed. % have committed fraud.
-%In a distributed system with Byzantine actors, it is not practically possible to accurately synchronize time.
-%Even though we consider accurate timestamping of events out of scope, we briefly outline two solutions.
-%One approach is to use Proof-of-Work mechanisms to implement a distributed timestamp service.
-%However, this approach is resource intensive and there would still be inaccuracies in the produced timestamps.
-%Alternatively, one can use a third-party timestamping service and include their signature in the payload of a micro-record.
-%However, this would violate our requirement for full decentralization, as discussed in Section~\ref{sec:problem_description}.
-
-\textbf{Interacting with \ModelName{} by Applications.}
-Decentralized applications interact with \ModelName{} through an API.
+\textbf{Interactions between \ModelName{} and Applications.}
+Decentralised applications interact with \ModelName{} through an API.
 This API allows connected applications to query the content of the database.
 Furthermore, connected applications can subscribe to incoming records.
-The record manager forwards new records to the API, which passes these records to subscribed application.
+The record manager forwards new records to the API, which passes these records to subscribed applications.
 
 \begin{table}[]
 	\begin{center}
@@ -1033,8 +1031,8 @@ The record manager forwards new records to the API, which passes these records t
 			Workload & 1 proposal per second per peer \\
 			Record exchange strategy & \texttt{PULL+RAND+PUSH} \\
 			Record fanout ($ f $) & 5 \\
-			Crawl batch size & 2 \\
-			Crawl interval & 0.5 seconds \\
+			Record request batch size & 2 \\
+			Record request interval & 0.5 seconds \\
 			Packet Loss Rate & 0\% \\
 			Individual forking probability & 10\% \\
 			Back-pointers ($ b $) & 10 \\ \hline
@@ -1047,37 +1045,46 @@ The record manager forwards new records to the API, which passes these records t
 
 \section{Implementation and Evaluation}
 \label{sec:implementation_evaluation}
+Within this section we systematically explore how \ModelName{} behaves when modifying system parameters.
+%In the next section we observe how the full implementation of \ModelName{} behaves under real-world conditions and with real Internet users.
 We implement \ModelName{} in the Python 3 programming language.
-We leverage an existing library as network layer and use the UDP protocol for network communication.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+We leverage the network library implemented by our group, and use the UDP protocol for network communication.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Our implementation uses the \texttt{asyncio} framework for asynchronous event handling.
-Furthermore, it features both an (optimized) in-memory storage and a persistent \texttt{sqlite} database.
+The implementation features both an in-memory storage for experimentation and a persistent (sqlite) database which can be used to persist records over different sessions.
 The full implementation of \ModelName{}, including unit tests and documentation, is published on GitHub.\footnote{See \url{https://github.com/tribler/py-ipv8/tree/master/ipv8/attestation/trustchain}}
 
 \subsection{Experiment Setup}
-We evaluate the impact of different parameters in \ModelName{} on the efficiency of fraud detection.
+We evaluate the impact of different parameters on the efficiency of fraud detection.
 We do so by measuring the time between committing the fraud and its initial detection.
 We substitute our networking layer with the SimPy discrete event simulator~\cite{matloff2008introduction}.
 Each peer in the \ModelName{} network knows the network address of 100 random other peers, resulting in an unstructured overlay topology.
-Table~\ref{tab:experiment_parameters} lists the default parameters during our experiments, unless stated otherwise.
-To encourage reproducibility, we have open-sourced the \ModelName{} simulator and all experiment scripts\footnote{See \url{https://github.com/devos50/trustchain-simulator}}.
+Table~\ref{tab:experiment_parameters} lists the default parameters during our experiments.
+To encourage reproducibility, we have open-sourced the \ModelName{} simulator and all experiment scripts.\footnote{See \url{https://github.com/tribler/trustchain-simulator-pysim}}
 
 \textbf{Workload and Attack Model.}
 During our experiments, peers create records with other random peers.
-With our default workload, each peer initiates one proposal per second with another random peer in the network.
-Note that the rate at which new records are created grows with the network size, which should capture the dynamics within real-world applications.
+Our default workload has each peer initiate one proposal per second with another random peer.
+Note that the rate at which new records are created grows with the network size, which should capture the dynamics of real-world applications (when there are more peers, there is usually more work performed in the application).
+We use a uniform transaction load to analyse the characteristics of \ModelName{} under a predictable load.
+Even though this transaction load is predictable, it resembles an application where work is periodically accounted.
+We experiment with network sizes ranging from 1'000 to 10'000 online peers.
+Though some deployed networks have many more peers (e.g., BitTorrent and Tor), our experimental results suggest that \ModelName{} has no issues scaling beyond 10'000 peers.
+In Section~\ref{subsec:realistic_workload}, we subject \ModelName{} to a realistic workload, extracted from the interactions in a decentralized file-sharing application.
+
 Each peer forks its personal ledger with a probability of 10\% by removing the last record in its personal ledger and re-using its sequence number to create a new record.
 Each peer commits this fraud once.
 A peer committing fraud will not broadcast the duplicate record when push-based record exchange is enabled.
 In each experiment run, all peers start with an empty personal ledger, and interaction partners always confirm incoming proposals.
-A peer that has exposed the fraud by another peer will refuse to confirm the proposals by that peer.
+A peer that has exposed the fraud of another peer will refuse to confirm the proposals by that peer.
 Each experiment run terminates either when all fraud attempts have been discovered or after ten minutes have elapsed.
+We are interested in the detection time of fraud instances, which is the time period between committing the fraud and its first detection by a peer in the network.
 
 \textbf{Record Exchange Strategies.}
 We consider the following four strategies for exchanging records.
-With the \texttt{PULL} strategy, each peer requests two contiguous records at a random height in the personal ledger of another random user every half a second (the \emph{crawl batch size} and \emph{crawl interval} parameters in Table~\ref{tab:experiment_parameters}).
-Under the \texttt{PULL+RAND}, a peer also returns five random records in their database upon a query.
-Including random records in a crawl response enables the detection of fraud of offline peers.
-The \texttt{PULL+PUSH} strategy also pushes new records to $ f $ random users upon creation.
+With the \texttt{PULL} strategy, each peer requests two contiguous records at a random height in the personal ledger of another random peer every half a second (the \emph{record request batch size} and \emph{record request interval} parameters in Table~\ref{tab:experiment_parameters}).
+Under the \texttt{PULL+RAND} strategy, a peer also returns five random records in their database upon a query.
+Including random records in responses enables the detection of fraud of offline peers.
+The \texttt{PULL+PUSH} strategy also pushes new records to $ f $ random users upon creation, compared to the \texttt{PULL} strategy.
 Finally, we consider the \texttt{PULL+RAND+PUSH} record exchange strategy, which is a combination of the above techniques.
 
 \begin{figure*}[t]
@@ -1120,33 +1127,34 @@ Finally, we consider the \texttt{PULL+RAND+PUSH} record exchange strategy, which
 
 \subsection{Scalability}
 \label{sec:fraud_detection_experiment}
-Our first experiment explores the scalability of \ModelName{} when increasing the number of peers in the network.
-The results can be found in Figure~\ref{fig:scalability_experiments}.
-Figure~\ref{fig:experiment_scalability_detection_times} shows the effect of increasing the number of peers on the average time until fraud detection, for different record exchange strategies.
-For $ n = 10'000 $, the \texttt{PULL} strategy shows an average fraud detection time of 63.5 seconds, whereas this detection time decreases under the \texttt{PULL+RAND+PUSH} strategy to 3.6 seconds.
+Our first experiment quantifies the scalability of \ModelName{} when increasing the number of peers in the network, see Figure~\ref{fig:scalability_experiments}.
+Figure~\ref{fig:experiment_scalability_detection_times} shows the effect of increasing the number of peers on the average time until fraud detection, for the four discussed record exchange strategies.
+For all record exchange strategies, the average fraud detection time seems to increase when the network size grows.
+For $ n = 10'000 $, the \texttt{PULL} strategy shows an average fraud detection time of 63.5 seconds, whereas this number decreases to 3.6 seconds under the \texttt{PULL+RAND+PUSH} strategy.
 We notice that the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies show detection times under five seconds on average.
-This demonstrates that disseminating a record just after its creation is a successful strategy.
-Including random records in crawl responses also decreases detection times.
+These low detection times demonstrates that disseminating a record just after its creation is a highly successful strategy.
+Including random records in crawl responses also seems to decrease the average fraud detection times.
 For $ n = 10'000 $, the average fraud detection time decreases from 63.5 seconds for the \texttt{PULL} strategy to 27.8 seconds for the \texttt{PULL+PUSH} strategy.
 
-In Figure~\ref{fig:experiment_scalability_ecdf_detection_times} we show the The Empirical Cumulative Distribution Function (ECDF) of fraud detection times for $ n = 5'000 $.
-We observe that it can take several minutes for some fraud attempts to be discovered, in particular when the \texttt{PULL} and \texttt{PULL+RAND} strategies are active.
-Still, for the \texttt{PULL} strategy, we can detect 90\% of fraud attempts within 160 seconds and 50\% of the fraud attempts within 30 seconds.
+In Figure~\ref{fig:experiment_scalability_ecdf_detection_times}, we show the Empirical Cumulative Distribution Function (ECDF) of fraud detection times for $ n = 5'000 $.
+We observe that it can take several minutes for some fraud attempts to be discovered, in particular for the \texttt{PULL} and \texttt{PULL+RAND} strategies.
+This is not unexpected since fraud detection in \ModelName{} is a highly probabilistic approach.
+For the \texttt{PULL} strategy, we can detect 90\% of fraud attempts within 160 seconds and 50\% of the fraud attempts within 30 seconds.
 We also observe that the vast majority of fraud is detected within a few seconds when pushing random records after creation.
-82.9\% of all fraud attempts is detected within five seconds for the \texttt{PULL+RAND+PUSH} strategy.
+82.9\% of all fraud attempts are detected within five seconds for the \texttt{PULL+RAND+PUSH} strategy.
 
-Figure~\ref{fig:experiment_scalability_bandwidth} shows the average network usage per peer as the number of peers increases, for different record exchange strategies.
-The \texttt{PULL} strategy requires less than 10KB per second of network usage.
-Compared to the \texttt{PULL} strategy, the \texttt{PULL+RAND+PUSH} strategy uses over thrice as much bandwidth, around 35KB per second.
+Figure~\ref{fig:experiment_scalability_bandwidth} shows the average network usage per-peer as the network size increases, for different record exchange strategies.
+The \texttt{PULL} strategy requires less than 10 KB per second of network usage.
+Compared to the \texttt{PULL} strategy, the \texttt{PULL+RAND+PUSH} strategy requires more than three times as much bandwidth, around 35 KB per second.
 Note how the network usage remains roughly the same for all considered record exchange strategies as we add more peers to the experiment.
-Figure~\ref{fig:experiment_scalability_bandwidth} shows that it is feasible to deploy \ModelName{} in consumer-grade network environments.
-However, network usage can still be decreased by lowering the crawl interval and/or crawl batch size, at the cost of increased fraud detection times.
+Figure~\ref{fig:experiment_scalability_bandwidth} also shows that it is feasible to deploy \ModelName{} in consumer-grade network environments.
+System designers can decrease the network usage of \ModelName{} even more by lowering the crawl interval or crawl batch size, at the cost of increased fraud detection times.
 
 Not all fraud has been detected after our experiment has ended.
-Figure~\ref{fig:experiment_scalability_num_detected} shows the percentage of fraud attempts that has been detected after the experiment has ended, for increasing number of peers and for different record exchange strategies.
+Figure~\ref{fig:experiment_scalability_num_detected} shows the percentage of fraud attempts that has been detected after the experiment has ended, for an increasing number of peers and different record exchange strategies.
 It becomes less likely that fraud is detected during our experiment when increasing the network size under the \texttt{PULL} strategy.
 For $ n = 10'000 $, 7.28\% of fraud attempts remain undetected.
-These instances would likely be discovered when running the experiment longer.
+These attempts would likely be discovered when prolonging the experiment duration.
 
 %During the experiment, each peer explores others' personal ledgers by continuously querying their latest micro-record, and attempts to detect fraud.
 %At the start of each experiment, we selected one peer to perform exactly one double spend attack.
@@ -1184,45 +1192,6 @@ These instances would likely be discovered when running the experiment longer.
 %Our reasoning for this is as follows: although the specific double spend is more "hidden" in the network, there is also more ongoing effort to detect it.
 %This experiment shows that forking of a personal ledger can be detected within mere seconds and 1'000 active peers.
 
-\begin{figure*}[!t]
-	\centering
-	\begin{subfigure}{.8\columnwidth}
-		\centering
-		\includegraphics[width=.8\linewidth]{trustchain/assets/workloads_experiments_legend}
-	\end{subfigure}
-	\begin{subfigure}{.5\columnwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=\linewidth]{trustchain/assets/fraud_times_workloads}
-		\caption{Average detection times as the number of peers increases.}
-		\label{fig:workloads_experiment_fraud_detection_times}
-	\end{subfigure}%
-	\begin{subfigure}{.5\columnwidth}
-		\centering
-		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=\columnwidth]{trustchain/assets/fraud_times_workloads_5000_ecdf}
-		\caption{The Empirical Cumulative Distribution Function (ECDF) of fraud detection times under ten seconds, for 5'000 peers.}
-		\label{fig:workloads_experiment_ecdf_fraud_detection_times}
-	\end{subfigure}
-	\caption{Fraud detection times for different workload characteristics, up to $ n = 10'000 $.}
-	\label{fig:workloads_experiments}
-\end{figure*}
-
-\subsection{Different Workloads}
-Next, we evaluate the effect of different workloads on fraud detection times.
-We consider three types workloads with differing rates at which new proposals are created.
-In the \texttt{CONSTANT} workloads, peers create a new proposal record every second with another random peer.
-Under the \texttt{UNIFORM} workload, the interval between creating new proposals is drawn from a uniform distribution $ \mathcal{U}(0, 2) $.
-Under the \texttt{NORMAL} workload, this interval is drawn from a normal distribution $ \mathcal{N} $ with $ \mu = 1 $ and $ \sigma = 0.3 $.
-
-The results are visualized in Figure~\ref{fig:workloads_experiments}.
-Figure~\ref{fig:workloads_experiment_fraud_detection_times} shows how different workloads affect the average fraud detection times when the number of peers increases.
-For all workloads, fraud attempts are detected within four seconds on average.
-Fraud detection times are increasing for $ n \leq 5'000 $, but remains around 3.5 seconds for $ n > 5'000 $.
-Figure~\ref{fig:workloads_experiment_ecdf_fraud_detection_times} shows the Empirical Cumulative Distribution Function (ECDF) of fraud detection times under ten seconds, for 5'000 peers.
-For presentation clarity, we only consider fraud detection times under ten seconds.
-Note how these workloads roughly lead to a similar distribution of fraud detection times.
-
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.9\linewidth]{trustchain/assets/fraud_times_send_failure}
@@ -1231,17 +1200,17 @@ Note how these workloads roughly lead to a similar distribution of fraud detecti
 \end{figure}
 
 \subsection{Packet Loss}
-We explore the robustness of \ModelName{} by quantifying the effect of packet loss on the efficiency of fraud detection in \ModelName{}.
-To this end, we increase the packet loss rate, up to 20\%, and run our simulations under different record exchange strategies.
-Even though a packet loss rate of 20\% is an unlikely situation for environment in which \ModelName{} should be deployed, we are interested to see how robust \ModelName{} is, even in such extreme circumstances.
-We expect the fraud detection times to increase when network stability is lower, since loosing packets makes it less likely to detect inconsistencies.
+We reveal the robustness of \ModelName{} by quantifying the effect of packet loss on the efficiency of fraud detection.
+To this end, we increase the packet loss rate, up to 20\%, and run our simulations under our four record exchange strategies.
+Even though a packet loss rate of 20\% is unlikely for any environment in which \ModelName{} is to be deployed, we want to estimate how robust \ModelName{} is, even in such extreme circumstances.
+We expect fraud detection times to increase when network stability is lower since losing packets makes it less likely to detect inconsistencies.
 
-Figure~\ref{fig:fraud_times_link_failures} shows the average fraud detection times when increasing the packet loss rate, for our four record exchange strategies.
+Figure~\ref{fig:fraud_times_link_failures} shows the average fraud detection times when increasing the packet loss rate for our four record exchange strategies.
 We observe that fraud detection times increase under the \texttt{PULL} and \texttt{PULL+RAND} strategies, whereas this effect is less for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies.
-Average fraud detection times under the \texttt{PULL} strategy increase from 44.6 seconds with no packet loss to 94.1 seconds when 20\% of all packets.
-We notice that 23.8\% of all fraud attempts with a packet loss of 20\% and the \texttt{PULL} strategy remains uncovered after the experiment has ended.
-This number is 0.2\% when no packets are lost.
+Average fraud detection times, under the \texttt{PULL} strategy, increase from 44.6 seconds with no packet loss to 94.1 seconds when 20\% packet loss.
 For the \texttt{PULL+RAND+PUSH} strategy, this same increase is from 2.3 seconds to 6.0 seconds.
+We notice that with a packet loss of 20\% and the \texttt{PULL} strategy, 23.8\% of all fraud attempts remains uncovered after the experiment has ended.
+This number is just 0.2\% when no packets are lost.
 Under the \texttt{PULL+RAND+PUSH} strategy, we see that all fraud attempts are discovered in our experiment, for all evaluated packet loss rates.
 
 \begin{figure}[t]
@@ -1251,105 +1220,155 @@ Under the \texttt{PULL+RAND+PUSH} strategy, we see that all fraud attempts are d
 	\label{fig:fraud_times_back_pointers}
 \end{figure}
 
-\subsection{Back Pointers}
-We vary the number of back-pointers ($ b $) in each record and analyse the effect on the average fraud detection times.
+\subsection{Back-Pointers}
+We vary the number of back-pointers ($ b $) in each record and analyse the effect on average fraud detection times.
 We suspect that adding more back-pointers increases the probability of detecting fraud since individual records now bear more hashes of records in ones personal ledger.
-This comes, however, at a cost of additional network usage and computational overhead to analyse the back-pointers.
+This advantage comes, however, at a cost of additional network usage and computational overhead to analyse the back-pointers.
 Each back-pointer adds 32 bytes to the serialized record size.
 
-The results are displayed in Figure~\ref{fig:fraud_times_back_pointers}, showing the number of back-pointers in each record on the horizontal axis and the average time until fraud is detected on the vertical axis, for different record exchange strategies.
-Adding additional back-pointers indeed indeed decreases fraud detection times.
-Under the \texttt{PULL} record exchange strategy, it takes 111.19 seconds to detect fraud when no additional back-pointers are included, whereas this time decreases to 41.6 seconds when adding up to ten back-pointers to each record, a decrease of 58.4\%.
-This decrease is much more for the \texttt{PULL+PUSH} strategy, namely a decrease of 97\%.
-Note that the effect of adding more back-pointers diminishes when increasing for $ b > 4 $.
-This is can likely be attributed to the fact that all peers start with an empty personal ledger in our simulations, and that different records are more likely to include the same hashes in their back-pointers.
-However, we believe that the effect of additional back-pointers becomes more apparent when personal ledgers grow to considerable sizes, since different records are then more likely to include unique hashes.
+Figure~\ref{fig:fraud_times_back_pointers} shows the average time until fraud is detected while varying the number of back-pointers and considering different record exchange strategies.
+Adding additional back-pointers indeed decreases fraud detection times.
+Under the \texttt{PULL} record exchange strategy, it takes 111.2 seconds to detect fraud when no additional back-pointers are included. In comparison, this number decreases to 41.6 seconds when adding up to ten back-pointers to each record (a decrease of 58.4\%).
+This decrease is much more for the \texttt{PULL+PUSH} strategy, namely 97\%.
+Note that the effect of adding more back-pointers diminishes for $ b > 4 $.
+This effect can likely be attributed to the fact that all peers start with an empty personal ledger in our simulations, and that different records with lower sequence numbers in the same personal ledger are more likely to include identical hashes in their back-pointers.
+However, we believe that the effect of additional back-pointers becomes more apparent when personal ledgers grow to considerable sizes, since different records are then more likely to include more unique hashes.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{trustchain/assets/fraud_experiment_realistic_ecdf}
+	\caption{Fraud detection times lower than 180 seconds for different record exchange strategies when replaying a day of interactions made by \Tribler{} users.}
+	\label{fig:fraud_times_realistic_dataset}
+\end{figure}
+
+\subsection{Fraud Detection Times under a Realistic Workload}
+\label{subsec:realistic_workload}
+Our experiments conducted so far are using a synthetic workload.
+We now evaluate the effectiveness of fraud detection in \ModelName{} of our four considered record exchange strategies using a realistic workload.
+This workload is derived from deployment data of \ModelName{} in \Tribler{}, our decentralized file-sharing application.
+An interaction describes network communication between two peers in a Tor-like overlay.
+We provide further details on this dataset in Section~\ref{sec:deployment}.
+The following experiment replays interactions made during the busiest 24 hours of our deployment period: November 28, 2020.
+On this particular day, a total of 440'130 records have been created, involving 2'027 digital identities.
+In the following experiment, we simulate a peer for each digital identity.
+In line with our prior experiments, each peer commits fraud with a probability of 10\% when creating a new record.
+To match the \ModelName{} settings in our deployed environment (see Section~\ref{sec:deployment}), we increase the record request interval to 10 seconds.
+
+We noticed that all fraud instances have been detected after our experiment ends.
+The average fraud detection time for the \texttt{PULL} strategy is just 29.4 seconds whereas this number decreases to 18.5 seconds for the \texttt{PULL+RAND+PUSH} strategy.
+2.5\% of all fraud instances take longer than three minutes to detect, with the highest detection time being 1'276 seconds (just over 21 minutes).
+Figure~\ref{fig:fraud_times_realistic_dataset} shows the Empirical Cumulative Distribution Function (ECDF) of fraud detection times, for the evaluated strategies.
+For presentation clarity, we only show the detection times of fraud instances lower than three minutes.
+We observe that over 25\% of all fraud for the \texttt{PULL+PUSH} strategy is detected immediately.
+During this experiment, we also see that the network usage per peer is relatively low.
+For the \texttt{PULL} strategy, each peer, on average, consumes merely 1.7 MB of hourly network traffic.
+This number increases to 5.1 MB under the \texttt{PULL+RAND+PUSH} strategy.
+
+This experiment shows that \ModelName{}, under a realistic workload of \Tribler{} interactions, exhibit relatively low fraud detection times and has low network usage.
+As we have also measured during our deployment trial (see Section~\ref{sec:deployment}), the resource overhead of \ModelName{} is minimal.
+For \Tribler{}, the fraud detection times shown in Figure~\ref{fig:fraud_times_realistic_dataset} are acceptable.
+However, as we have also shown in our other experiments, these detection times can further be improved with more frequent record crawling.
 
 \subsection{Discussion}
-The experiments in this section demonstrate that \ModelName{} is scalable, bandwidth efficient, and robust against packet loss.
-We have also demonstrated the effect of different workloads and a varying number of back-pointers included in each record.
-Even though we have not experimented with all parameters in Table~\ref{tab:experiment_parameters}, we believe that this set of experiments provides an adequate starting point for system designers to adopt and configure \ModelName{}.
-With our open-source simulator, system designers can quickly analyse the effect of different parameters, potentially on a workload that matches with their application.
+In summary, our experiments demonstrate that \ModelName{} exhibits low fraud detection times, scales when the network grows, has reasonable bandwidth overhead, and is robust against packet loss.
+We have also demonstrated the effect of the number of back-pointers in each record on the efficiency of fraud detection.
+Finally, we have shown that \ModelName{} remains effective at detecting fraud when using a realistic workload.
+Even though we have not evaluated the effect of all parameters in Table~\ref{tab:experiment_parameters}, we believe that this set of experiments provides a good starting point for system designers to adopt and configure \ModelName{}.
+With our open-source simulator, system designers can quickly analyse the effect of different parameters, guided by a synthetic or realistic workload that resembles the behaviour in their application.
 
 We have demonstrated that there is a trade-off between the average fraud detection times and network usage.
-The acceptable network usage differs per applications, for example, bandwidth is likely to be less of a concern when considering a video streaming application than in an Internet-of-Things environment.
-By reducing the crawl rates, fanout value, and back pointers, one can reduce the bandwidth footprint of \ModelName{}, at the cost of increased fraud detection times.
-Figure~\ref{fig:experiment_scalability_bandwidth} shows that the active record exchange strategy also impacts network usage.
-In a network with churn, we recommend to activate the \texttt{PULL+RAND} or \texttt{PULL+RAND+PUSH} strategies, where peers share random records in their database with others.
-We recommend the \texttt{PULL+RAND+PUSH} strategy when fraud detection times must be low, and the \texttt{PULL} strategy when bandwidth is a limiting factor.
+The acceptable network usage differs per applications.
+For example, bandwidth is less likely to be a bottleneck when considering a video streaming application compared to an Internet-of-Things environment with low-resource devices.
+By reducing the record request intervals, fanout value, and the maximum number of back-pointers, one can reduce the bandwidth footprint of \ModelName{}, at the cost of increased fraud detection times.
+Figure~\ref{fig:experiment_scalability_bandwidth} shows that the active record exchange strategy has a notable impact on network usage.
+In a dynamic network where the sessions of peers are short-lived, we recommend the \texttt{PULL+RAND} or \texttt{PULL+RAND+PUSH} strategies, where peers share random records in their database with others.
+This strategy allows the detection of fraud attempts of offline peers.
+We recommend the \texttt{PULL+RAND+PUSH} strategy when fraud must  be detected quickly.
+We recommend the \texttt{PULL} strategy when bandwidth is a limiting factor.
 
-\section{Addressing Free-riding at Scale}
+\section{Applying \ModelName{} to Address Free-riding at Scale}
 \label{sec:deployment}
-To showcase the applicability of \ModelName{}, we conduct a large-scale deployment trial with to address free-riding behaviour in \Tribler{}, our decentralized file-sharing application~\cite{pouwelse2008tribler}.
-\Tribler{} is downloaded by over 1.8 million users and features an onion-routing overlay that tunnels BitTorrent traffic through relay and exit nodes to provide anonymity.
-Similar to Tor, these relay and exit nodes are operated by volunteers.
-This network suffers from an undersupply of exit nodes, leading to frequent network congestions and an overall degradation of download speeds for all users.
-We leverage \ModelName{} to account the performed work as relay or exit node, and the consumed work as downloader.
-We then demotivate free-riding behaviour by offering users with higher net contributions preferential treatment during periods of congestion.
-
-\subsection{Accounting Bandwidth Transfers}
-With \ModelName{}, peers can earn \emph{bandwidth tokens} by forwarding traffic as a relay or exit node.
-When a peer downloads content, the user compensates the used relay and exit nodes by paying them bandwidth tokens.
-Figure~\ref{fig:payouts} show the dynamics of bandwidth tokens after a peer has downloaded a 50MB file over a two-hop circuit.
-The downloader accounts a transfer of 250MB to the first relay using \ModelName{} (MB is the unit of this bandwidth token).
-The first relay then transfers 150MB to the next relay node, resulting in a net positive of 100MB for the first relay.
-The rationale behind our payout scheme is that we reward relay and exit nodes for performing the cryptographic work (e.g., encryption and decryption) on the forwarded data.
-Relays that do not forward the payout to the next hop will be blacklisted by the previous hop, therefore lowering their opportunity to earn bandwidth tokens.
-Each record in a personal ledger attached to the Tribler application contains both the token amount transferred, and the current token balance of the peer.
-%We payout anonymous transfers of at least 1MB.
+To show the effectiveness of \ModelName{} with a real-world application, we conduct a large-scale deployment trial of \ModelName{} with \Tribler{}.
+\Tribler{} is our decentralized file-sharing application and is downloaded by over 1.8 million users~\cite{pouwelse2008tribler}.
+This application features an onion-routing overlay that tunnels BitTorrent traffic through \emph{relay and exit nodes} to provide anonymity.
+Unfortunately, the \Tribler{} network suffers from an undersupply of exit nodes, leading to frequent network congestions and overall degradation of download speeds for all users.
+We employ \ModelName{} to account the performed work by relay and exit nodes, and the consumed work by downloaders.
+We then punish free-riding behaviour by offering users with higher net contributions preferential treatment during periods of congestion.
+In the remainder of this section, we elaborate on the integration of \ModelName{} in Tribler, on the collected data, and on the effectiveness of free-riding detection.
 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.8\linewidth]{trustchain/assets/payouts}
-	\caption{Accounting specifications of an anonymous 50MB BitTorrent download over a two-hop onion-routing circuit.}
+	\caption{Accounting specifications of an anonymous 50 MB BitTorrent download over a three-hop onion-routing circuit.}
 	\label{fig:payouts}
 \end{figure}
 
+\subsection{Accounting Bandwidth Transfers}
+We enable peers to earn \emph{bandwidth tokens} by providing services as a relay or exit node in the \Tribler{} network.
+The mutations in bandwidth token balances of each peer is accounted in \ModelName{} records.
+For example, a payout corresponding to a data exchange of a 50 MB file between peers $ a $ and $ b $ deduces 50 MB of $ a $'s balance and increments $ b $'s balance by 50 MB (MB is the unit of this bandwidth token).
+Peers can have a negative balance of bandwidth tokens, in which case they have received more traffic than they contributed to the network.
+
+When a peer downloads content using \Tribler{}, the \Tribler{} software establishes a \emph{circuit}, containing exactly one exit node and optionally some relay nodes.
+This is comparable to circuits in the Tor protocol.
+All traffic is securely routed through relay and exit nodes.
+Figure~\ref{fig:payouts} shows how bandwidth tokens are paid out after a peer has downloaded a 50 MB file over a three-hop circuit (with two relay nodes and one exit node).
+The downloader accounts a transfer of 250 MB to the first relay using \ModelName{}.
+Specifically, the downloader creates a proposal record, containing the pair-wise byte counter with the first relay and the magnitude of the current payout.
+In the latest version of \Tribler{}, newly created records are by default disseminated to 20 random peers.
+Each peer also requests a random record from another known peer every 10 seconds.
+During our deployment period, we have periodically revised the record exchange strategy in response to the network behaviour and growth.
+
+After the downloader has finished the payout to the first relay, the first relay then transfers 150 MB to the next relay, resulting in a net positive token balance of 100 MB for the first relay.
+The rationale behind our payout scheme is that we reward relay and exit nodes for performing the cryptographic operations on the forwarded data.
+Relays that do not forward the payout to the next hop will be added to the local blacklist by the previous hop, therefore lowering their opportunity to earn bandwidth tokens.
+%The payload in \ModelName{} records contains both the token amount transferred and the current token balance of the peer.
+
 Since this use-case involves anonymous downloading, there is an important trade-off between accountability and anonymity.
-We plan on addressing privacy concerns by having each node aggregate and delay payouts, a privacy-enhancing technique introduced in the work of Palmieri et al.~\cite{palmieri2015paying}.
+We plan to address privacy concerns around the accounting of bandwidth transfers by having each peer aggregate and delay payouts.
+This privacy-enhancing technique is introduced in the work of Palmieri et al.~\cite{palmieri2015paying}.
 Still, work accounting with \ModelName{} does not leak the identity of a downloader to other peers in the network, nor reveals any data being transferred over circuits.
-To address the uncontrolled minting of bandwidth tokens by recording fake work, we are currently designing and implementing a Sybil-resistant reputation mechanism~\cite{otte2017trustchain}.
+To address the uncontrolled minting of bandwidth tokens by accounting fake work, we are currently looking into the design and deployment of a Sybil-resistant reputation mechanism~\cite{otte2017trustchain}.
 
 \begin{algorithm}[!t]
+	\caption{The assignment logic of slots to circuits. \emph{numRand} and \emph{numComp} represent the maximum number of random and competitive slots, respectively.}
 	\label{alg:slot_logic}
-	\caption{The assignment logic of slots to circuits. $ N_{rand} $ and $ N_{comp} $ represent the maximum number of random and competitive slots, respectively.}
 	\begin{algorithmic}[1]
-		\State $ S_{rand} \leftarrow [\bot] * N_{rand} $ \Comment{array with circuit IDs}
-		\State $ S_{comp} \leftarrow [(-\infty, \bot)] * N_{comp} $ \Comment{array with balances and circuit IDs}
+		\State randomSlots $ \leftarrow [\bot] * $ numRand
+		\State competitiveSlots $ \leftarrow [(-\infty, \bot)] * $ numComp
 		\State
 		
-		\Function{onCircuitRequest}{$ c $}
-		\For{$ i = 0 $ to $ N_{rand} $}
-		\If{$ S_{rand}[i] = \bot $}
-		\Comment{Random slot is available}
-		\State $ S_{rand}[i] \leftarrow c $
+		\Function{onCircuitRequest}{circuit}
+		\For{$ i = 0 $ to numRand}
+		\If{randomSlots$[i] = \bot $}
+		\State randomSlots$[i] \leftarrow $ circuit
 		\State \Return
 		\EndIf
 		\EndFor
 		
-		\State Query the balance of the initiator of $ c $
+		\State Query the balance of the initiator of the circuit
 		
 		\EndFunction
 		\State
 		
-		\Function{onBalance}{$ c $, $ b $}
-		\State $ B_{lowest} \leftarrow \infty $
-		\State $ I_{lowest} \leftarrow \infty $
-		\For{$ i = 0 $ to $ N_{comp} $}
-		\If{$ S_{comp}[i] = (-\infty, \bot) $} \Comment{Competitive slot is available}
-		\State $ S_{comp}[i] \leftarrow (c,b) $
+		\Function{onBalance}{circuit, balance}
+		\State lowestBalance $ \leftarrow \infty $
+		\State lowestIndex $ \leftarrow \infty $
+		\For{$ i = 0 $ to numComp}
+		\If{competitiveSlots$[i] = (-\infty, \bot) $}
+		\State competitiveSlots$[i] \leftarrow $ (circuit, balance)
 		\State \Return
 		\EndIf
 		
-		\If{$ S_{comp}[i][0] < B_{lowest} $}
-		\State $ B_{lowest} \leftarrow S_{comp}[i][0] $
-		\State $ I_{lowest} \leftarrow i $
+		\If{competitiveSlots$[i][0] < $ lowestBalance}
+		\State lowestBalance $ \leftarrow $ competitiveSlots$[i][0] $
+		\State lowestIndex $ \leftarrow i $
 		\EndIf
 		\EndFor
 		
-		\If{$ b > B_{lowest} $}
-		\State Destroy circuit stored in $ S_{comp}[I_{lowest}][1] $
-		\State $ S_{rand} \leftarrow (c, b) $
+		\If{balance $ > $ lowestBalance}
+		\State \textsc{destroyCircuit}(competitiveSlots$[$lowestIndex$][1] $)
+		\State competitiveSlots$[$lowestIndex$] \leftarrow $ (circuit, balance)
 		\EndIf
 		
 		\EndFunction
@@ -1358,19 +1377,24 @@ To address the uncontrolled minting of bandwidth tokens by recording fake work, 
 \end{algorithm}
 
 \subsection{Circuit Assignment}
-We leverage the records created with \ModelName{} to grant preferential treatment to peers with higher token balances during periods of congestion.
-Specifically, we modify the logic of relay and exit nodes such that each circuit consumes an available slot at their side.
-The slot assignment logic is displayed in Listing as pseudocode~\ref{alg:slot_logic}.
+We use the bandwidth token balances included in \ModelName{} records to grant preferential treatment to dedicated peers during periods of congestion.
+Specifically, we modify the \Tribler{} protocol such that each relay and exit nodes maintain a fixed number of \emph{slots}.
+A circuit that includes a relay or exit nodes consumes one slot at their side.
 We distinguish between \emph{random} and \emph{competitive} slots.
+Random slots are filled on a first-come-first-serve basis whereas the assignment of competitive slot is based on the bandwidth token balance of a circuit initiator.
+The intuition behind this approach is to still give peers with lower trust scores an opportunity to earn a (random) slot but at the same time, give preferential treatment to well-behaving peers with competitive slots.
+The total number of such slots can be changed, depending on the hardware capabilities of the node operator.
+
+A pseudocode description of the slot assignment logic is given in Listing~\ref{alg:slot_logic}.
 When a circuit initiation request arrives, the \texttt{onCircuitRequest} method is invoked and \Tribler{} first determines if there is a random slot available (line 5-9).
 If so, we assign the new circuit to the random slot (line 7).
 If no random slot is available, \Tribler{} queries the bandwidth token balance of the circuit initiator $ i $ by requesting the records in the personal ledger of $ i $.
-When receiving these records, \Tribler{} determines the balance and checks eligibility for a competitive slot (line 12-23).
+When receiving these records, \Tribler{} determines the current bandwidth token balance and checks eligibility for a competitive slot (line 12-23).
 If there is an unoccupied competitive slot, \Tribler{} assigns the new circuit to it (line 16).
 If all competitive slots are filled, the circuit of the initiator with the lowest amount of bandwidth tokens, say $ p $, is destroyed if the token balance of $ i $ is higher than the token balance of $ p $ (line 22).
 This pre-emptive approach frees up the competitive slot for the circuit of $ i $.
-As a result, users with a higher token balance have more chance to claim a competitive slot in periods of congestion, compared to free-riders, and experience higher and more stable download speeds.
-We consider the analysis of different allocation policies, e.g., using a packet-granular scheduler, as further work.
+As a result, users with a higher token balance have more chance to claim a competitive slot during periods of congestion, compared to free-riders, and experience higher and more stable download speeds.
+We consider the analysis of different allocation policies, e.g., using a packet-granular scheduler~\cite{jansen2018kist}, as further work.
 
 %\begin{figure}[t]
 %	\centering
@@ -1382,31 +1406,31 @@ We consider the analysis of different allocation policies, e.g., using a packet-
 \begin{figure}[!t]
 	\centering
 	\includegraphics[width=\linewidth]{trustchain/assets/record_creation}
-	\caption{Daily creation statistics of records, during a period of two years. We annotate the major releases of \Tribler{}.}
+	\caption{Daily creation statistics of proposals, during our two-year deployment trial. We show the amount of confirmed and unconfirmed proposals. We annotate the major releases of \Tribler{}.}
 	\label{fig:record_creation}
 \end{figure}
 
 \subsection{Data Collection}
-We integrate the accounting and slot mechanism in \Tribler{} and release a new version of our software.
-We also deploy a crawler that continuously queries \ModelName{} records from random users in the \Tribler{} network.
-Every two seconds, this crawler selects a random peer in the \ModelName{} network and requests missing records in their personal ledger.
+We integrate both \ModelName{} and the slot assignment logic in \Tribler{} and release a new version of our software.
+We also deploy a crawler that continuously requests \ModelName{} records from random peers in the \Tribler{} network.
+This crawler selects a random peer in the \ModelName{} network every two seconds and requests missing records in their personal ledger.
+The crawler statistics are published on a public website.\footnote{See \url{http://explorer.tribler.org}}
 A deployment period of two years has resulted in more than \TrialRecords{} records, created by over \TrialUsers{} peers.
-Collected records are stored in a sqlite database that is enhanced with additional indices to speed up insertion and analysis.
-The filesize of the database with all collected records is around 120GB, and we plan on releasing the full data set.
-Our crawler also discovered 127'135 instances where a personal ledger was forked.
-We find that 11.4\% of all collected proposals in the deployed \ModelName{} network is unconfirmed.
-This is either because the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
+The crawler stores collected records in a sqlite database that is enhanced with additional indices to speed up insertion and analysis queries.
+The file size of the database with all collected records is around 120GB, and we plan on releasing the full data set later.
+Our crawler discovered 127'135 proofs of fraud.
+We also find that 11.4\% of all collected proposals in the deployed \ModelName{} network is unconfirmed.
+This fraction of unconfirmed proposals is either because the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
 
-Monitoring the records created by \ModelName{} not only allows us to detect free-riders in \Tribler{} but also allows us to detect anomalies caused by software bugs or unexpected user behaviour.
-It also enables us to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \ModelName{} network.
-The inclusion of a timestamp in the payload of each record created by \ModelName{} also helps us to analyse network health and user behaviour.
+Deploying a crawler and monitoring the records created by \ModelName{} allows us to detect anomalies caused by software bugs or unexpected user behaviour.
+It also provides us with the means to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \ModelName{} network.
+We have also included a creation timestamp in the payload of each record created with \Tribler{}, allowing us to perform a time-based analysis.
 
-Figure~\ref{fig:record_creation} shows the daily number of created proposal and confirmation records.
-We also annotate the dates on which we released a major version of \Tribler{}.
-Figure~\ref{fig:record_creation} shows that more users run \Tribler{} during the weekend and therefore create more proposals on a Saturday and Sunday.
-We also observed two large-scale outage of exit nodes, in April 2019 and May 2020, likely due to infrastructure failure.
-Despite this outage, users would still perform payouts when downloading directly from other \Tribler{} users, proving the robustness of \ModelName{}.
-%Note how major release of \Tribler{} is not significantly resulting in an increased number of micro-records.
+Figure~\ref{fig:record_creation} shows the daily number of created proposal records.
+We annotate the dates on which we released a major version of \Tribler{}.
+Figure~\ref{fig:record_creation} reveals that more users run \Tribler{} during the weekend and create more proposals on a Saturday and a Sunday.
+We also observed two large-scale outage of exit nodes, in April 2019 and May 2020, likely due to infrastructure failures.
+Despite these outages, users would still perform payouts when downloading directly from other \Tribler{} users without anonymity.
 
 %In \Tribler{}, users earn bandwidth tokens by either operating an exit node, or by relaying traffic.
 %By default, users download with one-hop anonymity, meaning that the circuit is directly connected to an available exit node.
@@ -1419,22 +1443,31 @@ Despite this outage, users would still perform payouts when downloading directly
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.8\linewidth]{trustchain/assets/exit_node_rejects}
-	\caption{Emperical Cumulative Distribution Function (ECDF) of the bandwidth token balances users and individual rejects events at exit nodes.}
+	\caption{Emperical Cumulative Distribution Function (ECDF) of the bandwidth token balances of peers and individual rejects events at exit nodes.}
 	\label{fig:exit_node_rejects}
 \end{figure}
 
 \subsection{Free-rider Identification and Service Refusal}
-To evaluate whether free-riding behaviour is addressed, we deploy 48 \Tribler{} exit nodes.
+To show the effect of \ModelName{} and our slot assignment mechanism on free riders, we deploy 48 exit nodes in the \Tribler{} network, running on the same machine.
 Each exit node is configured with a total of 10 random slots and 20 competitive slots, resulting in a total of 1'440 slots.
-To obtain insights in the circuit assignment logic, we log the bandwidth token balance when a circuit initiator is unable to claim a competitive slot at one of our exit nodes.
-In total, we logged over 1.4 million reject events during three weeks.
+We determined this number of random and competitive slots based on the hardware capacity of our machine.
+We are specifically interested in the situation when a peer is unable to claim a slot, due to their bandwidth token balance being insufficient.
+We refer to this situation as a \emph{reject event}.
+For each reject event, we log the bandwidth token balance of the rejected peer.
+In total, we logged over 1.4 million reject events over three weeks.
 
-Figure~\ref{fig:exit_node_rejects} shows an ECDF with the bandwidth token balances of all users (dotted green line) and the balances associated with rejected circuit requests (solid red line).
-We filter out all users and reject events with balances higher than 50GB or lower than -500GB.
-The median token balance of all users is -713MB and that of reject events -181.4GB, demonstrating that our mechanism targets users with lower balances.
-In other words, long-term free-riders are likely to be kicked out when the network is congested.
+Figure~\ref{fig:exit_node_rejects} shows an Empirical Cumulative Distribution Function (ECDF) with the bandwidth token balances of all peers (dotted green line) and the balances associated with rejected circuit requests (solid red line).
+For presentation clarity, we filter out all peers and reject events with balances higher than 50GB or lower than -500GB.
+Many Tribler users have a negative bandwidth token balance.
+The median token balance of all users is -713 MB.
+This number suggests that there is not much opportunity to earn bandwidth tokens by contributing to the network.
+By default, the Tribler software downloads content over a 1-hop circuit, only involving an exit node.
+Changing the default behaviour to use 2-hop downloads could alleviate this issue, at the cost of decreased download speeds.
+Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low (e.g., $ < $ 50 GB) are frequently rejected a slot.
+The median token balance associated with reject events is -181.4 GB, demonstrating that our mechanism effectively targets peers with lower bandwidth token balances.
+The slots claimed by free-riders will likely go to dedicated peers when the network is congested.
 This deployment trial shows that \ModelName{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.
-On the long term, the integration of \ModelName{} increases network performance and induces fairness amongst downloading users.
+The integration of \ModelName{} has increases network performance and helps to maintain fairness amongst downloading users.
 
 %\begin{figure}[t]
 %	\centering
@@ -1451,13 +1484,13 @@ On the long term, the integration of \ModelName{} increases network performance 
 %\end{figure}
 
 \section{Conclusion}
-We have presented \ModelName{}, a universal accounting mechanism to improve fairness in decentralized applications by accounting work.
-The \ModelName{} data structure uses records and hash pointers to capture work performed between peers.
-Each peer maintains a tamper-evident personal ledger.
-Fraud, operating multiple copies of a personal ledger in secret, is optimistically detected through the exchange and validation of records.
-We have implemented \ModelName{} and devised a system model.
-Our evaluation has demonstrated that \ModelName{} detects forking well within a minute, even when the network grows to considerable size.
-Through a deployment of \ModelName{} in \Tribler{} during two years, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
+We have presented \ModelName{}, a universal accounting mechanism to maintain fairness in decentralized applications by accounting work.
+The \ModelName{} data structure uses records to capture the work performed by peers.
+Each peer maintains a tamper-evident personal ledger with interlinked records.
+Fraud, the illegitimate modification of a record in ones personal ledger, is optimistically detected through the random exchange of records and thorough validation of incoming ones.
+We have devised a system architecture of \ModelName{} and implemented it.
+Our evaluation has demonstrated that \ModelName{} is capable of detecting fraud within seconds, even when the network grows to 10'000 peers and when scaling the system load.
+Through a two-year deployment trial of \ModelName{} in \Tribler{}, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
 
 We envision and encourage the usage of \ModelName{} beyond work accounting in decentralized applications.
-Currently, \ModelName{} is being evaluated in different scenarios that require accountability, including decentralized trading and self-sovereign identity~\cite{de2020xchange,stokkink2018deployment}.
+Currently, \ModelName{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2020xchange,de2019devid,stokkink2018deployment}.
