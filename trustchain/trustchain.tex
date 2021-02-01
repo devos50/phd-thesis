@@ -650,7 +650,7 @@ The variables coloured green are new compared to our previous definition of $ P 
 \texttt{seqNum} refers to the sequence number of $ P $, \texttt{prevHash} indicates the hash of the previous record, and \texttt{backPointers} is the set with back-pointers (where $ |S| \leq b $).
 We re-define a confirmation $ C $, created by peer $ b $, as follows:
 \begin{align*}
-	C = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \textcolor{ao}{\texttt{linkInfo}}, \texttt{sig},\\
+	C = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \textcolor{ao}{\texttt{linkInfo}}, \texttt{sig},
 	\textcolor{ao}{\texttt{seqNum}}, \textcolor{ao}{\texttt{prevHash}}, \textcolor{ao}{\texttt{backPointers}})
 \end{align*}
 
