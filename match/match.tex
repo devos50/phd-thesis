@@ -451,13 +451,6 @@ We address this concern by sending a new order to a small, random subset of all 
 
 %Given the deficiencies of centralized matchmaking, and the issues when replicating the matchmaker functionality, we formulate the overarching research question of this work as follows: \emph{how can we build a re-usable, decentralized middleware for fair and reliable order brokering, suitable to be deployed on the Internet?}
 
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=\linewidth]{match/assets/matching_protocol}
-	\caption{High-level overview of the MATCH protocol and the message exchange between users and matchmakers.}
-	\label{fig:match_data_flow}
-\end{figure*}
-
 \section{System and Threat Model}
 We address the aforementioned concerns and present a decentralized middleware for fair matchmaking, named \emph{MATCH}.
 We now outline the system and threat model of MATCH.
@@ -766,6 +759,30 @@ We assume that cryptographic protocols are secure and that the computational pow
 
 %Based on these fundamental problems, this work addresses and answers the following question: how can we devise a generic and effective middleware for order matching?
 
+\begin{figure*}[t]
+	\centering
+	\begin{subfigure}{.7\columnwidth}
+		\centering
+		\includegraphics[width=\linewidth]{match/assets/matching_protocol_1}
+		\caption{Order creation and dissemination.}
+		\label{fig:matching_protocol_1}
+	\end{subfigure}
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{match/assets/matching_protocol_2}
+		\caption{Order negotiation.}
+		\label{fig:matching_protocol_2}
+	\end{subfigure}
+	\begin{subfigure}{.7\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{match/assets/matching_protocol_3}
+		\caption{Match execution and order updates}
+		\label{fig:matching_protocol_3}
+	\end{subfigure}
+	\caption{High-level overview of the MATCH protocol and the message exchange between users and matchmakers.}
+	\label{fig:match_data_flow}
+\end{figure*}
+
 \section{The MATCH Protocol}
 \label{sec:protocol}
 We visualize the MATCH protocol and the message exchange between users and matchmakers in Figure~\ref{fig:match_data_flow}.
@@ -987,7 +1004,7 @@ This network address is used by the receiver of the \texttt{match} message to in
 
 \begin{figure*}[t]
 	\centering
-	\includegraphics[width=.8\linewidth]{match/assets/negotiation_diagram}
+	\includegraphics[width=\linewidth]{match/assets/negotiation_diagram}
 	\caption{The flow diagram (in UML format) when receiving a message during the negotiation process for a specific order.}
 	\label{fig:order_negotiation_diagram}
 \end{figure*}
@@ -1183,7 +1200,7 @@ This layer can be implemented using any networking library with support for peer
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{match/assets/matching_architecture}
+	\includegraphics[width=.9\linewidth]{match/assets/matching_architecture}
 	\caption{The MATCH middleware architecture.}
 	\label{fig:matching_architecture}
 \end{figure}
@@ -1396,19 +1413,19 @@ In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmakin
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}{.66\columnwidth}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/taxi_quality.pdf}
 		\caption{Matching quality w. different fanouts $ f $}
 		\label{fig:taxi_quality}
 	\end{subfigure}%
-	\begin{subfigure}{.66\columnwidth}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:taxi_fairness_fixed}
-	\end{subfigure}%
-	\begin{subfigure}{.66\columnwidth}
+	\end{subfigure}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_adaptive.pdf}
 		\caption{Impact of selfish matching (adaptive $ f $)}
@@ -1544,19 +1561,19 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 
 \begin{figure*}[t!]
 	\centering
-	\begin{subfigure}{.66\columnwidth}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/asset_trading_quality.pdf}
 		\caption{Matching quality w. different fanouts $ f $}
 		\label{fig:asset_trading_quality}
 	\end{subfigure}%
-	\begin{subfigure}{.66\columnwidth}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:asset_trading_fairness_fixed}
-	\end{subfigure}%
-	\begin{subfigure}{.66\columnwidth}
+	\end{subfigure}
+	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_adaptive.pdf}
 		\caption{Impact of selfish matching (adaptive $ f $)}
@@ -1750,9 +1767,9 @@ Since users aggregate \texttt{match} messages during the match window, the order
 In comparison, the average order fulfil latency in Ethereum is 258.2 and 53.6 seconds under the ride-hailing and asset trading workload, respectively.
 We argue that in a ride-hailing market, the latencies experienced when performing matchmaking on an Ethereum blockchain would be unacceptable for both passengers and drivers.
 
-\begin{figure}[b]
+\begin{figure}[t]
 	\centering
-	\includegraphics[width=\linewidth]{match/assets/plots/tx_pool}
+	\includegraphics[width=.8\linewidth]{match/assets/plots/tx_pool}
 	\caption{The size of the transaction pool during our Ethereum experiments, under the ride-hailing and asset trading workloads.}
 	\label{fig:ethereum_tx_pool}
 \end{figure}
