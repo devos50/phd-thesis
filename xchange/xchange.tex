@@ -53,7 +53,7 @@ Given the inevitable growth of permissioned blockchain platforms, we argue that 
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.75\linewidth]{xchange/assets/xchange_interoperability}
+	\includegraphics[width=.8\linewidth]{xchange/assets/xchange_interoperability}
 	\caption{XChange coordinates the asset exchange between permissioned blockchains by storing trade records in a distributed log. This enables traders to detect if a party has committed fraud during an ongoing trade.}
 	\label{fig:xchange_interoperability}
 \end{figure}
@@ -147,7 +147,7 @@ The Arwen trading protocol is another protocol to securely trade cryptocurrencie
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.6\linewidth]{xchange/assets/atomic_swap}
+	\includegraphics[width=.7\linewidth]{xchange/assets/atomic_swap}
 	\caption{Sequence diagram of a successful HTLC-based atomic swap between Alice and Bob.}
 	\label{fig:atomic_swap}
 \end{figure}
@@ -305,6 +305,7 @@ This private key is then used to decrypt the traded information.
 
 \begin{table}[t]
 	\centering
+	\footnotesize
 	\begin{threeparttable}
 		\begin{tabular}{ c c c c c c } 
 			\hline
@@ -389,7 +390,7 @@ In general, the party that conducts the first payment during a trade is exposed 
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.75\linewidth]{xchange/assets/xchange}
+	\includegraphics[width=\linewidth]{xchange/assets/xchange}
 	\caption{High-level overview of our \ModelName{} trading mechanism. In this example, Alice sells some FabTokens that are managed by Hyperledger Fabric to Bob, who pays Alice in XRP (Ripple) tokens. Full trade specifications are stored in a distributed log.}
 	\label{fig:xchange}
 \end{figure}
@@ -524,21 +525,21 @@ A trader $ a $ accepts to be a risktaker in a prospective trade $ t' $ with trad
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}[t]{.32\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trade_restriction_1}
 		\caption{Trader $ a $ will agree with $ t_1 $ since $ b $ is not risky in any ongoing trade.}
 		\label{fig:trade_restriction_1}
 	\end{subfigure}%
-	\begin{subfigure}[t]{.32\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trade_restriction_2}
 		\caption{Total (ongoing + prospective) obligations of $ b $ is smaller than the trust threshold $ u_a(b) $. Trader $ a $ will agree with $ t_1 $.}
 		\label{fig:trade_restriction_2}
 	\end{subfigure}\vspace{0.5cm}
-	\begin{subfigure}[t]{.32\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trade_restriction_3}
@@ -781,7 +782,7 @@ The trade is finalized in the fourth phase with a \texttt{Finalize} record.
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\linewidth]{xchange/assets/xchange_protocol_1}
+	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_1}
 	\caption{Phase I of the \ModelName{} trading protocol: makers (depicted in green) indicate trade interests by appending an \texttt{Order} record to the distributed log.}
 	\label{fig:matching_protocol_1}
 \end{figure}
@@ -821,7 +822,7 @@ This is achieved by the maker appending a \texttt{CancelOrder} record containing
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\linewidth]{xchange/assets/xchange_protocol_2}
+	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_2}
 	\caption{Phase II of the \ModelName{} protocol: a maker and taker negotiate a trade agreement. Upon a successful negotiation outcome, a dual-signed \texttt{Agreement} record will be appended to the distributed log.}
 	\label{fig:matching_protocol_2}
 \end{figure}
@@ -864,7 +865,7 @@ Otherwise, if the taker becomes the risktaker, the value of $ k $ specified by t
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.68\linewidth]{xchange/assets/xchange_protocol_3}
+	\includegraphics[width=0.72\linewidth]{xchange/assets/xchange_protocol_3}
 	\caption{Phase III of the \ModelName{} protocol: a maker and taker trade by exchanging assets. In this trade, the taker is the risktaker (initiating the first payment) and the maker is the risky party.}
 	\label{fig:matching_protocol_3}
 \end{figure}
@@ -893,7 +894,7 @@ Other traders should verify that the \texttt{CancelTrade} adheres to the rules a
 
 \begin{figure}[h]
 	\centering
-	\includegraphics[width=0.6\linewidth]{xchange/assets/xchange_protocol_4}
+	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_4}
 	\caption{Phase IV of the \ModelName{} protocol: the taker finalizes the trade.}
 	\label{fig:matching_protocol_4}
 \end{figure}
@@ -990,14 +991,14 @@ TrustChain does not reach a global consensus over all records but relies on part
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}[t]{.33\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.35\linewidth]{xchange/assets/trustchain_tutorial_1}
 		\caption{A block with a record (\emph{R}) between two users ($ A $ and $ B $). Each block contains a single record, two digital signatures and two digital identities.}
 		\label{fig:trustchain_tutorial_1}
 	\end{subfigure}%
-	\begin{subfigure}[t]{.33\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=\linewidth]{xchange/assets/trustchain_tutorial_2}
@@ -1005,14 +1006,14 @@ TrustChain does not reach a global consensus over all records but relies on part
 		\label{fig:trustchain_tutorial_2}
 	\end{subfigure}
 	\par\bigskip
-	\begin{subfigure}[t]{.33\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trustchain_tutorial_3}
 		\caption{To increase security, each block also references the previous block in the chain of a record counterparty.}
 		\label{fig:trustchain_tutorial_3}
 	\end{subfigure}
-	\begin{subfigure}[t]{.33\textwidth}
+	\begin{subfigure}[t]{.4\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.71\linewidth]{xchange/assets/trustchain_tutorial_4}
@@ -1069,7 +1070,7 @@ For a more advanced analysis of the technical specifications and security of Tru
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.6\linewidth]{xchange/assets/trustchain}
+	\includegraphics[width=.75\linewidth]{xchange/assets/trustchain}
 	\caption{The TrustChain ledger, with seven blocks created by seven participants.}
 	\label{fig:trustchain}
 \end{figure}
@@ -1168,14 +1169,14 @@ This wallet does not interact with any blockchain and simply waits for some dura
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}[t]{.5\textwidth}
+	\begin{subfigure}[t]{.7\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/gained_per_user}
 		\caption{The economic gains of adversaries}
 		\label{fig:fraud_experiment_gained}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.5\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[t]{.7\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/losses_per_user}
@@ -1325,14 +1326,14 @@ Second, we consider the average order fulfill \emph{latency}, which is the time 
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}[t]{.5\textwidth}
+	\begin{subfigure}[t]{.7\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/scalability}
 		\caption{Peak throughput}
 		\label{fig:scalability}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.5\textwidth}
+	\end{subfigure}
+	\begin{subfigure}[t]{.7\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/latency}
