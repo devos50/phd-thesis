@@ -245,7 +245,7 @@ We break up blockchain-based marketplaces in five different aspects.
 We then assess how the concepts of decentralization and disintermediations relate to each aspect.
 Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace, which are \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
 This figure is the result of our literature analysis, where we have read scientific material on electronic marketplaces that leverage blockchain technology.
-We decompose each aspect into commonly used mechanisms.\todo{remove one aspects}
+We decompose each aspect into commonly used mechanisms.
 We now elaborate on each aspect and the existing mechanisms.
 
 \subsection{Information Management}
@@ -315,7 +315,7 @@ FileCoin, a decentralized market for file storage, also leverages IPFS to store 
 		\caption{\emph{Decentralized matchmaking} a new order is sent to multiple matchmakers.}
 		\label{fig:decentralized_matchmaking}
 	\end{subfigure}
-	\caption{Three approaches for matchmaking. Traders create offers and requests (coloured green and red respectively), which are matched by matchmakers (depicted in blue).\todo{poppetje -> server}}
+	\caption{Three approaches for matchmaking. Traders create offers and requests (coloured green and red respectively), which are matched by matchmakers (depicted in blue).}
 	\label{fig:matching_architectures}
 \end{figure*}
 
@@ -586,14 +586,14 @@ Traditional marketplace store all market orders and product listings on a (centr
 Blockchain-powered decentralized exchanges bundle all market information on a distributed ledger but this has severe scalability limitations.
 Our goal is to build a scalable, tamper-proof and decentralized storage mechanism for market information.
 
-\textbf{[RQ2] How can market orders be matched without a centralized coordinator?}
+\textbf{[RQ2] How can market orders fairly be matched without a centralized coordinator?}
 The predominant approach to order matchmaking in electronic markets is by using a centralized server, owned by the market operator.
 This approach, however, enables manipulation by the operator, resulting in an unfair system.
 Decentralized matchmaking has the potential to address fairness issues but is by far not scalable enough for usage by many marketplaces.
 In addition, off-chain decentralized matchmaking is not much researched.
 We aim for an efficient and decentralized matchmaking mechanism with fairness guarantees, not under the control of a single market operator.
 
-\textbf{[RQ3] How can the settlement durations of (international) payments be improved?}
+\textbf{[RQ3] How can the settlement durations of (international) payments be reduced?}
 Secure settlement is a key requirement for electronic marketplaces.
 Trade is often settled using real-world currency that is managed by a bank.
 A major problem of current banking systems is that the settlement duration of a payment between two different (international) banks is significant, often in the order of days.
@@ -601,18 +601,21 @@ Furthermore, these payments require significant transaction fees to cover back-o
 %Leveraging the ideas of blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially leads to cost reductions.
 Our goal is to improve the settlement duration of international payments by leveraging blockchain technology.
 
-\textbf{[RQ4] How can assets securely be exchanged between any blockchain without a trusted intermediary?}\todo{verwerk aspect keywords in RQs}
+\textbf{[RQ4] How can assets securely be exchanged between any blockchain without a trusted intermediary?}
 Decentralized exchanges (DEXes) is a new type of decentralized application where digital assets are issued and traded on a blockchain.
 Compared to centralized exchanges, DEXes take a non-custodial approach where users manage these assets themselves.
 A key issue we identify, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible, slow, and/or requires significant changes to the protocol.
 We aim for a generic mechanism to exchange assets between any blockchain.
 %The question is how to address these issues and enable fast asset trading between different exchanges.
 
-\textbf{[RQ5] How can blockchain technology be applied to disintermediate in software crowdsourcing markets?}
+\textbf{[RQ5] How can blockchain technology be applied to build a decentralized identity for software developers?}
 The engineering of blockchain-based applications such as exchanges is a challenging task and requires engineers with appropriate qualifications.
-Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
-Recent research proposes to leverage blockchain technology to disintermediate in these markets.
-However, the proposed solutions are not generic and there are remaining issues regarding settlement using different currencies, and the storage of information.
+At the same time, the credentials of software developers is fragmented across many platforms, and vendor-locked.
+This makes it challenging to get a representative impression of ones skills.
+Blockchain technology has the potential to unify these credentials without storage by a centralized provider.
+%Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
+%Recent research proposes to leverage blockchain technology to disintermediate in these markets.
+%However, the proposed solutions are not generic and there are remaining issues regarding settlement using different currencies, and the storage of information.
 
 \begin{table*}[t]
 	\small
@@ -685,7 +688,6 @@ Despite the large efforts required to get a system deployed and operational, thi
 \end{figure}
 
 \section{Thesis Outline and Contributions}
-This thesis consists of seven chapters.\todo{contrib <-> fraud, explain}
 In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
 Figure~\ref{fig:thesis_overview} shows the mechanisms introduced in this thesis, and visualizes the aspect(s) that each mechanism relates to.
 The content and contributions in each chapter are as follows:\\
@@ -707,7 +709,7 @@ This chapter is based on the following two publications:
 
 Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant scalable blockchain}, \emph{Future Generation Computer Systems, Special Issue on Cryptocurrency and Blockchain Technology}, 2017, Elsevier.\\
 
-\todo{UNDER REVIEW}\\
+Martijn de Vos and Johan Pouwelse, \enquote{ConTrib: Maintaining Fairness in Decentralized Big Tech Alternatives by Accounting Work}, \emph{Under review}
 
 \textbf{[Chapter 3] MATCH: a Decentralised Middleware for Fair Matchmaking in Peer-to-peer Markets.}
 In this chapter, we address RQ2 and focus on the matchmaking problem, the process of bringing market participants together based on individual preferences.
@@ -742,9 +744,9 @@ To analyze the scalability and bandwidth usage, we conduct further experiments o
 Our main finding is that the throughput of XChange, in terms of trades per second, scales linearly with the network size.
 This chapter is based on the following two publications:
 
-Martijn de Vos and Johan Pouwelse,, \enquote{XChange: A Decentralized, Blockchain-based Mechanism for Generic Trade at Scale}, \emph{ninth Erasmus Liquidity Conference}, 2019 (no proceedings)
+Martijn de Vos and Johan Pouwelse, \enquote{XChange: A Decentralized, Blockchain-based Mechanism for Generic Trade at Scale}, \emph{ninth Erasmus Liquidity Conference}, 2019 (no proceedings)\\
 
-\todo{UNDER REVIEW}\\
+Martijn de Vos, Can Umut Ileri and Johan Pouwelse, \enquote{XChange: A Universal Mechanism for Asset Exchange between Permissioned Blockchains}, \emph{World Wide Web Journal, Springer, 2021}
 
 \textbf{[Chapter 5] Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds.}
 In this chapter, we answer RQ4 and explore a new stage in the evolution of digital trust, trusting strangers with your money.
@@ -778,7 +780,8 @@ To demonstrate the practical value of DevID, we build the competition-based plat
 On dAppCoder clients are able to submit their ideas and developers can find work.
 dAppCoder utilizes DevID portfolios to match these clients and developers.
 We fully implement our ideas and conduct a deployment trial.
-Our trial demonstrates that DevID is efficient at storing portfolio records.\todo{rol mitchell}
+Our trial demonstrates that DevID is efficient at storing portfolio records.
+The author of this thesis has collaborated with Mitchell Olsthoorn, who helped with developing the conceptual idea, writing and conducting the user trial.
 This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}\\
