@@ -1688,6 +1688,30 @@ It shows that for all settings, MATCH only misses under ten matches on average.
 %Decentralized matchmaking provides strong fault tolerance, fairness and load balancing, at the cost of order fulfill latency and bandwidth usage.
 %The matching accuracy of decentralized matchmaking is competitive compared to the centralized setting.
 
+\begin{figure}[t!]
+	\centering
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_bandwidth.pdf}
+		\caption{Total bandwidth usage}
+		\label{fig:ethereum_bandwidth}
+	\end{subfigure}%
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_memory.pdf}
+		\caption{Maximum memory usage}
+		\label{fig:ethereum_memory}
+	\end{subfigure}
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}
+		\caption{Order fulfil latency}
+		\label{fig:ethereum_latencies}
+	\end{subfigure}
+	\caption{The total bandwidth usage and the distribution of order fulfil latencies of on-chain matchmaking on Ethereum and in MATCH, under the ride-hailing and asset trading workloads.}
+	\label{fig:ethereum_experiments}
+\end{figure}
+
 \subsection{Comparison with On-chain Matchmaking}
 \label{sec:experiments_ethereum}
 We compare the bandwidth usage and order fulfil latencies of MATCH with that of matchmaking on an Ethereum blockchain, using both the ride-hailing and asset trading workloads.
@@ -1727,36 +1751,12 @@ MATCH only requires 41.6MB of aggregate network traffic under the ride-haling wo
 The high bandwidth usage of Ethereum is a direct consequence of the full replication of state.
 Specifically, each transaction and block is disseminated to all active Ethereum instances, resulting in a significant amount of network traffic.
 
-\begin{figure}[t!]
-	\centering
-	\begin{subfigure}{.5\columnwidth}
-		\centering
-		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_bandwidth.pdf}
-		\caption{Total bandwidth usage}
-		\label{fig:ethereum_bandwidth}
-	\end{subfigure}%
-	%	\begin{subfigure}{.66\columnwidth}
-	%		\centering
-	%		\includegraphics[width=\columnwidth]{assets/plots/ethereum_memory.pdf}
-	%		\caption{Maximum memory usage}
-	%		\label{fig:ethereum_memory}
-	%	\end{subfigure}%
-	\begin{subfigure}{.5\columnwidth}
-		\centering
-		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}
-		\caption{Order fulfil latency}
-		\label{fig:ethereum_latencies}
-	\end{subfigure}
-	\caption{The total bandwidth usage and the distribution of order fulfil latencies of on-chain matchmaking on Ethereum and in MATCH, under the ride-hailing and asset trading workloads.}
-	\label{fig:ethereum_experiments}
-\end{figure}
-
-%\textbf{Memory usage.}
-%We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
-%At peak, Ethereum requires 2.8GB of memory to store pending transactions.
-%This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
-%Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
-%In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
+\textbf{Memory usage.}
+We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
+At peak, Ethereum requires 2.8GB of memory to store pending transactions.
+This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
+Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
+In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
 
 \textbf{Order fulfil latencies.}
 In Figure~\ref{fig:ethereum_latencies}, we show the time it takes to complete orders in MATCH and Ethereum, for both workloads.
