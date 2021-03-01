@@ -5,7 +5,7 @@
 \dropcap{M}arketplaces facilitate the exchange of services, goods and information between individuals and businesses.
 They play an essential role in our economy.
 The standard approach to devise digital marketplaces is by deploying centralized infrastructure, entirely operated and managed by a market operator.
-In such centralized marketplaces, trusted intermediaries often provide various services to traders, such as managing market information, processing, and providing arbitration services when a dispute arises.
+In such centralized marketplaces, trusted intermediaries often provide various services to traders, such as managing market information, processing payments, and providing arbitration services when a dispute arises.
 
 Advancements in information technology have challenged the need for both authoritative market operators and trusted intermediaries.
 In particular, blockchain technology is increasingly being applied to deploy digital marketplaces.
@@ -68,7 +68,65 @@ Finally, in Chapter 7, we formulate the main conclusions of this thesis and pres
 
 {\selectlanguage{dutch}
 
-\todo{}
+\dropcap{M}arkten faciliteren het verhandelen van diensten, goederen en informatie tussen individuen en bedrijven.
+Ze spelen een essentiele rol in onze economie.
+De standaard werkwijze om elektronische markten in te richten is door het gebruik van gecentraliseerde infrastructuur die volledig geopereerd en beheerd wordt door een marktexploitant.
+In deze centrale markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een conflict.
+
+Vooruitgang in de informatietechnologie heeft de behoefte aan zowel gezaghebbende marktdeelnemers als betrouwbare tussenpersonen uitgedaagd.
+Met name blockchaintechnologie wordt steeds vaker toegepast om elektronische markten in te zetten.
+Blockchain-gebaseerde marktplaatsen faciliteren directe handel tussen peers en verminderen de afhankelijkheid van zowel gezaghebbende partijen als vertrouwde tussenpersonen.
+De rol van blockchain op dergelijke marktplaatsen is om sociaal vertrouwen te vervangen door cryptografische primitieven.
+Dit maakt de \emph{decentralisatie} en \emph{disintermediatie} van verschillende componenten op elektronische marktplaatsen mogelijk.
+In de context van dit werk verwijst decentralisatie naar het concept van het delegeren van besluitvorming en activiteiten weg van een centrale autoriteit.
+Disintermediatie vermindert of verwijdert de betrokkenheid van vertrouwde tussenpersonen bij het handelen op een elektronische markt.
+
+Dit proefschrift introduceert innovatieve mechanismes om alle aspecten van blockchain-gebaseerde markten te decentraliseren en te disintermediëren.
+We identificeren eerst de vijf aspecten van blockchain-gebaseerde markten: informatiebeheer, matchmaking, de afwikkeling van handel, het afhandelen van fraude en het beheren van identiteit.
+Vervolgens ontwerpen, implementeren, evalueren en implementeren we vijf gedecentraliseerde mechanismen.
+Elk geïntroduceerd mechanisme richt zich op één of twee aspecten van blockchain-gebaseerde markten.
+Voor elk mechanisme beschouwen we een praktisch nut en implementatie als cruciale vereisten voor een succesvolle acceptatie.
+
+In hoofdstuk 1 identificeren en beschrijven we de vijf aspecten van blockchain-gebaseerde marktplaatsen.
+We beschrijven bestaande oplossingen die deze aspecten disintermediëren en decentraliseren.
+Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeksmethodologie en vatten we de belangrijkste bijdragen samen.
+
+In hoofdstuk 2 introduceren we een universeel mechanisme genaamd \emph{TrustChain}, voor het organiseren van informatie in decentrale netwerken.
+Met \emph{TrustChain} houdt elke gebruikers een persoonlijk grootboek bij.
+Dit grootboek bevat overeenkomsten tussen gebruikers en bevatten verwijzingen naar andere objecten in het grootboek.
+Fraude, het onwettige wijzigen van een overeenkomst in iemands persoonlijke grootboek, wordt gedetecteerd door continu records uit te wisselen en door de consistentie van inkomende informatie met bekende informatie te verifiëren.
+We laten met experimenten zien dat \emph{TrustChain} zeer schaalbaar is en dat fraude snel kan worden gedetecteerd.
+Om de toepasbaarheid van ons werk te benadrukken, voeren we een tweejarige implementatieproef uit van \emph{TrustChain} om free-riders aan te pakken in \emph{Tribler}, onze gedecentraliseerde applicatie voor het delen van bestanden.
+We maken gebruik van de mogelijkheden van \emph{TrustChain} voor andere mechanismen die in dit proefschrift worden geïntroduceerd.
+
+In hoofdstuk 3 introduceren we MATCH, een gedecentraliseerde middleware voor eerlijke matchmaking in peer-to-peer markten.
+MATCH pakt manipulatieproblemen aan die verband houden met marktplaatsen onder centrale controle, namelijk de mogelijkheid om specifieke orders door de marktexploitant te prioriteren, te verbergen of te vertragen.
+Door de verspreiding van potentiële matches los te koppelen van de onderhandelingen over handelsovereenkomsten, stelt MATCH eindgebruikers in staat hun eigen weloverwogen beslissingen te nemen en directe onderhandelingen met handelspartners aan te gaan.
+We evalueren MATCH met zowel een ride-hailing als een token trading dataset.
+Uit onze experimenten blijkt dat MATCH zeer resistent is tegen kwaadwillende matchmakers die afwijken van een specifiek beleid.
+
+In hoofdstuk 4 introduceren we een universeel en gedecentraliseerd mechanisme voor settlement, genaamd XChange.
+Ons mechanisme maakt de uitwisseling van tokens tussen geautoriseerde blockchains mogelijk zonder de vereiste van een vertrouwde tussenpersoon, onderpanddeposito's of wijzigingen aan geïmplementeerde applicaties op de blockchain.
+XChange registreert de voortgang van elke transactie in een gedistribueerd logboek.
+Om het tegenpartijrisico te verkleinen, beperkt XChange de economische voordelen van tegenstanders die fraude hebben gepleegd tijdens een transactie door te voorkomen dat ze andere transacties aangaan.
+Door het gedistribueerde logboek te inspecteren, kan elke deelnemer detecteren of een handelaar afziet van het nakomen van zijn verplichtingen tijdens een lopende transactie.
+Onze resultaten tonen aan dat XChange zeer schaalbaar is en de economische verliezen met meer dan 99 \% vermindert.
+
+In hoofdstuk 5 introduceren we Internet-of-Money, een settlement mechanisme voor realtime en internationale geldovermakingen tussen verschillende banken.
+Het idee is om een ​​langzame intra-bancaire betaling op te splitsen in meerdere snelle inter-bancaire betalingen.
+Elke geldoverdracht maakt gebruik van een of meer op vrijwilligers gebaseerde diensten, geldrouters, om een ​​betaling binnen de bank te voltooien.
+Deze benadering reduceert de duur van intra-bankbetalingen van dagen tot louter seconden.
+Om fraud, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende hop, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
+Om de risico's verder te verkleinen, splitsen we een enkele betaling op in meerdere kleinere betalingen en gebruiken we meerdere geldrouters tegelijkertijd.
+Onze experimenten tonen aan dat deze aanpak de winsten voor kwaadwillige gebruikers aanzienlijk vermindert.
+
+In hoofdstuk 6 introduceren we DevID, een op blockchain gebaseerde identiteitsoplossing voor softwareontwikkelaars.
+DevID bundelt ontwikkelaarsinformatie in een gedistribueerd logboek.
+Ontwikkelaars kunnen gegevens van derde partijen importeren in een uniform DevID-portfolio, projecten en vaardigheden toevoegen en aanbevelingen presenteren.
+Om de praktische waarde van DevID te demonstreren, bouwen en implementeren we een gedecentraliseerde crowdsourcing-marktplaats, genaamd DAppCoder, die DevID-portfolio's gebruikt.
+Onze gebruikersproef toont aan dat DevID efficiënt is in het opslaan van een dergelijk portfolio.
+
+Ten slotte formuleren we in Hoofdstuk 7 de belangrijkste conclusies van dit proefschrift en doen we suggesties voor toekomstige onderzoeksrichtingen.
 }
 
 

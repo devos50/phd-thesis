@@ -6,7 +6,7 @@ Using our universal ConTrib accounting mechanism, market information can securel
 With our decentralized MATCH middleware, participants do not have to rely on a centralized matchmaker to match their orders in peer-to-peer markets.
 Our XChange trading mechanism enables asset trading between permissioned blockchains without any requirement for a trusted third party that performs settlement.
 The decentralized Internet-of-Money overlay enables fast and international money transfers without settlement by a central bank.
-Finally, DevID and DAppCoder disintermediate software crowdsourcing markets and allow software developers to build self-hosted, durable portfolios without their data being managed by a central party.
+Finally, software developers to build self-hosted, durable portfolios without their data being managed by a central party using DevID and showcase these portfolios on the decentralized crowdsourcing platform DAppCoder.
 
 \section{Conclusions}
 The main conclusions of this thesis are as follows:
@@ -61,16 +61,16 @@ We end this thesis by outlining per chapter ideas for further research.
 	
 	\item In Chapter~\ref{chapter:match}, we have presented MATCH, our decentralized middleware for fair matchmaking in peer-to-peer markets.
 	Even though we show that MATCH is highly resistant against malicious matchmakers, we considered the identification of such matchmakers outside the scope of our work.
-	A natural extension of MATCH would be to leverage ConTrib and account order dissemination and proposed matches.
+	A natural extension of MATCH would be to leverage \TrustChain and account order dissemination and proposed matches.
 	By replaying the matching events in ones personal ledger, a user can detect a deviation from a particular matching policy.
 	This would, however, incur additional resource usage.
 	We also suggest to explore statistical approaches for the detection of malicious behaviour.
 	Specifically, our random dissemination model results in a particular distribution of the order book entries over peers in the network.
 	By inspecting incoming match proposals, long-term deviation from a matching policy can then be detected.
 	
-	\item in Chapter~\ref{chapter:xchange}, we have introduced a universal asset trading mechanism between permissioned blockchains.
+	\item In Chapter~\ref{chapter:xchange}, we have introduced a universal asset trading mechanism between permissioned blockchains.
 	An important question that remains is how our mechanism can be used to trade assets between public blockchains, for example, Ethereum.
-	The critical problem when deploying our mechanism in a public setting is the ability to quickly generate a new identity after committing fraud, i.e.,g the Sybil Attack.
+	The critical problem when deploying our mechanism in a public setting is the ability to quickly generate a new identity after committing fraud, i.e., the Sybil Attack.
 	We envision that the use of collateral deposits can help to alleviate this threat.
 	
 	\item In Chapter~\ref{chapter:iom}, we have presented our international money transfer mechanism, named Internet-of-Money.
