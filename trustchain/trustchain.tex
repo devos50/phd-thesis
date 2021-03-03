@@ -7,14 +7,14 @@ Meanwhile, decentralized applications without central authority are gaining trac
 Decentralized applications critically depend on its users working together.
 Ensuring that users do not consume too many resources without reciprocating is a crucial requirement for the sustainability of such applications.}
 
-\emph{In this chapter we present \ModelName{}, a universal mechanism to maintain fairness in decentralized applications by accounting the work performed by peers.
-In \ModelName{}, participants maintain a personal ledger with tamper-evident records.
+\emph{In this chapter we present \TrustChain{}, a universal mechanism to maintain fairness in decentralized applications by accounting the work performed by peers.
+In \TrustChain{}, participants maintain a personal ledger with tamper-evident records.
 A record describes some work performed by a peer and links to other records.
-Fraud in \ModelName{} occurs when a peer illegitimately modifies one of the records in its personal ledger.
+Fraud in \TrustChain{} occurs when a peer illegitimately modifies one of the records in its personal ledger.
 This is detected through the continuous exchange of random records between peers and by verifying the consistency of incoming records against known ones.
 Our simple fraud detection algorithm is highly scalable, tolerates significant packet loss, and exhibits relatively low fraud detection times.
 We experimentally show that fraud is detected within seconds and with low bandwidth requirements.
-To demonstrate the applicability of our work, we deploy \ModelName{} in the \Tribler{} file-sharing application and successfully address free-riding behaviour.
+To demonstrate the applicability of our work, we deploy \TrustChain{} in the \Tribler{} file-sharing application and successfully address free-riding behaviour.
 This two-year trial has resulted in over \TrialRecords{} records, created by more than \TrialUsers{} users.}
 
 \newpage
@@ -122,13 +122,13 @@ There currently is no accounting mechanism that is specifically built to account
 
 \textbf{Our Solution.}
 We specifically focus on the accounting of work performed by peers, which is crucial to ensure fairness within decentralized applications.
-In this work, we design, implement and evaluate a universal data store, named \ModelName{}.
-\ModelName{} is capable of accounting work within different decentralized applications.
+In this work, we design, implement and evaluate a universal data store, named \TrustChain{}.
+\TrustChain{} is capable of accounting work within different decentralized applications.
 Examples of work include storing files on behalf of other peers, performing computations, or relaying network packets.
-With \ModelName{}, each peer maintains a \emph{personal ledger} with tamper-evident \emph{records}.
-The \ModelName{} records can then be used by an application to determine the trustworthiness of individuals, e.g., with a reputation algorithm.
+With \TrustChain{}, each peer maintains a \emph{personal ledger} with tamper-evident \emph{records}.
+The \TrustChain{} records can then be used by an application to determine the trustworthiness of individuals, e.g., with a reputation algorithm.
 Consequently, users have a natural incentive to increase their social standing by modifying or removing records.
-This misbehaviour is a key threat to the integrity of the \ModelName{} data structure.
+This misbehaviour is a key threat to the integrity of the \TrustChain{} data structure.
 We refer to the illegitimate modification of a record as fraud.
 To detect fraud, peers continuously request random records from other peers and disseminate newly created records in the network.
 Peers verify the consistency of incoming records with the ones stored in their database.
@@ -136,33 +136,33 @@ Peers verify the consistency of incoming records with the ones stored in their d
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.7\linewidth]{trustchain/assets/contrib_app_interaction}
-	\caption{Decentralized applications can use \ModelName{} to account the work performed by peers within tamper-evident \emph{records}. These records are used by connected applications to detect free-riders and fraudsters, which are added to a local blacklist. Applications can then choose to refuse services to the peers on the blacklist.}
+	\caption{Decentralized applications can use \TrustChain{} to account the work performed by peers within tamper-evident \emph{records}. These records are used by connected applications to detect free-riders and fraudsters, which are added to a local blacklist. Applications can then choose to refuse services to the peers on the blacklist.}
 	\label{fig:interaction_with_apps}
 \end{figure}
 
-\ModelName{} enables connected applications to select which work should be accounted.
-Figure~\ref{fig:interaction_with_apps} shows how a decentralized application can leverage \ModelName{} to account work.
+\TrustChain{} enables connected applications to select which work should be accounted.
+Figure~\ref{fig:interaction_with_apps} shows how a decentralized application can leverage \TrustChain{} to account work.
 By inspecting the records in personal ledgers, an application can gather evidence of free-riding behaviour.
 Each application maintains a local blacklist with both free-riders and peers that have committed fraud.
 Peers refrain from performing work for peers on the blacklist.
-\ModelName{} can be deployed to alleviate fairness concerns in a wide range of decentralized applications, including peer-assisted video distribution, anonymous communication networks, and distributed learning environments.
+\TrustChain{} can be deployed to alleviate fairness concerns in a wide range of decentralized applications, including peer-assisted video distribution, anonymous communication networks, and distributed learning environments.
 
-We implement \ModelName{} and evaluate how different parameters impact the efficiency of fraud detection and the network usage.
+We implement \TrustChain{} and evaluate how different parameters impact the efficiency of fraud detection and the network usage.
 We find that fraud can be detected within seconds on average, even in larger networks with 10'000 peers where every peer commits fraud, and under a conservative strategy for record exchange.
-We also show that \ModelName{} highly tolerates packet loss.
+We also show that \TrustChain{} highly tolerates packet loss.
 
-To show the effectiveness of \ModelName{} in a realistic environment, we employ our accounting mechanism to address free-riding behaviour in \Tribler{}.
+To show the effectiveness of \TrustChain{} in a realistic environment, we employ our accounting mechanism to address free-riding behaviour in \Tribler{}.
 \Tribler{} is a decentralized application downloaded by over 1.7 million users~\cite{pouwelse2008tribler}.
-We specifically use \ModelName{} to account bandwidth exchanges in \Tribler{}s' Tor-like overlay and use the accounted work to refuse services to free-riders.
+We specifically use \TrustChain{} to account bandwidth exchanges in \Tribler{}s' Tor-like overlay and use the accounted work to refuse services to free-riders.
 Our two-year measurements have resulted in over \TrialRecords{} records, created by more than \TrialUsers{} users.
 This large-scale deployment trial is a key milestone in our ongoing research effort to solve the tragedy-of-the-commons within Internet communities~\cite{de2018blockchain}.
 
 The main contribution of this work is four-fold:
 \begin{enumerate}
-	\item \ModelName{}, a \emph{universal mechanism} that maintains fairness in decentralized application by accounting work (Section~\ref{sec:micro_accounting}).
-	\item An efficient \emph{fraud detection mechanism} to detect the illegitimate tampering of created records in \ModelName{} (Section~\ref{sec:detecting_fraud}).
-	\item An \emph{implementation} and \emph{evaluation} of \ModelName{} with up to 10'000 peers, demonstrating the scalability of our mechanism and showing that fraud can be detected within seconds on average (Section~\ref{sec:system_architecture} and Section~\ref{sec:implementation_evaluation}).
-	\item A \emph{two-year deployment trial} of \ModelName{} in \Tribler{}, involving \TrialUsers{} Internet-recruited volunteers. This trial successfully addresses free-riding behaviour in \Tribler{} (Section~\ref{sec:deployment}).
+	\item \TrustChain{}, a \emph{universal mechanism} that maintains fairness in decentralized application by accounting work (Section~\ref{sec:micro_accounting}).
+	\item An efficient \emph{fraud detection mechanism} to detect the illegitimate tampering of created records in \TrustChain{} (Section~\ref{sec:detecting_fraud}).
+	\item An \emph{implementation} and \emph{evaluation} of \TrustChain{} with up to 10'000 peers, demonstrating the scalability of our mechanism and showing that fraud can be detected within seconds on average (Section~\ref{sec:system_architecture} and Section~\ref{sec:implementation_evaluation}).
+	\item A \emph{two-year deployment trial} of \TrustChain{} in \Tribler{}, involving \TrialUsers{} Internet-recruited volunteers. This trial successfully addresses free-riding behaviour in \Tribler{} (Section~\ref{sec:deployment}).
 \end{enumerate}
 
 % We introduce ...
@@ -270,30 +270,30 @@ The main contribution of this work is four-fold:
 %	\label{fig:trust_cycle}
 %\end{figure}
 
-%We present \ModelName{}, a universal accounting mechanism for the detection of free-riding behaviour in shared-resource systems.
+%We present \TrustChain{}, a universal accounting mechanism for the detection of free-riding behaviour in shared-resource systems.
 %Our mechanism enables resource accounting where fraud, e.g., illegitimate tempering of micro-records, can be efficiently detected across different shared-resource applications.
-%\emph{Micro-records} are the key building block of \ModelName{} and are linked together in a personal ledger.
+%\emph{Micro-records} are the key building block of \TrustChain{} and are linked together in a personal ledger.
 %A micro-record describes an interaction from the perspective of one of the involved parties.
 %Users continuously share micro-records with random users and validate incoming micro-records against known ones.
 %Our simple, yet effective technique enables quick detection of fraud, specifically the situation where an adversary has forked its personal ledger.
-%We implement \ModelName{} and systematically evaluate its scalability and resistance against malicious users that undermine the accounting mechanism, e.g., by hiding or modifying the micro-records in their personal ledger.
-%Our experiments with up to 1'000 users reveal that \ModelName{} that fraud can be detected well within a minute and that the throughput of \ModelName{} scales linearly with the network size.
+%We implement \TrustChain{} and systematically evaluate its scalability and resistance against malicious users that undermine the accounting mechanism, e.g., by hiding or modifying the micro-records in their personal ledger.
+%Our experiments with up to 1'000 users reveal that \TrustChain{} that fraud can be detected well within a minute and that the throughput of \TrustChain{} scales linearly with the network size.
 
-%To show the effectiveness and matureness of \ModelName{} in a realistic environment, we leverage our mechanism to record bandwidth traffic in \Tribler{}.
+%To show the effectiveness and matureness of \TrustChain{} in a realistic environment, we leverage our mechanism to record bandwidth traffic in \Tribler{}.
 %\Tribler{} is our academic peer-to-peer software and downloaded by over 1 million users.
-%Specifically, we use \ModelName{} to account bandwidth exchanges in our Tor-like overlay and refuse services to free-riders during periods of congestion.
+%Specifically, we use \TrustChain{} to account bandwidth exchanges in our Tor-like overlay and refuse services to free-riders during periods of congestion.
 %Our 36-months measurements has resulted in over 120 million micro-records, created by over \TrialUsers{} users.
 %This large-scale deployment trial is a key milestone in our ongoing research to solve the tragedy-of-the-commons in Internet communities.
 
-%The \ModelName{} mechanism is based on two principles.
+%The \TrustChain{} mechanism is based on two principles.
 %First, we decouple the application logic and accounting primitives, unlike related work in the same domain~\cite{osipkov2006robust}.
 %This results in a universal accounting mechanism that is reusable across different application domains.
-%Second, \ModelName{} is specifically built to deal with the dynamic nature of peer-to-peer networks, where users quickly join or leave.
+%Second, \TrustChain{} is specifically built to deal with the dynamic nature of peer-to-peer networks, where users quickly join or leave.
 %Specifically, we avoid network-wide synchronization, group communication or the explicit management of witness sets, while ensuring that fraud will be detected with reasonable probability.
 
 %This work is a cardinal part of our envisioned approach to solve the tragedy-of-the-commons, see Figure~\ref{fig:trust_cycle}.
 %In this approach, peers account all resource contribution and consumptions within tamper-proof \emph{micro-records}.
-%\ModelName{} records resource contributions and consumptions.
+%\TrustChain{} records resource contributions and consumptions.
 %Our envisioned next step is that every community member periodically runs a reputation algorithm on the collected micro-records which outputs subjective trustworthiness scores.
 %These scores guide resource management, the process of determining which users will be granted access to some shared resource.
 
@@ -478,14 +478,14 @@ We consider the accounting of events that have not occurred in the application o
 %		\caption{To ensure tamper-proofness, we organize micro-records in personal ledgers and reference prior micro-records in a ledger.}
 %		\label{fig:trustchain_tutorial_3}
 %	\end{subfigure}
-%	\caption{Storing an interaction between users $ A $ and $ B $ in \ModelName{} using two micro-records, one proposal and one confirmation. Solid and dotted circular elements indicate the identity of the micro-record creator, respectively, the micro-record counterparty.}
+%	\caption{Storing an interaction between users $ A $ and $ B $ in \TrustChain{} using two micro-records, one proposal and one confirmation. Solid and dotted circular elements indicate the identity of the micro-record creator, respectively, the micro-record counterparty.}
 %	\label{fig:trustchain_tutorial}
 %\end{figure*}
 
-\section{Accounting Work with \ModelName{}}
+\section{Accounting Work with \TrustChain{}}
 \label{sec:micro_accounting}
-The design of our universal accounting mechanism, named \emph{\ModelName{}}, is inspired by the tamper-evident properties of blockchain but does not require peers to reach consensus on a coherent history of records.
-Instead, \ModelName{} optimistically detects the illegitimate modification of records while keeping the computational overhead and bandwidth requirements low.
+The design of our universal accounting mechanism, named \emph{\TrustChain{}}, is inspired by the tamper-evident properties of blockchain but does not require peers to reach consensus on a coherent history of records.
+Instead, \TrustChain{} optimistically detects the illegitimate modification of records while keeping the computational overhead and bandwidth requirements low.
 Decentralized applications can account the work performed by peers within tamper-evident \emph{records}.
 A record describes some work performed by one peer for another peer.
 Each peer organizes their records in a \emph{personal ledger}.
@@ -494,13 +494,13 @@ The latter pointer captures an agreement between two peers.
 Peers continuously exchange records with other random peers and request records in the personal ledgers of others.
 By validating the consistency of incoming records against known ones, a peer can irrefutably prove fraud attempts to other peers.
 
-We further elaborate on the design of \ModelName{}.
+We further elaborate on the design of \TrustChain{}.
 We first outline the network and threat model.
-We then describe the \ModelName{} data structure and show how \ModelName{} accounts the work in decentralized applications.
+We then describe the \TrustChain{} data structure and show how \TrustChain{} accounts the work in decentralized applications.
 
 \subsection{Network Model}
 \label{sec:network_model}
-The \ModelName{} mechanism is built on a peer-to-peer network.
+The \TrustChain{} mechanism is built on a peer-to-peer network.
 We assume an unstructured network structure.
 Unstructured networks are relatively straightforward to maintain and are highly resilient against churn.
 We assume that the used networking library handles network bootstrapping and peer discovery.
@@ -512,9 +512,9 @@ We consider attacks targeted at the network layer, e.g., the Eclipse Attack, out
 
 A significant threat in Internet-deployed applications is the Sybil Attack, where an adversary operates multiple identities to subvert the network~\cite{douceur2002sybil}.
 The Sybil Attack frequently occurs in open Internet communities, where the cost of creating a new digital identity is often negligible.
-Although the \ModelName{} mechanism does not include defences against Sybil identities, we argue that this threat can be mitigated with well-established techniques that complement \ModelName{} in a deployment setting.
+Although the \TrustChain{} mechanism does not include defences against Sybil identities, we argue that this threat can be mitigated with well-established techniques that complement \TrustChain{} in a deployment setting.
 A basic defence mechanism is to have peers solve a computational puzzle when they wish to join the network~\cite{li2012sybilcontrol}.
-In addition, using a Sybil-resistant reputation mechanism that processes \ModelName{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
+In addition, using a Sybil-resistant reputation mechanism that processes \TrustChain{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
 We also consider self-sovereign identities as a promising solution that can bolster decentralized networks with long-term identities~\cite{stokkink2018deployment}.
 
 We consider misreporting, the accounting of work that has not occurred in the application, beyond the scope of this work.
@@ -524,11 +524,11 @@ These proofs, however, cannot easily be used across different application domain
 
 \subsection{Threat Model}
 \label{sec:threat_model}
-Our threat model orients around malicious peers that attack the integrity of the \ModelName{} data structure.
-This attack proceeds through the strategic modification of \ModelName{} records.
+Our threat model orients around malicious peers that attack the integrity of the \TrustChain{} data structure.
+This attack proceeds through the strategic modification of \TrustChain{} records.
 For example, a peer can inflate the amount of work it has performed by modifying one of the records in its personal ledger.
-We refer to the illegitimate modification of \ModelName{} records as \emph{fraud}.
-Even though this definition may seem limited, we argue that this kind of fraud is a fundamental threat to the \ModelName{} data structure.
+We refer to the illegitimate modification of \TrustChain{} records as \emph{fraud}.
+Even though this definition may seem limited, we argue that this kind of fraud is a fundamental threat to the \TrustChain{} data structure.
 In particular, our definition of fraud also entails a more advanced form of record manipulations where peers collude to erase a particular interaction from history.
 In a reputation system, for example, this would happen when a well-trusted peer temporarily boosts the reputation of another peer by accounting some work and then attempts to hide the existence of this interaction later.
 Reverting this interaction requires both counterparties to either override or remove the associated records, which we consider as fraud.
@@ -544,7 +544,7 @@ We assume that the computing power of adversaries is bounded and that cryptograp
 %For example, TorPath builds a proof-of-bandwidth that proves that some bandwidth has been transferred through a circuit~\cite{ghosh2014torpath}.
 %Creators of fake information should be given a lower trust score by the reputation mechanism, as illustrated in Figure~\ref{fig:trust_cycle}.
 
-%Users store dual-signed agreements of their interactions using \ModelName{} in \emph{micro-records}.
+%Users store dual-signed agreements of their interactions using \TrustChain{} in \emph{micro-records}.
 
 %\begin{table}
 %\begin{center}
@@ -616,12 +616,12 @@ This could, for example, occur when confirming $ P $ negatively impacts $ b $'s 
 This leaves $ a $ with an unconfirmed proposal, which alone is not sufficient evidence to convince other peers of the performed work by $ a $ for $ b $.
 When $ b $ refuses to sign an incoming proposal, $ a $ will add $ b $ to the local blacklist managed by applications, refusing to perform work for $ b $ until $ b $ has confirmed $ P $.
 The losses for $ a $ depend on the magnitude of the (unconfirmed) work performed for $ b $.
-To minimize these losses, we suggest that decentralized applications record small units of works using \ModelName{}.
+To minimize these losses, we suggest that decentralized applications record small units of works using \TrustChain{}.
 For example, a file-sharing application can choose to account unconfirmed work when it reaches a threshold, e.g., 10 MB of traffic exchanged.
 Depending on the granularity of accounting, this approach can significantly reduce the impact of peers refusing to acknowledge the contributions of their counterparties.
 
 \subsection{Improving Resilience by Linking Records}
-To prevent the modification of created records, we enforce each peer in \ModelName{} to link their records together in a \emph{personal ledger}, incrementally ordered by creation time.
+To prevent the modification of created records, we enforce each peer in \TrustChain{} to link their records together in a \emph{personal ledger}, incrementally ordered by creation time.
 Linking records will also make it harder for malicious peers to hide specific records.
 We make the following four modifications to records:
 
@@ -629,7 +629,7 @@ We make the following four modifications to records:
 	\item First, we include a sequence number $ s \in \mathbb{Z} $ in each record that is incremented by one when a new record is added to one's personal ledger.
 	The sequence number of the first record in the personal ledger is 1.
 	\item Second, each record now includes the hash of the prior record in the personal ledger of the creator.
-	This modification makes the \ModelName{} data structure comparable to a hash chain, e.g., as used by blockchain applications.
+	This modification makes the \TrustChain{} data structure comparable to a hash chain, e.g., as used by blockchain applications.
 	The modification of a particular record now changes the hash of subsequent records, a feature that enables us to detect illegitimate changes to stored records (also see Section~\ref{sec:detecting_fraud}).
 	The previous hash of the first record in a personal ledger is empty and referred to as $ \bot $.
 	\item Third, we extend the confirmation pointer with the sequence number of the proposal record that it confirms.
@@ -638,7 +638,7 @@ We make the following four modifications to records:
 	As we will further show in Section~\ref{sec:detecting_fraud}, the inclusion of these back-pointers significantly speeds up the detection of fraud.
 	The required back-pointers in some record $ R $ are deterministically given by a pseudo-random function $ \sigma $ that takes the public key of the record creator and the sequence number of $ R $ as input.
 	$ \sigma $ returns a set with at most $ b $ prior records which hashes should be included in $ R $.
-	All peers must use the same version of $ \sigma $, which we achieve by bundling its implementation in the \ModelName{} software.
+	All peers must use the same version of $ \sigma $, which we achieve by bundling its implementation in the \TrustChain{} software.
 \end{enumerate}
 
 The above modifications change the attributes of proposal and confirmation records.
@@ -662,7 +662,7 @@ This is in accordance with our third modification.
 \end{align*}
 
 Creating records yields the graph structure, as shown in Figure \ref{fig:fullchain}.
-Figure \ref{fig:fullchain} shows a part of the \ModelName{} graph with six records, created by three distinct peers ($ a $, $ b $ and $ c $).
+Figure \ref{fig:fullchain} shows a part of the \TrustChain{} graph with six records, created by three distinct peers ($ a $, $ b $ and $ c $).
 Same-coloured records are part of a single personal ledger, and arrows represent hash pointers to other records.
 Proposals have a solid border whereas confirmations have a dashed border.
 Note how the record in $ a $'s personal ledger with sequence number 55 is unconfirmed.
@@ -671,12 +671,12 @@ For presentation clarity, we only show the pointer to the prior record in one's 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.9\linewidth]{trustchain/assets/fullchain}
-	\caption{A part of the \ModelName{} DAG, involving five peers and six records: four proposals (solid borders) and two confirmations (dashed borders). The proposal created by user $ a $ with sequence number 55 is unconfirmed.}
+	\caption{A part of the \TrustChain{} DAG, involving five peers and six records: four proposals (solid borders) and two confirmations (dashed borders). The proposal created by user $ a $ with sequence number 55 is unconfirmed.}
 	\label{fig:fullchain}
 \end{figure}
 
-\ModelName{} publicly accounts work in interlinked personal ledgers.
-Since all performed work is publicly stored and accessible, other users might acquire and analyse \ModelName{} records to reveal potentially sensitive information, e.g., the time at which a particular user is online or the interaction patterns between users.
+\TrustChain{} publicly accounts work in interlinked personal ledgers.
+Since all performed work is publicly stored and accessible, other users might acquire and analyse \TrustChain{} records to reveal potentially sensitive information, e.g., the time at which a particular user is online or the interaction patterns between users.
 To reduce this threat, we outline two techniques that applications can use to enhance privacy.
 First, applications can account performed and consumed work in \emph{batches}.
 For example, an application can record all outstanding contributions and consumptions every hour, therefore hiding granular work statistics.
@@ -684,28 +684,28 @@ Second, an application can add some noise to the amount of work being accounted 
 This technique effectively reduces linkability, e.g., when accounting traffic that is being relayed through multiple hops.
 We believe that the combined power of these two techniques provides sufficient privacy guarantees for most decentralized applications.
 A more advanced approach, used by the Monero cryptocurrency, leverages ring signatures and zero-knowledge proofs to hide the amounts of work performed~\cite{bunz2018bulletproofs,poelstra2018confidential}.
-This approach would, however, require fundamental changes to \ModelName{} and we leave this enhancement for further work.
+This approach would, however, require fundamental changes to \TrustChain{} and we leave this enhancement for further work.
 
 \section{Detecting Fraud}
 \label{sec:detecting_fraud}
-We require that \ModelName{} detects illegitimate tampering of the records in a personal ledger.
-\ModelName{} is built around fraud \emph{detection} instead of \emph{prevention}.
+We require that \TrustChain{} detects illegitimate tampering of the records in a personal ledger.
+\TrustChain{} is built around fraud \emph{detection} instead of \emph{prevention}.
 We argue this is a reasonable assumption for two reasons.
 First, decentralized applications often do not require the prevention of fraud~\cite{krishnan2002virtual}.
 We argue that fraud prevention is disproportional in the context of work accounting.
 Second, preventing fraud is often a resource-intensive process that requires peers to reach a consensus on all created records, e.g., by using classical BFT algorithms or Proof-of-Work~\cite{vukolic2015quest}.
-The requirement to reach consensus would severely limit the scalability of \ModelName{}.
+The requirement to reach consensus would severely limit the scalability of \TrustChain{}.
 
-Fraud in \ModelName{} occurs when a peer illegitimately modifies one of the records in their personal ledger.
+Fraud in \TrustChain{} occurs when a peer illegitimately modifies one of the records in their personal ledger.
 This fraud, for example, happens when an adversary attempts to hide a specific record in the personal ledger by replacing it with another one.
 This action would result in pairs of records with the same sequence number and the same creator, but with a different hash.
-This violates the integrity of the \ModelName{} data structure.
-A key objective of \ModelName{} is to detect such conflicting records quickly.
+This violates the integrity of the \TrustChain{} data structure.
+A key objective of \TrustChain{} is to detect such conflicting records quickly.
 
-%According to our threat model, manipulation in \ModelName{} involves an adversary maintaining two different personal ledgers, possibly with a common prefix.
+%According to our threat model, manipulation in \TrustChain{} involves an adversary maintaining two different personal ledgers, possibly with a common prefix.
 %In related literature, this is often referred to as double-spending or chain forking.
 
-%To incentivize users to participate in the exploration of the \ModelName{} DAG, we propose that collected fraud proofs can be given to resource providers to gain preferential treatment.\todo{elaborate}
+%To incentivize users to participate in the exploration of the \TrustChain{} DAG, we propose that collected fraud proofs can be given to resource providers to gain preferential treatment.\todo{elaborate}
 %For example, a user $ A $ can modify, reorder or remove micro-records in their personal ledger, and recompute the hash pointers to restore validity.
 %However, this basic manipulation can be proven by interaction partners of $ A $ by having them broadcasting the original and manipulated micro-records created by $ A $ with the same sequence number.
 
@@ -747,7 +747,7 @@ A key objective of \ModelName{} is to detect such conflicting records quickly.
 
 \subsection{Detecting Forks}
 \label{sec:detecting_forks}
-Fraud in \ModelName{} is detected by sharing newly created records with other peers, and by requesting random records in the personal ledgers of others.
+Fraud in \TrustChain{} is detected by sharing newly created records with other peers, and by requesting random records in the personal ledgers of others.
 Each peer assesses the consistency of incoming records with the ones in its local database.
 This simple approach allows for quick detection of fraud through the collective effort of peers.
 In Figure~\ref{fig:fraud_scenarios}, we visualize four identified scenarios in which we can either expose an adversarial peer (scenario I and II) or detect an inconsistency without assigning blame (scenario III and IV).
@@ -897,7 +897,7 @@ We detect the inconsistency described by scenario III during this step (line 15-
 
 \textbf{Step 5.}
 Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
-As we will further outline in Section~\ref{sec:system_architecture}, decentralized applications using \ModelName{} should implement a \emph{validation} policy that denotes whether the payload of an incoming record is valid in the context of the connected application.
+As we will further outline in Section~\ref{sec:system_architecture}, decentralized applications using \TrustChain{} should implement a \emph{validation} policy that denotes whether the payload of an incoming record is valid in the context of the connected application.
 
 If any of the above steps fail, the record is considered invalid.
 
@@ -934,7 +934,7 @@ If any of the above steps fail, the record is considered invalid.
 
 \subsection{Exchanging Records with Other Peers}
 \label{sec:exchanging_records}
-The detection of fraud in \ModelName{} depends on peers exchanging records with each other.
+The detection of fraud in \TrustChain{} depends on peers exchanging records with each other.
 A peer is motivated to share collected records with others since they might eventually reveal fraud conducted by one of their former counterparties.
 So far, we have not discussed how records are disseminated.
 Record dissemination is an essential process that affects the speed at which fraud can be detected.
@@ -949,7 +949,7 @@ When receiving a \texttt{Request} message, the recipient also includes linked pr
 When a peer $ a $ does not respond with records within a reasonable time, the requesting peer adds $ a $ to the local blacklist.
 
 \textbf{Push-based Record Exchange.}
-\ModelName{} also supports push-based record exchange, where the creator of a record disseminates it to $ f $ random other peers (as also discussed in Section~\ref{sec:recording_interactions}).
+\TrustChain{} also supports push-based record exchange, where the creator of a record disseminates it to $ f $ random other peers (as also discussed in Section~\ref{sec:recording_interactions}).
 This push-based exchange allows for quick detection of fraud since the probability of no user receiving two conflicting records goes to zero quickly, even when the network size increases~\cite{osipkov2007combating}.
 Even if the malicious peer refrains from broadcasting a conflicting record, the counterparty is very likely to do so, assuming there is no collusion between interacting peers.
 Immediate dissemination of created records in the network also increases record availability when the sending peer goes offline.
@@ -957,22 +957,22 @@ Immediate dissemination of created records in the network also increases record 
 \begin{figure*}[t]
 	\centering
 	\includegraphics[width=\linewidth]{trustchain/assets/system_architecture}
-	\caption{The system architecture of \ModelName{}.}
+	\caption{The system architecture of \TrustChain{}.}
 	\label{fig:system_architecture}
 \end{figure*}
 
 \subsection{Limitations}
-%In Section~\ref{sec:micro_accounting} and~\ref{sec:detecting_fraud}, we have described how \ModelName{} records are created and how fraud is detected.
-Even though our simple algorithm can detect the modification of records, the probabilistic nature of our algorithm can render \ModelName{} unsuitable for deployment in specific application domains.
+%In Section~\ref{sec:micro_accounting} and~\ref{sec:detecting_fraud}, we have described how \TrustChain{} records are created and how fraud is detected.
+Even though our simple algorithm can detect the modification of records, the probabilistic nature of our algorithm can render \TrustChain{} unsuitable for deployment in specific application domains.
 Since fraud detection is a probabilistic approach, some fraud instances can take relatively long to be uncovered (e.g., several minutes).
 We also encountered this behaviour during our experiments (see Section~\ref{sec:implementation_evaluation}).
 At the same time, we argue that this is not an insurmountable problem in decentralized applications where performed work holds no or low monetary value.
 
-Since our algorithm is based on fraud \emph{detection}, \ModelName{} is not suitable for applications that require a high level of security, as is the case with decentralized financial applications.
+Since our algorithm is based on fraud \emph{detection}, \TrustChain{} is not suitable for applications that require a high level of security, as is the case with decentralized financial applications.
 We believe that blockchain technology provides more appropriate security guarantees for such application domains, at the cost of increased resource usage and lower scalability.
 
-Finally, we note that \ModelName{} is mainly built for the lightweight accounting of work in decentralized applications.
-In its current state, \ModelName{} cannot capture more complicated operations, e.g., executing arbitrary logic like smart contracts.
+Finally, we note that \TrustChain{} is mainly built for the lightweight accounting of work in decentralized applications.
+In its current state, \TrustChain{} cannot capture more complicated operations, e.g., executing arbitrary logic like smart contracts.
 However, as demonstrated by recent research advancements, a lightweight accounting mechanism can be an enabling component to devise novel types of decentralized applications with dynamic risk guarantees~\cite{de2020xchange,de2019devid,de2018real}.
 
 % Limitations:
@@ -981,7 +981,7 @@ However, as demonstrated by recent research advancements, a lightweight accounti
 
 \section{System Architecture}
 \label{sec:system_architecture}
-We devise a system architecture of our \ModelName{} mechanism, see Figure~\ref{fig:system_architecture}).
+We devise a system architecture of our \TrustChain{} mechanism, see Figure~\ref{fig:system_architecture}).
 The network layer is the lowest layer in our architecture and provides the primitives for decentralised communication and peer discovery.
 This layer can be realised using existing frameworks to build peer-to-peer overlay networks, for example, libp2p.\footnote{See \url{https://libp2p.io}}
 
@@ -989,35 +989,35 @@ This layer can be realised using existing frameworks to build peer-to-peer overl
 The record manager interacts with the network layer to disseminate records and processes incoming ones.
 It queues incoming records for validation and persists incoming fraud proofs to the database and connected application.
 It also manages the confirmation of incoming and valid proposals targeted at that peer.
-Applications using \ModelName{} should provide a \emph{confirmation policy} that predicates whether an incoming proposal should be confirmed.
+Applications using \TrustChain{} should provide a \emph{confirmation policy} that predicates whether an incoming proposal should be confirmed.
 
 \textbf{Validator.}
 The validator determines the validity of incoming records according to the algorithms described in Section~\ref{sec:validation_logic}.
 Connection applications can provide a custom \emph{validation policy}.
 If provided, this validation policy is invoked during step 5, when the application-specific payload in a record is validated.
-The flexibility to provide custom validation and confirmation policies for incoming records makes \ModelName{} universal and reusable across different application domains.
+The flexibility to provide custom validation and confirmation policies for incoming records makes \TrustChain{} universal and reusable across different application domains.
 
 \textbf{Persistence.}
 Records and fraud proofs are persisted in a database.
-The \ModelName{} system architecture provides an interface for the queries made to the database and supports different database architectures, e.g., structured or unstructured models.
+The \TrustChain{} system architecture provides an interface for the queries made to the database and supports different database architectures, e.g., structured or unstructured models.
 Our system architecture includes a record \emph{cache}, which is an intermediary component that stores all records in the personal ledger of the operating peer in memory.
-This cache allows \ModelName{} to quickly respond to incoming record queries in the personal ledger of the operating peer.
+This cache allows \TrustChain{} to quickly respond to incoming record queries in the personal ledger of the operating peer.
 This cache forwards queries to the database for the retrieval and storage of records and fraud proofs.
 
-To contain the growth of the database and to keep the storage overhead manageable, an application can choose to periodically prune the \ModelName{} database when a storage threshold is reached.
+To contain the growth of the database and to keep the storage overhead manageable, an application can choose to periodically prune the \TrustChain{} database when a storage threshold is reached.
 In our implementation, by default, we start pruning when at least one million records have been stored.
 Applications may increase or decrease this number, depending on the storage capacities of participating peers and the deployment environment.
-The default pruning strategy of \ModelName{} continuously removes the record with the lowest database insertion timestamps until the database size has reached its storage threshold again.
+The default pruning strategy of \TrustChain{} continuously removes the record with the lowest database insertion timestamps until the database size has reached its storage threshold again.
 The pruning of older records might cause some forks to go undetected since records are removed before a fraud proof can be constructed.
-As we will show in Section~\ref{sec:fraud_detection_experiment}, most forks in \ModelName{} are quickly detected, and there should be ample time to detect inconsistencies before relevant records are pruned.
+As we will show in Section~\ref{sec:fraud_detection_experiment}, most forks in \TrustChain{} are quickly detected, and there should be ample time to detect inconsistencies before relevant records are pruned.
 
 \textbf{Fraud Management.}
-When the validation algorithm exposes fraud, or when \ModelName{} receives an incoming fraud proof, the connected applications are notified of the fraud and can punish the misbehaving peer accordingly.
+When the validation algorithm exposes fraud, or when \TrustChain{} receives an incoming fraud proof, the connected applications are notified of the fraud and can punish the misbehaving peer accordingly.
 For example, a fraud policy in a bandwidth sharing application could decide to not serve the fraudster for some time.
 The decentralised application store the digital identities of fraudsters in a local blacklist.
 
-\textbf{Interactions between \ModelName{} and Applications.}
-Decentralised applications interact with \ModelName{} through an API.
+\textbf{Interactions between \TrustChain{} and Applications.}
+Decentralised applications interact with \TrustChain{} through an API.
 This API allows connected applications to query the content of the database.
 Furthermore, connected applications can subscribe to incoming records.
 The record manager forwards new records to the API, which passes these records to subscribed applications.
@@ -1045,31 +1045,31 @@ The record manager forwards new records to the API, which passes these records t
 
 \section{Implementation and Evaluation}
 \label{sec:implementation_evaluation}
-Within this section we systematically explore how \ModelName{} behaves when modifying system parameters.
-%In the next section we observe how the full implementation of \ModelName{} behaves under real-world conditions and with real Internet users.
-We implement \ModelName{} in the Python 3 programming language.
+Within this section we systematically explore how \TrustChain{} behaves when modifying system parameters.
+%In the next section we observe how the full implementation of \TrustChain{} behaves under real-world conditions and with real Internet users.
+We implement \TrustChain{} in the Python 3 programming language.
 We leverage the network library implemented by our group, and use the UDP protocol for network communication.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Our implementation uses the \texttt{asyncio} framework for asynchronous event handling.
 The implementation features both an in-memory storage for experimentation and a persistent (sqlite) database which can be used to persist records over different sessions.
-The full implementation of \ModelName{}, including unit tests and documentation, is published on GitHub.\footnote{See \url{https://github.com/tribler/py-ipv8/tree/master/ipv8/attestation/trustchain}}
+The full implementation of \TrustChain{}, including unit tests and documentation, is published on GitHub.\footnote{See \url{https://github.com/tribler/py-ipv8/tree/master/ipv8/attestation/trustchain}}
 
 \subsection{Experiment Setup}
 We evaluate the impact of different parameters on the efficiency of fraud detection.
 We do so by measuring the time between committing the fraud and its initial detection.
 We substitute our networking layer with the SimPy discrete event simulator~\cite{matloff2008introduction}.
-Each peer in the \ModelName{} network knows the network address of 100 random other peers, resulting in an unstructured overlay topology.
+Each peer in the \TrustChain{} network knows the network address of 100 random other peers, resulting in an unstructured overlay topology.
 Table~\ref{tab:experiment_parameters} lists the default parameters during our experiments.
-To encourage reproducibility, we have open-sourced the \ModelName{} simulator and all experiment scripts.\footnote{See \url{https://github.com/tribler/trustchain-simulator-pysim}}
+To encourage reproducibility, we have open-sourced the \TrustChain{} simulator and all experiment scripts.\footnote{See \url{https://github.com/tribler/trustchain-simulator-pysim}}
 
 \textbf{Workload and Attack Model.}
 During our experiments, peers create records with other random peers.
 Our default workload has each peer initiate one proposal per second with another random peer.
 Note that the rate at which new records are created grows with the network size, which should capture the dynamics of real-world applications (when there are more peers, there is usually more work performed in the application).
-We use a uniform transaction load to analyse the characteristics of \ModelName{} under a predictable load.
+We use a uniform transaction load to analyse the characteristics of \TrustChain{} under a predictable load.
 Even though this transaction load is predictable, it resembles an application where work is periodically accounted.
 We experiment with network sizes ranging from 1'000 to 10'000 online peers.
-Though some deployed networks have many more peers (e.g., BitTorrent and Tor), our experimental results suggest that \ModelName{} has no issues scaling beyond 10'000 peers.
-In Section~\ref{subsec:realistic_workload}, we subject \ModelName{} to a realistic workload, extracted from the interactions in a decentralized file-sharing application.
+Though some deployed networks have many more peers (e.g., BitTorrent and Tor), our experimental results suggest that \TrustChain{} has no issues scaling beyond 10'000 peers.
+In Section~\ref{subsec:realistic_workload}, we subject \TrustChain{} to a realistic workload, extracted from the interactions in a decentralized file-sharing application.
 
 Each peer forks its personal ledger with a probability of 10\% by removing the last record in its personal ledger and re-using its sequence number to create a new record.
 Each peer commits this fraud once.
@@ -1091,7 +1091,7 @@ Finally, we consider the \texttt{PULL+RAND+PUSH} record exchange strategy, which
 	\centering
 	\begin{subfigure}{.8\columnwidth}
 		\centering
-		\includegraphics[width=\linewidth]{trustchain/assets/fraud_experiments_legend}
+		\includegraphics[width=.8\linewidth]{trustchain/assets/fraud_experiments_legend}
 	\end{subfigure}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
@@ -1127,7 +1127,7 @@ Finally, we consider the \texttt{PULL+RAND+PUSH} record exchange strategy, which
 
 \subsection{Scalability}
 \label{sec:fraud_detection_experiment}
-Our first experiment quantifies the scalability of \ModelName{} when increasing the number of peers in the network, see Figure~\ref{fig:scalability_experiments}.
+Our first experiment quantifies the scalability of \TrustChain{} when increasing the number of peers in the network, see Figure~\ref{fig:scalability_experiments}.
 Figure~\ref{fig:experiment_scalability_detection_times} shows the effect of increasing the number of peers on the average time until fraud detection, for the four discussed record exchange strategies.
 For all record exchange strategies, the average fraud detection time seems to increase when the network size grows.
 For $ n = 10'000 $, the \texttt{PULL} strategy shows an average fraud detection time of 63.5 seconds, whereas this number decreases to 3.6 seconds under the \texttt{PULL+RAND+PUSH} strategy.
@@ -1138,7 +1138,7 @@ For $ n = 10'000 $, the average fraud detection time decreases from 63.5 seconds
 
 In Figure~\ref{fig:experiment_scalability_ecdf_detection_times}, we show the Empirical Cumulative Distribution Function (ECDF) of fraud detection times for $ n = 5'000 $.
 We observe that it can take several minutes for some fraud attempts to be discovered, in particular for the \texttt{PULL} and \texttt{PULL+RAND} strategies.
-This is not unexpected since fraud detection in \ModelName{} is a highly probabilistic approach.
+This is not unexpected since fraud detection in \TrustChain{} is a highly probabilistic approach.
 For the \texttt{PULL} strategy, we can detect 90\% of fraud attempts within 160 seconds and 50\% of the fraud attempts within 30 seconds.
 We also observe that the vast majority of fraud is detected within a few seconds when pushing random records after creation.
 82.9\% of all fraud attempts are detected within five seconds for the \texttt{PULL+RAND+PUSH} strategy.
@@ -1147,8 +1147,8 @@ Figure~\ref{fig:experiment_scalability_bandwidth} shows the average network usag
 The \texttt{PULL} strategy requires less than 10 KB per second of network usage.
 Compared to the \texttt{PULL} strategy, the \texttt{PULL+RAND+PUSH} strategy requires more than three times as much bandwidth, around 35 KB per second.
 Note how the network usage remains roughly the same for all considered record exchange strategies as we add more peers to the experiment.
-Figure~\ref{fig:experiment_scalability_bandwidth} also shows that it is feasible to deploy \ModelName{} in consumer-grade network environments.
-System designers can decrease the network usage of \ModelName{} even more by lowering the crawl interval or crawl batch size, at the cost of increased fraud detection times.
+Figure~\ref{fig:experiment_scalability_bandwidth} also shows that it is feasible to deploy \TrustChain{} in consumer-grade network environments.
+System designers can decrease the network usage of \TrustChain{} even more by lowering the crawl interval or crawl batch size, at the cost of increased fraud detection times.
 
 Not all fraud has been detected after our experiment has ended.
 Figure~\ref{fig:experiment_scalability_num_detected} shows the percentage of fraud attempts that has been detected after the experiment has ended, for an increasing number of peers and different record exchange strategies.
@@ -1194,15 +1194,15 @@ These attempts would likely be discovered when prolonging the experiment duratio
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.9\linewidth]{trustchain/assets/fraud_times_send_failure}
+	\includegraphics[width=.8\linewidth]{trustchain/assets/fraud_times_send_failure}
 	\caption{The effect of packet loss on the average fraud detection times, for different record exchange strategies.}
 	\label{fig:fraud_times_link_failures}
 \end{figure}
 
 \subsection{Packet Loss}
-We reveal the robustness of \ModelName{} by quantifying the effect of packet loss on the efficiency of fraud detection.
+We reveal the robustness of \TrustChain{} by quantifying the effect of packet loss on the efficiency of fraud detection.
 To this end, we increase the packet loss rate, up to 20\%, and run our simulations under our four record exchange strategies.
-Even though a packet loss rate of 20\% is unlikely for any environment in which \ModelName{} is to be deployed, we want to estimate how robust \ModelName{} is, even in such extreme circumstances.
+Even though a packet loss rate of 20\% is unlikely for any environment in which \TrustChain{} is to be deployed, we want to estimate how robust \TrustChain{} is, even in such extreme circumstances.
 We expect fraud detection times to increase when network stability is lower since losing packets makes it less likely to detect inconsistencies.
 
 Figure~\ref{fig:fraud_times_link_failures} shows the average fraud detection times when increasing the packet loss rate for our four record exchange strategies.
@@ -1244,15 +1244,15 @@ However, we believe that the effect of additional back-pointers becomes more app
 \subsection{Fraud Detection Times under a Realistic Workload}
 \label{subsec:realistic_workload}
 Our experiments conducted so far are using a synthetic workload.
-We now evaluate the effectiveness of fraud detection in \ModelName{} of our four considered record exchange strategies using a realistic workload.
-This workload is derived from deployment data of \ModelName{} in \Tribler{}, our decentralized file-sharing application.
+We now evaluate the effectiveness of fraud detection in \TrustChain{} of our four considered record exchange strategies using a realistic workload.
+This workload is derived from deployment data of \TrustChain{} in \Tribler{}, our decentralized file-sharing application.
 An interaction describes network communication between two peers in a Tor-like overlay.
 We provide further details on this dataset in Section~\ref{sec:deployment}.
 The following experiment replays interactions made during the busiest 24 hours of our deployment period: November 28, 2020.
 On this particular day, a total of 440'130 records have been created, involving 2'027 digital identities.
 In the following experiment, we simulate a peer for each digital identity.
 In line with our prior experiments, each peer commits fraud with a probability of 10\% when creating a new record.
-To match the \ModelName{} settings in our deployed environment (see Section~\ref{sec:deployment}), we increase the record request interval to 10 seconds.
+To match the \TrustChain{} settings in our deployed environment (see Section~\ref{sec:deployment}), we increase the record request interval to 10 seconds.
 
 We noticed that all fraud instances have been detected after our experiment ends.
 The average fraud detection time for the \texttt{PULL} strategy is just 29.4 seconds whereas this number decreases to 18.5 seconds for the \texttt{PULL+RAND+PUSH} strategy.
@@ -1264,37 +1264,37 @@ During this experiment, we also see that the network usage per peer is relativel
 For the \texttt{PULL} strategy, each peer, on average, consumes merely 1.7 MB of hourly network traffic.
 This number increases to 5.1 MB under the \texttt{PULL+RAND+PUSH} strategy.
 
-This experiment shows that \ModelName{}, under a realistic workload of \Tribler{} interactions, exhibit relatively low fraud detection times and has low network usage.
-As we have also measured during our deployment trial (see Section~\ref{sec:deployment}), the resource overhead of \ModelName{} is minimal.
+This experiment shows that \TrustChain{}, under a realistic workload of \Tribler{} interactions, exhibit relatively low fraud detection times and has low network usage.
+As we have also measured during our deployment trial (see Section~\ref{sec:deployment}), the resource overhead of \TrustChain{} is minimal.
 For \Tribler{}, the fraud detection times shown in Figure~\ref{fig:fraud_times_realistic_dataset} are acceptable.
 However, as we have also shown in our other experiments, these detection times can further be improved with more frequent record crawling.
 
 \subsection{Discussion}
-In summary, our experiments demonstrate that \ModelName{} exhibits low fraud detection times, scales when the network grows, has reasonable bandwidth overhead, and is robust against packet loss.
+In summary, our experiments demonstrate that \TrustChain{} exhibits low fraud detection times, scales when the network grows, has reasonable bandwidth overhead, and is robust against packet loss.
 We have also demonstrated the effect of the number of back-pointers in each record on the efficiency of fraud detection.
-Finally, we have shown that \ModelName{} remains effective at detecting fraud when using a realistic workload.
-Even though we have not evaluated the effect of all parameters in Table~\ref{tab:experiment_parameters}, we believe that this set of experiments provides a good starting point for system designers to adopt and configure \ModelName{}.
+Finally, we have shown that \TrustChain{} remains effective at detecting fraud when using a realistic workload.
+Even though we have not evaluated the effect of all parameters in Table~\ref{tab:experiment_parameters}, we believe that this set of experiments provides a good starting point for system designers to adopt and configure \TrustChain{}.
 With our open-source simulator, system designers can quickly analyse the effect of different parameters, guided by a synthetic or realistic workload that resembles the behaviour in their application.
 
 We have demonstrated that there is a trade-off between the average fraud detection times and network usage.
 The acceptable network usage differs per applications.
 For example, bandwidth is less likely to be a bottleneck when considering a video streaming application compared to an Internet-of-Things environment with low-resource devices.
-By reducing the record request intervals, fanout value, and the maximum number of back-pointers, one can reduce the bandwidth footprint of \ModelName{}, at the cost of increased fraud detection times.
+By reducing the record request intervals, fanout value, and the maximum number of back-pointers, one can reduce the bandwidth footprint of \TrustChain{}, at the cost of increased fraud detection times.
 Figure~\ref{fig:experiment_scalability_bandwidth} shows that the active record exchange strategy has a notable impact on network usage.
 In a dynamic network where the sessions of peers are short-lived, we recommend the \texttt{PULL+RAND} or \texttt{PULL+RAND+PUSH} strategies, where peers share random records in their database with others.
 This strategy allows the detection of fraud attempts of offline peers.
 We recommend the \texttt{PULL+RAND+PUSH} strategy when fraud must  be detected quickly.
 We recommend the \texttt{PULL} strategy when bandwidth is a limiting factor.
 
-\section{Applying \ModelName{} to Address Free-riding at Scale}
+\section{Applying \TrustChain{} to Address Free-riding at Scale}
 \label{sec:deployment}
-To show the effectiveness of \ModelName{} with a real-world application, we conduct a large-scale deployment trial of \ModelName{} with \Tribler{}.
+To show the effectiveness of \TrustChain{} with a real-world application, we conduct a large-scale deployment trial of \TrustChain{} with \Tribler{}.
 \Tribler{} is our decentralized file-sharing application and is downloaded by over 1.8 million users~\cite{pouwelse2008tribler}.
 This application features an onion-routing overlay that tunnels BitTorrent traffic through \emph{relay and exit nodes} to provide anonymity.
 Unfortunately, the \Tribler{} network suffers from an undersupply of exit nodes, leading to frequent network congestions and overall degradation of download speeds for all users.
-We employ \ModelName{} to account the performed work by relay and exit nodes, and the consumed work by downloaders.
+We employ \TrustChain{} to account the performed work by relay and exit nodes, and the consumed work by downloaders.
 We then punish free-riding behaviour by offering users with higher net contributions preferential treatment during periods of congestion.
-In the remainder of this section, we elaborate on the integration of \ModelName{} in Tribler, on the collected data, and on the effectiveness of free-riding detection.
+In the remainder of this section, we elaborate on the integration of \TrustChain{} in Tribler, on the collected data, and on the effectiveness of free-riding detection.
 
 \begin{figure}[t]
 	\centering
@@ -1305,7 +1305,7 @@ In the remainder of this section, we elaborate on the integration of \ModelName{
 
 \subsection{Accounting Bandwidth Transfers}
 We enable peers to earn \emph{bandwidth tokens} by providing services as a relay or exit node in the \Tribler{} network.
-The mutations in bandwidth token balances of each peer is accounted in \ModelName{} records.
+The mutations in bandwidth token balances of each peer is accounted in \TrustChain{} records.
 For example, a payout corresponding to a data exchange of a 50 MB file between peers $ a $ and $ b $ deduces 50 MB of $ a $'s balance and increments $ b $'s balance by 50 MB (MB is the unit of this bandwidth token).
 Peers can have a negative balance of bandwidth tokens, in which case they have received more traffic than they contributed to the network.
 
@@ -1313,7 +1313,7 @@ When a peer downloads content using \Tribler{}, the \Tribler{} software establis
 This is comparable to circuits in the Tor protocol.
 All traffic is securely routed through relay and exit nodes.
 Figure~\ref{fig:payouts} shows how bandwidth tokens are paid out after a peer has downloaded a 50 MB file over a three-hop circuit (with two relay nodes and one exit node).
-The downloader accounts a transfer of 250 MB to the first relay using \ModelName{}.
+The downloader accounts a transfer of 250 MB to the first relay using \TrustChain{}.
 Specifically, the downloader creates a proposal record, containing the pair-wise byte counter with the first relay and the magnitude of the current payout.
 In the latest version of \Tribler{}, newly created records are by default disseminated to 20 random peers.
 Each peer also requests a random record from another known peer every 10 seconds.
@@ -1322,12 +1322,12 @@ During our deployment period, we have periodically revised the record exchange s
 After the downloader has finished the payout to the first relay, the first relay then transfers 150 MB to the next relay, resulting in a net positive token balance of 100 MB for the first relay.
 The rationale behind our payout scheme is that we reward relay and exit nodes for performing the cryptographic operations on the forwarded data.
 Relays that do not forward the payout to the next hop will be added to the local blacklist by the previous hop, therefore lowering their opportunity to earn bandwidth tokens.
-%The payload in \ModelName{} records contains both the token amount transferred and the current token balance of the peer.
+%The payload in \TrustChain{} records contains both the token amount transferred and the current token balance of the peer.
 
 Since this use-case involves anonymous downloading, there is an important trade-off between accountability and anonymity.
 We plan to address privacy concerns around the accounting of bandwidth transfers by having each peer aggregate and delay payouts.
 This privacy-enhancing technique is introduced in the work of Palmieri et al.~\cite{palmieri2015paying}.
-Still, work accounting with \ModelName{} does not leak the identity of a downloader to other peers in the network, nor reveals any data being transferred over circuits.
+Still, work accounting with \TrustChain{} does not leak the identity of a downloader to other peers in the network, nor reveals any data being transferred over circuits.
 To address the uncontrolled minting of bandwidth tokens by accounting fake work, we are currently looking into the design and deployment of a Sybil-resistant reputation mechanism~\cite{otte2017trustchain}.
 
 \begin{algorithm}[!t]
@@ -1377,7 +1377,7 @@ To address the uncontrolled minting of bandwidth tokens by accounting fake work,
 \end{algorithm}
 
 \subsection{Circuit Assignment}
-We use the bandwidth token balances included in \ModelName{} records to grant preferential treatment to dedicated peers during periods of congestion.
+We use the bandwidth token balances included in \TrustChain{} records to grant preferential treatment to dedicated peers during periods of congestion.
 Specifically, we modify the \Tribler{} protocol such that each relay and exit nodes maintain a fixed number of \emph{slots}.
 A circuit that includes a relay or exit nodes consumes one slot at their side.
 We distinguish between \emph{random} and \emph{competitive} slots.
@@ -1411,19 +1411,19 @@ We consider the analysis of different allocation policies, e.g., using a packet-
 \end{figure}
 
 \subsection{Data Collection}
-We integrate both \ModelName{} and the slot assignment logic in \Tribler{} and release a new version of our software.
-We also deploy a crawler that continuously requests \ModelName{} records from random peers in the \Tribler{} network.
-This crawler selects a random peer in the \ModelName{} network every two seconds and requests missing records in their personal ledger.
+We integrate both \TrustChain{} and the slot assignment logic in \Tribler{} and release a new version of our software.
+We also deploy a crawler that continuously requests \TrustChain{} records from random peers in the \Tribler{} network.
+This crawler selects a random peer in the \TrustChain{} network every two seconds and requests missing records in their personal ledger.
 The crawler statistics are published on a public website.\footnote{See \url{http://explorer.tribler.org}}
 A deployment period of two years has resulted in more than \TrialRecords{} records, created by over \TrialUsers{} peers.
 The crawler stores collected records in a sqlite database that is enhanced with additional indices to speed up insertion and analysis queries.
 The file size of the database with all collected records is around 120GB, and we plan on releasing the full data set later.
 Our crawler discovered 127'135 proofs of fraud.
-We also find that 11.4\% of all collected proposals in the deployed \ModelName{} network is unconfirmed.
+We also find that 11.4\% of all collected proposals in the deployed \TrustChain{} network is unconfirmed.
 This fraction of unconfirmed proposals is either because the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
 
-Deploying a crawler and monitoring the records created by \ModelName{} allows us to detect anomalies caused by software bugs or unexpected user behaviour.
-It also provides us with the means to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \ModelName{} network.
+Deploying a crawler and monitoring the records created by \TrustChain{} allows us to detect anomalies caused by software bugs or unexpected user behaviour.
+It also provides us with the means to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \TrustChain{} network.
 We have also included a creation timestamp in the payload of each record created with \Tribler{}, allowing us to perform a time-based analysis.
 
 Figure~\ref{fig:record_creation} shows the daily number of created proposal records.
@@ -1448,7 +1448,7 @@ Despite these outages, users would still perform payouts when downloading direct
 \end{figure}
 
 \subsection{Free-rider Identification and Service Refusal}
-To show the effect of \ModelName{} and our slot assignment mechanism on free riders, we deploy 48 exit nodes in the \Tribler{} network, running on the same machine.
+To show the effect of \TrustChain{} and our slot assignment mechanism on free riders, we deploy 48 exit nodes in the \Tribler{} network, running on the same machine.
 Each exit node is configured with a total of 10 random slots and 20 competitive slots, resulting in a total of 1'440 slots.
 We determined this number of random and competitive slots based on the hardware capacity of our machine.
 We are specifically interested in the situation when a peer is unable to claim a slot, due to their bandwidth token balance being insufficient.
@@ -1466,8 +1466,8 @@ Changing the default behaviour to use 2-hop downloads could alleviate this issue
 Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low (e.g., $ < $ 50 GB) are frequently rejected a slot.
 The median token balance associated with reject events is -181.4 GB, demonstrating that our mechanism effectively targets peers with lower bandwidth token balances.
 The slots claimed by free-riders will likely go to dedicated peers when the network is congested.
-This deployment trial shows that \ModelName{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.
-The integration of \ModelName{} has increases network performance and helps to maintain fairness amongst downloading users.
+This deployment trial shows that \TrustChain{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.
+The integration of \TrustChain{} has increases network performance and helps to maintain fairness amongst downloading users.
 
 %\begin{figure}[t]
 %	\centering
@@ -1483,14 +1483,14 @@ The integration of \ModelName{} has increases network performance and helps to m
 %	\label{fig:balances_scatter}
 %\end{figure}
 
-\section{Conclusion}
-We have presented \ModelName{}, a universal accounting mechanism to maintain fairness in decentralized applications by accounting work.
-The \ModelName{} data structure uses records to capture the work performed by peers.
+\section{Conclusions}
+We have presented \TrustChain{}, a universal accounting mechanism to maintain fairness in decentralized applications by accounting work.
+The \TrustChain{} data structure uses records to capture the work performed by peers.
 Each peer maintains a tamper-evident personal ledger with interlinked records.
 Fraud, the illegitimate modification of a record in ones personal ledger, is optimistically detected through the random exchange of records and thorough validation of incoming ones.
-We have devised a system architecture of \ModelName{} and implemented it.
-Our evaluation has demonstrated that \ModelName{} is capable of detecting fraud within seconds, even when the network grows to 10'000 peers and when scaling the system load.
-Through a two-year deployment trial of \ModelName{} in \Tribler{}, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
+We have devised a system architecture of \TrustChain{} and implemented it.
+Our evaluation has demonstrated that \TrustChain{} is capable of detecting fraud within seconds, even when the network grows to 10'000 peers and when scaling the system load.
+Through a two-year deployment trial of \TrustChain{} in \Tribler{}, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
 
-We envision and encourage the usage of \ModelName{} beyond work accounting in decentralized applications.
-Currently, \ModelName{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2020xchange,de2019devid,stokkink2018deployment}.
+We envision and encourage the usage of \TrustChain{} beyond work accounting in decentralized applications.
+Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2020xchange,de2019devid,stokkink2018deployment}.
