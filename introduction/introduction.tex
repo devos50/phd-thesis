@@ -700,15 +700,14 @@ The content and contributions in each chapter are as follows:\\
 \textbf{[Chapter 2] ConTrib: Preventing Free-riding Behaviour with Universal Resource Accounting.}
 In this chapter, we address RQ1 and build a mechanism for the accounting of information.
 To date, there is no accounting mechanism that is optimized to small pieces of information in large-scale shared-resource systems.
-We present \TrustChain{}, a scalable mechanism for micro-accounting of community interactions.
-Each individual in \TrustChain{} maintains a \emph{personal ledger} of tamper-evident \emph{micro-records}.
-Micro-records can point to other ones and can be agreed on by other users, resulting in a DAG structure.
-Manipulation, specifically the forking of ones personal ledger, can be efficiently detected since users continuously share and validate micro-records.
+We present \TrustChain{}, a scalable mechanism for accounting of interactions within a decentralized network.
+Each individual in \TrustChain{} maintains a \emph{personal ledger} of tamper-evident \emph{records}.
+Records can point to other ones and can be agreed on by other users, resulting in a global DAG structure.
+Fraud, the illegitimate modification of a record, is effectively detected since users continuously share and validate records.
 We devise a system architecture with flexible validation and fraud policies.
-We remark that this particular kind of fraud differs from fraud that occurs during settlement.
-Our evaluation reveals that that fraud is detected within mere 25 seconds and that \TrustChain{} scales to at least 130'000 micro-records per second.
-We leverage \TrustChain{} for bandwidth accounting in our Tor-like overlay and show how free-riders are detected.
-This deployment trial has resulted in over 125 million micro-records, created by more than \TrialUsers{} volunteers.
+Our evaluation reveals that \TrustChain{} is highly scalable, tolerates packet loss and exhibits relatively low fraud detection times.
+We leverage \TrustChain{} for bandwidth accounting in the \Tribler{} application and successfully address free-riding behaviour.
+Our two-year deployment trial has resulted in over \TrialRecords{} million records, created by more than \TrialUsers{} Internet volunteers.
 We leverage the accounting capabilities of \TrustChain{} for several of the other mechanisms in this thesis, namely XChange, Internet-of-Money, and DevID.
 This chapter is based on the following two publications:
 
