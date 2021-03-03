@@ -625,12 +625,12 @@ Our goal is to build a platform to unify these credentials without data storage 
 	\centering
 	\begin{tabular}{ |c|c|c|c| }
 		\hline
-		\textbf{RQ} & \textbf{Mechanism} & \textbf{DAS5 experiments?} & \textbf{Deployment} \\ \hline
-		1 & \TrustChain{} & yes & integration in Tribler \\ \hline
-		2 & MATCH & yes & integration in Tribler \\ \hline
-		3 & XChange & yes & integration in Tribler \\ \hline
-		4 & Internet-of-Money & yes & in-house testing \\ \hline
-		5 & DevID & no & user trial \\ \hline
+		\textbf{RQ} & \textbf{Mechanism} & \textbf{Experiments} & \textbf{Deployment} \\ \hline
+		1 & \TrustChain{} & DAS5 + simulations & integration in Tribler \\ \hline
+		2 & MATCH & DAS5 & integration in Tribler \\ \hline
+		3 & XChange & DAS5 + simulations & integration in Tribler \\ \hline
+		4 & Internet-of-Money & DAS5 & in-house testing \\ \hline
+		5 & DevID & - & user trial \\ \hline
 	\end{tabular}
 	\caption{An overview of research methods for each mechanism introduced in this thesis.}
 	\label{table:research_methodology}
@@ -642,27 +642,28 @@ Blockchain is a relatively young technology of which research is conducted in ec
 We identify two main research approaches in this field.
 On the one hand, published blockchain research in systems-oriented conferences adopts experimental methods where the performance of proposed mechanisms is evaluated using a comprehensive set of experiments and benchmarks.
 On the other hand, there is a vast body of theoretical research on the security aspects of distributed ledgers and their consensus algorithms.
-This body of research tends to follow a theoretical approach through the use of bound analysis, formal proofs or protocol simulations.
+This body of research tends to follow a theoretical approach through bound analysis, formal proofs or protocol simulations.
 
-In this thesis, we adopt an experimental approach where we answer each research question by designing, implementing and evaluating a decentralized system or mechanism.
+In this thesis, we adopt an experimental approach where we answer each research question by designing, implementing and evaluating a decentralized mechanism that targets different aspects of blockchain-based marketplaces.
 %We then systematically evaluate the appropriate properties of each mechanism (e.g., scalability), and if feasible, we deploy our mechanisms to users to analyse our system in a real-world environment.
-For all of our proposed mechanisms, our goal is to build a solution that is ready for deployment and usable by end users.
+For all of our proposed mechanisms, our primary objective is to build a solution that is ready for deployment and usable by end users.
 We have implemented each mechanism in the Python programming language, usually within a few thousand lines of code.
 We utilize an existing library for networking primitives, fully developed by our lab.\footnote{See \url{https://github.com/tribler/py-ipv8}}
-Table~\ref{table:research_methodology} specifies for each mechanism whether we present a set of experiments on our nation-wide compute cluster (the DAS5~\cite{bal2016medium}) and how we have conducted our deployment.
-Except for DevID, we evaluate each system with an appropriate set of experiments that have been conducted on the DAS5.
+Table~\ref{table:research_methodology} lists for each mechanism how we have evaluated and deployed it.
+Except for DevID, we evaluate each mechanism with an appropriate set of experiments using our nation-wide compute cluster (the DAS5~\cite{bal2016medium}).
+We have also evaluated the \TrustChain{} and XChange using simulations.
+These simulations enables us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces (e.g., we evaluate the XChange mechanism by replaying a week of buy and sell orders).
 
 Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of colleagues or with an integration in the Tribler application~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic research vehicle and offers decentralized, anonymous file-sharing capabilities.
 Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer-grade hardware.
-For example, we have integrated TrustChain in Tribler to prevent free-riding behaviour in our anonymous peer-to-peer overlay.
-This two-year deployment period of TrustChain has allowed us to incrementally improve our software and refine our ideas.
+For example, we have integrated \TrustChain{} in \Tribler{} to prevent free-riding behaviour in our anonymous peer-to-peer overlay.
+This two-year deployment period of \TrustChain{} has allowed us to incrementally improve our accounting mechanism and refine our ideas.
 We attempt to make our research reproducible by publishing the implementation of each mechanism, including documentation and unit tests, on GitHub.\footnote{Links to the implementation are provided in the remaining chapters of this thesis.}
-Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms in our Internet-of-Money mechanism.
+Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms associated with our Internet-of-Money mechanism.
 
 The complexity of real-world systems often posed a challenge when deploying our mechanisms.
-For example, shortly after the initial deployment of the MATCH mechanism in Tribler (see Chapter~\ref{chapter:match}), students forged a specific packet that would crash a Tribler instance.
-Specifically, we forgot to check whether the timeout value of an order was within a valid range.
+For example, shortly after the initial deployment of the MATCH mechanism in \Tribler{} (see Chapter~\ref{chapter:match}), students forged a specific packet that would crash a Tribler instance that received it.
 Tribler would forward the packet to other connected peers before crashing.
 Therefore, this bug affected a large part of our network and we were forced to deployed a fix for this behaviour by releasing a new version of Tribler.
 Despite the large efforts required to get a system deployed and operational, this process has been tremendously helpful in discovering both critical design flaws and minor implementation errors.
@@ -693,6 +694,7 @@ Despite the large efforts required to get a system deployed and operational, thi
 \section{Thesis Outline and Contributions}
 In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
 Figure~\ref{fig:thesis_overview} shows the mechanisms introduced in this thesis, and visualizes the aspect(s) that each mechanism relates to.
+We do note that fraud in Figure~\ref{fig:thesis_overview} specifically refers to the act of committing counterparty fraud during a trade.
 The content and contributions in each chapter are as follows:\\
 
 \textbf{[Chapter 2] ConTrib: Preventing Free-riding Behaviour with Universal Resource Accounting.}
