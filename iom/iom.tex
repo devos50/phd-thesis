@@ -38,7 +38,7 @@ In the past, people were required to trust a central bank and a host of other in
 The fundamental technology of Bitcoin, blockchain, radically reduced the need to trust financial middlemen.
 It bootstrapped an economy where no one can be stopped from spending their money.
 Despite widespread speculation and ecosystems being worth billions, blockchain in general suffers from scalability issues due to inefficient mechanisms for fraud prevention.
-Bitcoin is theoretically limited to seven transactions per second and Ethereum has a throughput of around 20 transactions per second~\cite{vukolic2015quest}.
+Bitcoin is theoretically limited to seven transactions per second and Ethereum has a throughput of around twenty transactions per second~\cite{vukolic2015quest}.
 Despite various scalability efforts like proof-of-stake and sharding, broader adoption of blockchain stays out.
 %Broader adoption is limited since blockchain applications are fragmented with low interoperability.
 
@@ -164,7 +164,7 @@ Second, building and maintaining an interaction history on multiple platforms si
 Users are increasingly being protected from such data silos by regulation~\cite{koops2014trouble}.
 Our aim is to devise a decentralized and generic reputation mechanism. %, not governed by a single entity.
 
-A mature research community exists around the design of decentralized reputation systems~\cite{delaviz2012sybilres}\cite{kamvar2003eigentrust}\cite{srivatsa2005trustguard}.
+A mature research community exists around the design of decentralized reputation systems~\cite{delaviz2012sybilres,kamvar2003eigentrust,srivatsa2005trustguard}.
 A notorious attack in decentralized systems occurs when a user first builds a high reputation by acting honest for some time and then abuses this accumulated trust for personal enrichment.
 This is also called the \enquote{pump and dump} method.
 Another challenging attack in decentralized networks is the Sybil Attack, where an individual creates multiple fake identities and initiate transactions with them to increase his or her standing in the community~\cite{douceur2002sybil}.
@@ -277,7 +277,7 @@ However, international payments with Transferwise can still take a few days to c
 
 In the remainder of this work, we elaborate our trust model and technical specifications of money routing.
 This includes an overlay network where any individual is able to quickly route money between bank accounts.
-A screenshot of our built Android application is shown in Figure \ref{fig:android_app}\footnote{Android mobile application:http://www.ds.ewi.tudelft.nl/fileadmin/pds\\/homepages/vos/iom/iom.apk}.
+A screenshot of our built Android application is shown in Figure \ref{fig:android_app}.
 The mobile application allows interfacing with different banks and the initiation of real-time payments using our overlay network.
 
 %We implemented this idea and built an Android application, capable of communicating with different banks.
@@ -304,23 +304,23 @@ The mobile application allows interfacing with different banks and the initiatio
 
 %Throughout the remainder of this work, we will elaborate on trust estimation of money routers, fraud detection and discovery of eligible intermediaries.
 
-\begin{figure*}[t]
+\begin{figure*}[b]
 	\centering
-	\begin{subfigure}[t]{.33\textwidth}
+	\begin{subfigure}{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.35\linewidth]{iom/assets/trustchain_tutorial_1}
 		\caption{A transaction (\emph{Tx}) between two users ($ A $ and $ B $), with two digital signatures.}
 		\label{fig:trustchain_tutorial_1}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.33\textwidth}
+	\end{subfigure}
+	\begin{subfigure}{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=\linewidth]{iom/assets/trustchain_tutorial_2}
 		\caption{A blockchain of transactions. Each record in the chain points back to the previous one.}
 		\label{fig:trustchain_tutorial_2}
-	\end{subfigure}%
-	\begin{subfigure}[t]{.33\textwidth}
+	\end{subfigure}\vspace{0.3cm}%
+	\begin{subfigure}{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{iom/assets/trustchain_tutorial_3}
@@ -331,9 +331,9 @@ The mobile application allows interfacing with different banks and the initiatio
 	\label{fig:trustchain_tutorial}
 \end{figure*}
 
-\begin{figure}[t]
+\begin{figure}[b]
 	\centering
-	\includegraphics[width=.8\linewidth]{iom/assets/trustchain}
+	\includegraphics[width=.9\linewidth]{iom/assets/trustchain}
 	\caption{The tamper-proof Trustchain data structure to record transactions.}
 	\label{fig:trustchain}
 \end{figure}
@@ -616,13 +616,6 @@ All these experiments are conducted with real bank accounts and real money.
 	\label{fig:intrabank_speed}
 \end{figure}
 
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=.7\linewidth]{iom/assets/router_discovery_times}
-	\caption{Performance of router discovery under a varying number of maximum hops in a money circuit.}
-	\label{fig:router_discovery_times}
-\end{figure}
-
 \subsubsection*{Settlement duration of in-house payments}
 \label{sec:settlement_inhouse_experiment}
 %We determine the settlement duration of in-house payments. %performed within the same bank.
@@ -638,6 +631,13 @@ When performing measurements for the Rabobank, we observed a notable outlier wit
 This observation can be explained if we assume that similar internal payments might be handled in different ways by the Rabobank.
 This experiment demonstrates that in-house payments are usually settled within seconds.
 %An interesting observation is that Rabobank payments show a relative high variance in settlement duration, with a notable outlier of 320 milliseconds.
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=\linewidth]{iom/assets/speedball}
+	\caption{Timeline of an international fast payment from Rabobank to ABN AMRO, using two money routers.}
+	\label{fig:speedball_experiment}
+\end{figure*}
 
 \subsubsection*{International Real-time Money Routing}
 Next, we focus on the performance of an international fast payment and measure the duration of a money transfer from Rabobank to ABN AMRO, using two money routers.
@@ -659,20 +659,6 @@ The average time that a transaction is in transit is 3.02 seconds.
 The total time to perform a fast payment is heavily influenced by the type and number of intermediate routers.
 This experiment demonstrates that Internet-of-Money is capable of real-time money routing to other banks.
 
-\begin{figure}[!t]
-	\centering
-	\includegraphics[width=.7\linewidth]{iom/assets/fraud_experiment}
-	\caption{The effectiveness of fraud prevention, with different risk mitigation strategies.}
-	\label{fig:fraud_experiment}
-\end{figure}
-
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=0.84\linewidth]{iom/assets/speedball}
-	\caption{Timeline of an international fast payment from Rabobank to ABN AMRO, using two money routers.}
-	\label{fig:speedball_experiment}
-\end{figure*}
-
 \subsection{Overlay Evaluation}
 The purpose of the following experiments is to quantify the performance of our money router overlay.
 This includes an evaluation of our trust model and effectiveness of fraud detection.
@@ -687,6 +673,13 @@ All code used during these experiments is open source\footnote{https://github.co
 Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, simulated accounts are used during this experiment.
 We assume a total of five different banks and devised a basic RESTful banking server that handles account creation, payments, balance queries and mutation requests.
 Distribution of bank accounts amongst users follows the data as published in the NGData customer banking survey (we assume that every user owns at least one bank account)~\cite{ngdata2014consumer}.
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=.8\linewidth]{iom/assets/router_discovery_times}
+	\caption{Performance of router discovery under a varying number of maximum hops in a money circuit.}
+	\label{fig:router_discovery_times}
+\end{figure}
 
 \subsubsection*{Router Discovery}
 \label{sec:router_discovery_evaluation}
@@ -705,6 +698,13 @@ However, the differences are marginal.
 In general, router discovery happens fast: 50\% of all users are able to make fast payments to all banks within 25 seconds after the experiment starts.
 40 seconds into the experiment, this percentage increased to 90\%.
 Note that it takes longer before \emph{all} users are fully connected using at most one intermediate router: 140 seconds.
+
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=.8\linewidth]{iom/assets/fraud_experiment}
+	\caption{The effectiveness of fraud prevention, with different risk mitigation strategies.}
+	\label{fig:fraud_experiment}
+\end{figure}
 
 \subsubsection*{Fraud Detection}
 \label{sec:fraud_experiment}
@@ -818,7 +818,7 @@ In comparison, Internet-of-Money is built upon existing, proven infrastructure, 
 
 % Sybil resistance of reputation mechanisms
 
-\begin{figure}[h]
+\begin{figure}[t]
 	\centering
 	\includegraphics[width=1\textwidth]{iom/assets/internet_of_money_network.png}
 	\caption{Fast international money transfers and currency conversion using Internet-of-Money. Distinct money circuits are indicated by different arrow styles.}

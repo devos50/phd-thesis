@@ -766,14 +766,14 @@ We assume that cryptographic protocols are secure and that the computational pow
 		\includegraphics[width=\linewidth]{match/assets/matching_protocol_1}
 		\caption{Order creation and dissemination.}
 		\label{fig:matching_protocol_1}
-	\end{subfigure}
-	\begin{subfigure}{.5\columnwidth}
+	\end{subfigure}\vspace{0.5cm}
+	\begin{subfigure}{.45\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/matching_protocol_2}
 		\caption{Order negotiation.}
 		\label{fig:matching_protocol_2}
-	\end{subfigure}
-	\begin{subfigure}{.7\columnwidth}
+	\end{subfigure}\vspace{0.5cm}
+	\begin{subfigure}{.65\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/matching_protocol_3}
 		\caption{Match execution and order updates}
@@ -788,12 +788,12 @@ We assume that cryptographic protocols are secure and that the computational pow
 We visualize the MATCH protocol and the message exchange between users and matchmakers in Figure~\ref{fig:match_data_flow}.
 The key idea behind our protocol is matchmakers only inform users about matches, and that users negotiate a trade directly with counterparties.
 %In summary, the protocol proceeds as f.
-First, users send new offers and requests to one or more matchmakers (\textcircled{1} + \textcircled{2}).
-Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (\textcircled{3}).
+First, users send new offers and requests to one or more matchmakers (\circled{1} + \circled{2}).
+Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (\circled{3}).
 Users aggregate potential matches of a specific order in a match queue.
-Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (\textcircled{4}), starting with the best match, and negotiates with the user behind the matched order (\textcircled{5} - \textcircled{7}).
-When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (\textcircled{8} + \textcircled{9}).
-The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (\textcircled{10} + \textcircled{11}).
+Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (\circled{4}), starting with the best match, and negotiates with the user behind the matched order (\circled{5} - \circled{7}).
+When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (\circled{8} + \circled{9}).
+The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (\circled{10} + \circled{11}).
 The matchmakers are also informed about a negative outcome during the negotiation process.
 If an order is still open, a user selects the next best item from the associated match queue, if it is non-empty, and initiates the next negotiation process.
 This repeats until the match queue is empty or the order is completed.
@@ -961,7 +961,7 @@ Reaching honest matchmakers in the presence of malicious matchmakers requires a 
 %Orders are matched according to a matching policy, discussed in Section \ref{subsec:matching_engine}.
 %For instance, in a ride-hailing market like Uber, a bid order created by a passenger is matched against only one ask order created by a driver.
 When a matchmaker receives an \texttt{order} message describing an order $ O $, it matches $ O $ with existing orders in its order book with the same type, according to a matching policy (see Section~\ref{sec:architecture}).
-For each order matched against $ O $, the matchmaker constructs a \texttt{match} message and sends it to the user that created $ O $ (step \textcircled{3} in Figure~\ref{fig:match_data_flow}).
+For each order matched against $ O $, the matchmaker constructs a \texttt{match} message and sends it to the user that created $ O $ (step \circled{3} in Figure~\ref{fig:match_data_flow}).
 A \texttt{match} message contains the full specifications of the matched orders, and the network address of the user behind the matched order.
 This network address is used by the receiver of the \texttt{match} message to initiate the order negotiation process with the user behind the matched order.
 %This message is then digitally signed by $ m $ and sent to the trader that initially created $ O $.\todo{why no reservation?}
@@ -1142,11 +1142,11 @@ When this window expires, any locked quantity for this negotiation is released a
 
 \subsection{Match Execution and Order Updates}
 Upon reaching a trade agreement between two negotiating users, it should be executed by the trading mechanism.
-To execute a trade agreement, one party sends the \texttt{propose} message to the TM and the other party sends the \texttt{accept} message to the TM (step \textcircled{8} and \textcircled{9} in Figure~\ref{fig:match_data_flow}).
+To execute a trade agreement, one party sends the \texttt{propose} message to the TM and the other party sends the \texttt{accept} message to the TM (step \circled{8} and \circled{9} in Figure~\ref{fig:match_data_flow}).
 Each message contains the digital signature of its creator.
 The TM executes the trade after having received both these messages.
 %Both users then internally update their order.
-Next, each involved party individually inform the matchmakers that originally received their order about the match execution by sending an \texttt{update} message (step \textcircled{10} and \textcircled{11} in Figure~\ref{fig:match_data_flow}).
+Next, each involved party individually inform the matchmakers that originally received their order about the match execution by sending an \texttt{update} message (step \circled{10} and \circled{11} in Figure~\ref{fig:match_data_flow}).
 This message contains the order with an updated quantity, specifying the new interests of the order creator after the match has been executed.
 The \texttt{update} message contains an order with quantity 0 if it has been completed.
 %When $ t_1 $ and $ t_2 $ agree to trade, the trade should be executed by actually exchanging assets, services or resources.
@@ -1424,7 +1424,7 @@ In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmakin
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:taxi_fairness_fixed}
-	\end{subfigure}
+	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_adaptive.pdf}
@@ -1572,7 +1572,7 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_fixed.pdf}
 		\caption{Impact of selfish matching ($ f = 50 $)}
 		\label{fig:asset_trading_fairness_fixed}
-	\end{subfigure}
+	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_adaptive.pdf}
@@ -1701,7 +1701,7 @@ It shows that for all settings, MATCH only misses under ten matches on average.
 		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_memory.pdf}
 		\caption{Maximum memory usage}
 		\label{fig:ethereum_memory}
-	\end{subfigure}
+	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}

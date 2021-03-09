@@ -113,7 +113,7 @@ The main contribution of this work is four-fold:
 	\item \emph{Risk mitigation strategies} that lower the risk for traders and bound the economic gains of adversaries committing counterparty fraud.
 	\item Improvements of TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enables concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
 	\item A functional, open source \emph{implementation} of the \ModelName{} trading protocol (Section \ref{sec:implementation}).
-	\item \emph{Experimentation} around the security, resource usage and scalability of \ModelName{}, conducted on multiple low-resource devices and our compute cluster (Section~\ref{sec:fraud_experiment} -- \ref{subsec:scalability_experiment}).
+	\item \emph{Experimentation} around the security, resource usage and scalability of \ModelName{}, conducted on multiple low-resource devices and our compute cluster (Section~\ref{sec:xchange_fraud_experiment} -- \ref{subsec:scalability_experiment}).
 \end{enumerate}
 
 \section{Related Work and Problem Description}
@@ -479,7 +479,7 @@ On the other hand, incremental settlement prolongs the trade since more payments
 In general, a trade completed using incremental settlement requires $ 2k $ \texttt{Payment} records in the distributed log.
 In \ModelName{} the value of $ k $ is determined by the risktaker party of the trade and recorded in the \texttt{Agreement} record associated with the trade.
 
-As we experimentally show in Section~\ref{sec:fraud_experiment}, incremental settlement reduces the value at stake during ongoing trades.
+As we experimentally show in Section~\ref{sec:xchange_fraud_experiment}, incremental settlement reduces the value at stake during ongoing trades.
 This strategy is not applicable when a trade cannot be completed incrementally, e.g., when exchanging property titles or securities.
 Such assets are usually represented by fungible tokens on the ledger and gain their value from uniqueness.
 Even though these assets cannot be exchanged using incremental settlement, traders can still benefit from the second risk mitigation strategy that bounds the economic gains of adversaries.
@@ -1167,16 +1167,16 @@ Our implementation contains a \texttt{Wallet} base class that can be extended by
 For testing purposes, we have implemented a \texttt{DummyWallet}, which is used when executing the unit tests and when running the experiments described in this section.
 This wallet does not interact with any blockchain and simply waits for some duration before returning a (fake) response.
 
-\begin{figure*}[t]
+\begin{figure}
 	\centering
-	\begin{subfigure}[t]{.7\textwidth}
+	\begin{subfigure}{.8\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/gained_per_user}
 		\caption{The economic gains of adversaries}
 		\label{fig:fraud_experiment_gained}
-	\end{subfigure}
-	\begin{subfigure}[t]{.7\textwidth}
+	\end{subfigure}\vspace{0.3cm}
+	\begin{subfigure}{.8\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/losses_per_user}
@@ -1185,10 +1185,10 @@ This wallet does not interact with any blockchain and simply waits for some dura
 	\end{subfigure}%
 	\caption{The economic gains of adversaries and the losses of traders when replaying 230'000 BitShares orders with \ModelName{}, for different risk mitigation strategies. We have fixed the trust threshold $ U $ to \$100.}
 	\label{fig:fraud_experiments}
-\end{figure*}
+\end{figure}
 
 \subsection{Reducing Fraud Gains}
-\label{sec:fraud_experiment}
+\label{sec:xchange_fraud_experiment}
 Our first experiment quantifies the effectiveness of reducing fraud gains when trading with \ModelName{}.
 We experimentally show the effectiveness of the risk mitigation strategies discussed in Section~\ref{sec:limit_risk}.
 
@@ -1324,16 +1324,16 @@ Scalability is measured as follows:
 first, we analyze the peak \emph{throughput} observed during the experiment, in terms of trades per second.
 Second, we consider the average order fulfill \emph{latency}, which is the time between the creation of an order and the time until this order has been completed (the order creator has exchanged all assets as specified in the order).
 
-\begin{figure*}[t]
+\begin{figure}[t]
 	\centering
-	\begin{subfigure}[t]{.7\textwidth}
+	\begin{subfigure}{.8\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/scalability}
 		\caption{Peak throughput}
 		\label{fig:scalability}
-	\end{subfigure}
-	\begin{subfigure}[t]{.7\textwidth}
+	\end{subfigure}\vspace{0.3cm}
+	\begin{subfigure}{.8\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/latency}
@@ -1342,7 +1342,7 @@ Second, we consider the average order fulfill \emph{latency}, which is the time 
 	\end{subfigure}%
 	\caption{The peak throughput and order fulfill latencies as the system load increases.}
 	\label{fig:scalability_latency}
-\end{figure*}
+\end{figure}
 
 \textbf{Results.}
 The results of the scalability experiments are presented in Figure~\ref{fig:scalability_latency}.

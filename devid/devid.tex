@@ -163,21 +163,21 @@ The requirement for verified identities addresses the Sybil Attack, where an adv
 
 \begin{figure*}[t!]
 	\centering
-	\begin{subfigure}[t]{.3\textwidth}
+	\begin{subfigure}[t]{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
-		\raisebox{4mm}{\includegraphics[width=\linewidth]{devid/resources/blockchain_single}}
+		\raisebox{4mm}{\includegraphics[width=.9\linewidth]{devid/resources/blockchain_single}}
 		\caption{Linear ledger (Ethereum).}
 		\label{fig:blockchain_single}
-	\end{subfigure}\hfill%
-	\begin{subfigure}[t]{.3\textwidth}
+	\end{subfigure}%
+	\begin{subfigure}[t]{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
-		\includegraphics[width=\linewidth]{devid/resources/blockchain_dag}
+		\includegraphics[width=.9\linewidth]{devid/resources/blockchain_dag}
 		\caption{DAG ledger (IOTA).}
 		\label{fig:blockchain_dag}
-	\end{subfigure}\hfill%
-	\begin{subfigure}[t]{.3\textwidth}
+	\end{subfigure}\vspace{0.5cm}
+	\begin{subfigure}[t]{.5\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=\linewidth]{devid/resources/blockchain_pairwise}
@@ -320,6 +320,7 @@ We use the InterPlanetary File System (IPFS) to store large data assets like pro
 Users can import statistics from their GitHub profile using the challenge mechanism described in Section~\ref{subsec:unifying_data}.
 
 \begin{figure}[t!]
+	\centering
 	\includegraphics[width=.75\columnwidth]{devid/resources/experiment/experiment_1_unit.eps}
 	\caption{Results from our deployment trial.}
 	\label{fig:experiment_graph}
@@ -354,10 +355,10 @@ The initial results of the trial look promising, and we are ready for further ev
 
 \section{Related Work}
 We are the first to build a tamper-proof and unified developer portfolio, to the best of our knowledge.
-Already in 1995, research has been conducted, that explores the advantages of online electronic portfolios over traditional resumes, particularly within an educational environment~\cite{riggsby1995electronic}~\cite{barrett2000electronic}.
+Already in 1995, research has been conducted, that explores the advantages of online electronic portfolios over traditional resumes, particularly within an educational environment~\cite{riggsby1995electronic,barrett2000electronic}.
 The emergence of the open source software paradigm enabled developers to use code contributions as proof of verifiable technical expertise and to build an online reputation~\cite{riehle2015open}.
 The work of Cai et al. explores how this data can be used to construct a theoretical reputation model, and what metrics would be best suited for this~\cite{cai2016reputation}.
-Other work is focused on visualization tools to highlight contributions of the individual developer on platforms like GitHub or StackOverflow~\cite{jaruchotrattanasakul2016open}~\cite{saxena2017know}~\cite{chen2016supporting}.
+Other work is focused on visualization tools to highlight contributions of the individual developer on platforms like GitHub or StackOverflow~\cite{jaruchotrattanasakul2016open,saxena2017know,chen2016supporting}.
 Their research is primarily focused on the design and evaluation of models to represent the technical skills, based on data from open source projects.
 The focus of this work is on combining records from different platforms and presenting them in a unified portfolio.
 
