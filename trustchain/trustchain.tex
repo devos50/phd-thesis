@@ -159,7 +159,7 @@ This large-scale deployment trial is a key milestone in our ongoing research eff
 
 The main contribution of this work is four-fold:
 \begin{enumerate}
-	\item \TrustChain{}, a \emph{universal mechanism} that maintains fairness in decentralized application by accounting work (Section~\ref{sec:micro_accounting}).
+	\item \TrustChain{}, a \emph{universal mechanism} that maintains fairness in decentralized applications by accounting work (Section~\ref{sec:micro_accounting}).
 	\item An efficient \emph{fraud detection mechanism} to detect the illegitimate tampering of created records in \TrustChain{} (Section~\ref{sec:detecting_fraud}).
 	\item An \emph{implementation} and \emph{evaluation} of \TrustChain{} with up to 10'000 peers, demonstrating the scalability of our mechanism and showing that fraud can be detected within seconds on average (Section~\ref{sec:system_architecture} and Section~\ref{sec:implementation_evaluation}).
 	\item A \emph{two-year deployment trial} of \TrustChain{} in \Tribler{}, involving \TrialUsers{} Internet-recruited volunteers. This trial successfully addresses free-riding behaviour in \Tribler{} (Section~\ref{sec:deployment}).
@@ -517,7 +517,8 @@ A basic defence mechanism is to have peers solve a computational puzzle when the
 In addition, using a Sybil-resistant reputation mechanism that processes \TrustChain{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
 We also consider self-sovereign identities as a promising solution that can bolster decentralized networks with long-term identities~\cite{stokkink2018deployment}.
 
-We consider misreporting, the accounting of work that has not occurred in the application, beyond the scope of this work.
+We leave defences against misreporting, the accounting of work that has not occurred in the application, to other layers in the application stack.
+This attack is closely related to the Sybil Attack since Sybil identities are likely to create fake interactions amongst them~\cite{stannat2021sybil}.
 Misreporting is challenging to address in a generic manner since there is not always a straightforward method to assess if some accounted work is legitimate.
 Some protocols use cryptographic techniques to prove the accuracy of performed work, for example, Proof-of-Storage and Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
 These proofs, however, cannot easily be used across different application domains.
@@ -529,7 +530,7 @@ This attack proceeds through the strategic modification of \TrustChain{} records
 For example, a peer can inflate the amount of work it has performed by modifying one of the records in its personal ledger.
 We refer to the illegitimate modification of \TrustChain{} records as \emph{fraud}.
 Even though this definition may seem limited, we argue that this kind of fraud is a fundamental threat to the \TrustChain{} data structure.
-In particular, our definition of fraud also entails a more advanced form of record manipulations where peers collude to erase a particular interaction from history.
+In particular, our definition of fraud also entails a more advanced form of record manipulations where peers collude to erase a particular interaction from history.\footnote{Peers might refrain from overriding or erasing their records during or after a collusion attempt. We do not consider this as fraud since adversaries do not exploit the ConTrib data structure. Since all records associated with the collusion attempt are accounted, decentralized applications might employ additional logic to analyse created records and attempt to detect possible collusion attempts, e.g., with correlation analysis~\cite{liu2008detection}.}
 In a reputation system, for example, this would happen when a well-trusted peer temporarily boosts the reputation of another peer by accounting some work and then attempts to hide the existence of this interaction later.
 Reverting this interaction requires both counterparties to either override or remove the associated records, which we consider as fraud.
 We note that a particular fraud instance in our system involves at most two guilty peers.
@@ -973,7 +974,7 @@ We believe that blockchain technology provides more appropriate security guarant
 
 Finally, we note that \TrustChain{} is mainly built for the lightweight accounting of work in decentralized applications.
 In its current state, \TrustChain{} cannot capture more complicated operations, e.g., executing arbitrary logic like smart contracts.
-However, as demonstrated by recent research advancements, a lightweight accounting mechanism can be an enabling component to devise novel types of decentralized applications with dynamic risk guarantees~\cite{de2020xchange,de2019devid,de2018real}.
+However, as demonstrated by recent research advancements, a lightweight accounting mechanism can be an enabling component to devise novel types of decentralized applications with dynamic risk guarantees~\cite{de2021xchange,de2019devid,de2018real}.
 
 % Limitations:
 % 1. optimistic detection of fraud -> not everything is detected
@@ -1219,6 +1220,47 @@ Under the \texttt{PULL+RAND+PUSH} strategy, we see that all fraud attempts are d
 	\caption{The effect of adding more back-pointers to each record on the average fraud detection times, for different record exchange strategies.}
 	\label{fig:fraud_times_back_pointers}
 \end{figure}
+
+\begin{figure*}[t]
+	\centering
+	\begin{subfigure}{.8\columnwidth}
+		\centering
+		\includegraphics[width=.9\linewidth]{trustchain/assets/fraud_experiments_legend}
+	\end{subfigure}
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=\linewidth]{trustchain/assets/fraud_times_crawl_interval}
+		\caption{Average fraud detection times as the request interval increases.}
+		\label{fig:experiment_crawl_interval_detection_times}
+	\end{subfigure}%
+	\begin{subfigure}{.5\columnwidth}
+		\centering
+		\captionsetup{width=.9\linewidth}
+		\includegraphics[width=\columnwidth]{trustchain/assets/fraud_times_crawl_batch_size}
+		\caption{Average fraud detection times as the request batch size increases.}
+		\label{fig:experiment_crawl_batch_size_detection_times}
+	\end{subfigure}
+	\caption{The effect of changing the request interval batch size on the average fraud detection times.}
+	\label{fig:crawl_experiments}
+\end{figure*}
+
+\subsection{Request Interval and Batch Size}
+We modify the record request interval and batch size and analyse the effect on the average fraud detection times, see Figure~\ref{fig:crawl_experiments}.
+Figure~\ref{fig:experiment_crawl_interval_detection_times} visualises the impact of the record request interval on the average fraud detection times for different record exchange strategies.
+We increase the record request interval, ranging from 0.5 seconds to 5 seconds, in steps of 0.5 seconds.
+First, we observe that the average fraud detection times for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies remains roughly constant.
+This trend indicates that pushing records to random peers is the dominant logic of the record exchange strategy, very effectively exposing fraud instances.
+We also note that average fraud detection times for the \texttt{PULL} and \texttt{PULL+RAND} strategies are increasing when the record request interval becomes larger.
+For the \texttt{PULL} strategy, we notice that when the request interval is over 3 seconds, most fraud instances remain undetected after our experiment finishes.
+These fraud instances become increasingly harder to detect as the modified record in a personal ledger gets \enquote{buried} under additional records.
+As such, the average fraud detection time is likely higher when running the experiment until all fraud instances have been detected.
+Unfortunately, we are unable to significantly prolong the experiment duration as our simulations are already using peak memory usage, despite various optimization efforts.
+
+Figure~\ref{fig:experiment_crawl_batch_size_detection_times} shows the average fraud detection times when increasing the number of records queried in each request from 1 to 10, for different record exchange strategies.
+Again, the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies are indifferent to this increase.
+The average fraud detection time for the \texttt{PULL} strategy decreases from 60.4 seconds to 12.4 seconds when increasing the request batch size from 1 record to 10 records, respectively.
+This decrease indicates that increasing the request batch size is particularly effective when using the \texttt{PULL} strategy, at the expanse of increased bandwidth usage.
 
 \subsection{Back-Pointers}
 We vary the number of back-pointers ($ b $) in each record and analyse the effect on average fraud detection times.
@@ -1493,4 +1535,4 @@ Our evaluation has demonstrated that \TrustChain{} is capable of detecting fraud
 Through a two-year deployment trial of \TrustChain{} in \Tribler{}, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
 
 We envision and encourage the usage of \TrustChain{} beyond work accounting in decentralized applications.
-Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2020xchange,de2019devid,stokkink2018deployment}.
+Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2021xchange,de2019devid,stokkink2018deployment}.
