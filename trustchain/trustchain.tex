@@ -842,25 +842,33 @@ The value of dictionary entries is the hash of the record being queried.
 The validation logic of incoming records consists of the following five steps:
 
 \begin{algorithm}[t]
-	\caption{The consistency validation of hashes in an incoming record against known ones.}
-	\label{alg:record_validation_step4}
+	\caption{The validation of an incoming record against a linked record.}
+	\label{alg:record_validation_step3}
 	\begin{algorithmic}[1]
-		
-		\Procedure{validateHashes}{R}  \Comment{Step 4}
-		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
-		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
-		\State \Return false
+		\Procedure{validateLink}{R}  \Comment{Step 3}
+		\State $ linked \leftarrow db $.\textsc{getLinked(R)}
+		\If{$ linked = \bot $}
+		\State \Return true
 		\EndIf
 		\State
-		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
-		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
-		\If{$ known \not= \bot $ \textbf{and} $ hash \not= known $}
+		\State $ proposal \leftarrow linked $ \textbf{if} \textsc{isConfirmation(R)} \textbf{else} $ R $
+		\State $ confirmation \leftarrow linked $ \textbf{if} \textsc{isConfirmation($ linked $)} \textbf{else} $ R $
+		\State
+		\If{$ confirmation.pubKeyOther \not= proposal.pubKey $}
 		\State \Return false
 		\EndIf
-		\EndFor
+		\If{$ confirmation.linkInfo.seqNum \not= proposal.seqNum $}
+		\State \Return false
+		\EndIf
+		\If{$ confirmation.linkInfo.hash \not= proposal.hash $}
+		\State \Return false
+		\EndIf
+		\State $ linkLinked \leftarrow $ db.\textsc{getLinked(}$ linked $\textsc{)}
+		\If{$ linkLinked \not= \bot $ \textbf{or} $ link\_linked \not= R $}
+		\State \Return false
+		\EndIf
 		\State \Return true
 		\EndProcedure
-		
 	\end{algorithmic}
 \end{algorithm}
 
@@ -903,33 +911,25 @@ As we will further outline in Section~\ref{sec:system_architecture}, decentraliz
 If any of the above steps fail, the record is considered invalid.
 
 \begin{algorithm}[t]
-	\caption{The validation of an incoming record against a linked record.}
-	\label{alg:record_validation_step3}
+	\caption{The consistency validation of hashes in an incoming record against known ones.}
+	\label{alg:record_validation_step4}
 	\begin{algorithmic}[1]
-		\Procedure{validateLink}{R}  \Comment{Step 3}
-		\State $ linked \leftarrow db $.\textsc{getLinked(R)}
-		\If{$ linked = \bot $}
-		\State \Return true
+		
+		\Procedure{validateHashes}{R}  \Comment{Step 4}
+		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
+		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
+		\State \Return false
 		\EndIf
 		\State
-		\State $ proposal \leftarrow linked $ \textbf{if} \textsc{isConfirmation(R)} \textbf{else} $ R $
-		\State $ confirmation \leftarrow linked $ \textbf{if} \textsc{isConfirmation($ linked $)} \textbf{else} $ R $
-		\State
-		\If{$ confirmation.pubKeyOther \not= proposal.pubKey $}
+		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
+		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
+		\If{$ known \not= \bot $ \textbf{and} $ hash \not= known $}
 		\State \Return false
 		\EndIf
-		\If{$ confirmation.linkInfo.seqNum \not= proposal.seqNum $}
-		\State \Return false
-		\EndIf
-		\If{$ confirmation.linkInfo.hash \not= proposal.hash $}
-		\State \Return false
-		\EndIf
-		\State $ linkLinked \leftarrow $ db.\textsc{getLinked(}$ linked $\textsc{)}
-		\If{$ linkLinked \not= \bot $ \textbf{or} $ link\_linked \not= R $}
-		\State \Return false
-		\EndIf
+		\EndFor
 		\State \Return true
 		\EndProcedure
+		
 	\end{algorithmic}
 \end{algorithm}
 

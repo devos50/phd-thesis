@@ -885,12 +885,12 @@ Upon reception of a \texttt{cancel} message, matchmakers remove the cancelled or
 %	\label{fig:dissemination_strategy_experiments}
 %\end{figure*}
 
-%\begin{figure}[b]
-%	\centering
-%	\includegraphics[width=\linewidth]{assets/matching_idea}
-%	\caption{The intuition behind order dissemination in MATCH.}
-%	\label{fig:matching_idea}
-%\end{figure}
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.8\linewidth]{match/assets/matching_idea}
+	\caption{The intuition behind order dissemination in MATCH.}
+	\label{fig:matching_idea}
+\end{figure}
 
 \subsection{Order Dissemination}
 \label{sec:order_dissemination}
@@ -902,7 +902,7 @@ We now address concern 2 from~Section~\ref{sec:towards_fair_reliable_matchmaking
 Specifically, we send a new order to a random subset of all matchmakers.
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 Let $ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
-The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one, even when the order fanout is low compared to the number of matchmakers.
+The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one, even when the order fanout is low compared to the number of matchmakers, also see Figure~\ref{fig:matching_idea}.
 This phenomena is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
 
 Determining to how many matchmakers a new order is sent, is key.
@@ -1002,13 +1002,6 @@ This network address is used by the receiver of the \texttt{match} message to in
 %A potential trade off of this policy is matching effectiveness, since orders might not be matched in an optimal manner, depending on the matchmakers a specific order is sent to.
 %We will discuss how to effectively pick the value of $ n $ further in this section.
 
-\begin{figure*}[t]
-	\centering
-	\includegraphics[width=\linewidth]{match/assets/negotiation_diagram}
-	\caption{The flow diagram (in UML format) when receiving a message during the negotiation process for a specific order.}
-	\label{fig:order_negotiation_diagram}
-\end{figure*}
-
 \subsection{Match Queue}
 \label{sec:match_queue}
 Upon receiving a \texttt{match} message from a matchmaker, a user contacts the creator of the matched order and initiates a negotiation process (further discussed in Section~\ref{sec:order_negotiation}).
@@ -1017,6 +1010,13 @@ A potential strategy is that the user immediately contacts another user upon the
 This possibly minimizes the time for an order to be completed.
 However, this strategy leaves the user vulnerable to an attack where a malicious matchmaker is the first to send a specific \texttt{match} message to a user, which immediately triggers the negotiation process.
 The quality of the received match described by the \texttt{match} message might be poor and the user might have received a match with a higher quality if it would have waited for additional matches from honest matchmakers.
+
+\begin{figure*}[t]
+	\centering
+	\includegraphics[width=\linewidth]{match/assets/negotiation_diagram}
+	\caption{The flow diagram (in UML format) when receiving a message during the negotiation process for a specific order.}
+	\label{fig:order_negotiation_diagram}
+\end{figure*}
 
 To address this issue, incoming \texttt{match} messages for a specific order are first stored in a \emph{match queue}.
 When a user receives the first \texttt{match} message for one of its offers (or requests), say $ O $, it creates a new match queue for $ O $.
