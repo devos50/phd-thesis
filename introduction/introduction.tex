@@ -49,7 +49,7 @@ There is an increasing amount of research effort to disintermediate different as
 
 % TODO logische volgorde: information management -> matchmaking -> settlement -> fraud mangement -> identity management
 
-This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based electronic marketplaces.
+This thesis introduces novel mechanisms for decentralization and disintermediation in blockchain-based marketplaces.
 %A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
 We design, implement, evaluate and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
 These aspects are information management, matchmaking, settlement, fraud management, and identity management.
@@ -140,7 +140,7 @@ The amount of gas required for a transaction depends on the computations execute
 %Other blockchain platforms such as Hyperledger Fabric enables developers to write smart contracts in Java, Javascript or Go.
 
 Smart contracts enable developers to build decentralized blockchain-based applications, also called \emph{DApps}.
-The most common DApp on the Ethereum blockchain is an ERC20 token, which enables developers to issue and manage custom tokens.
+The most common DApp on the Ethereum blockchain is an ERC20 token, which enables developers to issue and manage custom assets.
 Besides ERC20 tokens, the Ethereum blockchain hosts almost 3'000 DApps at the time of writing, including lotteries, games, asset markets, voting, prediction markets and decentralized lending solutions.\footnote{See \url{https://www.stateofthedapps.com}}
 Despite the thriving ecosystem, it is non-trivial to revoke or disable a deployed smart contract when a software bug has been exploited.
 In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed the Decentralized Autonomous Organization (DAO)~\cite{mehar2019understanding}.
@@ -215,13 +215,13 @@ By leveraging cryptographic techniques, cryptocurrencies have demonstrated that 
 Since the introduction of Bitcoin, there has been much effort by both industry and academia to critically assess the necessity of trusted intermediaries, and potentially replace them with another mechanism, e.g., using smart contracts on Ethereum~\cite{lande2018sok}.
 
 In many scenarios, it has been proven to be possible to replace trusted intermediaries with cryptographic techniques.
-Yet, disintermediation is not always possible, nor desired.
+Yet, disintermediation is not always possible, and sometimes not even desired.
 In many scenarios there is a need to safeguard certain processes by traditional trusted intermediaries, in particular in the financial sector.
 One might argue that electronic markets require at the very least some trusted intermediary to act as mediator between buyer and sellers if a trade is not an atomic operation.
-Furthermore, local regulations might require a trusted intermediary for certain market processes, e.g., when there is a need to verify the identify of new or existing business relations (this is also known as Know-your-Customer).
+Furthermore, local regulations might require a trusted intermediary for certain market processes, e.g., when there is a need to verify the identify of business relations to prevent criminal activities (this process is also known as Know-your-Customer).
 
 As also pointed out by other researchers, we argue that it is unlikely that electronic markets will be fully disintermediated by blockchain technology anytime soon~\cite{zamani2018little}.
-Instead of complete disintermediation, it is more likely that the role of existing intermediaries will change and that their responsibilities will be reduced.
+Instead of complete disintermediation, it is a more likely scenario that the role of existing intermediaries will transform and that their involvement in market processes will be reduced.
 For this reason, numerous financial institutions are currently experimenting with distributed ledger technology to make existing settlement services more efficient and reliable.
 Perhaps the most influential solution, Corda, is currently being deployed by R3, a consortium consisting of the world's leading financial institutions~\cite{brown2016introducing}.
 Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is aimed to eventually replace the SWIFT payment infrastructure.
