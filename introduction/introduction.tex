@@ -188,7 +188,7 @@ Second, users themselves remain in control of their funds when trading on a DEX 
 Third, the transaction fees associated with trading on a DEX are usually lower compared to a centralized exchange since there is no profit-driven intermediary.
 Fourth, DEXes allow users to remain anonymous, whereas centralized exchanges often require the validation of one's identity for participation.
 
-We also point out three advantages of DEX-based trading.
+We also point out three disadvantages of DEX-based trading.
 First, many DEXes currently suffer from low liquidity and trading volume, making them less attractive for long-term trading.
 Second, their transaction throughput depends on the consensus model used by the underlying blockchain, which might make particular DEXes unsuitable for bulk trading.
 Finally, as DEXes and blockchains are a relatively new technology, design weaknesses can lead to the loss of funds as demonstrated by a number of recent attacks on DeFi applications~\cite{gudgeon2020decentralized,qin2020attacking}.
@@ -467,7 +467,12 @@ We outline three settlement techniques commonly found in blockchain-based market
 
 \subsubsection{Atomic Swaps}
 The \emph{atomic swap} is a protocol that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
-Atomic swaps enable two parties to exchange blockchain-based assets in an atomic manner: the asset exchange either completes or fails for both parties at any given time.\footnote{We remark that the atomicity property of the atomic swap protocol depends on the security of the underlying blockchains. If one of the blockchains is compromised by adversaries, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.}
+Atomic swaps enable two parties to exchange blockchain-based assets in an atomic manner.
+This means that the exchange either completes for both parties and have their assets traded, or it fails.
+When the exchange fails, both parties do not suffer an economic loss and retain ownership of the assets involved in the exchange.
+We remark that the atomicity property of the atomic swap protocol critically depends on the characteristics of the underlying blockchains.
+If one of the blockchains is compromised by adversaries, or if a chain reorganization occurs, atomicity during asset exchange cannot be guaranteed and one of the parties can lose its funds to the counterparty.
+
 Atomic swaps eliminate the risk of losing assets to an adversarial trader during the exchange.
 The main idea is that trading users lock their assets in a specialized transaction on the blockchain in such a way that no single party can claim both locked assets.
 This is achieved with \emph{Hash-Timelock Contracts} (HTLCs), a special transaction that leverages hash locks and time locks.
@@ -487,7 +492,7 @@ The basic atomic swap, described by Tier Nolan~\cite{nolan2016atomic}, consists 
 
 \textbf{Step 3.} Alice sends $ H(s) $ to Bob using any communication medium.
 
-\textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Bitcoin and also using $ H(s) $ for the hash lock.
+\textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Ether and also using $ H(s) $ for the hash lock.
 
 \textbf{Step 5.} Alice claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. $ T_3 $ unlocks the hash-lock in $ T_2 $. This reveals pre-image $ s $ to Bob.
 

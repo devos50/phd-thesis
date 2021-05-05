@@ -357,7 +357,7 @@ Perhaps the most popular decentralized application is BitTorrent, a peer-to-peer
 In BitTorrent, each peer has a limited number of slots to allocate to other peers.
 The system uses tit-for-tat, a cooperation strategy where a counterparty loses its slot when it stops to reciprocate.
 This simple strategy leads to higher network utilization since long-term free-riders will not be allocated slots.
-BitTorrent does not persist all contributions and consumptions of other peers, of but tracks the performance of connected peers for each download.
+BitTorrent does not persist all contributions and consumptions of other peers, but tracks the performance of connected peers for each download.
 
 The InterPlanetary File System (IPFS) is a decentralized system for file storage and exchange~\cite{benet2014ipfs}.
 IPFS breaks up files into blocks, which are identifiable by a content identifier.
@@ -408,7 +408,6 @@ They also are an excellent architectural fit with existing decentralized applica
 Peers have a natural incentive to misrepresent the magnitude of their efforts to inflate their social standing or to hide information unfavourable to their standing~\cite{meulpolder2009bartercast}.
 Our accounting mechanism must address the completeness and correctness of the stored information.
 We must \emph{detect the manipulation or hiding of accounted information} and punish adversarial peers accordingly.
-We consider the accounting of events that have not occurred in the application out of scope.
 %Since different applications are likely to have differing visions on how fraud should be managed, we leave this decision to the application.
 
 %For example, overuse in a file-sharing system can result in a temporary, e.g., 24-hour, ban or even result in ostracization from the community.
@@ -517,7 +516,7 @@ A basic defence mechanism is to have peers solve a computational puzzle when the
 In addition, using a Sybil-resistant reputation mechanism that processes \TrustChain{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
 We also consider self-sovereign identities as a promising solution that can bolster decentralized networks with long-term identities~\cite{stokkink2018deployment}.
 
-We leave defences against misreporting, the accounting of work that has not occurred in the application, to other layers in the application stack.
+We leave defences against misreporting, the accounting of work that has not actually occurred in the application, to other layers in the application stack.
 This attack is closely related to the Sybil Attack since Sybil identities are likely to create fake interactions amongst them~\cite{stannat2021sybil}.
 Misreporting is challenging to address in a generic manner since there is not always a straightforward method to assess if some accounted work is legitimate.
 Some protocols use cryptographic techniques to prove the accuracy of performed work, for example, Proof-of-Storage and Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
@@ -588,6 +587,7 @@ Proposal $ P $, created by peer $ a $, is a tuple with the following four attrib
 \end{align*}
 $ P $ contains the public key of peers $ a $ and $ b $ (\texttt{pubKey} and \texttt{pubKeyOther}, respectively), an application-specific payload (\texttt{payload}), and a digital signature (\texttt{sig}) created by $ a $ of the record in binary form.
 The \texttt{payload} attribute is an arbitrary blob of data and is provided by the connected application.
+The payload could include an identifier that uniquely identifies the performed work.
 To increase the resilience against manipulation, we extend records with additional fields in the next section.
 After peer $ a $ has included all described attributes in the proposal, it persists the record to its database, sends the proposal to $ b $, and disseminated the proposal to $ f $ random peers in the network (step \circled{2}).
 We refer to $ f $ as the \emph{fanout} value.
@@ -681,7 +681,7 @@ Since all performed work is publicly stored and accessible, other users might ac
 To reduce this threat, we outline two techniques that applications can use to enhance privacy.
 First, applications can account performed and consumed work in \emph{batches}.
 For example, an application can record all outstanding contributions and consumptions every hour, therefore hiding granular work statistics.
-Second, an application can add some noise to the amount of work being accounted (\emph{fuzzy accounting}).
+Second, an application can add some noise to the amount of work being accounted.
 This technique effectively reduces linkability, e.g., when accounting traffic that is being relayed through multiple hops.
 We believe that the combined power of these two techniques provides sufficient privacy guarantees for most decentralized applications.
 A more advanced approach, used by the Monero cryptocurrency, leverages ring signatures and zero-knowledge proofs to hide the amounts of work performed~\cite{bunz2018bulletproofs,poelstra2018confidential}.
@@ -902,7 +902,7 @@ When $ R $ is a proposal, we get the corresponding confirmation from the databas
 This step is performed by the the \textsc{validateLink} procedure which pseudocode description is given in Listing~\ref{alg:record_validation_step3}.
 We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
 We check whether the public keys included in the proposal and confirmation are consistent (line 9), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 11-14).
-We detect the inconsistency described by scenario III during this step (line 15-17).
+We detect the inconsistency described by scenario III (line 15-17) and scenario IV (line 19-21) during this step.
 
 \textbf{Step 5.}
 Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
@@ -1462,7 +1462,8 @@ The crawler stores collected records in a sqlite database that is enhanced with 
 The file size of the database with all collected records is around 120GB, and we plan on releasing the full data set later.
 Our crawler discovered 127'135 proofs of fraud.
 We also find that 11.4\% of all collected proposals in the deployed \TrustChain{} network is unconfirmed.
-This fraction of unconfirmed proposals is either because the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
+This relatively high fraction of unconfirmed proposals is either because of software bugs, the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
+At the same time, the amount of work included in each record is relatively small, reducing the impact of unconfirmed records.
 
 Deploying a crawler and monitoring the records created by \TrustChain{} allows us to detect anomalies caused by software bugs or unexpected user behaviour.
 It also provides us with the means to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \TrustChain{} network.
@@ -1509,7 +1510,7 @@ Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low (
 The median token balance associated with reject events is -181.4 GB, demonstrating that our mechanism effectively targets peers with lower bandwidth token balances.
 The slots claimed by free-riders will likely go to dedicated peers when the network is congested.
 This deployment trial shows that \TrustChain{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.
-The integration of \TrustChain{} has increases network performance and helps to maintain fairness amongst downloading users.
+Based on our observations, we believe that the integration of \TrustChain{} has increases network performance and helps to maintain fairness amongst downloading users.
 
 %\begin{figure}[t]
 %	\centering
@@ -1536,3 +1537,4 @@ Through a two-year deployment trial of \TrustChain{} in \Tribler{}, involving mo
 
 We envision and encourage the usage of \TrustChain{} beyond work accounting in decentralized applications.
 Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2021xchange,de2019devid,stokkink2018deployment}.
+Since these scenarios leverage the same data structure, these applications all benefit from the accounting capabilities that \ModelName{} offers.
