@@ -955,6 +955,16 @@ This push-based exchange allows for quick detection of fraud since the probabili
 Even if the malicious peer refrains from broadcasting a conflicting record, the counterparty is very likely to do so, assuming there is no collusion between interacting peers.
 Immediate dissemination of created records in the network also increases record availability when the sending peer goes offline.
 
+We envision that \TrustChain{} is used by multiple applications simultaneously.
+It is likely that particular applications require different dissemination rates that deviate from a system-wide strategy.
+Even though our experiments consider a single application that leverages \TrustChain{}, we briefly discuss how we can optimize \TrustChain{} to serve different applications.
+One approach is to build \emph{virtual ledgers} where the personal ledger of each peer consists of multiple sub-ledgers.
+This can be achieved by adding additional hash pointers between the records associated with a particular application.
+These records can then be disseminated with custom dissemination strategies to other peers that participate in a particular application.
+A single application can also create multiple virtual ledgers, e.g., when the application requires accounting of distinct record types with differing rates.
+This would, however, require additional membership logic where we track which peers are involved in what application.
+Note that exchanging application-specific records separately strengthens the integrity of \TrustChain{} in general since these records bear pointers to records associated with other applications.
+
 \begin{figure*}[t]
 	\centering
 	\includegraphics[width=\linewidth]{trustchain/assets/system_architecture}
