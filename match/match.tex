@@ -902,7 +902,8 @@ We now address concern 2 from~Section~\ref{sec:towards_fair_reliable_matchmaking
 Specifically, we send a new order to a random subset of all matchmakers.
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 Let $ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
-The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one, even when the order fanout is low compared to the number of matchmakers, also see Figure~\ref{fig:matching_idea}.
+The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one as the order fanout increases, even when the order fanout is low compared to the number of matchmakers.
+Figure~\ref{fig:matching_idea} shows the intuition behind this idea.
 This phenomena is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
 
 Determining to how many matchmakers a new order is sent, is key.
@@ -925,7 +926,8 @@ In this setting, it reduces the required fanout of an \texttt{order} message fro
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 %Applying the idea of Equation~\ref{eq:dissemination} requires an intuition on the total number of matchmakers, which can either be fixed by the software developers or be inferred using network estimation techniques~\cite{shames2012distributed}.
 Note that the value of $ m $ is known to users in MATCH since they possess a list of all matchmakers.
-Given a target value for $ P(R_{req} \cap R_{off} \neq \emptyset) $, users compute an appropriate fanout value themselves.
+We envision that the MATCH software uses a default target value for $ P(R_{req} \cap R_{off} \neq \emptyset) $ (fixed to 0.95 in our experiments).
+Depending on the application domain and the number of incoming match messages, users can increase or decrease the fanout as they see fit.
 %In practice, the value of $ f $ should be tuned conservatively to account for network failures and matchmakers that are unreachable.
 %Our evaluation (Section~\ref{sec:experiments}), we show that this dissemination strategy still results in a near-optimal matching of orders.
 
@@ -1180,6 +1182,19 @@ Upon receiving an \texttt{update} message, matchmakers update the state of the c
 %For example, order synchronization is less effective when a new order is already disseminated to a significant fraction of all matchmakers.
 %Therefore, we also consider a policy where orders are not synchronized at all.
 %No synchronization reduces communication costs but potentially leads to the miss of better matches.
+
+\subsection{Privacy Considerations}
+We end our protocol description with a few notes on privacy.
+In MATCH, full order details are shared with and amongst matchmakers.
+While this is standard for application domains such as blockchain marketplaces, it is undesirable for some application domains such as financial markets.
+We note that the \texttt{data} field of an order in MATCH can be fully specified by the system designers.
+Therefore, the content of orders, and the quantity field, can be subjected to cryptographic protocols such as encryption.
+Only when an agreement has been reached between two parties, the order specifications can be revealed between the two interacting parties.
+To leverage the functionality of the match queue, however, it is desirable that incoming orders can be totally ordered.
+
+There are some privacy-preserving solutions for matchmaking in particular application domains, such as ride-hailing.
+ORide, for example, leverages homomorphic encryption to build a full protocol for privacy-preserving ride sharing~\cite{pham2017oride}.
+We believe that, whether or not with additional research, the underlying ideas of existing solutions such as ORide can increase the privacy aspects of decentralized matchmaking.
 
 \section{The MATCH Middleware Architecture}
 \label{sec:architecture}
