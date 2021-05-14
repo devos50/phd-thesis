@@ -23,44 +23,45 @@ Our trial demonstrates that DevID is efficient at storing portfolio records. }
 \section{Introduction}
 \label{sec:introduction}
 Decentralized applications, also known as dApps, allow for contractual logic that runs without the need for trusted intermediaries.
+As the ecosystem of decentralized applications is continuously expanding and is accelerated by the popularity of decentralized financne (DeFi)~\cite{zetzsche2020decentralized}.
 Finding the right talent to develop these business-critical applications is becoming a real problem~\cite{shortage2016nasdaq}.
-Yet, many software developers are looking for work.
-Matching clients and reputable developers is at the core of profit-driven companies such as Upwork.
-However, each platform only provides access to a subset of all available work and developers.
+At the same time, many freelance software developers are looking for work.
+Matching clients and reputable developers is at the core of profit-driven companies such as Upwork and Fiverr.
+Unfortunately, each platform only provides access to a subset of all available work and developers.
 
-The main problem is that centralized approaches lead to \emph{fragmentation} and \emph{lock-in} effects~\cite{pouwelse2017laws}.
-Many software developers have their data fragmented across multiple platforms, like GitHub and LinkedIn.
+The main problem is that centralized approaches for client-developer matching lead to \emph{fragmentation} and \emph{lock-in} effects~\cite{pouwelse2017laws}.
+Many software developers have their portfolios fragmented across multiple platforms, like GitHub and LinkedIn.
 Each platform only yields a partial impression on the capabilities and background of a developer.
-Moreover, data assets are usually locked to one platform and cannot easily be reused across different services.
+In addition, data assets are usually locked to one platform and cannot easily be exported across different services~\cite{hesse2019reputation}.
 
 Another issue with centralized approaches is \emph{data authority}.
-It raises much discussion in our society, mainly controlled by data-driven corporates.
+It raises much discussion in our society, where data-driven corporates control the vast majority of our personal data.
 By agreeing to the terms of service of a company, one essentially gives them authority over most of the personal data being shared.
 
 There currently is no independent platform for developer portfolios without fragmentation, lock-in, and autonomy over all data.
-Availability of such a platform would increase efficiency and effectiveness when matching reputable developers looking for work and clients that are in need of talent.
-
-We address this deficiency and present \emph{DevID}, a unified portfolio specifically made for dApp developers.
+We argue that the availability of such a platform would increase efficiency and effectiveness when matching reputable developers looking for work and clients that are in need of talent.
+In this chapter, we address this deficiency and design \emph{DevID}, a unified portfolio specifically made for dApp developers.
 An impression of such a portfolio is given in Figure~\ref{fig:devid}.
 DevID portfolios are powered by a scalable blockchain ledger, used for durable storage of records.
-Developers can add tamper-proof records to their portfolio.
+Developers can add tamper-proof records to their portfolio and point to their prior work, e.g., projects on Github.
 These records are fully managed and owned by developers themselves.
 
 \begin{figure}[t]
 	\includegraphics[width=\columnwidth]{devid/resources/devid_smaller.jpeg}
-	\caption{An impression of a DevID portfolio.}
+	\caption{An impression of a DevID portfolio. These infographics can be automatically generated and customized based on records in a DevID portfolio.}
 	\label{fig:devid}
 \end{figure}
 
 To show the practicality of DevID, we build a competition-based platform for crowdsourcing the development of decentralized applications, named \emph{dAppCoder}.
 Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software~\cite{latoza2016crowdsourcing}.
+DevID records are then used by the client to filter prospective developers and to make educated decisions on who to hire for a particular job.
 We believe that a single, public, and open market is preferable compared to a centralized solution with fragmentation and lock-in effects.
 
-The main contributions of this work are tri-fold:
+The main contribution of this work is tri-fold:
 \begin{itemize}
-	\item \emph{DevID}: a unified portfolio specifically for dApp developers, powered by a pairwise distributed ledger (Section~\ref{sec:devid_architecture}).
-	\item \emph{dAppCoder}: our application to crowdsource the development of decentralized applications (Section~\ref{sec:dappcoder}).
-	\item A deployment trial of DevID and dAppCoder, which demonstrates the practicality of our work (Section~\ref{sec:experiments}).
+	\item We first present \emph{DevID}, a unified portfolio specifically for dApp developers, powered by a pairwise distributed ledger (Section~\ref{sec:devid_architecture}).
+	\item We then build \emph{dAppCoder}, an application to crowdsource the development of decentralized applications (Section~\ref{sec:dappcoder}).
+	\item We conduct a \emph{deployment trial} of DevID and dAppCoder, which demonstrates the practicality of our work (Section~\ref{sec:experiments}).
 \end{itemize}
 
 \section{Problem Description}

@@ -203,7 +203,7 @@ AgentChain is an asset exchange system that is based on multi-signature schemes~
 Each user can act as a trading operator, which together form trading groups.
 Assets are locked in a multi-signature wallet that requires a multi-signature to unlock.
 Users can choose to trade within a specific trading group, e.g., based on the reputation of the trading group.
-If a trading group acts malicious, a user can upload evidence to the blockchain upon which all assets managed by that trading group is transferred back to users.
+If a trading group acts malicious, a user can upload evidence to the blockchain upon which all assets managed by that trading group are transferred back to users.
 
 An earlier version of the Interledger protocol, ILPv1, used intermediate notaries (also called \emph{connectors}) to conduct payments across different ledgers~\cite{thomas2015protocol}.
 These payments are realized through conditional payments and are coordinated by a different group of connectors for every involved ledger.
@@ -332,7 +332,7 @@ This private key is then used to decrypt the traded information.
 
 \subsection{Comparison and summarization}
 Table~\ref{tbl:cross_chain_trading_mechanisms} summarizes existing approaches to cross-chain asset trading, and also shows the approach proposed in this work.
-We assess these approaches based on the following three criteria:
+We further assess these approaches based on the following three criteria:
 \begin{enumerate}
 	\item \textbf{Universal.} does the approach enable asset exchange between any permissioned blockchain?
 	\item \textbf{Avoids trusted parties.} does the approach require a trusted party to mediate in the trade? We also consider trusted committees or notaries as a trusted party, even though approaches leveraging semi-trusted authorities often assume a weaker trust model.
@@ -481,8 +481,16 @@ In \ModelName{} the value of $ k $ is determined by the risktaker party of the t
 
 As we experimentally show in Section~\ref{sec:xchange_fraud_experiment}, incremental settlement reduces the value at stake during ongoing trades.
 This strategy is not applicable when a trade cannot be completed incrementally, e.g., when exchanging property titles or securities.
-Such assets are usually represented by fungible tokens on the ledger and gain their value from uniqueness.
+Such assets are usually represented by non-fungible tokens on the ledger and gain their value from uniqueness.
 Even though these assets cannot be exchanged using incremental settlement, traders can still benefit from the second risk mitigation strategy that bounds the economic gains of adversaries.
+
+We briefly comment on the economic implications of incremental settlement.
+Since this approach prolongs the trade duration, it might happen that the price of assets being traded goes in the favour of one of the trading parties.
+This is particularly true for high-volatile assets being offered on open, public blockchains.
+Price volatility enables the situation where a party can deliberately prolong a trade to profit from price fluctuations.
+Ideally, this is something that should be taken into consideration when counterparties create their offer.
+We acknowledge that dealing with this economic effect is currently an open issue of our trading system.
+At the same time, we believe that this issue is less prominent in permissioned blockchains since the price of such assets are usually not defined by trading volume but rather are priced based on real-world assets (e.g., stablecoins).
 
 \begin{figure}[t]
 	\centering
@@ -627,7 +635,7 @@ Without loss of generality and for simplicity, we assume in the rest of the pape
 \textbf{Determination of $ k $.} 
 Parameter $ k $ signifies the number of payments each party does in a trade.
 This value is proposed by the risktaking party during trade negotiations and is included in the \texttt{Agreement} record in the distributed log.
-We note that both sides of a trade is concerned with the value of $ k $.
+We note that both sides of a trade are concerned with the value of $ k $.
 For the risktaker, $ k $ determines the \MarginalStake{}, i.e., the value that the risktaker may lose in case of counterparty fraud by the other party.
 For the risky party, $ k $ affects the maximum rate of trade a party can be involved in as a risky party.
 While lowering the value of $ k $ brings together low-risk advantage for the risktaker and trust advantage for the risky party, it, in return, increases the duration of a trade, i.e., the number of transactions needed to settle the trade.
@@ -843,7 +851,7 @@ Second, the taker determines if it is safe to trade with $ M $, according to the
 The taker checks the trades in which $ M $ is involved by inspecting the latest records on $ \mathcal{L} $ involving $ M $.
 If $ M $ is already involved in a trade $ T $, the information on $ \mathcal{L} $ also reveals if $ M $ in $ T $ is a risky party or a risktaker.
 
-When all three checks pass, the taker creates and sends a \texttt{Proposal} message to $ M $.
+When both checks pass, the taker creates and sends a \texttt{Proposal} message to $ M $.
 A \texttt{Proposal} message contains a proposal for $ M $ to fulfill order $ O $.
 A taker includes four pieces of information in a \texttt{Proposal} message.
 First, it includes the identifier of $ O $, so the maker knows which order the taker wants to fulfill (a trader could have created multiple orders).
@@ -853,7 +861,7 @@ Finally, the taker includes a boolean value in the proposal indicating if the ta
 At a high level, a \texttt{Propose} message represents a new order that indicates the taker's trade preferences.
 
 When $ M $ receives a \texttt{Proposal} message from taker $ T $, it also verifies whether it wants to trade with $ T $.
-Specifically, $ M $ performs the same three checks as the taker did.
+Specifically, $ M $ performs the same two checks as the taker did.
 Furthermore, $ M $ verifies if it agrees with the role classification proposed by the taker.
 If validation fails, the maker immediately sends a \texttt{Reject} message back to the taker, containing the identifier of the rejected order and, optionally, why $ M $ has rejected the proposal.
 If $ M $ agrees with the proposal and also wishes to trade with $ T $, $ M $ constructs a \texttt{Agreement} record, which includes the identifier of the order being fulfilled and the proposal created by the taker (including the taker's signature).

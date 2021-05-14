@@ -327,14 +327,14 @@ The mobile application allows interfacing with different banks and the initiatio
 		\caption{To increase security, each record also references a record in the chain of the other transaction participant.}
 		\label{fig:trustchain_tutorial_3}
 	\end{subfigure}
-	\caption{Recording a transaction between two users $ A $ and $ B $ in Trustchain.}
+	\caption{Recording a transaction between two users $ A $ and $ B $ in TrustChain.}
 	\label{fig:trustchain_tutorial}
 \end{figure*}
 
 \begin{figure}[b]
 	\centering
 	\includegraphics[width=.9\linewidth]{iom/assets/trustchain}
-	\caption{The tamper-proof Trustchain data structure to record transactions.}
+	\caption{The tamper-proof TrustChain data structure to record transactions.}
 	\label{fig:trustchain}
 \end{figure}
 
@@ -342,13 +342,13 @@ The mobile application allows interfacing with different banks and the initiatio
 \label{sec:trust}
 %We now present our blockchain-based trust model, used to determine trustworthiness of intermediaries and to exclude malicious nodes from the community.
 We now explain our deployed, scalable blockchain fabric to gradually build trust between fast payment initiators and money routers: \emph{Trustchain}.
-Trustchain is designed around transacting entities and is able to accurately capture interactions between users.
+TrustChain is designed around transacting entities and is able to accurately capture interactions between users.
 We have successfully explored usage of TrustChain for bandwidth accounting, attestations and decentralized trading in prior work~\cite{pouwelse2017laws}. % , and stores historical interactions.
 %In Trustchain, every network participant operates his own chain of historical record.
 %This is a fundamental difference with traditional blockchain solutions like Bitcoin or Ethereum where there is single ledger secured by the efforts of the network.
-For an elaborate evaluation of Trustchain, we refer the reader to our published article~\cite{otte2017trustchain}.
+For an elaborate evaluation of TrustChain, we refer the reader to our published article~\cite{otte2017trustchain}.
 
-Figure \ref{fig:trustchain_tutorial} illustrates how a transaction is recorded between two users on Trustchain.
+Figure \ref{fig:trustchain_tutorial} illustrates how a transaction is recorded between two users on TrustChain.
 Figure \ref{fig:trustchain_tutorial_1} shows a single transaction (\emph{Tx}).
 Both parties sign the transaction with any cryptographically secure digital signature algorithm (our implementation uses ECDSA).
 This makes participation irrefutable and acts as an agreement for the transaction specifications.
@@ -360,7 +360,7 @@ This is shown in Figure \ref{fig:trustchain_tutorial_2} where each record is ext
 In particular, this pointer is a hash computed from the description of the prior record using any cryptographically secure hashing algorithm (our implementation uses SHA256).
 Each record is equipped with a sequence number $ s \in \mathbb{Z} $ (the sequence number of the genesis record is 1).
 This database organisation resembles a blockchain data structure.
-While cryptocurrencies like Bitcoin and Ethereum operate on a global blockchain, Trustchain gives each user their own personal chain.
+While cryptocurrencies like Bitcoin and Ethereum operate on a global blockchain, TrustChain gives each user their own personal chain.
 
 Outside for the user operating a chain, the structure shown in Figure \ref{fig:trustchain_tutorial_2} is void of any control.
 Consequentially, a user is able to tamper with his historical transactions.
@@ -375,12 +375,12 @@ This property makes fraud impractical to hide since a counterparty is able to pr
 When users initiate more transactions with others, they quickly become entangled in the network, leading to a directed acyclic graph (DAG) structure as shown in Figure \ref{fig:trustchain}.
 This figure shows seven records, created by seven unique participants.
 Users are able to collect records stored by others.
-This ensures adequate replication of Trustchain records throughout the network.
-%The Trustchain data structure is our core mechanism to build trust.
+This ensures adequate replication of TrustChain records throughout the network.
+%The TrustChain data structure is our core mechanism to build trust.
 
 \subsubsection*{Recording Payments}
-We use the Trustchain data structure to record money transfers between individuals.
-%By constructing Trustchain records between individuals sending money to each other, we can keep track of.
+We use the TrustChain data structure to record money transfers between individuals.
+%By constructing TrustChain records between individuals sending money to each other, we can keep track of.
 Each payment and fast payment is assigned a unique identifier.
 We define two different transaction types:
 \begin{enumerate}
@@ -394,7 +394,7 @@ We deliberately choose to hide the exact payment volumes due to privacy consider
 
 \subsubsection*{Detect and Punish Fraud}
 The most challenging scenario occurs when a money router promises to forward money, but fails to do so.
-Since Trustchain provides us with a public ledger, disputes can be detected between transacting entities.
+Since TrustChain provides us with a public ledger, disputes can be detected between transacting entities.
 Consider the situation when a router promised to forward money to Alice and claimed to have done so but Alice has not observed these funds (yet).
 Other individuals are informed of this situation when they observe a \emph{commit} transaction, signed by both parties, and a \emph{sent} transaction that is only signed by the money router that didn't forward the funds yet.
 As soon as such a dispute is detected, we do not consider this money router as intermediary for future fast payments until the dispute has been resolved.
@@ -405,7 +405,7 @@ In addition to the aforementioned scenario, a user can intentionally lie that he
 It is impossible to make statements about the status of a specific payment without access to both bank accounts involved in a payment.
 To resolve disputes, we propose to use input from a dispute arbitrator in the form of an official, digitally signed statement.
 The dispute arbitrator can be any company that is able to query bank accounts, for instance, the bank involved in a fast payment.
-A statement provides the status of a fast payment with a specific identifier and should be published on the Trustchain ledger.
+A statement provides the status of a fast payment with a specific identifier and should be published on the TrustChain ledger.
 To discourage users from purposely creating disputes, the arbitrator should charge a small fee for publishing a statement, say \euro 0.10.
 This fee should be covered by the party that made a false statement about money being sent or received.
 Note that dispute arbitration enables a new business model for banks.
@@ -424,10 +424,10 @@ We now discuss a mechanism to quantify trustworthiness of honest money routers.
 Our proposed solution is based on past settlement services provided by money routers.
 %We now describe a reputation mechanism to estimate trustworthiness scores to money routers, based on settlement services provided in the past.
 We define a credit network $ G $ that models how much money a participant trusts to another individual.
-The graph is built using collected, dual-signed Trustchain transactions from others.
+The graph is built using collected, dual-signed TrustChain transactions from others.
 Let $ T_{a,b,R} $ indicate a successful money transfer from user $ a $ to $ b $ using the routers in the set $ R $. % (indicated by \emph{commit}/\emph{sent} transactions).
 Let $ (a, b, w) $ indicates a directed edge in $ G $ from user $ a $ to $ b $ with weight $ w $.
-Now, each identity in our Trustchain network is modelled as a node in $ G $.
+Now, each identity in our TrustChain network is modelled as a node in $ G $.
 For each $ T_{a,b,R} $ and each router $ r \in R $, we create two directed edges: $ (a, r, w) $ and $ (b, r, w) $ where $ w = min(0.01, t) $ (the minimum monetary value we trust to someone is \euro 0.01).
 These edges represent trust in routers that have forwarded incoming money in the past.
 
@@ -446,9 +446,9 @@ The effectiveness of this method comes from the difficult and costly process of 
 This addresses the challenging Sybil Attack, where an attacker operates multiple entities that use the same bank account for money routing.
 A router first registers a bank account by sending \euro 0.01 to a trusted third party (TPP), for instance, a bank.
 The digital identity of TPPs are publicly available.
-TPPs sign and store a so-called \emph{verify} transaction on Trustchain together with a money router when the payment is observed.
+TPPs sign and store a so-called \emph{verify} transaction on TrustChain together with a money router when the payment is observed.
 This transaction uniquely connects a bank account to a money router.
-Routers reusing accounts across multiple identities can be identified by querying Trustchain records.
+Routers reusing accounts across multiple identities can be identified by querying TrustChain records.
 
 \section{System Design of Internet-of-Money}
 \label{sec:system_design}
@@ -473,7 +473,7 @@ Our open source\footnote{The Money API source code:\\http://www.ds.ewi.tudelft.n
 %Ongoing collaboration with business partners focusses on exploring legal considerations of the Money API.
 
 \subsubsection*{Money Routers}
-Each money routers must offer settlement services with at least two different bank accounts.
+Each money router must offer settlement services with at least two different bank accounts.
 Having many money routers in the network directly benefits availability and load balancing.
 A study conducted by NGData indicated that 37.7\% of the respondents held accounts at different banks and are able to act as settlement intermediary for money transfers~\cite{ngdata2014consumer}.
 To create incentives for users to operate a money router, we include transaction fees.
@@ -555,20 +555,25 @@ Thus, a fast payment with $ n $ intermediaries results in $ 2n+1 $ new records.
 In addition to our trust model, we propose two risk mitigation techniques to reduce counterparty risk when using money routers:
 \begin{enumerate}
 	\item \emph{Incremental settlement}: A key risk mitigation technique is to avoid making a single, large payment at once. Instead, a payment is divided into $ n $ smaller inter-bank payments. While this increases duration of a fast payment by a factor $ n $, it significantly reduces risk and incentives for intermediaries to compromise money. We believe that reduced risk for some increased latency is a desirable trade-off in Internet-of-Money.
-	\item \emph{Multi-flow payments}: We uniformly divide a fast payment amongst multiple, distinct money circuits. This results in smaller payments through intermediaries.
+	\item \emph{Multi-flow payments}: We uniformly divide a fast payment amongst multiple, distinct money circuits. This results in smaller payments through intermediaries and less value at stake. With multi-flow payments, the end-to-end latency of a payment is determined by the slowest money circuit.
 \end{enumerate}
-While these individual strategies are viable to mitigate counterparty risk, combining them results in a significant reduction of the value at stake, at the cost of additional latency and communication overhead.
+While these individual strategies are viable to mitigate counterparty risk, combining them results in a significant reduction of the value at stake, at the cost of additional latency when using incremental settlement and communication overhead.
 We evaluate the effectiveness of these strategies in Section \ref{sec:fraud_experiment}.
 
 \subsubsection*{Router Recharging}
-Since funds arrive in one account and leave another, money routers might become insolvent at one point in time, unable to route additional funds.
+Since funds arrive in one account and leave another, money routers might become unable to route additional funds at one point in time.
 This can be addressed by handling fast payments going in the opposite direction, which restores account balances.
 However, initiation of these fast payments is outside the control of money routers.
 Balances can also be restored by initiating a payment from the account with excessive balance to the other bank account.
 Since this involves an inter-bank payment, settlement might be slow and in turn, this negatively impacts router availability.
 
-We envision an infrastructure where routers help each other to restore balances, effectively creating a two-sided market with capacity supply and demand.
+This problem is also recognized in off-chain payment networks that are using channels between users with limited capacity.
+Revive is a mechanism for rebalancing payment channels and avoids the need for (often expensive) transactions on a blockchain to recreate the channel~\cite{khalil2017revive}.
+Alternatively, this issue can be addressed by the route discovery mechanism where routing decisions aim to minimize the amount of rebalancing required while maximizing user profits.
+
+For our mechanism we envision an infrastructure where routers help each other to restore balances, effectively creating a two-sided market with capacity supply and demand.
 For instance, a router can offer PayPal capacity in return for HSBC funds.
+Rebalancing payments are handled by the Internet-of-Money mechanism.
 While this is an efficient method to restore balances, only requiring in-house payments, we consider the design and implementation of such a mechanism as future work.
 
 %We should realise that this approach is susceptible to errors which might lead to money not being transferred over a money circuit.
@@ -733,29 +738,33 @@ Using exclusively incremental settlement leads to a slightly higher amount of fr
 We now discuss this research from various perspectives.
 
 \subsubsection*{Legal}
-The idea of directly sharing funds with others, without a central bank involved, challenges existing regulation.
+The idea of directly sharing funds with others, without a central bank involved, is highly experimental and challenges existing regulation.
 Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking license.
 The PSD2 regulation states that trusted third parties (TPPs) can be authorized by end-users to perform financial activities on their behalf~\cite{cortet2016psd2}.
 However, it is unclear whether the definition of a TPP includes money routers.
 Another consideration is responsibility when a mistaken payment is initiated.
-Finally, compatibility of our system with (inter)national anti-money laundry regulations is uncertain.
-Exploring legal compliance of this work is a fundamental requirement for broader adoption.
+At the same time, this consideration also applies to blockchain technology where payments cannot manually be reverted once they are finalized on the ledger.
+Compatibility of our system with (inter)national anti-money laundry regulations is highly uncertain.
+Exploring legal compliance of this work is a fundamental requirement for further work and additional trials.
 
 \subsubsection*{Limitations}
 While we have proven the viability of our idea, there are several limitations that must be addressed prior to broader adoption.
 We noticed that banks are not used to our dynamic way of initiating money transfers and our accounts got blocked several times due to suspected fraudulent behaviour.
-An open ecosystem for settlement demands changes by banks and it is an open question whether they are willing to do so.
-On the other hand, many banks are already forced to innovate their legacy systems to remain competitive~\cite{mckinsey2016payments}.
+An open ecosystem for settlement demands changes by banks and it is an open question whether they are willing to do so, given the conservative nature of the (regulated) financial ecosystem.
+However, many banks are already forced to innovate their legacy systems to remain competitive~\cite{mckinsey2016payments}.
 
 Additionally, we observed that some banks require two-factor authentication when transferring funds to unknown bank accounts.
-This limits automation of money transfers since a manual action by the user is required for a payment to proceed.
+This limits the automation of money transfers since a manual action by the user is required for a payment to proceed.
+A potential approach is that a user can whitelist trusted accounts and use these accounts as subsequent hops in a money circuit.
+This resembles Interledger, a payment protocol to transfer value through trusted \emph{connectors} across isolated ecosystems~\cite{thomas2015protocol}.
 %A future-proof solution for this is outside our control and demands changes by banks.
 
 \subsubsection*{Privacy}
-%To establish trust, we publish transactions on our Trustchain ledger.
+%To establish trust, we publish transactions on our TrustChain ledger.
 We consider privacy an important requirement of our open platform and expose minimal information about money flows.
 The current privacy model in Internet-of-Money is effective but open for extension.
-Decentralized path-based transaction networks, for instance, SpeedyMurmurs, aim to solve this specific problem~\cite{roos2017settling}.
+Decentralized path-based transaction networks, for instance, SpeedyMurmurs, can be leveraged to address this specific problem~\cite{roos2017settling}.
+In addition, we can draw inspiration from privacy-preserving coins like Monero, and their adopted cryptographic techniques, such as ring signatures and zero-knowledge proofs~\cite{bunz2018bulletproofs,poelstra2018confidential}.
 
 %The open nature of our data structure, similar to the Bitcoin data structure, raises privacy questions.
 %Recall that each transaction involving a money switch publishes a record, containing potential sensitive information about the flow of money.
@@ -801,7 +810,7 @@ New usages of blockchain technology are focussed around the way users transfer m
 %Byteball is a decentralized system that creates a directed, acyclic graph that stores units of value and uses an internal currency that should be paid when adding data to the global database~\cite{churyumov2016byteball}.
 The Ripple project, supported by various major banks, attempts to build a connected network of financial institutions and payment providers~\cite{schwartz2014ripple}.
 Their solution aims to significantly speed up traditional money transfers, lower costs and provide support for high-volume transactions.
-R3 Corda can be compared to Trustchain since they share the idea that a ledger with global consistency is often not necessary~\cite{brown2016introducing}.
+R3 Corda can be compared to TrustChain since they share the idea that a ledger with global consistency is often not necessary~\cite{brown2016introducing}.
 
 While blockchain solutions are slowly being adopted, the aforementioned systems all aim to increase utility by building a financial network from scratch.
 In comparison, Internet-of-Money is built upon existing, proven infrastructure, making migration towards our system effortless.
@@ -827,7 +836,7 @@ In comparison, Internet-of-Money is built upon existing, proven infrastructure, 
 
 \section{Conclusions}
 We explored a new stage in the evolution of digital trust and addressed the problem of trusting strangers with your money.
-The tamper-proof Trustchain structure provides a scalable and public trace of historical interactions, and allows detection and punishment of potential fraud.
+The tamper-proof TrustChain structure provides a scalable and public trace of historical interactions, and allows detection and punishment of potential fraud.
 We expand upon this with an overlay network to transfer money within seconds to others, using other network participants as financial intermediaries.
 This mechanism depends on the fast settlement of in-house payments.
 %No changes to existing infrastructure is required to support this idea.
@@ -837,7 +846,7 @@ Additionally, we have proven that our fraud detection mechanism, together with i
 However, there are various legal issues and limitations that should be addressed, mostly by financial institutions, before broader usage can be realised.
 
 This work is an important milestone in our ambitious vision to create the \emph{programmable economy}.
-Ongoing work towards this goal addresses self-sovereign identity, scalable blockchain consensus compatible with Trustchain, and decentralized marketplaces.
+Ongoing work towards this goal addresses self-sovereign identity, scalable blockchain consensus compatible with TrustChain, and decentralized marketplaces.
 Upcoming experimentation will focus on expanding Internet-of-Money to support additional banks, currency conversion and international bank transfers.
 For this experiment, we utilize additional type of money switches to send money across the globe in seconds.
 This structure is presented in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.
