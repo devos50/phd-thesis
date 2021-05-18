@@ -983,7 +983,7 @@ In \ModelName{}, trade proceeds through the direct interaction between the invol
 \label{sec:blockchain_accounting}
 The \ModelName{} trading protocol described in Section~\ref{sec:protocol} requires a distributed log to securely and irreversibly store \texttt{Order}, \texttt{CancelOrder}, \texttt{Agreement}, \texttt{Payment}, \texttt{Finalize} and \texttt{CancelTrade} records.
 We choose to build \ModelName{} upon TrustChain~\cite{otte2017trustchain} which is a shared data structure with a sharp focus on tamper-resilience and trustworthy record storage.
-In this section, we motivate our choice for TrustChain and outline how TrustChain is used to store \ModelName{} records.
+In this section, we motivate our choice for TrustChain and outline how TrustChain is used to store \ModelName{} records.\footnote{The TrustChain architecture described in this chapter is an earlier version of \TrustChain{}, which has been presented in Chapter~\ref{chapter:trustchain}.}
 
 \subsection{TrustChain: A Scalable Ledger for Accounting} \label{sec:trustchain}
 Based on the idea of blockchain ledgers that order transactions in a directed acyclic graph (DAG), Otte et al. designed, implemented, and deployed TrustChain.
