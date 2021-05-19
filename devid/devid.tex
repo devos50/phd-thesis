@@ -1,4 +1,4 @@
-\chapter{DevID: Blockchain-based Portfolios for Software Developers}
+\chapter{DevID: Decentralized Developer Portfolios for Software Crowdsourcing}
 \label{chapter:devid}
 
 \emph{Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
@@ -127,7 +127,9 @@ How we achieve this, is discussed in the next section.
 
 \textbf{Import.}
 Developers are able to import data from other sources into their DevID profile.
-When performing an import action, a record with this type is created, containing specifications on the import source.\todo{expand}
+When performing an import action, a record with this type is created, containing specifications on the import source, and imported data elements.
+Other records can reference the import record, for example, to signify that a particular skill endorsement has been imported from LinkedIn.
+We describe record specifications and references between these records in Section~\ref{subsec:devid_record_specs}.
 
 \textbf{Wallets.}
 Finally, developers can add the specifications of wallets to their DevID portfolio, for example, the address of their Bitcoin wallet.
@@ -240,18 +242,38 @@ TrustChain, first introduced by Otte et al.~\cite{otte2017trustchain}, is a ligh
 To detect malicious behaviour, in particularly the forking of a personal ledger, users continuously request random transactions from other users and share their transactions with other users upon request.
 The consistency of incoming transactions is checked against known transactions, and illegitimate modifications of the personal ledger can quickly be revealed by the collective effort of users in the network.
 
-TrustChain has three particular advantages that align with developer portfolios.
+TrustChain has four particular advantages that align with developer portfolios.
 First, TrustChain enables selective queries of data stored on the chains of other members, without the need for full data replication across the network.
 Second, TrustChain is particularly designed for the tamper-proof accounting of generic data elements.
 Third, while TrustChain is primarily built around bilateral transactions, this ledger architecture also allows unilateral transactions.
 Unilateral transactions are particularly helpful when storing content that is not related to other users, e.g., when a developer includes a project in its portfolio.
+Finally, TrustChain is already used as transaction fabric within a self-sovereign, decentralized identity system, described in the work of Stokkink et al~\cite{stokkink2018deployment}.
+Availability of a self-sovereign identity system aligns with our requirement for strong, long-lived identities (see Section~\ref{subsec:strong_identities}).
 TrustChain, however, does provide less consistency guarantees but we believe that this does not pose a barrier for DevID (depending on the system parameters and network size, malicious behaviour can usually be detected within seconds).
 
+\begin{figure}[t!]
+	\centering
+	\includegraphics[width=.8\linewidth]{devid/resources/trustchain_devid.pdf}
+	\caption{Example of DevID records and their links on two distinct personal ledgers (coloured differently). Solid arrows indicate hash references between transactions whereas dashed arrows indicate application-specific references included in the transaction payload.}
+	\label{fig:devid_trustchain}
+\end{figure}
+
 \subsection{DevID records and TrustChain}
-TrustChain enables users to issue transactions with an application-specific payload.
+\label{subsec:devid_record_specs}
+TrustChain enables users to quickly issue transactions with an application-specific payload.
 A TrustChain transaction has a \texttt{type} field, which we fix as the record types discussed in Section~\ref{subsec:record_types} with \texttt{devid\_} as prefix.
 The transaction type is used by participating users to distinguish between different applications and to conduct application-specific validation of incoming transactions.
+TrustChain is built around bilateral transactions but also support unilateral transactions that do not require the agreement of other users.
+The transactions containing records associated with projects, skills, import actions, and wallet information are unilateral.
+Endorsements are implemented as bilateral transactions since they involve an interaction between two users.
+An endorsement contains a reference to the transactions containing the skills being endorsed.
 
+Figure~\ref{fig:devid_trustchain} shows how DevID records are mapped on the TrustChain data structure.
+The figure shows (a part of) the personal ledger and transactions of two different users $ a $ and $ b $, in green and blue colours, respectively.
+User $ a $ added two projects to its portfolio and provided an endorsement to user $ b $.
+User $ b $ added wallet information to its portfolio and imported data from an external source.
+This import action imported a single project and skill, and the transactions associated with the project and skill reference the import action.
+\todo{expand on the transaction validation process}
 
 \subsection{Storing Large Data Assets}
 While pairwise distributed ledgers are suitable for storing small portfolio records, they are not suitable for storing arbitrary large data assets.
@@ -262,6 +284,8 @@ Figure~\ref{fig:system_architecture} shows the distributed storage, which compri
 Suitable distributed storage solutions for our work are a Distributed Hash Table (DHT) like Kademlia, a BitTorrent swarm or the InterPlanetary File System (IPFS)~\cite{maymounkov2002kademlia,cohen2008bittorrent,benet2014ipfs}.
 These solutions enable users to store large data assets, without involvement of a trusted third party.
 Large data is inserted in the distributed storage back-end, and a reference to the data (i.e., a content hash) is included in the on-chain transaction.
+DevID (and DAppCoder) users can store their data at different \emph{providers}.
+Each provider is identified by a short string (e.g., \enquote{\texttt{IPFS}} or \enquote{\texttt{website}}), include a pointer to the data, and is included in DevID portfolio records.
 
 \begin{figure*}[t!]
 	\centering
@@ -272,32 +296,76 @@ Large data is inserted in the distributed storage back-end, and a reference to t
 
 \section{dAppCoder: Crowdsourcing Development of Decentralized Applications}
 \label{sec:dappcoder}
-By extending the DevID portfolio architecture and record types, we create a crowdsourcing platform for the development of decentralized applications.
-Running completely without centralized servers, our platform named dAppCoder enables clients to create projects and to find developers, and dApp developers to work on projects that match their skill set.
-The architecture of dAppCoder is presented in the upper layer of Figure~\ref{fig:system_architecture} and the user interface is shown in Figure~\ref{fig:dappcoder}.
-We now elaborate on the main functionalities of dAppCoder.
+By extending the DevID portfolio architecture and record types, we build a crowdsourcing marketplace for the development of decentralized applications.
+Running completely without centralized servers, our platform named \emph{dAppCoder} enables clients to propose projects and to find developers.
+dApp developers can choose to work on projects that match their skill set.
+The architecture of dAppCoder is presented in the upper layer of Figure~\ref{fig:system_architecture} and its user interface is shown in Figure~\ref{fig:dappcoder}.
+We now elaborate on the main functionalities of dAppCoder.\todo{why competition?}
+
+\begin{lstlisting}[language=json,firstnumber=1,float=t,caption=A project offered in DAppCoder (in JSON format).,label=lst:devid_project]
+{
+	"title": "An Ethereum-based Art Marketplace",
+	"description": {
+		"provider": "website",
+		"uri": "..."
+	},
+	"requirements": {
+		"provider": "website",
+		"uri": "..."
+	},
+	"deadline": "20-09-2021",
+	"required_skills": ["Solidity", "Ethereum"],
+	"assets": [{
+		"description": "example art objects",
+		"provider": "website",
+		"uri": "..."
+	}],
+}
+\end{lstlisting}
 
 \subsection{Creating Projects}
-Clients that want their idea realized (e.g., the implementation of a specific smart contract) can create a new project in dAppCoder.
-Creating a new project requires the client to specify a project title, requirements, a submission deadline, the number of testers needed for each submission, and a list of skills needed to work on the project.
-When creating a new project, a single portfolio record with all project information is constructed, appended to the individual ledger, and disseminated in the network.
-Since the project requirements might be of arbitrary length, we store it in the distributed storage back-end and embed a pointer to it in the portfolio record.
-For each new project, the client generates a \textit{project keypair}, which consists of a public and private key.
-These keys are used when releasing the submissions for a project, which is discussed in Section~\ref{subsec:create_submissions}.
+Clients that want their idea realized (e.g., the implementation of a particular smart contract) can offer a new project in dAppCoder.
+Creating a new project requires the client to specify various fields, as exemplified in Listing~\ref{lst:devid_project}.
+Each project includes a title, a list with technical requirements for the final deliverable, a deadline (optional), a list of required skills needed to work on the project, and an optional list of assets provided by the client.
+Since the project description, requirements, and assets can become large, these assets are stored off-chain and a reference to these assets is included in the transaction.
+This reference contains a \texttt{provider} and \texttt{uri} field.
+To publish a project, a TrustChain transaction with type \texttt{dappcoder\_project} containing all project information is constructed, appended to the personal ledger of the project creator, and disseminated in the network.
+\todo{what about private projects?}
+%For each new project, the client generates a \textit{project keypair}, which consists of a public and private key.
+%These keys are used when releasing the submissions for a project, which is discussed in Section~\ref{subsec:create_submissions}.
 
-To incentivize developers to work on a particular project, each project has a fixed monetary reward which is disbursed by the client to the developer with the best submission.
-Prior to posting a new project, the client determines the height of the reward and transfers it to a \textit{Trusted Notary Service} (shown in Figure~\ref{fig:system_architecture}).
-This compensation, put into escrow, directly addresses an attack where clients flood the system with invalid or irrelevant projects.
+To incentivize developers to work on a particular project, each project has a fixed monetary reward which is disbursed by the client to the developer that chooses to work on the project.
+Prior to publishing a new project, the client determines the height of the reward and transfers it to a \textit{Trusted Notary Service} (shown in Figure~\ref{fig:system_architecture}).
+This trusted notary service manages developer payouts and is external to the DevID and DAppCoder ecosystem.
+The compensation, put into escrow, directly addresses the attack where clients would flood the system with invalid or irrelevant projects.
 The trusted notary can either be a centralized authority or an (Ethereum) smart contract that interacts with the dAppCoder application through oracles.
 
-Each project goes through two phases during its lifetime: a \emph{submission} and a \emph{testing} phase.
-During the submission phase, developers can create submissions for a project until the submission deadline (which is determined by the client).
-The duration of the testing phase depends on the time it takes for the project to accumulate the required number of testers.
+Each project can be in one of the five following phases: \emph{created}, \emph{implementing}, \emph{testing}, \emph{finished} or \emph{cancelled}.
+After a project has been created, developers can indicate their interest to work on a preferred project. 
+If sufficient developers are interest to work on a particular project, the client picks interested developers, for example, based on the information in their DevID portfolios.
+This information is published in a \texttt{dappcoder\_project\_update} transaction that transitions the project from the \emph{created} to \emph{implementing} phase.
+During the implementation phase, assigned developers work on implementing the project deliverables.
+When the implementation deadline passed, the project enters the \emph{testing} phase.
+Testing is a crucial requirement for the development of secure decentralized applications that often evolve around value transfer or business-critical operations.
+This testing might be performed by the developers that implemented the initial solution, or by others.
+If the testing phase reveals that more work is needed on the project deliverable, the project can transition to the \emph{implementing} phase again.
+When the deliverable is satisfactory, the client indicates that the project is finished and instructs the trusted notary service to payout involved developers.\todo{elaborate on payouts}
+
+%The duration of the testing phase depends on the time it takes for the project to accumulate the required number of testers.
+
+
+
+\begin{figure*}[t!]
+	\centering
+	\includegraphics[width=0.8\textwidth]{devid/resources/devid_project.pdf}
+	\caption{The user interface of DAppCoder, our application to crowdsource the development of decentralized applications.}
+	\label{fig:devid_project}
+\end{figure*}
 
 \subsection{Creating Submissions}
 \label{subsec:create_submissions}
 Developers looking for work can browse through the list of open projects, or filter them based on the skills they have added to their DevID portfolio.
-When a developer has found an interesting project, they work towards a submission.
+When a developer has found an interesting project, they indicate their interest to work on the project.
 A submission must consist of source code and documentation, which are inserted in the distributed storage back-end.
 For each submission, a new portfolio record is created with a pointer to the project and submission files.
 Incoming submissions after the submission deadline has passed, will not be considered for testing.
@@ -344,11 +412,6 @@ The graphical user interface of dAppCoder is implemented with the Qt5 library an
 The open source implementations of both DevID and dAppCoder are available online.\footnote{https://github.com/tribler/dappcoder}
 
 We build DevID, and by extension dAppCoder, on the TrustChain ledger introduced by Otte et al~\cite{otte2017trustchain}.
-We identified two advantages of TrustChain over other pairwise distributed ledgers like R3 Corda and Nano.
-First, TrustChain focuses on fraud \emph{detection} instead of \emph{prevention} and as a result does not require network-wide consensus.
-This makes TrustChain a lightweight and simple data structure.
-Second, TrustChain is already used as transaction fabric within a self-sovereign, decentralized identity system, described in the work of Stokkink et al~\cite{stokkink2018deployment}.
-Availability of a self-sovereign identity system aligns with our requirement for strong, long-lived identities (see Section~\ref{subsec:strong_identities}).
 We use the InterPlanetary File System (IPFS) to store large data assets like project specifications, submissions and code reviews.
 Users can import statistics from their GitHub profile using the challenge mechanism described in Section~\ref{subsec:unifying_data}.
 
