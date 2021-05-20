@@ -615,11 +615,12 @@ While the number of permissioned blockchains is proliferating, there is no unive
 We aim for a universal settlement mechanism that is capable of securely exchanging assets between any permissioned blockchain.
 %The question is how to address these issues and enable fast asset trading between different exchanges.
 
-\textbf{[RQ5] How can blockchain technology be applied to build a decentralized identity for software developers?}
-The engineering of blockchain-based applications is a challenging task and requires engineers with appropriate qualifications.
-At the same time, the credentials of software developers are fragmented across many platforms, and vendor-locked.
-This makes it challenging to get a representative impression of ones skills, e.g., as required in crowdsourcing marketplaces.
-Our goal is to devise a solution to unify these credentials without data storage by a centralized provider.
+\textbf{[RQ5] How can we build a decentralized crowdsourcing platform for the development of dApps?}
+The engineering of decentralized applications, or dApps, is a challenging task and requires engineers with appropriate qualifications.
+Crowdsourcing is getting increasingly popular for software development.
+At the same time, the credentials of developers are fragmented across many crowdsourcing platforms, and vendor-locked.
+This makes it challenging to get a representative impression of ones skills.
+Our goal is to address this problem by unifying developer credentials and by building a decentralized crowdsourcing platform without fragmentation and vendor locking.
 
 %Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
 %Recent research proposes to leverage blockchain technology to disintermediate in these markets.
@@ -656,22 +657,22 @@ We have implemented each mechanism in the Python programming language, usually w
 We utilize an existing library for networking primitives, fully developed by our lab.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Table~\ref{table:research_methodology} lists for each mechanism how we have evaluated and deployed it.
 Except for DevID, we evaluate each mechanism with an appropriate set of experiments using our nation-wide compute cluster (the DAS5~\cite{bal2016medium}).
-We have also evaluated the \TrustChain{} and XChange using simulations.
-These simulations enables us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces (e.g., we evaluate the XChange mechanism by replaying a week of buy and sell orders).
+We further evaluate the \TrustChain{} and XChange mechanisms using discrete-event simulations.
+These simulations enables us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces (e.g., we evaluate fraud gains of the XChange mechanism by replaying a week of buy and sell orders).
 
 Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of colleagues or with an integration in the Tribler application~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic research vehicle and offers decentralized, anonymous file-sharing capabilities.
 Tribler has been downloaded by over 1.5 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer-grade hardware.
 For example, we have integrated \TrustChain{} in \Tribler{} to prevent free-riding behaviour in our anonymous peer-to-peer overlay.
 This two-year deployment period of \TrustChain{} has allowed us to incrementally improve our accounting mechanism and refine our ideas.
-We attempt to make our research reproducible by publishing the implementation of each mechanism, including documentation and unit tests, on GitHub.\footnote{Links to the implementation are provided in the remaining chapters of this thesis.}
-Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms associated with our Internet-of-Money mechanism.
+We attempt to make our research reproducible by publishing the implementation of each mechanism, including documentation and unit tests, on GitHub.\footnote{Links to the implementation are provided in the technical chapters of this thesis.}
+Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms included in our Internet-of-Money mechanism.
 
-The complexity of real-world systems often posed a challenge when deploying our mechanisms.
+Dealing with the complexities of real-world distributed systems often posed a challenge when deploying our mechanisms.
 For example, shortly after the initial deployment of the MATCH mechanism in \Tribler{} (see Chapter~\ref{chapter:match}), students forged a specific packet that would crash a Tribler instance that received it.
 Tribler would forward the packet to other connected peers before crashing.
-Therefore, this bug affected a large part of our network and we were forced to deployed a fix for this behaviour by releasing a new version of Tribler.
-Despite the large efforts required to get a system deployed and operational, this process has been tremendously helpful in discovering both critical design flaws and minor implementation errors.
+Therefore, this bug affected a significant part of the Tribler user base and we were forced to quickly deployed a fix for this behaviour by releasing a new version.
+Despite the large efforts required to get our systems deployed and operational, this process has been tremendously helpful in discovering both critical design flaws and minor implementation errors.
 
 %Distributed systems can be complex software implementations with many components that work together.
 %Specifying the scope of a system is a non-trivial challenge and failing to implement clear system boundaries can result in numerous performance bottlenecks and degradation of user experience when such a system is deployed.
@@ -725,6 +726,7 @@ Martijn de Vos and Johan Pouwelse, \enquote{ConTrib: Maintaining Fairness in Dec
 Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant Scalable Blockchain}, \emph{Future Generation Computer Systems (FGCS), Special Issue on Cryptocurrency and Blockchain Technology}, 2020, Elsevier.\\
 
 In contrast to our earlier article on TrustChain, the articles presenting the \TrustChain{} mechanism contain additional details on the data structure, include a full description of our fraud detection algorithm, and include the results of our two-year deployment trial within \Tribler{}.
+The mechanisms described XChange, Internet-of-Money and DevID mechanisms are based on this earlier version of TrustChain.
 
 \textbf{[Chapter 3] MATCH: A Decentralized Middleware for Fair Matchmaking in Peer-to-peer Markets.}
 In this chapter, we address RQ2 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
@@ -787,8 +789,8 @@ This chapter is based on the following publication:
 
 Martijn de Vos and Johan Pouwelse, \enquote{Real-time Money Routing by Trusting Strangers with your Funds}, \emph{IFIP Networking, 2018}.\\
 
-\textbf{[Chapter 6] DevID: Decentralized Developer Portfolios for Software Crowdsourcing.}
-In this chapter, we answer RQ5 and build a decentralized identity management solution for software developers.
+\textbf{[Chapter 6] \Dappcoder{}: A Decentralized Marketplace for dApp Crowdsourcing.}
+In this chapter, we answer RQ5 and build a decentralized crowdsourcing platform for the development of dApps.
 Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
 Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
 The main problem is that the portfolio of developers is usually scattered across centralized platforms like GitHub and LinkedIn, and vendor locked.
@@ -808,7 +810,10 @@ This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}.\\
 
-\textbf{[Chapter 7] Conclusions.} We will end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
+Chapter 6 contains various improvements compared to the above paper.
+Specifically, we have reorganized the storyline to focus more on the dAppCoder platform, and we included more technical details on created TrustChain transactions.\\
+
+\textbf{[Chapter 7] Conclusions.} We end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
 
 %\begin{figure}[t]
 %	\centering

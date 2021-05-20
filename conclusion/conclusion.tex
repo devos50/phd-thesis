@@ -15,7 +15,7 @@ The main conclusions of this thesis are as follows:
 	\item In Chapter~\ref{chapter:trustchain}, we have built \TrustChain{}, a universal accounting mechanism.
 	With a two-year deployment trial of \TrustChain{} in our peer-to-peer application \Tribler{}, we have successfully addressed free-riding behaviour in our Tor-like overlay.
 	Our \TrustChain{} mechanism is highly suitable for accounting data within different application domains that can tolerate fraud to remain undetected for a short period.
-	In this thesis, we have leveraged the accounting capabilities of \TrustChain{} to store data elements in the XChange (Chapter~\ref{chapter:xchange}), Internet-of-Money (Chapter~\ref{chapter:iom}) and DevID (Chapter~\ref{chapter:devid}) mechanisms.
+	In this thesis, we have leveraged the accounting capabilities of \TrustChain{} to store data elements in the XChange (Chapter~\ref{chapter:xchange}), Internet-of-Money (Chapter~\ref{chapter:iom}) and dAppCoder/DevID (Chapter~\ref{chapter:devid}) mechanisms.
 	
 	\item Our decentralized MATCH middleware, presented in Chapter~\ref{chapter:match}, is highly resilient against manipulation during order matchmaking.
 	This manipulation is a significant concern in peer-to-peer markets under central ownership.
@@ -32,9 +32,10 @@ The main conclusions of this thesis are as follows:
 	By accounting all money transfers between users and money routers, we can detect if a money router compromises funds.
 	Our Internet-of-Money mechanism does not require changes to existing banking infrastructure.
 	
-	\item In Chapter~\ref{chapter:devid}, we introduce unified, blockchain-based portfolios with DevID.
+	\item In Chapter~\ref{chapter:devid}, we introduce \Dappcoder{}, a decentralized crowdsourcing platform for the development of dApps.
+	A key component of this platform is DevID, unified, blockchain-based portfolios.
 	DevID solves the problem that the portfolio of developers is usually scattered across centralized platforms, and vendor locked, making it hard to get an accurate impression of the developers' skills.
-	Our fully decentralized software crowdsourcing leverages DevID portfolio to match clients with developers, without trusted intermediaries.
+	Our fully decentralized software crowdsourcing leverages DevID portfolio to match clients with developers, without any requirement for trusted intermediaries.
 \end{enumerate}
 
 \noindent The following three conclusions transcend single chapters:
@@ -90,5 +91,5 @@ We end this thesis by outlining per chapter ideas for further research.
 	We also designed and implemented a decentralized crowdsourcing market.
 	We believe that there are opportunities to devise new processes for securely linking third-party assets with DevID portfolios.
 	Possible research efforts can focus on large-scale deployment of DAppCoder and integration of our tools in collaboration software like GitHub.
-	This would also include a cryptocurrency-based remuneration system.
+	%This would also include a cryptocurrency-based remuneration system.
 \end{enumerate}
