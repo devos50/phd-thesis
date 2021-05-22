@@ -619,7 +619,7 @@ We aim for a universal settlement mechanism that is capable of securely exchangi
 The engineering of decentralized applications, or dApps, is a challenging task and requires engineers with appropriate qualifications.
 Crowdsourcing is getting increasingly popular for software development.
 At the same time, the credentials of developers are fragmented across many crowdsourcing platforms, and vendor-locked.
-This makes it challenging to get a representative impression of ones skills.
+This makes it challenging to get a representative impression of ones skills and introduces search frictions.
 Our goal is to address this problem by unifying developer credentials and by building a decentralized crowdsourcing platform without fragmentation and vendor locking.
 
 %Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software.
@@ -636,7 +636,7 @@ Our goal is to address this problem by unifying developer credentials and by bui
 		2 & MATCH & DAS5 & integration in Tribler \\ \hline
 		3 & XChange & DAS5 + simulations & integration in Tribler \\ \hline
 		4 & Internet-of-Money & DAS5 & in-house testing \\ \hline
-		5 & DevID & - & user trial \\ \hline
+		5 & \Dappcoder{} & - & user trial \\ \hline
 	\end{tabular}
 	\caption{An overview of research methods for each mechanism introduced in this thesis.}
 	\label{table:research_methodology}
@@ -656,9 +656,9 @@ For all of our proposed mechanisms, our primary objective is to build a solution
 We have implemented each mechanism in the Python programming language, usually within a few thousand lines of code.
 We utilize an existing library for networking primitives, fully developed by our lab.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Table~\ref{table:research_methodology} lists for each mechanism how we have evaluated and deployed it.
-Except for DevID, we evaluate each mechanism with an appropriate set of experiments using our nation-wide compute cluster (the DAS5~\cite{bal2016medium}).
+Except for \Dappcoder{} (and by extension, DevID), we evaluate each mechanism with an appropriate set of experiments using our nation-wide compute cluster (the DAS5~\cite{bal2016medium}).
 We further evaluate the \TrustChain{} and XChange mechanisms using discrete-event simulations.
-These simulations enables us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces (e.g., we evaluate fraud gains of the XChange mechanism by replaying a week of buy and sell orders).
+These simulations enables us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces (e.g., we evaluate fraud gains of fraudsters in the XChange mechanism by replaying a week of buy and sell orders).
 
 Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of colleagues or with an integration in the Tribler application~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic research vehicle and offers decentralized, anonymous file-sharing capabilities.
@@ -714,7 +714,7 @@ We devise a system architecture with flexible validation and fraud policies.
 Our evaluation reveals that \TrustChain{} is highly scalable, tolerates packet loss and exhibits relatively low fraud detection times.
 To highlight the potential of \TrustChain{}, we leverage our solution for bandwidth accounting in the \Tribler{} application and successfully address free-riding behaviour.
 Our two-year deployment trial has resulted in over \TrialRecords{} records, created by more than \TrialUsers{} Internet volunteers.
-We make use of the accounting capabilities of \TrustChain{} for other mechanisms introduced in this thesis, namely XChange, Internet-of-Money, and DevID.
+We make use of the accounting capabilities of \TrustChain{} for other mechanisms introduced in this thesis, namely XChange, Internet-of-Money, and \Dappcoder{}.
 This chapter is based on the following two publications:
 
 Martijn de Vos and Johan Pouwelse, \enquote{ConTrib: Universal and Decentralized Accounting in Shared-Resource Systems}, \emph{Distributed Infrastructure for Common Good (DICG), 2020.}\\
@@ -726,7 +726,7 @@ Martijn de Vos and Johan Pouwelse, \enquote{ConTrib: Maintaining Fairness in Dec
 Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant Scalable Blockchain}, \emph{Future Generation Computer Systems (FGCS), Special Issue on Cryptocurrency and Blockchain Technology}, 2020, Elsevier.\\
 
 In contrast to our earlier article on TrustChain, the articles presenting the \TrustChain{} mechanism contain additional details on the data structure, include a full description of our fraud detection algorithm, and include the results of our two-year deployment trial within \Tribler{}.
-The mechanisms described XChange, Internet-of-Money and DevID mechanisms are based on this earlier version of TrustChain.
+The mechanisms described XChange, Internet-of-Money and \Dappcoder{} mechanisms are based on this earlier version of TrustChain.
 
 \textbf{[Chapter 3] MATCH: A Decentralized Middleware for Fair Matchmaking in Peer-to-peer Markets.}
 In this chapter, we address RQ2 and focus on matchmaking, the process of bringing market participants together based on individual preferences.
@@ -794,13 +794,13 @@ In this chapter, we answer RQ5 and build a decentralized crowdsourcing platform 
 Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
 Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
 The main problem is that the portfolio of developers is usually scattered across centralized platforms like GitHub and LinkedIn, and vendor locked.
-This can result in an incomplete impression of their capabilities.
-We address this problem and introduce \emph{DevID}, a blockchain-based portfolio for developers.
+This can result in an incomplete impression of their capabilities, introducing search frictions.
+We address this problem and first introduce \emph{DevID}, a blockchain-based portfolio for developers.
 Over time, this portfolio enables developers to build up a trustworthy collection of records that showcase their capabilities and expertise.
 They can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements.
 All portfolio records are stored on a scalable distributed ledger and owned by developers themselves.
 The essential idea is to exploit the tamper-proof property of the blockchain while providing durable storage.
-To demonstrate the practical value of DevID, we build the competition-based platform, \emph{dAppCoder}, for the development of decentralized applications.
+We then build a decentralized crowdsourcing platform, \emph{dAppCoder}, for the development of dApps.
 On dAppCoder clients are able to submit their ideas and developers can find work.
 dAppCoder utilizes DevID portfolios to match these clients and developers.
 We fully implement our ideas and conduct a deployment trial.
@@ -811,7 +811,8 @@ This chapter is based on the following publication:
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}.\\
 
 Chapter 6 contains various improvements compared to the above paper.
-Specifically, we have reorganized the storyline to focus more on the dAppCoder platform, and we included more technical details on created TrustChain transactions.\\
+Specifically, we have reorganized the storyline to focus more on the dAppCoder platform, and we have included more technical details on TrustChain transactions and their validation.
+We have also removed the dependency on the trusted notary service for payments.\\
 
 \textbf{[Chapter 7] Conclusions.} We end this thesis with the conclusions, a summary of the lessons learned, and suggestions for further work.
 
