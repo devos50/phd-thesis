@@ -463,7 +463,7 @@ We now outline the system and threat model of MATCH.
 %\subsection{System Model}
 %We first provide a system model that specifies the market and order model, actors, and assumptions on the network.
 
-\textbf{Market and order model.}
+\textbf{Market and Order Model.}
 %Matchmaking depends on the individual constraints and preferences of market participants.
 %In most electronic markets, a participant includes this information in an \emph{order} that indicates their intention to buy and sell assets, resources, or services~\cite{veit2003matchmaking}.
 %This order is then submitted to a broker.
@@ -1207,7 +1207,7 @@ We now elaborate on the components in the MATCH middleware architecture.
 %The overall architecture and information flow is presented in Figure \ref{fig:matching_architecture}.
 %We briefly elaborate on the individual components.
 
-\textbf{Network layer.}
+\textbf{Network Layer.}
 The network layer passes incoming messages to the MATCH overlay logic and routes outgoing messages to their intended destination.
 This layer can be implemented using any networking library with support for peer-to-peer communication and authenticated messaging.
 %We should note however that further optimizations can be made in network topology, depending on the domain to which MATCH is applied.
@@ -1221,7 +1221,7 @@ This layer can be implemented using any networking library with support for peer
 	\label{fig:matching_architecture}
 \end{figure}
 
-\textbf{Overlay logic.}
+\textbf{Overlay Logic.}
 The overlay logic processes incoming messages received by the network layer. %, such as new orders, matches and received from the network. % various routines that execute when a specific message is received.
 It inserts incoming \texttt{match} messages in the appropriate match queue, discussed in Section~\ref{sec:match_queue}.
 It contains policies for order \emph{validation} which specify how the validity of an incoming order with a given type is determined.
@@ -1235,13 +1235,13 @@ Incoming orders deemed invalid by the validation policy are discarded and not pr
 
 %New incoming orders received by overlay logic are first checked for validity; if valid they are dispatched to both the order book (so they can be inserted) and the matching engine, which attempts to find matches for this new order.
 
-\textbf{Order books.}
+\textbf{Order Books.}
 Each matchmaker can host multiple order books, coloured green in Figure~\ref{fig:matching_architecture}, which store orders with differing types.
 For example, MATCH can maintain an asset trading order book that stores orders to buy or sell Euros for Dollars, and another ride-hailing order book that stores transportation requests and ride offers.
 Maintaining multiple order books is a key property of MATCH and results in a single and reusable matchmaking solution that can be deployed across different domains.
 %New order books are created on demand, based on the type of incoming orders.
 
-\textbf{Matching engine.}
+\textbf{Matching Engine.}
 Valid incoming orders are passed to the matching engine, coloured red in Figure~\ref{fig:matching_architecture}.
 The matching engine attempts to match incoming offers and requests with existing requests and offers, respectively.
 It contains \emph{matching policies} which predicate whether a specific offer and request match, based on the order type and specifications.
@@ -1252,7 +1252,7 @@ Similar to validation policies, matching policies are published on a website or 
 %Matchmaking can also be based on multiple, weighted attributes.
 %A match found by the matching engine is passed to the overlay logic, converted into a \texttt{match} message, and send to the order creator.
 
-\textbf{Negotiation stores.}
+\textbf{Negotiation Stores.}
 To correctly process incoming messages from negotiation counterparties, MATCH requires state storage of outgoing messages during order negotiation.
 This state is stored in a \emph{negotiation store}, coloured yellow in Figure~\ref{fig:matching_architecture}.
 For each negotiation, a new negotiation store is created, a unique identifier is generated, and this identifier is appended to each message associated with this negotiation.
@@ -1261,7 +1261,7 @@ Incoming negotiation messages containing an unknown identifier are discarded by 
 Negotiation stores time out after the negotiation window expires, on which the store and its contents are deleted.
 %On timeout, the negotiation store is deleted and the overlay logic is notified about this event.
 
-\textbf{Trading mechanism.}
+\textbf{Trading Mechanism.}
 Negotiated trade agreements are passed to the trading mechanism that executes the trade.
 We consider this component external to MATCH.
 %The trading mechanism requires the implementation of the \texttt{startTrade($ O_1, O_2, q $)} function which expects the two matched orders $ O_1 $ and $ O_2 $, and the agreed quantity to trade ($ q $) as arguments.
@@ -1494,7 +1494,7 @@ The first set of experiments focuses on the matching quality and fairness of MAT
 The used workload contains temporal information about ride offers and requests created by drivers and passengers, respectively.
 Each order in the workload has a quantity of one, ensuring that a ride request is matched with at most one ride offer.
 
-\textbf{Workload specification.}
+\textbf{Workload Specification.}
 The workload is reconstructed from historical traces of taxi rides published by the government of New York~\cite{tlc2017nyc}.
 We analyse the traces and subtract 2'100 ride offers and requests during the busiest period in 2015: November 1, 00:59:57 to November 1, 01:01:16 (datasets published after 2015 did not include geographic information on drivers and passengers).
 We assume a total of 1'100 drivers and 1'000 passengers, to resemble the situation where drivers are waiting idly for passengers.
@@ -1512,7 +1512,7 @@ This quality metric is also used by related work on matchmaking in ride-hailing 
 %Matching is based on the great-circle distance between a driver and a passenger.
 %Note that matching is one-to-one: each ride request is matched with exactly one ride offer.
 
-\textbf{Matching quality.}
+\textbf{Matching Quality.}
 We first quantify the matching quality of MATCH under the ride-hailing workload when increasing the number of matchmakers for different values of the order fanout, see Figure~\ref{fig:taxi_quality}.
 The horizontal axis shows the number of matchmakers ($ m $) and the vertical axis denotes the average match distance.
 For this experiment, all matchmakers act honest and execute the same matching algorithm (in other words, $ r = 0 $).
@@ -1533,7 +1533,7 @@ Call markets, for example, operate in batches, where incoming orders are first a
 In MATCH, users aggregate potential matches during the match window, $ W_{match} $, resembling this behaviour.
 Therefore, the matching quality in MATCH can exceed that of centralized FIFO matchmaking because of match aggregation by users, at the cost of a larger order fulfil time.
 
-\textbf{Impact of selfish matching.}
+\textbf{Impact of Selfish Matching.}
 We show how selfish behaviour of malicious matchmakers impacts the matching quality.
 We model a malicious matchmaker as a driver that matches an incoming ride request from a passenger with its own service offer first.
 This captures the economic incentive of drivers to prioritize their own ride services.
@@ -1618,7 +1618,7 @@ By definition, the matching quality of centralized matchmaking is zero and there
 In the worst case, our middleware would have missed 6'450 matches, which is the situation where no matchmaker performs any matching.
 When running the asset trading workload, the matching engine matches orders according to the \emph{price-time} matching policy~\cite{mavroudis2019libra}.
 
-\textbf{Workload specification.}
+\textbf{Workload Specification.}
 The asset trading workload contains buy and sell orders that have been published on the blockchain ledger of BitShares~\cite{schuh2017bitshares}.
 BitShares is a blockchain-based decentralized exchange where users can create, issue and trade digital assets.
 New orders are submitted to dedicated validator nodes, which include incoming orders in a block on the blockchain.
@@ -1631,7 +1631,7 @@ Since our dataset does not contain temporal information on order creation and ca
 We believe this approximates the actual creation timestamp of the order and that this does not skew the experiment results.
 Again, there is a 60 seconds experiment cooldown period after the creation of the last order.
 
-\textbf{Matching quality.}
+\textbf{Matching Quality.}
 Figure~\ref{fig:asset_trading_quality} shows the matching quality while varying the number of matchmakers and order fanout.
 By definition, a centralized approach to matchmaking would not miss any match.
 Similar to the matching quality experiment with the ride-hailing workload (see Figure \ref{fig:taxi_quality}), matching quality decreases when there are more matchmakers and the order fanout is static.
@@ -1650,7 +1650,7 @@ Users creating multiple smaller orders with similar specifications are reaching 
 %This effect is less pronounced for the \texttt{RANDBC} and \texttt{RANDBC+SYNC} policies.
 %Figure \ref{fig:bitshares_effectiveness_dynamic} suggests that differences in matching accuracy with a dynamic order fanout are minimal: on average, all evaluated policies only miss three matches.
 
-\textbf{Impact of selfish matching.}
+\textbf{Impact of Selfish Matching.}
 We demonstrate the effect of malicious matchmakers on the matching quality in our asset trading workload, both with a fixed and adaptive order fanout.
 Under the asset trading workload, we model a malicious matchmaker as a node that purposefully does not inform the party behind an incoming order about the match with the best price.
 Essentially, a malicious matchmaker \enquote{hides} order book entries from the order creator.
@@ -1743,7 +1743,7 @@ To accurately compare the performance of MATCH and Ethereum, we run both workloa
 We fix $ m = 400 $, $ f = 30 $ and $ r = 0 $.
 Since a smart contract enforces the correct execution of a particular matching policy, we run MATCH with 400 honest matchmakers.
 
-\textbf{Smart contracts.}
+\textbf{Smart Contracts.}
 For both workloads, we implement a smart contract in the Solidity programming language.
 The smart contract for the ride-hailing workload maintains two lists containing open offers and requests.
 Submission of a new ride offer and request is done by issuing a transaction with geographic information that invokes the \texttt{ride\_offer} and \texttt{ride\_request} methods in the smart contract, respectively.
@@ -1759,7 +1759,7 @@ This allows for a strategic search for order matches and avoids the need for a f
 This order book organization is predominantly used by financial exchanges.
 To quantify the overhead of order matchmaking, we remove the operation that transfers token ownership after matching from the smart contract but leave the implemented price-time matchmaking logic intact.
 
-\textbf{Bandwidth usage.}
+\textbf{Bandwidth Usage.}
 We measure the aggregated bandwidth usage of all instance of MATCH and Ethereum, see Figure~\ref{fig:ethereum_bandwidth}.
 Ethereum requires over 20GB of network traffic for the ride-hailing workload.
 In comparison, MATCH uses dramatically less bandwidth compared to Ethereum-based matchmaking.
@@ -1767,14 +1767,14 @@ MATCH only requires 41.6MB of aggregate network traffic under the ride-haling wo
 The high bandwidth usage of Ethereum is a direct consequence of the full replication of state.
 Specifically, each transaction and block is disseminated to all active Ethereum instances, resulting in a significant amount of network traffic.
 
-\textbf{Memory usage.}
+\textbf{Memory Usage.}
 We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
 At peak, Ethereum requires 2.8GB of memory to store pending transactions.
 This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
 Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
 In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
 
-\textbf{Order fulfil latencies.}
+\textbf{Order Fulfil Latencies.}
 In Figure~\ref{fig:ethereum_latencies}, we show the time it takes to complete orders in MATCH and Ethereum, for both workloads.
 Specifically, this is the time between order creation and order fulfilment.
 For the ride-hailing workload, we only consider the completion time of requests made by passengers, since drivers are waiting for incoming requests.
@@ -1790,7 +1790,7 @@ We argue that in a ride-hailing market, the latencies experienced when performin
 	\label{fig:ethereum_tx_pool}
 \end{figure}
 
-\textbf{Ethereum transaction pool.}
+\textbf{Ethereum Transaction Pool.}
 To further analyse the large differences in order fulfil latencies between MATCH and Ethereum, we visualize the size of the Ethereum transaction pool (as maintained by a single Ethereum instance) during the experiment in Figure~\ref{fig:ethereum_tx_pool}.
 This figure shows the time into the experiment on the horizontal axis and the number of transactions in the pool on the vertical axis.
 The transaction pool contains transactions that are not yet included in a block on the blockchain by a miner.

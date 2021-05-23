@@ -621,7 +621,7 @@ All these experiments are conducted with real bank accounts and real money.
 	\label{fig:intrabank_speed}
 \end{figure}
 
-\subsubsection*{Settlement duration of in-house payments}
+\subsubsection*{Settlement Duration of In-house Payments}
 \label{sec:settlement_inhouse_experiment}
 %We determine the settlement duration of in-house payments. %performed within the same bank.
 To determine settlement duration of in-house payments for each bank, we send \euro 0.01 ten times between two accounts with different holders, within the same bank.
@@ -645,7 +645,7 @@ This experiment demonstrates that in-house payments are usually settled within s
 \end{figure*}
 
 \subsubsection*{International Real-time Money Routing}
-Next, we focus on the performance of an international fast payment and measure the duration of a money transfer from Rabobank to ABN AMRO, using two money routers.
+Next, we focus on the performance of an international fast payment and measure the duration of a money transfer from Rabobank to ABN AMRO, using two intermediary money routers.
 This experiment aims to show the viability and speed of Internet-of-Money.
 Figure \ref{fig:speedball_experiment} shows the experimental setup and timeline of our experiment.
 
@@ -674,7 +674,7 @@ Our implementation is built upon the Dispersy framework, providing primitives fo
 \subsubsection*{Experimental Setup}
 The following real-world emulations are executed on the DAS-5 supercomputer, using 50 instances per node~\cite{bal2016medium}.
 We deploy our experiment using the Gumby framework and we create a scenario file where we schedule actions at specific times.
-All code used during these experiments is open source\footnote{https://github.com/devos50/gumby/tree/iom\_experiment}.
+All code used during these experiments is open source\footnote{See \url{https://github.com/devos50/gumby/tree/iom\_experiment}}.
 Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, simulated accounts are used during this experiment.
 We assume a total of five different banks and devised a basic RESTful banking server that handles account creation, payments, balance queries and mutation requests.
 Distribution of bank accounts amongst users follows the data as published in the NGData customer banking survey (we assume that every user owns at least one bank account)~\cite{ngdata2014consumer}.

@@ -42,7 +42,7 @@ Permissioned blockchains have the potential to increase the efficiency of tradit
 Several use cases that record transactions on a permissioned blockchain revolve around the representation and management of real-world assets on a distributed ledger~\cite{hewett2019inclusive}.
 Advancements in blockchain technology have resulted in numerous platforms on which companies can issue and manage digital assets.
 There currently is a proliferation of different types of assets, fragmented across many different blockchain implementations~\cite{borkowski2018towards}.
-In public blockchains, almost 200\,000 different assets are being managed on the Ethereum blockchain only.\footnote{See https://etherscan.io/tokens}
+In public blockchains, almost 200'000 different assets are being managed on the Ethereum blockchain only.\footnote{See \url{https://etherscan.io/tokens}}
 A recent Forbes report reveals that at least 50 major companies, each valued at least at \$1 billion, are exploring blockchain technology for asset management and trading~\cite{forbes50companies}.
 As industry's adoption of blockchain technology is increasing, a similar asset proliferation will occur with permissioned blockchains.
 Unfortunately, there is no \emph{universal} mechanism to exchange (trade) assets between isolated distributed ledgers without the involvement of a trusted third party.
@@ -335,8 +335,8 @@ Table~\ref{tbl:cross_chain_trading_mechanisms} summarizes existing approaches to
 We further assess these approaches based on the following three criteria:
 \begin{enumerate}
 	\item \textbf{Universal.} does the approach enable asset exchange between any permissioned blockchain?
-	\item \textbf{Avoids trusted parties.} does the approach require a trusted party to mediate in the trade? We also consider trusted committees or notaries as a trusted party, even though approaches leveraging semi-trusted authorities often assume a weaker trust model.
-	\item \textbf{Guarantees atomic exchange.} does the approach provide an atomic exchange of assets? An atomic exchange guarantees that both parties either exchange all assets, or nothing happens.\footnote{In some problem domains, this is also referred to as a \emph{fair} exchange~\cite{asokan1997optimistic}.}
+	\item \textbf{Avoids Trusted Parties.} does the approach require a trusted party to mediate in the trade? We also consider trusted committees or notaries as a trusted party, even though approaches leveraging semi-trusted authorities often assume a weaker trust model.
+	\item \textbf{Guarantees Atomic Exchange.} does the approach provide an atomic exchange of assets? An atomic exchange guarantees that both parties either exchange all assets, or nothing happens.\footnote{In some problem domains, this is also referred to as a \emph{fair} exchange~\cite{asokan1997optimistic}.}
 \end{enumerate}
 
 Table~\ref{tbl:cross_chain_trading_mechanisms} shows that five out of the eight discussed approaches for asset trading are not universal and cannot facilitate asset exchange between any permissioned blockchain.
@@ -363,8 +363,8 @@ We now formulate three requirements for our asset exchange mechanism:
 	\item \textbf{Universality.} We require that our mechanism enables the exchange of assets between a large range of permissioned blockchains.
 	In particular, asset exchange using our mechanism should not be limited to a selected number of blockchain architectures with specific features or with support for particular transaction types.
 	We argue that this requirement is critical for broad adoption of our mechanism.
-	\item \textbf{Avoid reliance on trusted parties.} We require that our mechanism avoids dependence on trusted parties to settle a trade. Asset exchange should proceed through direct interactions and payments between traders.
-	\item \textbf{Manage counterparty fraud.} To achieve universality, we believe that we have to forego the atomicity requirement.
+	\item \textbf{Avoid Reliance on Trusted Parties.} We require that our mechanism avoids dependence on trusted parties to settle a trade. Asset exchange should proceed through direct interactions and payments between traders.
+	\item \textbf{Manage Counterparty Fraud.} To achieve universality, we believe that we have to forego the atomicity requirement.
 	Without atomic guarantees, we must address the situation where a trader might actively try to commit fraud for economic gains.
 	Our solution requires adequate measures to manage counterparty fraud during ongoing trades.
 \end{enumerate}
@@ -622,14 +622,13 @@ Using $ k = 2 $, for example, lowers $ V(t_1) $ to \$5.
 %If $ C $ would already be a risky party in a trade, $ A $ will detects this and as such refuse to trade with $ C $.
 %As a consequence of condition (3), two parties that are both risky in different trades never agree to trade with each other.
 
-\subsubsection{Further comments on risk mitigation}
-
-\textbf{Flexible conformance.} We note that a trader can always ignore the risk mitigation strategies described in this section and engage in other trades \emph{at its own risk}.
+\subsubsection{Further Comments on Risk Mitigation}
+\textbf{Flexible Conformance.} We note that a trader can always ignore the risk mitigation strategies described in this section and engage in other trades \emph{at its own risk}.
 Doing so, however, does not provide restrictions on the economic gains of adversarial parties but it enables participants to engage in trade with traders with which there is an existing trust relation (e.g., the traders know each other in real life).
 Trades that parties started at their own risk do not impact the obligations of the risky party in such trades.
 Such trades contain a special flag in the associated \texttt{Agreement} record.
 
-\textbf{Subjectivity and trust.} We note that the threshold function $ u_a $ is a subjective matter for a trader $ a $ and is highly dependent on the notions of trust and reputation, which are outside the scope of our work.
+\textbf{Subjectivity and Trust.} We note that the threshold function $ u_a $ is a subjective matter for a trader $ a $ and is highly dependent on the notions of trust and reputation, which are outside the scope of our work.
 Without loss of generality and for simplicity, we assume in the rest of the paper that $ u_a(b) $ is equal to a constant $ U $ for all trader pairs $ a $ and $ b $.
 
 \textbf{Determination of $ k $.} 
@@ -927,7 +926,7 @@ We then discuss the scenario where multiple adversaries collude to gain an advan
 We further analyse the \emph{bounded obligations} strategy presented in Section~\ref{sec:bounded_obligations}.
 This strategy define an upper bound on the obligations an adversary can enter into, under the condition that all honest traders act rationally and try to minimize their risk.
 
-\textbf{Limiting the gains of adversaries.} 
+\textbf{Limiting the Gains of Adversaries.} 
 To show that \ModelName{} limits the amount of fraud, we assume  ---for clarity--- that all honest peers fix a unit trust threshold $ U $, and the number of payments in each trade $ t $ is fixed to $ K $. 
 Specifically, where $ P $ is the set of traders and $ T $ is the set of all trades, the following is assumed:
 \begin{equation*}
@@ -958,13 +957,13 @@ When $ u_A(B) $ is the trader $ A $'s subjective trust threshold assigned to tra
 Assuming $ k_t $ is not bounded and that $ V(t)/k_t $ may converge to zero, a trader $ B $ can start a trade as a risky party with a trader $ b $, only if its obligations occurred from ongoing trades is limited by $ u_a(b) $.
 Accordingly, defining $ \bar{u} = \max\{u_j(b) : j\in V\} $ where $ V $ is the set of all prospective traders with $ b $, the total amount of assets that $ b $ can seize in \ModelName{} cannot exceed $ \bar{u} $.
 
-\textbf{Limit on the risktaker's loss.} 
+\textbf{Limit on the Risktaker's Loss.} 
 In \ModelName{}, the risktaker's loss in a single trade is bounded with the trust threshold $ u $ associated with the risky party.
 Furthermore, as the risktaker is involved in the determination of number of payments ($ k $) during trade negotiations, it can reduce its own risk to any extent.
 Nevertheless we note that \ModelName{} does not introduce a theoretical bound on the loss of a risktaker over time, but delegates the risk management to the risktaker by assuming a trust mechanism to determine the trust threshold.
 Specifically, \ModelName{} provides the risktaker with two important parameters $ u $ and $ k $ with which the risktaker can minimize its own risk, relying on the trust mechanism.
 
-\textbf{Malevolent cancellation of a trade.} 
+\textbf{Malevolent Cancellation of a Trade.} 
 We now analyse the situation where a risky party $ B $ cancels its ongoing trade $ t_1 $ with $ A $ by appending a \texttt{CancelTrade} record to $ \mathcal{L} $, before the trade is finalized and when it is $ B $'s turn to make payment.
 When a third party $ C $ considers entering in trade $ t_2 $ with $ B $, it will discover the \texttt{CancelTrade} record in $ \mathcal{L} $ and check whether the trade cancellation by $ B $ is legitimate (see Section \ref{sec:trade-cancellation}).
 Recall that the cancellation of a trade by $ B $ is legitimate if it is currently the responsibility of the risktaker to conduct the next payment.
@@ -1312,9 +1311,9 @@ We now perform scalability experiments to quantify the performance of \ModelName
 
 \textbf{Setup and Workload.}
 To explore the limitations and overhead of \ModelName{}, we conduct scalability experiments on our university cluster.
-The detailed specifications of the hardware and runtime environment can be found online.\footnote{https://www.cs.vu.nl/das5/}
+The detailed specifications of the hardware and runtime environment can be found online.\footnote{See \url{https://www.cs.vu.nl/das5/}}
 Our infrastructure allows us to reserve computing nodes and deploy instances of \ModelName{} on each node.
-We use the Gumby experiment framework to orchestrate the deployment of \ModelName{} instances onto computing nodes and to extract results from experiment artifacts.\footnote{https://github.com/tribler/gumby}
+We use the Gumby experiment framework to orchestrate the deployment of \ModelName{} instances onto computing nodes and to extract results from experiment artifacts.\footnote{See \url{https://github.com/tribler/gumby}}
 The scalability experiment is controlled by a \emph{scenario file}, a chronologically ordered list of actions which are executed by all or by a subset of running instances, at specific points in time after the experiment starts.
 Each run is performed at least five times, and the results are averaged.
 

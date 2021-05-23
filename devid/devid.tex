@@ -125,7 +125,7 @@ dAppCoder itself is discussed later in Section~\ref{sec:dappcoder}.
 \label{subsec:record_types}
 DevID distinguishes between the following seven record types:
 
-\textbf{Personal information.}
+\textbf{Personal Information.}
 This record contains personal information associated with the developer, for example, a full name, a profile picture, an email address, or a GitHub username.
 
 \textbf{Statistics.}
@@ -168,14 +168,14 @@ The implementation of DevID is flexible and allows system designers to add addit
 \label{subsec:unifying_data}
 We now discuss how to import developer data from multiple platforms in a DevID portfolio and how to verify the correctness of the imported data.
 
-\textbf{Importing developer data.}
+\textbf{Importing Developer Data.}
 DevID allows developers to import relevant information from different platforms into their portfolio.
 For example, they can import data from LinkedIn (e.g., skills or past projects) or from GitHub (e.g., the number of followers and code contributions).
 Importing can be done by querying their public interfaces (APIs) and request the relevant data, if this is supported by the platform.
 To store the data in the portfolio, one can either add a reference to the (external) data or copy the data assets into the portfolio.
 To reduce dependency on third-party services, we choose to copy the data and store it within a portfolio record.
 
-\textbf{Verifying developer data.}
+\textbf{Verifying Developer Data.}
 As discussed in Section~\ref{sec:problem_description}, it is essential to ensure that imported data actually belongs to the developer importing it.
 We propose two solutions to achieve trustworthy importation of data: \textit{challenges} and \textit{TLS auditing}.
 
@@ -240,7 +240,7 @@ DevID requires an data structure that can store tamper-proof and accurate data r
 Blockchain technology is gaining traction as platform to store verified transactions.
 We now discuss three common blockchain organizations, visualised in Figure~\ref{fig:blockchain_structures}, and analyse their trade-offs in the context of our work.
 
-\textbf{Linear ledger.} Figure~\ref{fig:blockchain_single} shows a linear blockchain ledger, which is used by platforms such as Bitcoin~\cite{nakamoto2008bitcoin} and Ethereum~\cite{wood2014ethereum}.
+\textbf{Linear Ledger.} Figure~\ref{fig:blockchain_single} shows a linear blockchain ledger, which is used by platforms such as Bitcoin~\cite{nakamoto2008bitcoin} and Ethereum~\cite{wood2014ethereum}.
 This ledger consists of multiple blocks and each block contains transactions.
 Every block, except for the first one, points back to the prior block in the ledger through a hash pointer.
 Usually, this type of ledger is safeguarded by a consensus mechanism where at least a majority of users continuously reach agreement on the exact sequence of transactions.
@@ -248,7 +248,7 @@ A network-wide consensus mechanism like Proof-of-Work or Proof-of-Stake prevents
 While linear ledgers providing a relatively high level of security, the transaction throughput of these ledgers is often not sufficient to facilitate record creation and modification by millions of users.
 This motivates us to consider different types of blockchain for portfolio storage.
 
-\textbf{DAG ledger.} Another blockchain structure is the Directed Acyclic Graph (DAG) ledger, where each block can be referenced by multiple other blocks.
+\textbf{DAG Ledger.} Another blockchain structure is the Directed Acyclic Graph (DAG) ledger, where each block can be referenced by multiple other blocks.
 This ledger structure, shown in Figure~\ref{fig:blockchain_dag}, is adopted by blockchain platforms like IOTA and Dagcoin~\cite{popov2018tangle}~\cite{lerner2015dagcoin}.
 IOTA is optimized for micro-payments within Internet-of-Things, and Dagcoin advertises itself as data storage for arbitrary data (e.g., documents or ownership records).
 Since these ledgers allow for different consensus mechanisms, transaction throughput is often superior compared to that of linear ledgers.
@@ -463,7 +463,7 @@ We have implemented both DevID and dAppCoder in the Python programming language.
 Our implementation consists of all components shown in Figure~\ref{fig:system_architecture}.
 The graphical user interface of dAppCoder is visualized in Figure~\ref{fig:dappcoder} and is implemented with the Qt5 library.
 It communicates with the back-end over a RESTful API.
-The open source implementations of both DevID and dAppCoder are available online.\footnote{See \url{https://github.com/tribler/dappcoder}.}
+The open source implementations of both DevID and dAppCoder are available online.\footnote{See \url{https://github.com/tribler/dappcoder}}
 
 We build DevID, and by extension dAppCoder, on the TrustChain ledger introduced by Otte et al~\cite{otte2017trustchain}.
 We use the InterPlanetary File System (IPFS) to store large data assets like project specifications, submissions and code reviews.
@@ -473,7 +473,7 @@ Users can import statistics from their GitHub profile using the challenge mechan
 To assess the feasibility of dAppCoder and to get insight into the efficiency of the TrustChain ledger, we conduct a deployment trial.
 We present the trial setup and results.
 
-\textbf{Setup:}
+\textbf{Setup.}
 For our trial, we recruited 15 participants among local staff and students of our faculty.
 Each participant interacts with the dAppCoder application for around 15 minutes and during this time, participants were free to use the application as they see fit.
 To bootstrap the application, we initiated dAppCoder with five unpaid projects ourselves.
@@ -490,7 +490,7 @@ We collected data and observed the growth of the distributed ledger over a perio
 	\label{fig:experiment_graph}
 \end{figure}
 
-\textbf{Results:}
+\textbf{Results.}
 Figure~\ref{fig:experiment_graph} shows the growth of the TrustChain ledger, in terms of transactions, when more participants join the trial.
 Each entry on the horizontal axis represents the state of the ledger after a participant was introduced, and the vertical axis shows the transaction count for the six different types of transactions.
 When more participants join, the distribution of transaction types on the ledger changes slightly.
