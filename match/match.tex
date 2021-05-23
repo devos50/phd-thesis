@@ -54,7 +54,7 @@ We suggest that this problem requires a next step towards a different approach t
 It is technologically feasible to have market participants carry out the matchmaking process themselves, without trusted operator.
 In particular, blockchain technology provides the means to record and match market orders on a distributed ledger~\cite{subramanian2017decentralized}.
 Smart contracts, self-executing programs stored on a blockchain, are capable of executing the matchmaking logic~\cite{luu2016making}.
-Even though it seems like an appealing solution to fairness issues, the consensus algorithm managing the blockchain ledger is vulnerable to various attacks against fairness, specifically, \emph{transaction re-ordering} and \emph{front-running}~\cite{eskandari2019,kolluri2018,judmayer2019}.
+Even though it seems like an appealing solution to fairness issues, the consensus algorithm managing the blockchain ledger is vulnerable to various attacks against fairness, specifically, \emph{transaction re-ordering} and \emph{front-running}~\cite{eskandari2019sok,kolluri2019exploiting,judmayer2019}.
 These attacks effectively allow consensus participants to influence how specific orders are matched.
 In addition to these threats, scalability issues inherent to all the blockchain protocols based on a global consensus carry significant limitations on the speed of matchmaking, as we will experimentally show in Section~\ref{sec:experiments_ethereum}~\cite{daian2019}.
 
@@ -62,7 +62,7 @@ In addition to these threats, scalability issues inherent to all the blockchain 
 %However, decentralized settlement is not sufficient to ensure fair markets~\cite{pesch2019fictions}. %Reference. https://journals.sagepub.com/doi/full/10.1177/0306312719838339
 %We suggest that an accompanying approach for decentralized matchmaking is the next logic step towards fair peer-to-peer markets.
 
-The ineffectiveness of matchmaking on a blockchain is also identified by various decentralized exchanges that are operated by a blockchain, also called DEXes~\cite{eskandari2019,warren20170x,idex}.
+The ineffectiveness of matchmaking on a blockchain is also identified by various decentralized exchanges that are operated by a blockchain, also called DEXes~\cite{eskandari2019sok,warren20170x,idex}.
 %At the moment there are little to none solutions providing fair matchmaking in different markets.
 In response, these DEXes opt for a federated approach where any participant can host a matchmaking server and can act as a matchmaker.
 In practice, most orders in these DEXes are managed by servers that are under the control of the exchange operator and therefore still carry limitations on the achievable level of fairness desirable on such markets.
@@ -200,7 +200,7 @@ Finally, we show that MATCH has bandwidth usage and order fulfil latencies that 
 
 %The necessity of a trusted centralized market operator has been challenged by the advancements in decentralized technologies such as blockchain.
 %Advancements in decentralized technologies, e.g., blockchain technology, have questioned the role of trusted intermediaries.
-%Blockchain technology provides the means to manage a distributed ledger on which users can securely transfer value (e.g., Bitcoin~\cite{nakamoto2019bitcoin}) or deploy decentralized applications (e.g., Ethereum~\cite{wood2014ethereum}) without explicit approval from a trusted third party.
+%Blockchain technology provides the means to manage a distributed ledger on which users can securely transfer value (e.g., Bitcoin~\cite{nakamoto2008bitcoin}) or deploy decentralized applications (e.g., Ethereum~\cite{wood2014ethereum}) without explicit approval from a trusted third party.
 %Decentralized exchanges (DEXes) operating on the basis of blockchain facilitate the trade of digital assets or services without the requirement for a market operator~\cite{subramanian2017decentralized}.
 % have resulted in a new type of electronic market: blockchain-based exchanges, or DEXes.
 %The problem of efficient matchmaking is re-visited with the deployment of decentralized exchanges based on blockchain technology, also called DEXes.
@@ -208,11 +208,11 @@ Finally, we show that MATCH has bandwidth usage and order fulfil latencies that 
 %No trusted third party is needed for the exchange of value, unlike most existing electronic marketplaces.
 %In contrast to existing electronic marketplaces, markets powered by blockchain technology, also called DEXes, enable traders to securely exchange digital tokens without a trusted third party.
 %The existing research on DEXes addresses the question on \emph{how} to securely exchange value between users, but deems order matchmaking as uninteresting or out of scope~\cite{daian2019}.
-%Some DEXes provide one or more matchmaking servers that process market orders~\cite{eskandari2019} ~\cite{idex}\cite{warren20170x}.
+%Some DEXes provide one or more matchmaking servers that process market orders~\cite{eskandari2019sok} ~\cite{idex}\cite{warren20170x}.
 %In practice, however, these approaches rely on a few or a single server and therefore still carries limitations on the achievable level of fairness and transparency desirable on such markets.
 %Alternatively, the (on-chain) deployment of order matchmaking algorithms on a blockchain addresses the issue of transparency.
 %Yet, scalability issues inherent to all the blockchain protocols based on a global consensus carry significant limitations on the speed at which matchmaking can be conducted (also see Section~\ref{sec:experiments_ethereum})~\cite{daian2019}.
-%Apart from that, such on-chain implementations based on smart contracts where time and order of transaction execution is critical, demonstrate vulnerability to \emph{transaction re-ordering} and \emph{front-running} attacks ~\cite{eskandari2019}\cite{kolluri2018}\cite{judmayer2019}.
+%Apart from that, such on-chain implementations based on smart contracts where time and order of transaction execution is critical, demonstrate vulnerability to \emph{transaction re-ordering} and \emph{front-running} attacks ~\cite{eskandari2019sok}\cite{kolluri2019exploiting}\cite{judmayer2019}.
 %These contradictions effectively create a dilemma of choice between two desirable properties of matchmaking mechanisms.
 %Efficiency of matchmaking achievable through the concentration of orders by a trusted central party, versus provable fairness of matchmaking achievable with the transparency of decentralized on-chain matchmaking.
 %We argue, however, that these contradictions do not present an insurmountable obstacle for the implementation of efficient and fair matchmaking solutions. \todo{Georgy (I commented out the contributions)}
@@ -530,7 +530,6 @@ We note, however, that a centralized dependency might be undesirable in marketpl
 In such marketplaces, we encourage the use of (semi-)decentralised solutions for identity management, like self-sovereign identities~\cite{muhle2018survey,stokkink2020truly}.
 
 \textbf{Threat Model.}
-\label{sec:threat_model}
 In this work, our threat model orients around \emph{malicious matchmakers} that deviate from a standard matching policy and match incoming orders according to a custom policy.
 For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the hidden request instead.
 This threat model also captures collusion, the situation where a subset of matchmakers agrees to match orders according to a custom policy to gain economic benefit as a group.

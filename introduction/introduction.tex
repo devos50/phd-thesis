@@ -352,7 +352,7 @@ With centralized matchmaking, the identity behind each order is only disclosed t
 The emergence of electronic trading, in general, gave rise to fairness, transparency and manipulation issues during the matchmaking process~\cite{mavroudis2019libra}.
 For example, with centralized matchmaking, the matchmaker is capable of censoring or delaying specific orders.
 Information asymmetry between market operators and traders allows matchmakers to exploit their information advantage, e.g., by front-running on specific orders.
-From a systems perspective, centralized matchmaking has lower scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period.
+From a systems perspective, centralized matchmaking has lower scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period~\cite{sigdel2005centralized}.
 Finally, centralized matchmaking exhibits low fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
 
 Within the context of blockchain-based marketplaces we find that centralized matchmaking is widely adopted by centralized cryptocurrency exchanges.
@@ -394,7 +394,7 @@ However, the market orders are now fragmented across different matchmakers, pote
 
 %Federated matchmaking allows traders to select their preferred matchmaker.
 
-The 0x~\cite{0x} and Swap~\cite{airswap} trading protocols orient around the trade of Ethereum tokens and have adopted the federated matchmaking model.
+The 0x~\cite{warren20170x} and Swap~\cite{airswap} trading protocols orient around the trade of Ethereum tokens and have adopted the federated matchmaking model.
 Both protocols allow any user to act as matchmaker and therefore build an off-chain matchmaking network for orders.
 We observe, however, that the most used matchmaker is often the one provided by the protocol developers.
 This makes the added benefit of this approach, compared to centralized matchmaking, questionable.

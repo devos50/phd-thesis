@@ -109,7 +109,7 @@ Additional experiments on our compute cluster reveal that \ModelName{} can handl
 
 The main contribution of this work is five-fold:
 \begin{enumerate}
-	\item We present the \ModelName{} \emph{trading protocol} which specifies how assets are exchanged between permissioned blockchains by storing trade records in a distributed log (Section~\ref{sec:protocol}).
+	\item We present the \ModelName{} \emph{trading protocol} which specifies how assets are exchanged between permissioned blockchains by storing trade records in a distributed log (Section~\ref{sec:xchange_protocol}).
 	\item We devise two \emph{risk mitigation strategies} that lower the risk for traders and bound the economic gains of adversaries committing counterparty fraud.
 	\item We improve TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enables concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
 	\item We provide a functional, open source \emph{implementation} of the \ModelName{} trading protocol (Section \ref{sec:implementation}).
@@ -346,7 +346,6 @@ We observe that most asset trading mechanisms avoid the need for trusted parties
 Finally, we notice that half of the identified approaches do not guarantee an atomic asset exchange.
 
 \subsection{Problem Description}
-\label{sec:problem_description}
 Our analysis of existing asset exchange approaches indicates that no solution is universal, avoids trusted parties, and guarantees an atomic exchange.
 We also observe that there are no solutions that are both universal and avoid trusted parties, to the best of our knowledge.
 We argue that any mechanism with these two properties requires a compromise on the atomicity criteria.
@@ -427,7 +426,7 @@ A completed trade that has been stored in the distributed log consists of the fo
 	\item An \texttt{Agreement} record contains the specifications of an upcoming trade, e.g., the agreed amount of assets that will be exchanged between the traders.
 	It also includes information on which party conducts the first payment during the upcoming trade.
 	The \texttt{Agreement} record bears the digital signature of both traders and can be appended to the distributed log by any of the traders.
-	We further describe this record type, and the other two record types below, in our protocol description (see Section~\ref{sec:protocol}).
+	We further describe this record type, and the other two record types below, in our protocol description (see Section~\ref{sec:xchange_protocol}).
 	\item A \texttt{Payment} record contains the details of a specific payment that has been conducted during a trade.
 	This record includes the identifier of the newly issued transaction that transfers assets in the involved blockchain network.
 	For instance, the \texttt{Payment} record created by Alice in Figure~\ref{fig:xchange} contains a reference to the transaction that she submitted in the Hyperledger Fabric network.
@@ -440,7 +439,7 @@ A completed trade that has been stored in the distributed log consists of the fo
 
 In addition to these three record types, \ModelName{} also includes the \texttt{Order}, \texttt{CancelOrder}, and \texttt{CancelTrade} records.
 The \texttt{Order} and \texttt{CancelOrder} records are used when creating a new order and when canceling an unfulfilled order, respectively.
-These two record types are further discussed in Section~\ref{sec:protocol}.
+These two record types are further discussed in Section~\ref{sec:xchange_protocol}.
 The \texttt{CancelTrade} record can be appended to the distributed log to unilaterally abort the trade if one of the parties becomes inactive during a trade.
 This feature is later discussed in Section~\ref{sec:trade-cancellation}.
 
@@ -458,7 +457,7 @@ As soon as Alice sends 2 FabTokens, she is exposed to \emph{counterparty risk}, 
 In this section we present risk mitigation strategies of \ModelName{} that limit the gains of traders committing counterparty.
 These strategies mainly aim at minimizing the assets at stake by dividing each trade into smaller chunks (Section \ref{sec:incremental_settlement}) and by bounding the total amount of obligation a party can enter into (Section \ref{sec:bounded_obligations}).
 Throughout the paper, we name the party that is exposed to counterparty risk as \emph{risktaker}, while the other party is called \emph{risky}. 
-Determination of the trade roles (who becomes the risky party and who becomes the risktaker) in a prospective trade is explained in Section~\ref{sec:protocol}.
+Determination of the trade roles (who becomes the risky party and who becomes the risktaker) in a prospective trade is explained in Section~\ref{sec:xchange_protocol}.
 
 
 \subsubsection{Incremental Settlement}
@@ -521,13 +520,13 @@ Formally, given a distributed log $ \mathcal{L} $, let $ P_{\mathcal{L}} $ be th
 This value represents how much value a risky party can seize during a trade.
 The total value of obligations of a trader $ b $ is referred to as $ B(b) $ and is as follows:
 
-\begin{equation}\label{key}
+\begin{equation}
 	B(b) = \sum_{t \in P_{\mathcal{L}}(b)} V(t)
 \end{equation}
 
 A trader $ a $ accepts to be a risktaker in a prospective trade $ t' $ with trader $ b $ if the following holds:
 
-\begin{equation}\label{key}
+\begin{equation}
 	u_a(b) \geq B(b) + V(t')
 \end{equation}
 
@@ -746,7 +745,7 @@ We envision that a trader joining \ModelName{} re-uses the well-defined identity
 We remark that $ \mathcal{L} $ can, for example, be realized through a blockchain with support for smart contracts.
 
 Users in \ModelName{} participate in a peer-to-peer network, which is used to send point-to-point messages to other users.
-This network is particularly used during trade negotiation, as we further specify in Section~\ref{sec:protocol}.
+This network is particularly used during trade negotiation, as we further specify in Section~\ref{sec:xchange_protocol}.
 We assume that peers in the \ModelName{} network know the network addresses of other peers.
 
 \subsection{Peer Model}
@@ -778,7 +777,8 @@ They also could strategically ignore the risk mitigation strategies described in
 We assume that adversaries cannot compromise the integrity of the distributed log $ \mathcal{L} $ used by \ModelName{} and cannot undermine the security of the blockchains that are hosting the assets being traded, $ \mathcal{B}_a $ or $ \mathcal{B}_b $.
 We also assume that the cryptographic primitives used by all involved blockchains are secure (e.g., digital signatures cannot be forged) and that the computational capabilities of adversaries are bounded.
 
-\section{The \ModelName{} Trading Protocol} \label{sec:protocol}
+\section{The \ModelName{} Trading Protocol}
+\label{sec:xchange_protocol}
 We now present the \ModelName{} trading protocol for asset exchange between permissioned blockchains and specify all operations conducted by peers that are participating in a trade.
 We assume the system and threat model described in the prior section.
 The protocol consists of four phases.
@@ -791,13 +791,13 @@ The trade is finalized in the fourth phase with a \texttt{Finalize} record.
 	\centering
 	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_1}
 	\caption{Phase I of the \ModelName{} trading protocol: makers (depicted in green) indicate trade interests by appending an \texttt{Order} record to the distributed log.}
-	\label{fig:matching_protocol_1}
+	\label{fig:xchange_protocol_1}
 \end{figure}
 
 \subsection*{Phase I: Order Creation and Cancellation}
 \label{sec:phase_matching}
 
-During the first phase of the \ModelName{} protocol, makers create new orders and append these orders to $ \mathcal{L} $, see Figure~\ref{fig:matching_protocol_1}.
+During the first phase of the \ModelName{} protocol, makers create new orders and append these orders to $ \mathcal{L} $, see Figure~\ref{fig:xchange_protocol_1}.
 When a trader intends to buy or sell some assets, it constructs a new order which we denote by $ O $.
 $ O $ contains details on the quantity and the type of assets that the maker desires to buy and sell.
 The order creator provides this information as a two-tuple of asset quantities, also called an \emph{asset pair}.
@@ -831,13 +831,13 @@ This is achieved by the maker appending a \texttt{CancelOrder} record containing
 	\centering
 	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_2}
 	\caption{Phase II of the \ModelName{} protocol: a maker and taker negotiate a trade agreement. Upon a successful negotiation outcome, a dual-signed \texttt{Agreement} record will be appended to the distributed log.}
-	\label{fig:matching_protocol_2}
+	\label{fig:xchange_protocol_2}
 \end{figure}
 
 \subsection*{Phase II: Trade Negotiation}
 \label{sec:phase_clearing}
 
-During the second phase of the \ModelName{} trading protocol, a maker and taker negotiate a trade, see Figure \ref{fig:matching_protocol_2}.
+During the second phase of the \ModelName{} trading protocol, a maker and taker negotiate a trade, see Figure \ref{fig:xchange_protocol_2}.
 If the negotiating maker and taker agree to trade, one of the parties appends this agreement to $ \mathcal{L} $.
 We now describe this negotiation process.
 
@@ -874,13 +874,13 @@ Otherwise, if the taker becomes the risktaker, the value of $ k $ specified by t
 	\centering
 	\includegraphics[width=0.8\linewidth]{xchange/assets/xchange_protocol_3}
 	\caption{Phase III of the \ModelName{} protocol: a maker and taker trade by exchanging assets. In this trade, the taker is the risktaker (initiating the first payment) and the maker is the risky party.}
-	\label{fig:matching_protocol_3}
+	\label{fig:xchange_protocol_3}
 \end{figure}
 
 \subsection*{Phase III: Trade Settlement}
 \label{sec:phase_settlement}
 During the third phase of the \ModelName{} trading protocol, assets are exchanged between the maker and taker, and the trade is settled.
-Figure~\ref{fig:matching_protocol_3} visualizes a trade between a maker and taker, with $ k = 1 $, where the maker sells FabTokens, a token managed by Hyperledger Fabric, and gets XRP (Ripple) tokens in return from the taker.
+Figure~\ref{fig:xchange_protocol_3} visualizes a trade between a maker and taker, with $ k = 1 $, where the maker sells FabTokens, a token managed by Hyperledger Fabric, and gets XRP (Ripple) tokens in return from the taker.
 This trade, fulfilling order $ O $, consists of two payments, one from the maker to the taker, and one from the taker to the maker.
 
 Asset exchange starts by the risktaker (the taker in this specific example) issuing a transaction to the Ripple network managing the XRP tokens.
@@ -903,12 +903,12 @@ Other traders should verify that the \texttt{CancelTrade} adheres to the rules a
 	\centering
 	\includegraphics[width=0.7\linewidth]{xchange/assets/xchange_protocol_4}
 	\caption{Phase IV of the \ModelName{} protocol: the taker finalizes the trade.}
-	\label{fig:matching_protocol_4}
+	\label{fig:xchange_protocol_4}
 \end{figure}
 
 \subsection*{Phase VI: Trade Finalization}
 \label{sec:phase_finalization}
-When all assets have been exchanged, the party receiving the final payment during a trade creates a \texttt{Finalize} record and appends it to $ \mathcal{L} $, see Figure~\ref{fig:matching_protocol_4}.
+When all assets have been exchanged, the party receiving the final payment during a trade creates a \texttt{Finalize} record and appends it to $ \mathcal{L} $, see Figure~\ref{fig:xchange_protocol_4}.
 Since the risky party conducts the final payment during a trade, finalization is always performed by the risktaker.
 Inclusion of a \texttt{Finalize} record on $ \mathcal{L} $ completes a trade, say $ T_1 $, between the maker and taker, and both parties can now start new trades with others.
 %One might argue that an explicit finalization is redundant since a trader can determine if $ T_1 $ is complete by counting the number of issued \texttt{Payment} records during the trade.
@@ -980,7 +980,7 @@ In \ModelName{}, trade proceeds through the direct interaction between the invol
 
 \section{Distributed Logging of Trade Records}
 \label{sec:blockchain_accounting}
-The \ModelName{} trading protocol described in Section~\ref{sec:protocol} requires a distributed log to securely and irreversibly store \texttt{Order}, \texttt{CancelOrder}, \texttt{Agreement}, \texttt{Payment}, \texttt{Finalize} and \texttt{CancelTrade} records.
+The \ModelName{} trading protocol described in Section~\ref{sec:xchange_protocol} requires a distributed log to securely and irreversibly store \texttt{Order}, \texttt{CancelOrder}, \texttt{Agreement}, \texttt{Payment}, \texttt{Finalize} and \texttt{CancelTrade} records.
 We choose to build \ModelName{} upon TrustChain~\cite{otte2017trustchain} which is a shared data structure with a sharp focus on tamper-resilience and trustworthy record storage.
 In this section we motivate our choice for TrustChain and outline how TrustChain is used to store \ModelName{} records.\footnote{The TrustChain architecture described in this chapter is an earlier version of \TrustChain{}, which has been presented in Chapter~\ref{chapter:trustchain}.}
 
@@ -1003,14 +1003,14 @@ TrustChain does not reach a global consensus over all records but relies on part
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.35\linewidth]{xchange/assets/trustchain_tutorial_1}
 		\caption{A block with a record (\emph{R}) between two users ($ A $ and $ B $). Each block contains a single record, two digital signatures and two digital identities.}
-		\label{fig:trustchain_tutorial_1}
+		\label{fig:xchange_trustchain_tutorial_1}
 	\end{subfigure}%
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=\linewidth]{xchange/assets/trustchain_tutorial_2}
 		\caption{An individual ledger. Each block in the chain contains a hash that describes the prior block.}
-		\label{fig:trustchain_tutorial_2}
+		\label{fig:xchange_trustchain_tutorial_2}
 	\end{subfigure}
 	\par\bigskip
 	\begin{subfigure}[t]{.45\textwidth}
@@ -1018,17 +1018,17 @@ TrustChain does not reach a global consensus over all records but relies on part
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trustchain_tutorial_3}
 		\caption{To increase security, each block also references the previous block in the chain of a record counterparty.}
-		\label{fig:trustchain_tutorial_3}
+		\label{fig:xchange_trustchain_tutorial_3}
 	\end{subfigure}
 	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.71\linewidth]{xchange/assets/trustchain_tutorial_4}
 		\caption{To improve scalability, we extend the TrustChain structure to support concurrent block creation.}
-		\label{fig:trustchain_tutorial_4}
+		\label{fig:xchange_trustchain_tutorial_4}
 	\end{subfigure}\hspace{0.05\textwidth}%
 	\caption{Storing records in TrustChain.}
-	\label{fig:trustchain_tutorial}
+	\label{fig:xchange_trustchain_tutorial}
 \end{figure*}
 
 We argue that TrustChain is a suitable ledger to store \ModelName{} records, for the following four reasons.
@@ -1042,9 +1042,9 @@ Finally, TrustChain is already being used by various decentralized applications 
 At the time of writing, the public TrustChain ledger contains over 160 million records, created by 96'000 unique identities.\footnote{See \url{http://explorer.tribler.org}}
 
 \subsection{Storing TrustChain Records}
-We now outline how a record between two interacting users $ A $ and $ B $ is recorded in TrustChain, see Figure \ref{fig:trustchain_tutorial}.
+We now outline how a record between two interacting users $ A $ and $ B $ is recorded in TrustChain, see Figure \ref{fig:xchange_trustchain_tutorial}.
 Each record is stored within a block.
-Figure \ref{fig:trustchain_tutorial_1} highlights one block containing a record between $ A $ and $ B $.
+Figure \ref{fig:xchange_trustchain_tutorial_1} highlights one block containing a record between $ A $ and $ B $.
 Each block contains a single record (\emph{R}).
 A record can be a generic description of any interaction between users, for instance, a trade agreement or a payment.
 Both interacting parties digitally sign the block with the record by using any secure digital signing algorithm.
@@ -1056,22 +1056,22 @@ After all required signatures have been added to a block, the block is committed
 The security of stored blocks is improved by linking them together, incrementally ordered by creation time.
 In particular, each block is extended with a description (hash) of the previous block.
 Each block has a sequence number that indicates its position in the individual ledger.
-This results in the structure shown in Figure \ref{fig:trustchain_tutorial_2}.
+This results in the structure shown in Figure \ref{fig:xchange_trustchain_tutorial_2}.
 As a result, each user maintains their individual ledger, which contains all records in which they have participated.
 This sets TrustChain apart from the structure of traditional blockchains, where the entire network maintains a single, linear ledger.
 
-Note how the blockchain structure in Figure \ref{fig:trustchain_tutorial_2} allows $ A $ to modify blocks in their individual ledger without being detected by others.
+Note how the blockchain structure in Figure \ref{fig:xchange_trustchain_tutorial_2} allows $ A $ to modify blocks in their individual ledger without being detected by others.
 In particular, $ A $ can reorder the blocks in its individual ledger since validity can quickly be restored by recomputing all hashes.
 In most blockchain applications, the global consensus mechanism prevents this kind of manipulation.
 TrustChain uses a more efficient approach: each block is extended with an additional (hash) pointer that points to the previous block in the individual ledger of the counterparty.
-This is visualized in Figure \ref{fig:trustchain_tutorial_3}.
+This is visualized in Figure \ref{fig:xchange_trustchain_tutorial_3}.
 Each block now has exactly two incoming and two outgoing (hash) pointers, except for the last block in an individual ledger, which only has two incoming pointers.
 Modifications of the individual ledger by $ A $, like reordering or removing blocks, can now be detected by one or more counterparties.
 To prove this fraud, a counterparty reveals both the correct block and the invalid block created by $ A $.
 
 When two parties transact and create a block, their chains essentially become entangled.
-When users create more records with others, it leads to the directed acyclic graph (DAG) structure, as shown in Figure \ref{fig:trustchain}.
-Figure \ref{fig:trustchain} shows seven blocks, created by seven unique users.
+When users create more records with others, it leads to the directed acyclic graph (DAG) structure, as shown in Figure \ref{fig:xchange_trustchain}.
+Figure \ref{fig:xchange_trustchain} shows seven blocks, created by seven unique users.
 Each block is added once to the individual ledger of all parties involved in the record.
 For a more advanced analysis of the technical specifications and security of TrustChain, we refer the reader to the original paper by Otte et al.~\cite{otte2017trustchain}.
 
@@ -1079,7 +1079,7 @@ For a more advanced analysis of the technical specifications and security of Tru
 	\centering
 	\includegraphics[width=.8\linewidth]{xchange/assets/trustchain}
 	\caption{The TrustChain ledger, with seven blocks created by seven participants.}
-	\label{fig:trustchain}
+	\label{fig:xchange_trustchain}
 \end{figure}
 
 \subsection{Improving TrustChain Scalability}
@@ -1093,7 +1093,7 @@ We contribute to TrustChain and improve its scalability by adding support for \e
 The idea is to remove the requirement for a digital signature of the counterparty when appending new blocks to an individual ledger.
 We believe that this concurrency is necessary since it allows traders to append new records without reliance on other parties.
 
-Our solution is visualized in Figure \ref{fig:trustchain_tutorial_4}.
+Our solution is visualized in Figure \ref{fig:xchange_trustchain_tutorial_4}.
 It shows a record between users $ A $ and $ B $, initiated by $ A $.
 We partition a block in two parts, and each block partition is appended to the individual ledger of exactly one party.
 Construction of a block between $ A $ and $ B $ now proceeds as follows: first, user $ A $ creates a record by constructing a block partition with the record content and its digital signature.
@@ -1157,7 +1157,7 @@ For efficiency reasons, the UDP protocol is used for message exchange between pe
 %Our implementation of \ModelName{} defines 15 distinct types of network messages, of which 11 are used to notify traders about matched orders and to manage execution of trade.
 
 \textbf{Request Stores.}
-To correctly process incoming messages during trade negotiation (phase II of the \ModelName{} protocol, see Section~\ref{sec:protocol}), \ModelName{} stores the state of outgoing messages.
+To correctly process incoming messages during trade negotiation (phase II of the \ModelName{} protocol, see Section~\ref{sec:xchange_protocol}), \ModelName{} stores the state of outgoing messages.
 The state of outgoing messages is stored in distinct \emph{request stores}.
 For each outgoing message that has a state attached, a unique identifier is generated, a new request store containing this identifier is created and the generated identifier is appended to the outgoing message.
 Traders that receive a message with this identifier are required to include the same identifier in their response message.

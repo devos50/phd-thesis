@@ -22,7 +22,6 @@ Our trial demonstrates that DevID is efficient at storing portfolio records. }
 \newpage
 
 \section{Introduction}
-\label{sec:introduction}
 Decentralized applications, also known as dApps, allow for contractual logic that runs without the need for trusted intermediaries~\cite{raval2016decentralized}.
 At the time of writing, there are thousands of decentralized applications deployed on numerous blockchain solutions, most of which are on Ethereum.
 The dApp ecosystem is continuously expanding and recently has been accelerated by the rise of decentralized finance (DeFi) solutions~\cite{zetzsche2020decentralized}.
@@ -76,7 +75,7 @@ The main contribution of this work is tri-fold:
 \end{itemize}
 
 \section{Problem Description}
-\label{sec:problem_description}
+\label{sec:dappcoder_problem_description}
 We identify challenges in two directions.
 First, we wish to create a developer portfolio that gives an accurate impression of their capabilities and expertise.
 Second, we aim to build a decentralized crowdsourcing marketplace for the development of dApps.
@@ -111,13 +110,13 @@ Given these requirements, the research question of this work is as follows:
 	\centering
 	\includegraphics[width=.7\linewidth]{devid/resources/architecture.pdf}
 	\caption{The architecture of DevID and dAppCoder.}
-	\label{fig:system_architecture}
+	\label{fig:dappcoder_system_architecture}
 \end{figure}
 
 \section{DevID: Unified Portfolios for Software Developers}
 \label{sec:devid_architecture}
 We now present our unified developer portfolio, named \emph{DevID}.
-The architecture is given in Figure \ref{fig:system_architecture}.
+The architecture is given in Figure \ref{fig:dappcoder_system_architecture}.
 This figure also includes the architecture of dAppCoder, our platform to crowdsource the development of decentralized applications.
 dAppCoder itself is discussed later in Section~\ref{sec:dappcoder}.
 
@@ -176,7 +175,7 @@ To store the data in the portfolio, one can either add a reference to the (exter
 To reduce dependency on third-party services, we choose to copy the data and store it within a portfolio record.
 
 \textbf{Verifying Developer Data.}
-As discussed in Section~\ref{sec:problem_description}, it is essential to ensure that imported data actually belongs to the developer importing it.
+As discussed in Section~\ref{sec:dappcoder_problem_description}, it is essential to ensure that imported data actually belongs to the developer importing it.
 We propose two solutions to achieve trustworthy importation of data: \textit{challenges} and \textit{TLS auditing}.
 
 The first solution is to pose a challenge where the developer importing the data, proves that they have control over this data.
@@ -317,7 +316,7 @@ Since there are no guarantees on the order in which TrustChain records arrive, t
 While pairwise distributed ledgers are suitable for storing small portfolio records, they are not suitable for storing arbitrary large data assets.
 Such data assets can include source code, documentation, videos, and reviews.
 To overcome this, we leverage off-chain distributed storage solution that offers data immutability and scalability.
-Figure~\ref{fig:system_architecture} includes this distributed storage, which comprises the lowest layer in our architecture.
+Figure~\ref{fig:dappcoder_system_architecture} includes this distributed storage, which comprises the lowest layer in our architecture.
 
 We wish to avoid data storage by a trusted operator.
 Suitable distributed storage solutions for our work are a Distributed Hash Table (DHT) like Kademlia, a BitTorrent swarm or the InterPlanetary File System (IPFS)~\cite{maymounkov2002kademlia,cohen2008bittorrent,benet2014ipfs}.
@@ -334,7 +333,7 @@ The process of finding developers is streamlined by direct integration of DevID 
 dApp developers can choose to work on projects that match their skill set.
 \Dappcoder{} also provides primitives for project management and financial compensation for developers.
 With a direct integration with DevID portfolios, developers can work on their reputation by participating in dAppCoder projects.
-The architecture of \Dappcoder{} is presented in the upper layer of Figure~\ref{fig:system_architecture}.
+The architecture of \Dappcoder{} is presented in the upper layer of Figure~\ref{fig:dappcoder_system_architecture}.
 We now elaborate on the main functionalities of \Dappcoder{}.
 
 \begin{lstlisting}[language=json,firstnumber=1,float=t,caption=A project offered in DAppCoder (in JSON format).,label=lst:devid_project]
@@ -376,7 +375,7 @@ This avoids the need for trusted intermediaries for payment processing.
 %These keys are used when releasing the submissions for a project, which is discussed in Section~\ref{subsec:create_submissions}.
 
 %A key feature of dAppCoder is built-in support for financial compensation of a developer that has performed some work on a project.
-%Prior to publishing a new project, the client determines the height of the reward, if there is any, and transfers these funds to a \textit{Trusted Notary Service} (shown in Figure~\ref{fig:system_architecture}).
+%Prior to publishing a new project, the client determines the height of the reward, if there is any, and transfers these funds to a \textit{Trusted Notary Service} (shown in Figure~\ref{fig:dappcoder_system_architecture}).
 %This trusted notary service manages developer payouts and is external to the DevID and DAppCoder ecosystem.
 %The trusted notary can either be a centralized authority or an (Ethereum) smart contract that interacts with the dAppCoder application through oracles.
 %The compensation, put into escrow, addresses the situation when a dispute arises between client and developer and the client refuses to pay the developer for their work.
@@ -460,7 +459,7 @@ We also discuss our deployment trial and present preliminary results.
 
 \subsection{Implementation}
 We have implemented both DevID and dAppCoder in the Python programming language.
-Our implementation consists of all components shown in Figure~\ref{fig:system_architecture}.
+Our implementation consists of all components shown in Figure~\ref{fig:dappcoder_system_architecture}.
 The graphical user interface of dAppCoder is visualized in Figure~\ref{fig:dappcoder} and is implemented with the Qt5 library.
 It communicates with the back-end over a RESTful API.
 The open source implementations of both DevID and dAppCoder are available online.\footnote{See \url{https://github.com/tribler/dappcoder}}
@@ -507,7 +506,7 @@ The initial results of the trial look promising, and we are ready for further ev
 
 \section{Related Work}
 We are the first to build a tamper-proof and unified developer portfolio, to the best of our knowledge.
-Already in 1995, research has been conducted, that explores the advantages of online electronic portfolios over traditional resumes, particularly within an educational environment~\cite{riggsby1995electronic,barrett2000electronic}.
+Already in 1995, research has been conducted, that explores the advantages of online electronic portfolios over traditional resumes, particularly within an educational environment~\cite{riggsby1995electronic,barrett1999electronic}.
 The emergence of the open source software paradigm enabled developers to use code contributions as proof of verifiable technical expertise and to build an online reputation~\cite{riehle2015open}.
 The work of Cai et al. explores how this data can be used to construct a theoretical reputation model, and what metrics would be best suited for this~\cite{cai2016reputation}.
 Other work is focused on visualization tools to highlight contributions of the individual developer on platforms like GitHub or StackOverflow~\cite{jaruchotrattanasakul2016open,saxena2017know,chen2016supporting}.
@@ -516,7 +515,7 @@ The focus of this work is on combining records from different platforms and pres
 
 The evolution of crowdsourcing and the benefits are well-studied topics with an extensive literature corpus~\cite{latoza2016crowdsourcing}.
 TopCoder Inc. is an example of a crowdsourcing platform where clients can outsource software contributions to developers in a competition-based environment~\cite{lakhani2010topcoder}.
-In 2017, Li et al. introduced CrowdBC, a decentralized blockchain-based framework for crowdsourcing~\cite{li2017crowdbc}.
+In 2017, Li et al. introduced CrowdBC, a decentralized blockchain-based framework for crowdsourcing~\cite{li2018crowdbc}.
 CrowdBC is a platform to crowdsource generic micro-tasks and is not suitable to crowdsource development of decentralized applications.
 Lu et al. devised a privacy-preserving crowdsourcing mechanism on top of an open blockchain~\cite{lu2018zebralancer}.
 Zou et al. present a consensus protocol that is suitable for crowdsourcing tasks~\cite{zou2018proof}.
