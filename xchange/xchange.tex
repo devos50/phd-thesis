@@ -34,7 +34,7 @@ Even though blockchain technology provides the means to maintain a distributed l
 For instance, when two companies leverage blockchain technology to securely record their transactions, read and write access to the distributed ledger is most likely limited to a few selected employees or operators.
 Over the past few years, there has been a sharp increase in the development and deployment of private, or \emph{permissioned} blockchains~\cite{androulaki2018hyperledger,de2018pbft,vukolic2017rethinking}.
 In contrast to a public blockchain like Bitcoin, membership in a permissioned blockchain is managed by an authority that approves the participation of each peer.
-The identity under which a peer operates is linked to a real-world persona, which reduces the likelihood of Byzantine behavior and network threats like the Sybil Attack~\cite{douceur2002sybil}.
+The identity under which a peer operates is linked to a real-world persona, which reduces the likelihood of Byzantine behaviour and network threats like the Sybil Attack~\cite{douceur2002sybil}.
 Permissioned blockchains usually adopt a classical consensus model designed for networks with static membership, e.g., Practical Byzantine Fault Tolerance (PBFT)~\cite{castro1999practical}.
 Considerable efforts in permissioned blockchains have been made by projects such as Hyperledger Fabric~\cite{androulaki2018hyperledger}, R3 Corda~\cite{brown2016introducing}, Quorum~\cite{mogan2018quorum} and BigchainDB~\cite{mcconaghy2016bigchaindb}.
 Permissioned blockchains have the potential to increase the efficiency of traditional business processes in industries like logistics, energy management and trade supply chains~\cite{vukolic2017rethinking}.
@@ -54,7 +54,7 @@ Given the inevitable growth of permissioned blockchain platforms, we argue that 
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.8\linewidth]{xchange/assets/xchange_interoperability}
-	\caption{XChange coordinates the asset exchange between permissioned blockchains by storing trade records in a distributed log. This enables traders to detect if a party has committed fraud during an ongoing trade.}
+	\caption{\ModelName{} coordinates the asset exchange between permissioned blockchains by storing trade records in a distributed log. This enables traders to detect if a party has committed fraud during an ongoing trade.}
 	\label{fig:xchange_interoperability}
 \end{figure}
 
@@ -75,7 +75,7 @@ In a permissioned setting, however, this approach requires the participation of 
 Asset exchange mechanisms that depend on specialized transactions, e.g., atomic swaps~\cite{nolan2016atomic}, are not universal enough to support asset exchange between any pair of permissioned blockchains.
 
 In contrast to existing solutions, \ModelName{} particularly focuses on the \emph{detection} of counterparty fraud.
-We argue that the detection of counterparty fraud during a trade is sufficient, since misbehavior can always be traced back to a real-world identity, and optionally be punished by an external authority.
+We argue that the detection of counterparty fraud during a trade is sufficient, since misbehaviour can always be traced back to a real-world identity, and optionally be punished by an external authority.
 To detect counterparty fraud, \ModelName{} requires traders to append tamper-proof trade records to a distributed log.
 By recording the initiation of each trade, conducted payments, and the completion of a trade, participants can detect if a malicious trader has committed fraud and then refrain from trading with that party.
 
@@ -107,13 +107,13 @@ Additional experiments on our compute cluster reveal that \ModelName{} can handl
 %To store market activity , we build on a scalable blockchain ledger that is optimised for data accounting.
 %By accounting full trade specifications, we show that the effectiveness of fraud conducted by adversarial parties is limited.
 
-The main contribution of this work is four-fold:
+The main contribution of this work is five-fold:
 \begin{enumerate}
-	\item The \ModelName{} \emph{trading protocol} which specifies how assets are exchanged between permissioned blockchains by storing trade records in a distributed log (Section~\ref{sec:protocol}).
-	\item \emph{Risk mitigation strategies} that lower the risk for traders and bound the economic gains of adversaries committing counterparty fraud.
-	\item Improvements of TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enables concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
-	\item A functional, open source \emph{implementation} of the \ModelName{} trading protocol (Section \ref{sec:implementation}).
-	\item \emph{Experimentation} around the security, resource usage and scalability of \ModelName{}, conducted on multiple low-resource devices and our compute cluster (Section~\ref{sec:xchange_fraud_experiment} -- \ref{subsec:scalability_experiment}).
+	\item We present the \ModelName{} \emph{trading protocol} which specifies how assets are exchanged between permissioned blockchains by storing trade records in a distributed log (Section~\ref{sec:protocol}).
+	\item We devise two \emph{risk mitigation strategies} that lower the risk for traders and bound the economic gains of adversaries committing counterparty fraud.
+	\item We improve TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enables concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
+	\item We provide a functional, open source \emph{implementation} of the \ModelName{} trading protocol (Section \ref{sec:implementation}).
+	\item We present \emph{experimentation} around the security, resource usage and scalability of \ModelName{}, conducted on multiple low-resource devices and our compute cluster (Section~\ref{sec:xchange_fraud_experiment} -- \ref{subsec:scalability_experiment}).
 \end{enumerate}
 
 \section{Related Work and Problem Description}
@@ -197,7 +197,7 @@ This window enables price speculation by the swap initiator by keeping the asset
 Notary schemes are another solution for asset exchange where the approval by a group of credible nodes (notaries) is required to perform some operation.
 Notary schemes aim to partially alleviate the trust issues arising when relying on a central authority through the approval by a group of semi-trusted notaries instead.
 These notaries reach consensus on the occurrence of particular events, e.g., on the inclusion of a transaction on a distributed ledger.
-Compared to an asset exchange through a central authority, notary schemes assume a weaker trust model and can often withstand adversarial behavior of a fraction of the notaries.
+Compared to an asset exchange through a central authority, notary schemes assume a weaker trust model and can often withstand adversarial behaviour of a fraction of the notaries.
 
 AgentChain is an asset exchange system that is based on multi-signature schemes~\cite{li2019agentchain}.
 Each user can act as a trading operator, which together form trading groups.
@@ -219,7 +219,7 @@ Most bridging approaches execute the atomic swap protocol for the exchange proce
 
 Blocknet is a platform for inter-blockchain routing and facilitates the exchange of cryptocurrencies between blockchains~\cite{culwick2019blocknet}.
 Blocknet consists of two main components: XBridge and XRouter.
-XBridge is a decentralized protocol that coordinates atomic swaps between permissioned and unpermissioned blockchains.
+XBridge is a decentralized protocol that coordinates atomic swaps between permissioned and permissionless blockchains.
 XRouter provides a peer-to-peer overlay network consisting of clients running the SPV protocol, therefore avoiding the need to download the full blockchain to verify the inclusion of particular transactions.
 Blocknet secures its transactions through a Proof-of-Stake consensus protocol.
 Furthermore, Blocknet provides a decentralized exchange where traders can indicate their trade interests through orders.
@@ -360,11 +360,11 @@ However, value exchange with the Interledger Protocol does not directly proceed 
 We now formulate three requirements for our asset exchange mechanism:
 
 \begin{enumerate}
-	\item \textbf{Universality}. We require that our mechanism enables the exchange of assets between a large range of permissioned blockchains.
+	\item \textbf{Universality.} We require that our mechanism enables the exchange of assets between a large range of permissioned blockchains.
 	In particular, asset exchange using our mechanism should not be limited to a selected number of blockchain architectures with specific features or with support for particular transaction types.
 	We argue that this requirement is critical for broad adoption of our mechanism.
-	\item \textbf{Avoid reliance on trusted parties}. We require that our mechanism avoids dependence on trusted parties to settle a trade. Asset exchange should proceed through direct interactions and payments between traders.
-	\item \textbf{Manage counterparty fraud}. To achieve universality, we believe that we have to forego the atomicity requirement.
+	\item \textbf{Avoid reliance on trusted parties.} We require that our mechanism avoids dependence on trusted parties to settle a trade. Asset exchange should proceed through direct interactions and payments between traders.
+	\item \textbf{Manage counterparty fraud.} To achieve universality, we believe that we have to forego the atomicity requirement.
 	Without atomic guarantees, we must address the situation where a trader might actively try to commit fraud for economic gains.
 	Our solution requires adequate measures to manage counterparty fraud during ongoing trades.
 \end{enumerate}
@@ -379,7 +379,7 @@ By logging full trade specifications, a trader can build a profile of other trad
 This approach enables traders to operate according to their own business rules and to manage the economic value at stake.
 
 In this section we outline \ModelName{}, our universal mechanism for asset exchange between permissioned blockchains.
-In \ModelName{}, a trade between two traders $ A $ and $ B $ is modeled as a sequence of payments between the trading parties.
+In \ModelName{}, a trade between two traders $ A $ and $ B $ is modelled as a sequence of payments between the trading parties.
 At the minimum, a trade involves two payments, one from $ A $ to $ B $ and one from $ B $ to $ A $.
 W.l.o.g., assume that $ A $ initiates the first payment to $ B $ in a particular trade.
 A complication during this trade could arise when $ B $ refuses to conduct a payment back to $ A $, after having received a payment from $ A $.
@@ -600,7 +600,7 @@ Using $ k = 2 $, for example, lowers $ V(t_1) $ to \$5.
 %For example, during the trade visualized in Figure~\ref{fig:incremental_trade}, Alice can decide not to send the FabToken to Bob before step 1 if she would have second thoughts about the agreed trade.
 %Likewise, Bob can decide not to pay Alice the 20 XRP before step 2.
 %Under condition (1), both parties are now locked out from trading with others, since other traders detect the incompletion of $ T $.
-%This is an unfair situation since the misbehavior of one party during a trade also negatively affects the other party.
+%This is an unfair situation since the misbehaviour of one party during a trade also negatively affects the other party.
 %Even though both parties can become inactive during a trade, there are differences when the risktaker or the risky party becomes inactive.
 %If the risky party would become inactive, this situation is considered as counterparty \emph{fraud}, since the inactive party now ends up with a positive economic gain.
 %When Bob would become inactive after step 1 or step 3 during the trade visualized in Figure~\ref{fig:incremental_trade}, he would end up with 1 FabToken, without having conducted a corresponding payment back to Alice.
@@ -654,8 +654,8 @@ Therefore, the ability of a trader $ b $ to trade with others may be forever res
 To address this situation, we allow a risky party to explicitly cancel an ongoing trade by including a \texttt{CancelTrade} record in the distributed log.
 This record can only be included by the risky party, and is only acknowledged by other traders if (1) the risktaker is currently responsible for transferring assets to the risky party during the trade, and (2) at least some time $ \Delta_t $ has elapsed since the last activity in trade $ t $.
 The value of $ \Delta_t $ should be well above the confirmation times of transactions submitted to the involved blockchains, to avoid the situation where one might consider a trade as stale while a transaction is still being finalized in the involved blockchain.
-When a trade is canceled, no other assets should be exchanged.
-After the risky partner canceled participation in a trade, it loses its risky status and can then participate in other trades.
+When a trade is cancelled, no other assets should be exchanged.
+After the risky partner cancelled participation in a trade, it loses its risky status and can then participate in other trades.
 
 We note that a risky party $ a $ can try to trick another party $ b $ into acknowledging a \texttt{CancelTrade} record by publishing a \texttt{Payment} record with a non-existent transaction identifier.
 Therefore, $ b $ needs to inspect the involved ledger to determine the validity of a \texttt{CancelTrade} record created by $ a $.
@@ -753,7 +753,7 @@ We assume that peers in the \ModelName{} network know the network addresses of o
 \subsection{Peer Model}
 We now elaborate on the assumptions of peers participating in \ModelName{}.
 
-Each peer in the \ModelName{} network owns a cryptographical key pair consisting of a public and a private key. 
+Each peer in the \ModelName{} network owns a cryptographic key pair consisting of a public and a private key. 
 The public key of a specific peer is known to others and uniquely identifies it in the network. 
 Their private key is used to digitally sign data such as records appended to $ \mathcal{L} $, or outbound messages in the peer-to-peer network.
 
@@ -761,12 +761,12 @@ As we discussed in Section~\ref{sec:blockchain_network_specs}, the digital ident
 Identity validation should be performed by a Registration Authority (RA), which is external to our system.
 The RA could be the same authority that approved participation in $ \mathcal{B}_a $ or $ \mathcal{B}_b $.
 We assume that the RA does not collude with traders in \ModelName{}.
-In \ModelName{}, well-established digital identities are necessary to prevent misbehaviors such as a Sybil Attack and a distributed denial-of-service attack~\cite{douceur2002sybil,Specht2004DistributedDO}.
-We also use verified identities for accountability purposes, where misbehavior in a trade can be traced back to a real-world persona.
+In \ModelName{}, well-established digital identities are necessary to prevent misbehaviours such as a Sybil Attack and a distributed denial-of-service attack~\cite{douceur2002sybil,Specht2004DistributedDO}.
+We also use verified identities for accountability purposes, where misbehaviour in a trade can be traced back to a real-world persona.
 
-Whereas existing work primarily focuses on \emph{how} assets are exchanged, the \ModelName{} mechanism also includes primitives for traders to specify trade interest through orders, and to find trading partners that can fulfill these orders.
+Whereas existing work primarily focuses on \emph{how} assets are exchanged, the \ModelName{} mechanism also includes primitives for traders to specify trade interest through orders, and to find trading partners that can fulfil these orders.
 We distinguish between \emph{makers} and \emph{takers}.
-A maker is a peer that creates a specific order, whereas a taker is a peer that fulfills an order.
+A maker is a peer that creates a specific order, whereas a taker is a peer that fulfils an order.
 Makers introduce trading opportunities and liquidity to the \ModelName{} network.
 A peer in \ModelName{} can act as both maker and taker, for distinct orders.
 The maker-taker order model is also adopted by related protocols that enable the exchange of tokens on the Ethereum blockchain, namely 0x and AirSwap~\cite{warren20170x,airswap}.
@@ -784,7 +784,7 @@ We now present the \ModelName{} trading protocol for asset exchange between perm
 We assume the system and threat model described in the prior section.
 The protocol consists of four phases.
 In the first phase, makers specify their trade interest by appending new orders to the distributed log $ \mathcal{L} $.
-During the second phase, takers negotiate with makers about orders they would like to fulfill and append an \texttt{Agreement} record to the distributed log when they reach an agreement.
+During the second phase, takers negotiate with makers about orders they would like to fulfil and append an \texttt{Agreement} record to the distributed log when they reach an agreement.
 During the third phase, the maker and taker execute the trade by exchange assets through payments.
 The trade is finalized in the fourth phase with a \texttt{Finalize} record.
 
@@ -808,7 +808,7 @@ For example, if a trader intends to sell 2 FabTokens for 40 XRP tokens, it creat
 
 $ O $ includes an integer value, $ k $, that specifies the order creator's preference regarding the number of partitions each payment is divided in.
 As discussed in Section~\ref{sec:incremental_settlement}, one way how \ModelName{} reduces value at stake is by using incremental settlement.
-The inclusion of $ k $ in $ O $ indicates the risk that the maker is willing to take in an upcoming trade that fulfills $ O $ if the order creator would become the risktaker.
+The inclusion of $ k $ in $ O $ indicates the risk that the maker is willing to take in an upcoming trade that fulfils $ O $ if the order creator would become the risktaker.
 Furthermore, $ O $ includes the address of the wallet in which the order creator wishes to receive assets from a prospective trader during an upcoming trade.
 By including this information, a taker knows to which address it should transfer its assets.
 This information is also used by other traders to verify if the maker has received assets from a taker.
@@ -842,7 +842,7 @@ During the second phase of the \ModelName{} trading protocol, a maker and taker 
 If the negotiating maker and taker agree to trade, one of the parties appends this agreement to $ \mathcal{L} $.
 We now describe this negotiation process.
 
-This phase starts when a taker discovers an order $ O $, included on $ \mathcal{L} $, that it wishes to fulfill.
+This phase starts when a taker discovers an order $ O $, included on $ \mathcal{L} $, that it wishes to fulfil.
 Assume that this order has been created by a maker $ M $.
 Before sending a trade proposal to $ M $, the taker performs two checks that determine if the taker should trade with $ M $.
 First, the taker checks if it is willing to trade with $ M $ as a person.
@@ -852,9 +852,9 @@ The taker checks the trades in which $ M $ is involved by inspecting the latest 
 If $ M $ is already involved in a trade $ T $, the information on $ \mathcal{L} $ also reveals if $ M $ in $ T $ is a risky party or a risktaker.
 
 When both checks pass, the taker creates and sends a \texttt{Proposal} message to $ M $.
-A \texttt{Proposal} message contains a proposal for $ M $ to fulfill order $ O $.
+A \texttt{Proposal} message contains a proposal for $ M $ to fulfil order $ O $.
 A taker includes four pieces of information in a \texttt{Proposal} message.
-First, it includes the identifier of $ O $, so the maker knows which order the taker wants to fulfill (a trader could have created multiple orders).
+First, it includes the identifier of $ O $, so the maker knows which order the taker wants to fulfil (a trader could have created multiple orders).
 Second, the taker includes its destination wallet address to which $ M $ should send its assets during the trade.
 Third, the taker includes an integer value, $ k $, that indicates how much risk the taker is willing to take if it would become the risktaking party.
 Finally, the taker includes a boolean value in the proposal indicating if the taker becomes a risktaker in the upcoming trade.
@@ -898,7 +898,7 @@ There is a risk that a trade does not progress when one of the traders becomes i
 As pointed out in Section~\ref{sec:limit_risk}, a stale trade is only a minor concern for the risktaker since this party can still engage in other trades after $ \Delta_T $ time has elapsed.
 A risky party can explicitly cancel an ongoing trade to dismiss its responsibility as a risky party by appending a \texttt{CancelTrade} record to $ \mathcal{L} $.
 This record only contains the identifier of the order currently being fulfilled.
-Other traders should verify that the \texttt{CancelTrade} adheres to the rules as outlined in Section~\ref{sec:limit_risk}, to prevent the risky party from illegally canceling a trade after having committed counterparty fraud.
+Other traders should verify that the \texttt{CancelTrade} adheres to the rules as outlined in Section~\ref{sec:limit_risk}, to prevent the risky party from illegally cancelling a trade after having committed counterparty fraud.
 
 \begin{figure}[h]
 	\centering
@@ -919,12 +919,12 @@ Inclusion of a \texttt{Finalize} record on $ \mathcal{L} $ completes a trade, sa
 
 \section{Security Analysis}
 \label{sec:analysis}
-We now analyze the security of the \ModelName{} mechanism.
+We now analyse the security of the \ModelName{} mechanism.
 First, we prove that the economic gains of adversarial parties committing counterparty fraud are upper-bounded.
 We then discuss the scenario where multiple adversaries collude to gain an advantage as a group.
 
 \subsection{Counterparty Fraud Limitations}
-We further analyze the \emph{bounded obligations} strategy presented in Section~\ref{sec:bounded_obligations}.
+We further analyse the \emph{bounded obligations} strategy presented in Section~\ref{sec:bounded_obligations}.
 This strategy define an upper bound on the obligations an adversary can enter into, under the condition that all honest traders act rationally and try to minimize their risk.
 
 \textbf{Limiting the gains of adversaries.} 
@@ -965,7 +965,7 @@ Nevertheless we note that \ModelName{} does not introduce a theoretical bound on
 Specifically, \ModelName{} provides the risktaker with two important parameters $ u $ and $ k $ with which the risktaker can minimize its own risk, relying on the trust mechanism.
 
 \textbf{Malevolent cancellation of a trade.} 
-We now analyze the situation where a risky party $ B $ cancels its ongoing trade $ t_1 $ with $ A $ by appending a \texttt{CancelTrade} record to $ \mathcal{L} $, before the trade is finalized and when it is $ B $'s turn to make payment.
+We now analyse the situation where a risky party $ B $ cancels its ongoing trade $ t_1 $ with $ A $ by appending a \texttt{CancelTrade} record to $ \mathcal{L} $, before the trade is finalized and when it is $ B $'s turn to make payment.
 When a third party $ C $ considers entering in trade $ t_2 $ with $ B $, it will discover the \texttt{CancelTrade} record in $ \mathcal{L} $ and check whether the trade cancellation by $ B $ is legitimate (see Section \ref{sec:trade-cancellation}).
 Recall that the cancellation of a trade by $ B $ is legitimate if it is currently the responsibility of the risktaker to conduct the next payment.
 The trade cancellation of $ t_1 $ is therefore not valid since $ B $ has committed counterparty fraud.
@@ -983,7 +983,7 @@ In \ModelName{}, trade proceeds through the direct interaction between the invol
 \label{sec:blockchain_accounting}
 The \ModelName{} trading protocol described in Section~\ref{sec:protocol} requires a distributed log to securely and irreversibly store \texttt{Order}, \texttt{CancelOrder}, \texttt{Agreement}, \texttt{Payment}, \texttt{Finalize} and \texttt{CancelTrade} records.
 We choose to build \ModelName{} upon TrustChain~\cite{otte2017trustchain} which is a shared data structure with a sharp focus on tamper-resilience and trustworthy record storage.
-In this section, we motivate our choice for TrustChain and outline how TrustChain is used to store \ModelName{} records.\footnote{The TrustChain architecture described in this chapter is an earlier version of \TrustChain{}, which has been presented in Chapter~\ref{chapter:trustchain}.}
+In this section we motivate our choice for TrustChain and outline how TrustChain is used to store \ModelName{} records.\footnote{The TrustChain architecture described in this chapter is an earlier version of \TrustChain{}, which has been presented in Chapter~\ref{chapter:trustchain}.}
 
 \subsection{TrustChain: A Scalable Ledger for Accounting} \label{sec:trustchain}
 Based on the idea of blockchain ledgers that order transactions in a directed acyclic graph (DAG), Otte et al. designed, implemented, and deployed TrustChain.
@@ -999,14 +999,14 @@ TrustChain does not reach a global consensus over all records but relies on part
 
 \begin{figure*}[t]
 	\centering
-	\begin{subfigure}[t]{.4\textwidth}
+	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.35\linewidth]{xchange/assets/trustchain_tutorial_1}
 		\caption{A block with a record (\emph{R}) between two users ($ A $ and $ B $). Each block contains a single record, two digital signatures and two digital identities.}
 		\label{fig:trustchain_tutorial_1}
 	\end{subfigure}%
-	\begin{subfigure}[t]{.4\textwidth}
+	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=\linewidth]{xchange/assets/trustchain_tutorial_2}
@@ -1014,14 +1014,14 @@ TrustChain does not reach a global consensus over all records but relies on part
 		\label{fig:trustchain_tutorial_2}
 	\end{subfigure}
 	\par\bigskip
-	\begin{subfigure}[t]{.4\textwidth}
+	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.7\linewidth]{xchange/assets/trustchain_tutorial_3}
 		\caption{To increase security, each block also references the previous block in the chain of a record counterparty.}
 		\label{fig:trustchain_tutorial_3}
 	\end{subfigure}
-	\begin{subfigure}[t]{.4\textwidth}
+	\begin{subfigure}[t]{.45\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.71\linewidth]{xchange/assets/trustchain_tutorial_4}
@@ -1078,7 +1078,7 @@ For a more advanced analysis of the technical specifications and security of Tru
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.75\linewidth]{xchange/assets/trustchain}
+	\includegraphics[width=.8\linewidth]{xchange/assets/trustchain}
 	\caption{The TrustChain ledger, with seven blocks created by seven participants.}
 	\label{fig:trustchain}
 \end{figure}
@@ -1107,7 +1107,7 @@ This mechanism allows users to be involved in multiple block constructions at on
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.8\linewidth]{xchange/assets/trustchain_market}
+	\includegraphics[width=\linewidth]{xchange/assets/trustchain_market}
 	\caption{A part of the TrustChain ledger, storing an order created by a maker $ A $, and full specifications of a finished trade between $ A $ and $ B $.}
 	\label{fig:trustchain_market}
 \end{figure}
@@ -1134,7 +1134,7 @@ The role of matchmakers in \ModelName{} is comparable with that of relay nodes i
 
 \section{Implementation and Evaluation}
 \label{sec:evaluation}
-In this section, we present the implementation of \ModelName{} and our experimental evaluation.
+In this section we present the implementation of \ModelName{} and our experimental evaluation.
 The evaluation answers the following three questions: (1) how effective is \ModelName{} at reducing fraud gains? (2) what is the overhead of \ModelName{}, in terms of trade duration, when \ModelName{} is deployed on low-resource devices? And (3) How scalable is \ModelName{} in terms of throughput and trade duration when increasing the system load?
 
 The following experiments quantify the effectiveness, performance and overhead of our \ModelName{} mechanism.
@@ -1177,14 +1177,14 @@ This wallet does not interact with any blockchain and simply waits for some dura
 
 \begin{figure}
 	\centering
-	\begin{subfigure}{.8\textwidth}
+	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/gained_per_user}
 		\caption{The economic gains of adversaries}
 		\label{fig:fraud_experiment_gained}
 	\end{subfigure}\vspace{0.3cm}
-	\begin{subfigure}{.8\textwidth}
+	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/losses_per_user}
@@ -1329,26 +1329,26 @@ Each order buys a single token in return for another token, to make matchmaking 
 After 30 seconds, the experiment is terminated.
 
 Scalability is measured as follows:
-first, we analyze the peak \emph{throughput} observed during the experiment, in terms of trades per second.
-Second, we consider the average order fulfill \emph{latency}, which is the time between the creation of an order and the time until this order has been completed (the order creator has exchanged all assets as specified in the order).
+first, we analyse the peak \emph{throughput} observed during the experiment, in terms of trades per second.
+Second, we consider the average order fulfil \emph{latency}, which is the time between the creation of an order and the time until this order has been completed (the order creator has exchanged all assets as specified in the order).
 
 \begin{figure}[t]
 	\centering
-	\begin{subfigure}{.8\textwidth}
+	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/scalability}
 		\caption{Peak throughput}
 		\label{fig:scalability}
 	\end{subfigure}\vspace{0.3cm}
-	\begin{subfigure}{.8\textwidth}
+	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/latency}
-		\caption{Average order fulfill latency}
+		\caption{Average order fulfil latency}
 		\label{fig:latency}
 	\end{subfigure}%
-	\caption{The peak throughput and order fulfill latencies as the system load increases.}
+	\caption{The peak throughput and order fulfil latencies as the system load increases.}
 	\label{fig:scalability_latency}
 \end{figure}
 
@@ -1360,16 +1360,16 @@ All experiment settings hint at linear scalability as the system load increases.
 Furthermore, enabling risk mitigation strategies does not appear to have a notable effect on the peak throughput.
 Experimentation on more compute nodes should reveal whether this trend continues when the system load exceeds 1.000 new orders per second.
 
-Figure~\ref{fig:latency} shows the average order fulfill latency when the system load increases, for the four risk mitigation strategies.
-The average order fulfill latency remains largely constant when the system load grows.
-Applying the restriction and incremental settlement strategies increases the average order fulfill latency, since more operations have to be performed to successfully complete an order.
+Figure~\ref{fig:latency} shows the average order fulfil latency when the system load increases, for the four risk mitigation strategies.
+The average order fulfil latency remains largely constant when the system load grows.
+Applying the restriction and incremental settlement strategies increases the average order fulfil latency, since more operations have to be performed to successfully complete an order.
 We observe a moderate increase of latency when applying the \texttt{RESTRICT+INC\_SET} strategies when the system load grows to 1.000 trades per second.
 The high system load is likely to increase the duration of individual trades beyond 0.5 seconds, which means that the \texttt{RESTRICT} strategy prevents traders from initiating a new trade with others.
-Since a trader now has to find a new party to trade with, the average order fulfill latency increases.
+Since a trader now has to find a new party to trade with, the average order fulfil latency increases.
 
 \textbf{Conclusion.}
 The main finding of this experiment is that the throughput (trades per second) scales linearly with respect to the system load and network size.
-We also observe that the average order fulfill latency remains largely constant as the system load grows.
+We also observe that the average order fulfil latency remains largely constant as the system load grows.
 Further experimentation should reveal whether these trends continue with an even higher system load.
 
 \section{Conclusions}

@@ -53,7 +53,7 @@ We believe that such a portfolio is a key precursor to a more efficient crowdsou
 DevID portfolios enable developers to showcase their expertise, making it easier for prospective clients to get an overview of their capabilities.
 An impression of a DevID portfolio is given in Figure~\ref{fig:devid}.
 DevID portfolios are powered by a scalable blockchain ledger, used for durable storage of records.
-Developers can add tamper-proof records to their portfolio, import existing data from external platforms, and add references to their prior activities, e.g., projects on Github.
+Developers can add tamper-proof records to their portfolio, import existing data from external platforms, and add references to their prior activities, e.g., projects on GitHub.
 %These records are fully managed and owned by developers themselves.
 
 \begin{figure}[t]
@@ -85,7 +85,7 @@ We elaborate on the challenges associated with each contribution.
 \textbf{Developer portfolios.}
 We list three main requirements for this portfolio.
 First, we require that developers are able to \emph{import existing data} from other platforms into their portfolio.
-This streamlines the bootstrapping process of a portfolio with relevant records since a developer is likely to use multiple platforms to store and work on their projects (e.g., Github and LinkedIn).
+This streamlines the bootstrapping process of a portfolio with relevant records since a developer is likely to use multiple platforms to store and work on their projects (e.g., GitHub and LinkedIn).
 However, not all platforms have built-in tools to easily export personal data to another ecosystem.
 Additionally, it is key to ensure that data being imported actually belongs to the user importing it, preventing a malicious user from impersonating someone else.
 We consider the import process of personal data an essential requirement to ensure trustworthy portfolios.
@@ -266,7 +266,7 @@ In general, they can provide superior scalability compared to linear ledgers as 
 
 We believe that the pairwise distributed ledger is a suitable data structure to store portfolio records as transactions.\footnote{The work describing TrustChain considers a personal ledger as a collection of \emph{records}. To avoid semantic overload, we use the term transaction to refer to a TrustChain record.}
 Compared to linear and DAG ledgers, all data of a portfolio owner is local to their own personal ledger and maintained by themselves.
-Specifically, we choose to build DevID and subsequently DAppCoder (see Section~\ref{sec:dappcoder}), using the TrustChain data structure.
+Specifically, we choose to build DevID and subsequently \Dappcoder{} (see Section~\ref{sec:dappcoder}), using the TrustChain data structure.
 TrustChain, first introduced by Otte et al.~\cite{otte2017trustchain}, is a lightweight distributed ledger where each user maintains a personal ledger.
 To detect malicious behaviour, in particularly the forking of a personal ledger, users continuously request random transactions from other users and share their transactions with other users upon request.
 The consistency of incoming transactions is checked against known transactions, and illegitimate modifications of the personal ledger can quickly be revealed by the collective effort of users in the network.
@@ -332,10 +332,10 @@ By extending the DevID portfolio architecture, we build a crowdsourcing marketpl
 Running completely without centralized servers, \Dappcoder{} enables clients to propose projects and to find developers qualified to work on their projects.
 The process of finding developers is streamlined by direct integration of DevID portfolios, therefore reducing search frictions.
 dApp developers can choose to work on projects that match their skill set.
-dAppCoder also provides primitives for project managment and financial compensation for developers.
+\Dappcoder{} also provides primitives for project management and financial compensation for developers.
 With a direct integration with DevID portfolios, developers can work on their reputation by participating in dAppCoder projects.
-The architecture of dAppCoder is presented in the upper layer of Figure~\ref{fig:system_architecture}.
-We now elaborate on the main functionalities of dAppCoder.
+The architecture of \Dappcoder{} is presented in the upper layer of Figure~\ref{fig:system_architecture}.
+We now elaborate on the main functionalities of \Dappcoder{}.
 
 \begin{lstlisting}[language=json,firstnumber=1,float=t,caption=A project offered in DAppCoder (in JSON format).,label=lst:devid_project]
 {
@@ -363,7 +363,7 @@ We now elaborate on the main functionalities of dAppCoder.
 \end{lstlisting}
 
 \subsection{Creating and Managing Projects}
-Clients that want their idea realized (e.g., the implementation of a particular smart contract) can offer a new project in dAppCoder.
+Clients that want their idea realized (e.g., the implementation of a particular smart contract) can offer a new project in \Dappcoder{}.
 Creating a new project requires the client to specify various fields, as exemplified in Listing~\ref{lst:devid_project}.
 Each project includes a title, a description, a list with technical requirements for the final deliverable, a deadline (optional), a list of required skills needed to successfully complete the project, the height of the compensation (if any). and an optional list of assets provided by the client.
 Since the project description, requirements, and assets can become large, these assets are stored off-chain and a reference to these assets is included in the transaction.
@@ -495,7 +495,7 @@ Figure~\ref{fig:experiment_graph} shows the growth of the TrustChain ledger, in 
 Each entry on the horizontal axis represents the state of the ledger after a participant was introduced, and the vertical axis shows the transaction count for the six different types of transactions.
 When more participants join, the distribution of transaction types on the ledger changes slightly.
 We observe that the growth of projects over time decreases, and users focus more on creating submissions and reviews.
-We remark that the version of dAppCoder subjected to the user trial oriented around competition-based crowdsourcing and participants are able to review the submissions of others.
+We remark that the version of \Dappcoder{} subjected to the user trial oriented around competition-based crowdsourcing and participants are able to review the submissions of others.
 Another observation is that the number of skills added by each developer grows rapidly, but the growth of endorsements stays behind.
 
 At the end of our deployment trial, the average transaction size in serialized form is 0.6 kB.
@@ -503,7 +503,7 @@ The total size of all transactions stored on the distributed ledger is 65.4 kB.
 Each personal ledger stores on average 7.2 transactions, with an average size of 4.1 kB.
 In comparison, when using a linear ledger like Bitcoin, each user is required to store the entire global ledger or parts of it.  
 The time required to append new transactions to the TrustChain ledger is in the range of milliseconds and not of influence on the user experience.
-The initial results of the trial look promising, and we are ready for further evaluation of dAppCoder and DevID portfolios. 
+The initial results of the trial look promising, and we are ready for further evaluation of \Dappcoder{} and DevID portfolios. 
 
 \section{Related Work}
 We are the first to build a tamper-proof and unified developer portfolio, to the best of our knowledge.

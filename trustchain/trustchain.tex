@@ -671,7 +671,7 @@ For presentation clarity, we only show the pointer to the prior record in one's 
 
 \begin{figure}[t]
 	\centering
-	\includegraphics[width=.9\linewidth]{trustchain/assets/fullchain}
+	\includegraphics[width=\linewidth]{trustchain/assets/fullchain}
 	\caption{A part of the \TrustChain{} DAG, involving five peers and six records: four proposals (solid borders) and two confirmations (dashed borders). The proposal created by user $ a $ with sequence number 55 is unconfirmed.}
 	\label{fig:fullchain}
 \end{figure}
@@ -758,7 +758,7 @@ Records with the same colour are created by the same peer.
 We discuss each scenario and elaborate on how they either lead to fraud exposure or the detection of an inconsistency.
 
 \begin{itemize}
-	\item \textbf{Scenario I}. 
+	\item \textbf{Scenario I.}
 	The first scenario, visualized in Figure~\ref{fig:fraud_scenario_1}, describes a situation where a peer can directly expose a fork in the personal ledger of peer $ a $.
 	The personal ledger of peer $ a $ has been forked since records $ R_1 $ and $ R_2 $ have the same sequence number but a different hash.
 	As soon as another peer, say $ b $, receives $ R_1 $ while already having $ R_2 $, or receives $ R_2 $ while already having $ R_1 $, the pair $ (R_1, R_2) $ is sufficient evidence to expose the fraud by $ a $.
@@ -766,11 +766,11 @@ We discuss each scenario and elaborate on how they either lead to fraud exposure
 	Note that $ b $ does not need to have $ R_3 $ to detect nor to prove this fraud.
 	We call the pair $ (R_1, R_2) $ a \emph{fraud proof}.
 	Fraud proofs are by default shared with other peers in the network through a \texttt{FraudProof} message.
-	\item \textbf{Scenario II}. The second scenario describes the situation where one can prove fraud by detecting inconsistencies in the included back-pointers of records.
+	\item \textbf{Scenario II.} The second scenario describes the situation where one can prove fraud by detecting inconsistencies in the included back-pointers of records.
 	Figure~\ref{fig:fraud_scenario_2} shows four records created by peer $ a $.
 	Records $ R_3 $ and $ R_4 $ contain the hash of the record with sequence number 54 in the back-pointer set; however, these back-pointers describe the same record with a different hash.
 	The pair $ (R_3, R_4) $ is irrefutable proof that peer $ a $ has committed fraud and can be used to construct a fraud proof.
-	\item \textbf{Scenario III}.
+	\item \textbf{Scenario III.}
 	Figure~\ref{fig:fraud_scenario_3} shows a third scenario where a peer receives proposal $ R_1 $ and already has confirmation $ R_2 $, or receives confirmation $ R_2 $ while already having proposal $ R_1 $.
 	The peer does not have records $ R_3 $ and $ R_4 $.
 	The hash of record $ R_3 $ in $ R_1 $ differs from the hash in the confirmation pointer in $ R_2 $.
@@ -979,7 +979,7 @@ Since fraud detection is a probabilistic approach, some fraud instances can take
 We also encountered this behaviour during our experiments (see Section~\ref{sec:implementation_evaluation}).
 At the same time, we argue that this is not an insurmountable problem in decentralized applications where performed work holds no or low monetary value.
 
-Since our algorithm is based on fraud \emph{detection}, \TrustChain{} is not suitable for applications that require a high level of security, as is the case with decentralized financial applications.
+Since our algorithm is based on fraud detection, \TrustChain{} is not suitable for applications that require a high level of security, as is the case with decentralized financial applications.
 We believe that blockchain technology provides more appropriate security guarantees for such application domains, at the cost of increased resource usage and lower scalability.
 
 Finally, we note that \TrustChain{} is mainly built for the lightweight accounting of work in decentralized applications.
@@ -1496,7 +1496,7 @@ Despite these outages, users would still perform payouts when downloading direct
 \begin{figure}[t]
 	\centering
 	\includegraphics[width=.8\linewidth]{trustchain/assets/exit_node_rejects}
-	\caption{Emperical Cumulative Distribution Function (ECDF) of the bandwidth token balances of peers and individual rejects events at exit nodes.}
+	\caption{Empirical Cumulative Distribution Function (ECDF) of the bandwidth token balances of peers and individual rejects events at exit nodes.}
 	\label{fig:exit_node_rejects}
 \end{figure}
 
@@ -1547,4 +1547,4 @@ Through a two-year deployment trial of \TrustChain{} in \Tribler{}, involving mo
 
 We envision and encourage the usage of \TrustChain{} beyond work accounting in decentralized applications.
 Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2021xchange,de2019devid,stokkink2018deployment}.
-Since these scenarios leverage the same data structure, these applications all benefit from the accounting capabilities that \ModelName{} offers.
+Since these scenarios leverage the same data structure, these applications all benefit from the accounting capabilities that \TrustChain{} offers.

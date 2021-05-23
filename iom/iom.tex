@@ -15,7 +15,7 @@ Internet-of-Money is fully decentralized, scalable and privacy-preserving.}
 
 \emph{With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
 We show that the overlay network is capable of discovering a majority of available money routers within a minute.
-Finally, we demonstrate how profit of cheating routers is limited and that misbehaviour is punished.}
+Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is punished.}
 
 \newpage
 
@@ -341,7 +341,7 @@ The mobile application allows interfacing with different banks and the initiatio
 \section{Building Trust using Blockchain Constructs}
 \label{sec:trust}
 %We now present our blockchain-based trust model, used to determine trustworthiness of intermediaries and to exclude malicious nodes from the community.
-We now explain our deployed, scalable blockchain fabric to gradually build trust between fast payment initiators and money routers: \emph{Trustchain}.
+We now explain our deployed, scalable blockchain fabric to gradually build trust between fast payment initiators and money routers: \emph{TrustChain}.
 TrustChain is designed around transacting entities and is able to accurately capture interactions between users.
 We have successfully explored usage of TrustChain for bandwidth accounting, attestations and decentralized trading in prior work~\cite{pouwelse2017laws}. % , and stores historical interactions.
 %In Trustchain, every network participant operates his own chain of historical record.
@@ -444,9 +444,9 @@ In particular, we believe the Bazaar algorithm is suitable for this use case and
 We propose a mechanism called \emph{router validation} to ensure that a specific bank account can only be operated by a single money router.
 The effectiveness of this method comes from the difficult and costly process of opening many accounts with different banks internationally. %, in particular internationally.
 This addresses the challenging Sybil Attack, where an attacker operates multiple entities that use the same bank account for money routing.
-A router first registers a bank account by sending \euro 0.01 to a trusted third party (TPP), for instance, a bank.
-The digital identity of TPPs are publicly available.
-TPPs sign and store a so-called \emph{verify} transaction on TrustChain together with a money router when the payment is observed.
+A router first registers a bank account by sending \euro 0.01 to a trusted third party (TTP), for instance, a bank.
+The digital identity of TTPs are publicly available.
+TTPs sign and store a so-called \emph{verify} transaction on TrustChain together with a money router when the payment is observed.
 This transaction uniquely connects a bank account to a money router.
 Routers reusing accounts across multiple identities can be identified by querying TrustChain records.
 
@@ -463,11 +463,11 @@ We created one of the first open implementations capable of communicating with n
 %This results in each company building applications around their own requirements, resulting in a large number of non-compatible communication protocols.
 %We combined the proprietary protocols of banks.
 %As a first step towards sub-second money transfers, we combine the proprietary protocols of banks.
-We combined banks in the Netherlands (Rabobank, ING and ABN Amro), the British bank HSBC and the Luxembourg payment provider PayPal~\cite{doe2015vulnerability}\cite{awesome2015vulnerability}.
+We combined banks in the Netherlands (Rabobank, ING and ABN Amro), the British bank HSBC and the Luxembourg payment provider PayPal~\cite{doe2015vulnerability,awesome2015vulnerability}.
 We devised a single API to communicate with all these banks, called \emph{The Money API}.
 The Money API provides primitives to login, fetch account balance, query mutations, initiate payments to other accounts and register devices.
 This library is designed to be extendible and we have partial support for banks in Italy, Greece, Sri Lanka, Turkey and Germany.
-Our open source\footnote{The Money API source code:\\http://www.ds.ewi.tudelft.nl/fileadmin/pds/homepages/vos/\\iom/internet\_of\_money.zip} library is currently being tested.
+Our open source\footnote{The Money API source code: \url{http://www.ds.ewi.tudelft.nl/fileadmin/pds/homepages/vos/iom/internet\_of\_money.zip}} library is currently being tested.
 
 %We are currently unable to publicly release the implementation of our unified interface yet due to open legal considerations.
 %Ongoing collaboration with business partners focusses on exploring legal considerations of the Money API.
@@ -484,9 +484,9 @@ In addition, users can specify a minimum account balance to avoid taking costs w
 In the remainder of this work, we assume transaction fees are fixed.
 We also consider an analysis of monetary incentives out of scope and not fundamental for the prototype evaluated in this work.
 
-Note that our design also allows the role of money router to be fulfilled by a single trusted third party or by a few selected trustworthy entities (i.e. financial institutions).
+Note that our design also allows the role of money router to be fulfilled by a single trusted third party or by a few selected trustworthy entities (i.e., financial institutions).
 A more centralized architecture would mitigate some of the trust and security issues that arise from full decentralization.
-However, we consider open enrollment (the opportunity for any user to act as a money router) a cardinal property of our system.
+However, we consider open enrolment (the opportunity for any user to act as a money router) a cardinal property of our system.
 % Huidige users kunnen nu geen money routers worden
 
 \subsubsection*{Router Discovery}
@@ -517,7 +517,7 @@ The response also includes a list of routers that are able to extend the money c
 If $ r $ is able to handle the transfer, the initiator picks a router to extend the circuit with and sends an \emph{extend} message again.
 These routers are picked based on trustworthiness scores.
 This process repeats until the initiator built a money circuit that can handle the fast payment. % to the account of the beneficiary.
-Users are able to change the maximum number of routers in a circuit, which defaults to 3.
+Users are able to change the maximum number of routers in a circuit, which defaults to three.
 %Once a circuit is established, the initiator queries transaction fees of each router.
 %The sum of these fees give the total transaction fees for a specific fast payment.
 
@@ -591,7 +591,7 @@ While this is an efficient method to restore balances, only requiring in-house p
 %We address these attacks by proposing a mechanism called \emph{router validation} which uniquely links a digital identity to a bank account.
 %In particular, it ensures that each bank account can only be operated by a single digital identity.
 %The rationale of this mechanism is based on the fact that it takes some effort to open new bank accounts, in particular in countries foreign to a user.
-%Switch validation is performed by trusted third parties (TPPs) that operate in the network.
+%Switch validation is performed by trusted third parties (TTPs) that operate in the network.
 %These validators publish their digital identity online and are able to handle account validation requests.
 
 %Various financial institutions have a requirement for bank account validation when operating in their environment.
@@ -740,8 +740,8 @@ We now discuss this research from various perspectives.
 \subsubsection*{Legal}
 The idea of directly sharing funds with others, without a central bank involved, is highly experimental and challenges existing regulation.
 Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking license.
-The PSD2 regulation states that trusted third parties (TPPs) can be authorized by end-users to perform financial activities on their behalf~\cite{cortet2016psd2}.
-However, it is unclear whether the definition of a TPP includes money routers.
+The PSD2 regulation states that trusted third parties (TTPs) can be authorized by end-users to perform financial activities on their behalf~\cite{cortet2016psd2}.
+However, it is unclear whether the definition of a TTP includes money routers.
 Another consideration is responsibility when a mistaken payment is initiated.
 At the same time, this consideration also applies to blockchain technology where payments cannot manually be reverted once they are finalized on the ledger.
 Compatibility of our system with (inter)national anti-money laundry regulations is highly uncertain.

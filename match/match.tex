@@ -14,7 +14,7 @@
 	This approach makes MATCH resilient against matchmakers that pursue selfish interests, a severe issue with centralized matchmaking.
 	We implement MATCH and evaluate our middleware using real-world ride-hailing and asset trading workloads.
 	It is demonstrated that MATCH maintains high matching quality, even in the presence of malicious matchmakers.
-	Further, we show that the bandwidth, memory usage, and order fulfill latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain. }
+	Further, we show that the bandwidth, memory usage, and order fulfil latency of MATCH is orders of magnitude lower compared to matchmaking on an Ethereum blockchain. }
 
 \newpage
 
@@ -26,8 +26,8 @@ Beyond the promises of increased economic welfare, the broader appeal of the sha
 %While there is no single definition for the sharing economy, it can be considered as an umbrella term for novel technology-enabled peer-to-peer markets, enabling new types of interactions on a global scale.
 %It has been suggested that the key defining characteristics of sharing economy are markets enabling direct peer-to-peer exchange or rent of under-utilized assets and resources.
 %Given the inclusive character of the sharing economy label, the estimates of its size and impact vary. 
-Estimations on the impact of the sharing economy suggest an increase in global revenue from \$14 billion in 2014 to \$335 billion by 2025, partially enabled by major platforms such as Uber (ride-hailing) and AirBnb (house-sharing)~\cite{pwcsharingeconomy}. %Reference. PricewaterhouseCoopers. (2015). Consumer Intelligence Series "The Sharing Economy", https://www.pwc.com/us/en/technology/publications/assets/pwc-consumer-intelligence-series-the-sharing-economy.pdf
-%Major companies in the sharing economy are Uber (ride-hailing) and AirBnb (house-sharing).
+Estimations on the impact of the sharing economy suggest an increase in global revenue from \$14 billion in 2014 to \$335 billion by 2025, partially enabled by major platforms such as Uber (ride-hailing) and Airbnb (house-sharing)~\cite{pwcsharingeconomy}. %Reference. PricewaterhouseCoopers. (2015). Consumer Intelligence Series "The Sharing Economy", https://www.pwc.com/us/en/technology/publications/assets/pwc-consumer-intelligence-series-the-sharing-economy.pdf
+%Major companies in the sharing economy are Uber (ride-hailing) and Airbnb (house-sharing).
 
 The effect of these platforms on peer-to-peer markets, however, is not unequivocal.
 It has been argued that market operators exploit their prominent position and charge high transaction fees for their role as intermediary~\cite{schor2016debating}. %Reference.  (Shapiro 2020) https://onlinelibrary.wiley.com/doi/abs/10.1111/ntwe.12160 
@@ -129,7 +129,7 @@ Finally, we show that MATCH has bandwidth usage and order fulfil latencies that 
 
 %The main responsibility of many online service providers is to act as \emph{matchmaker} between their users.
 %Acting as a trusted intermediary, or \emph{matchmaker}, between users is at the core of many online services providers.
-%For example, the key objective of companies acting in the sharing economy, such as AirBnb (house sharing) and Uber (ride hailing), is to bring individuals together that can engage in an exchange of service or goods. %, is to act as trusted middleman for the services provided or requested by individual platform participants.
+%For example, the key objective of companies acting in the sharing economy, such as Airbnb (house sharing) and Uber (ride hailing), is to bring individuals together that can engage in an exchange of service or goods. %, is to act as trusted middleman for the services provided or requested by individual platform participants.
 %Similarly, matching prospective traders with each other is a requirement for e-commerce platform operators such as eBay and Amazon.
 
 %Online commerce platforms are pervasively used in both traditional and emerging markets. However, increasingly becoming critical infrastructure in our society, these platforms also bring systemic risks to everyday consumers~\cite{azevedo2016}\cite{oecd2019}.The full potential of these developments is hard to assess yet, but some key trends are already evident such as an unprecedented concentration of power by a few centralized intermediaries~\cite{pepper2019}.
@@ -317,7 +317,7 @@ Finally, we show that MATCH has bandwidth usage and order fulfil latencies that 
 %This data structure keeps track of all market orders that have been submitted by traders.
 %New orders, are inserted in the order book and matched against existing entries.
 %These servers keep track of the full order book which contains the current list of all active buy and sell orders created by platform participants.
-%Centralized matchmaking is deployed by many commercial marketplaces such as Uber, AirBnb and Nasdaq.
+%Centralized matchmaking is deployed by many commercial marketplaces such as Uber, Airbnb and Nasdaq.
 %Although this centralized approach to matchmaking is adopted by a vast majority of electronic marketplaces, it leads to a few deficiencies.
 %First, centralized order matchmaking architectures tend to be less resistant against infrastructure failures and targeted attacks (e.g., a denial-of-service attack~\cite{mirkovic2004internet}).
 %Second, the deployed matching logic is rarely open for inspection by traders and therefore prone to manipulation by market operators.
@@ -586,7 +586,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 
 % introduce architectures
 
-%Numerous marketplaces like Uber, AirBnb and Nasdaq have to process and match thousands of new buy or sell requests every second.\todo{cite}
+%Numerous marketplaces like Uber, Airbnb and Nasdaq have to process and match thousands of new buy or sell requests every second.\todo{cite}
 %Such marketplaces have deployed one or several servers which keep track of all incoming buy and sell orders. % which is fully owned and controlled by the market operator.
 %This centralized method of matchmaking is shown in Figure X, where buyers and sellers directly submit new (buy or sell) orders to their matchmaker servers.
 %However, centralized matchmaking leads to a few deficiencies in general.
@@ -788,30 +788,31 @@ We assume that cryptographic protocols are secure and that the computational pow
 We visualize the MATCH protocol and the message exchange between users and matchmakers in Figure~\ref{fig:match_data_flow}.
 The key idea behind our protocol is matchmakers only inform users about matches, and that users negotiate a trade directly with counterparties.
 %In summary, the protocol proceeds as f.
-First, users send new offers and requests to one or more matchmakers (\circled{1} + \circled{2}).
-Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (\circled{3}).
+First, users send new offers and requests to one or more matchmakers (step \circled{1} + \circled{2}).
+Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (step \circled{3}).
 Users aggregate potential matches of a specific order in a match queue.
-Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (\circled{4}), starting with the best match, and negotiates with the user behind the matched order (\circled{5} - \circled{7}).
-When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (\circled{8} + \circled{9}).
-The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (\circled{10} + \circled{11}).
+Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (step \circled{4}), starting with the best match, and negotiates with the user behind the matched order (step \circled{5} - \circled{7}).
+When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (step \circled{8} + \circled{9}).
+The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (step \circled{10} + \circled{11}).
 The matchmakers are also informed about a negative outcome during the negotiation process.
 If an order is still open, a user selects the next best item from the associated match queue, if it is non-empty, and initiates the next negotiation process.
 This repeats until the match queue is empty or the order is completed.
 The steps in the MATCH protocol are now further explained.
 
 \begin{lstlisting}[language=json,firstnumber=1,float=b,caption=An order in a ride-hailing market (in JSON format).,label=lst:order_example]
-{"timestamp": "2020-02-24T09:09:19+0000",
-"type": "RIDE",
-"timeout": 3600,
-"is_offer": false, // request for transportation
-"public_key": "82ae2f8f0c473cbdf63b920...",
-"signature": "d54af87c8f8e6d917729d14...",
-"identifier": 5,
-"quantity": 1,
-"data": {
-"latitude": "40.712776",
-"longitude": "-74.005974"
-} }
+{	"timestamp": "2020-02-24T09:09:19+0000",
+	"type": "RIDE",
+	"timeout": 3600,
+	"is_offer": false, // request for transportation
+	"public_key": "82ae2f8f0c473cbdf63b920...",
+	"signature": "d54af87c8f8e6d917729d14...",
+	"identifier": 5,
+	"quantity": 1,
+	"data": {
+		"latitude": "40.712776",
+		"longitude": "-74.005974"
+	}
+}
 \end{lstlisting}
 
 \subsection{Order Creation}
@@ -1408,12 +1409,12 @@ This guarantee is, for example, provided by smart contracts, applications that r
 		$ f $ & Order fanout \\ \hline
 		$ r $ & Fraction of malicious matchmakers \\ \hline
 	\end{tabular}
-	\caption{An overview of the variables used in Section~\ref{sec:experiments}.}
+	\caption{An overview of the variables used in Section~\ref{sec:match_experiments}.}
 	\label{table:experiment_parameters}
 \end{table}
 
 \section{Experimental Evaluation}
-\label{sec:experiments}
+\label{sec:match_experiments}
 We implement the MATCH protocol and middleware in the Python 3 programming language, spanning a total of 6.511 lines of source code (SLOC), without comments.
 The implementation uses the \texttt{asyncio} library for asynchronous event processing.
 The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging.\footnote{See \url{https://github.com/tribler/py-ipv8}}
@@ -1748,7 +1749,7 @@ The smart contract for the ride-hailing workload maintains two lists containing 
 Submission of a new ride offer and request is done by issuing a transaction with geographic information that invokes the \texttt{ride\_offer} and \texttt{ride\_request} methods in the smart contract, respectively.
 Invocation of these methods triggers a loop through the list of active offers or request, and finds the matching order that minimizes the distance between the passenger and driver.
 The algorithmic complexity when matching a single offer and request is $ O(n) $ where $ n $ is the number of open requests and offers, respectively.
-To avoid computationally expensive trigonometry operations when computing the Haversine distance, latitude and longitude coordinates are projected to Universal Transverse Mercator (UTM) coordinates and the Manhattan distance is used as a norm in the smart contract.
+To avoid computationally expensive trigonometry operations when computing the haversine distance, latitude and longitude coordinates are projected to Universal Transverse Mercator (UTM) coordinates and the Manhattan distance is used as a norm in the smart contract.
 This results in an accuracy loss of only 0.35\%.
 
 For the asset trading workload, we adopt an existing and deployed order book implementation.\footnote{See \url{https://github.com/makerdao/maker-otc/tree/master/src}}
