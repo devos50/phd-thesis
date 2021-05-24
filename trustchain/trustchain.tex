@@ -1286,13 +1286,6 @@ Note that the effect of adding more back-pointers diminishes for $ b > 4 $.
 This effect can likely be attributed to the fact that all peers start with an empty personal ledger in our simulations, and that different records with lower sequence numbers in the same personal ledger are more likely to include identical hashes in their back-pointers.
 However, we believe that the effect of additional back-pointers becomes more apparent when personal ledgers grow to considerable sizes, since different records are then more likely to include more unique hashes.
 
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\linewidth]{trustchain/assets/fraud_experiment_realistic_ecdf}
-	\caption{Fraud detection times lower than 180 seconds for different record exchange strategies when replaying a day of interactions made by \Tribler{} users.}
-	\label{fig:fraud_times_realistic_dataset}
-\end{figure}
-
 \subsection{Fraud Detection Times under a Realistic Workload}
 \label{subsec:realistic_workload}
 Our experiments conducted so far are using a synthetic workload.
@@ -1315,6 +1308,13 @@ We observe that over 25\% of all fraud for the \texttt{PULL+PUSH} strategy is de
 During this experiment, we also see that the network usage per peer is relatively low.
 For the \texttt{PULL} strategy, each peer, on average, consumes merely 1.7 MB of hourly network traffic.
 This number increases to 5.1 MB under the \texttt{PULL+RAND+PUSH} strategy.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=\linewidth]{trustchain/assets/fraud_experiment_realistic_ecdf}
+	\caption{Fraud detection times lower than 180 seconds for different record exchange strategies when replaying a day of interactions made by \Tribler{} users.}
+	\label{fig:fraud_times_realistic_dataset}
+\end{figure}
 
 This experiment shows that \TrustChain{}, under a realistic workload of \Tribler{} interactions, exhibit relatively low fraud detection times and has low network usage.
 As we have also measured during our deployment trial (see Section~\ref{sec:deployment}), the resource overhead of \TrustChain{} is minimal.

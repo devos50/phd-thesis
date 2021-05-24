@@ -71,7 +71,7 @@ Finally, in Chapter 7, we formulate the main conclusions of this thesis and pres
 {\selectlanguage{dutch}
 
 \dropcap{M}arkten faciliteren het verhandelen van diensten, goederen en informatie tussen individuen en bedrijven.
-Ze spelen een essentiele rol in onze economie.
+Ze spelen een essentiële rol in onze economie.
 De standaard werkwijze om elektronische markten in te richten is door het gebruik van gecentraliseerde infrastructuur die volledig geopereerd en beheerd wordt door een marktexploitant.
 In deze centrale markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een conflict.
 
@@ -80,7 +80,7 @@ Met name blockchaintechnologie wordt steeds vaker toegepast om elektronische mar
 Blockchain-gebaseerde marktplaatsen faciliteren directe handel tussen peers en verminderen de afhankelijkheid van zowel gezaghebbende partijen als vertrouwde tussenpersonen.
 De rol van blockchain op dergelijke marktplaatsen is om sociaal vertrouwen te vervangen door cryptografische primitieven.
 Dit maakt de \emph{decentralisatie} en \emph{disintermediatie} van verschillende componenten op elektronische marktplaatsen mogelijk.
-In de context van dit werk verwijst decentralisatie naar het concept van het delegeren van besluitvorming en activiteiten weg van een centrale autoriteit.
+In de context van dit werk betekent decentralisatie het verminderen van besluitvorming en activiteiten die worden uitgevoerd door een centrale autoriteit.
 Disintermediatie vermindert of verwijdert de betrokkenheid van vertrouwde tussenpersonen bij het handelen op een elektronische markt.
 
 Dit proefschrift introduceert innovatieve mechanismes om alle aspecten van blockchain-gebaseerde markten te decentraliseren en te disintermediëren.
@@ -89,16 +89,16 @@ Vervolgens ontwerpen, implementeren, evalueren en implementeren we vijf gedecent
 Elk geïntroduceerd mechanisme richt zich op één of twee aspecten van blockchain-gebaseerde markten.
 Voor elk mechanisme beschouwen we een praktisch nut en implementatie als cruciale vereisten voor een succesvolle acceptatie.
 
-In hoofdstuk 1 identificeren en beschrijven we de vijf aspecten van blockchain-gebaseerde marktplaatsen.
+In hoofdstuk 1 identificeren en beschrijven we de vijf aspecten van marktplaatsen die op blockchain gebasseerd zijn.
 We beschrijven bestaande oplossingen die deze aspecten disintermediëren en decentraliseren.
-Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeksmethodologie en vatten we de belangrijkste bijdragen samen.
+Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeksmethodologie en vatten we de belangrijkste bijdragen van dit proefschrift samen.
 
 In hoofdstuk 2 introduceren we een universeel mechanisme genaamd \emph{\TrustChain{}}, voor het organiseren van informatie in decentrale netwerken.
-Met \emph{\TrustChain{}} houdt elke gebruikers een persoonlijk grootboek bij.
-Dit grootboek bevat overeenkomsten tussen gebruikers en bevatten verwijzingen naar andere objecten in het grootboek.
-Fraude, het onwettige wijzigen van een overeenkomst in iemands persoonlijke grootboek, wordt gedetecteerd door continu records uit te wisselen en door de consistentie van inkomende informatie met bekende informatie te verifiëren.
+Met \emph{\TrustChain{}} houdt elke gebruiker een persoonlijk grootboek met \emph{records} bij.
+Een record bevat contractuele overeenkomsten tussen gebruikers en bevat ook verwijzingen naar andere records in het grootboek.
+Fraude, het onwettig wijzigen van een record in iemands persoonlijke grootboek, wordt gedetecteerd door continu records uit te wisselen en door de consistentie van inkomende records met bekende records te verifiëren.
 We laten met experimenten zien dat \emph{\TrustChain{}} zeer schaalbaar is en dat fraude snel kan worden gedetecteerd.
-Om de toepasbaarheid van ons werk te benadrukken, voeren we een tweejarige implementatieproef uit van \emph{\TrustChain{}} om free-riders aan te pakken in \emph{Tribler}, onze gedecentraliseerde applicatie voor het delen van bestanden.
+Om de toepasbaarheid van ons werk te benadrukken, voeren we een tweejarige gebruikersproef uit van \emph{\TrustChain{}} om free-riders (meelifters) aan te pakken in \emph{Tribler}, onze gedecentraliseerde applicatie voor het delen van bestanden.
 We maken gebruik van de mogelijkheden van \emph{\TrustChain{}} voor andere mechanismen die in dit proefschrift worden geïntroduceerd.
 
 In hoofdstuk 3 introduceren we MATCH, een gedecentraliseerde middleware voor eerlijke matchmaking in peer-to-peer markten.
@@ -114,11 +114,11 @@ Om het tegenpartijrisico te verkleinen, beperkt XChange de economische voordelen
 Door het gedistribueerde logboek te inspecteren, kan elke gebruiker detecteren of een handelaar afziet van het nakomen van zijn verplichtingen tijdens een lopende transactie.
 Onze resultaten tonen aan dat XChange zeer schaalbaar is en de economische verliezen met meer dan 99\% vermindert.
 
-In hoofdstuk 5 introduceren we Internet-of-Money, een settlement mechanisme voor realtime en internationale geldovermakingen tussen verschillende banken.
-Het idee is om een ​​langzame inter-bancaire betaling op te splitsen in meerdere snelle intra-bancaire betalingen.
-Elke geldoverdracht maakt gebruik van een of meer op vrijwilligers gebaseerde diensten, geldrouters, om een ​​betaling binnen de bank te voltooien.
-Deze benadering reduceert de duur van inter-bankbetalingen van dagen tot louter seconden.
-Om fraud, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende hop, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
+In hoofdstuk 5 introduceren we Internet-of-Money, een mechanisme voor realtime en internationale geldovermakingen tussen verschillende banken.
+Het idee is om een ​​langzame interbancaire betaling op te splitsen in meerdere snelle intra-bancaire betalingen.
+Elke geldoverdracht maakt gebruik van één of meer op vrijwilligers gebaseerde diensten, geldrouters, om een ​​betaling binnen de bank te voltooien.
+Deze benadering reduceert de duur van interbancaire betalingen van dagen tot louter seconden.
+Om fraude, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende hop, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
 Om de risico's verder te verkleinen, splitsen we een enkele betaling op in meerdere kleinere betalingen en gebruiken we meerdere geldrouters tegelijkertijd.
 Onze experimenten tonen aan dat deze aanpak de winsten voor kwaadwillige gebruikers aanzienlijk vermindert.
 
