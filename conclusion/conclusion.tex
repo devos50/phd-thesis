@@ -6,36 +6,36 @@ Using our universal \TrustChain{} accounting mechanism, market information can s
 With our decentralized MATCH middleware, participants do not have to rely on a centralized matchmaker to match their orders in peer-to-peer markets.
 Our XChange trading mechanism enables asset trading between permissioned blockchains without any requirement for a trusted third party that performs settlement.
 The decentralized Internet-of-Money overlay enables fast and international money transfers without settlement by a central bank.
-Finally, software developers using DevID can build self-hosted, durable portfolios without their data being managed by a central party can and showcase these portfolios on the decentralized crowdsourcing platform DAppCoder.
+Finally, software developers using DevID can build self-hosted, durable portfolios without their data being managed by a central party can and showcase these portfolios on the decentralized crowdsourcing platform dAppCoder.
 
 \section{Conclusions}
 The main conclusions of this thesis are as follows:
 
 \begin{enumerate}
-	\item In Chapter~\ref{chapter:trustchain}, we have built \TrustChain{}, a universal accounting mechanism.
+	\item In Chapter~\ref{chapter:trustchain} we have built \TrustChain{}, a universal accounting mechanism.
 	With a two-year deployment trial of \TrustChain{} in our peer-to-peer application \Tribler{}, we have successfully addressed free-riding behaviour in our Tor-like overlay.
 	Our \TrustChain{} mechanism is highly suitable for accounting data within different application domains that can tolerate fraud to remain undetected for a short period.
 	In this thesis, we have leveraged the accounting capabilities of \TrustChain{} to store data elements in the XChange (Chapter~\ref{chapter:xchange}), Internet-of-Money (Chapter~\ref{chapter:iom}) and dAppCoder/DevID (Chapter~\ref{chapter:devid}) mechanisms.
 	
-	\item Our decentralized MATCH middleware, presented in Chapter~\ref{chapter:match}, is highly resilient against manipulation during order matchmaking.
+	\item In Chapter~\ref{chapter:match} we have presented MATCH, decentralized middleware that is highly resilient against manipulation during order matchmaking.
 	This manipulation is a significant concern in peer-to-peer markets under central ownership.
 	MATCH performs high-quality matchmaking and does so with bandwidth and memory overhead orders of magnitude lower compared to matchmaking on a blockchain.
 	We are the first to experiment with a fair and decentralized alternative to the Uber ride-hailing market.
 	
-	\item In Chapter~\ref{chapter:xchange}, we have presented a novel approach for asset trading between permissioned blockchains.
+	\item In Chapter~\ref{chapter:xchange} we have presented a novel approach for asset trading between permissioned blockchains.
 	Compared to existing trading approaches that either require third party intervention or modifications to deployed blockchain logic, our approach is fully decentralized and is compatible with all permissioned blockchains.
 	Peers record all trading activity in a distributed log, and users will not trade with suspected fraudsters until an identified dispute is resolved.
 	This approach significantly reduces the economic damage that adversaries can cause in the system.
 	
-	\item In Chapter~\ref{chapter:iom}, we show how we have reduced the settlement duration of intra-bank payments from days to mere seconds.
+	\item In Chapter~\ref{chapter:iom} we have presented how we have reduced the settlement duration of intra-bank payments from days to mere seconds.
 	Our decentralized overlay, Internet-of-Money, circumvents slow settlement by a central bank by routing funds through the bank account of intermediate money routers.
 	By accounting all money transfers between users and money routers, we can detect if a money router compromises funds.
 	Our Internet-of-Money mechanism does not require changes to existing banking infrastructure.
 	
-	\item In Chapter~\ref{chapter:devid}, we introduce \Dappcoder{}, a decentralized crowdsourcing platform for the development of dApps.
+	\item In Chapter~\ref{chapter:devid} we have introduced \Dappcoder{}, a decentralized crowdsourcing marketplace for the development of dApps.
 	A key component of this platform is DevID, unified, blockchain-based portfolios.
 	DevID solves the problem that the portfolio of developers is usually scattered across centralized platforms, and vendor locked, making it hard to get an accurate impression of the developers' skills.
-	Our fully decentralized software crowdsourcing leverages DevID portfolio to match clients with developers, reducing search frictions and avoiding trusted intermediaries.
+	Our fully decentralized software crowdsourcing marketplace leverages DevID portfolios to match clients with developers, reduce search frictions and avoid trusted intermediaries for information management and client-developer payouts.
 \end{enumerate}
 
 \noindent The following three conclusions transcend single chapters:
@@ -59,7 +59,7 @@ Many opportunities remain to decentralize and disintermediate the aspects of blo
 We end this thesis by outlining per chapter ideas for further research.
 
 \begin{enumerate}
-	\item in Chapter~\ref{chapter:trustchain}, we have introduced the universal accounting mechanism \TrustChain{}.
+	\item in Chapter~\ref{chapter:trustchain} we have introduced the universal accounting mechanism \TrustChain{}.
 	As we also point out in Chapter~\ref{chapter:trustchain}, \TrustChain{} would benefit from privacy-preserving enhancements that reduce the amount of sensitive information one can extract with transaction analysis.
 	Other future work could focus on improving the probability of fraud detection further when sharing records.
 	We believe that more sophisticated dissemination techniques can further improve the security of our mechanism.
@@ -67,7 +67,7 @@ We end this thesis by outlining per chapter ideas for further research.
 	Applications then share \enquote{important} records amongst more peers.
 	%Another research angle can focus on an adaptive number of back-pointers in records, where \enquote{important} records bear more links.
 	
-	\item In Chapter~\ref{chapter:match}, we have presented MATCH, our decentralized middleware for fair matchmaking in peer-to-peer markets.
+	\item In Chapter~\ref{chapter:match} we have presented MATCH, our decentralized middleware for fair matchmaking in peer-to-peer markets.
 	Even though we show that MATCH is highly resistant against malicious matchmakers, we considered the identification of such matchmakers outside the scope of our work.
 	A natural extension of MATCH would be to leverage \TrustChain{} and record full specifications of order dissemination and proposed matches.
 	By replaying the matching events in ones personal ledger, a user can detect a deviation from a particular matching policy.
@@ -76,18 +76,18 @@ We end this thesis by outlining per chapter ideas for further research.
 	Specifically, our random dissemination model results in a particular distribution of the order book entries over peers in the network.
 	By inspecting incoming match proposals, long-term deviation from a matching policy can then be detected.
 	
-	\item In Chapter~\ref{chapter:xchange}, we have introduced a universal asset trading mechanism between permissioned blockchains.
+	\item In Chapter~\ref{chapter:xchange} we have introduced a universal asset trading mechanism between permissioned blockchains.
 	An important question that remains is how our mechanism can be used to trade assets between public blockchains, for example, Ethereum.
 	The critical problem when deploying our mechanism in a public setting is the ability to quickly generate a new identity after committing fraud, i.e., the Sybil Attack.
 	We envision that the use of collateral deposits can help to alleviate this threat.
 	
-	\item In Chapter~\ref{chapter:iom}, we have presented our international money transfer mechanism, named Internet-of-Money.
+	\item In Chapter~\ref{chapter:iom} we have presented our international money transfer mechanism, named Internet-of-Money.
 	A shortcoming of our approach is that the magnitude of an intra-bank payment is limited by the balance constraints of money routers in the circuit.
 	Once a money router has depleted its balance in one connected bank account, this router might be unable to route further payments.
 	Rebalancing the router requires a conventional payment which can be slow.
 	A potential research avenue is to rebalance money routers using Internet-of-Money functionality itself.
 	
-	\item In Chapter~\ref{chapter:devid}, we have introduced a decentralized crowdsourcing marketplace which includes unified portfolios for software developers.
+	\item In Chapter~\ref{chapter:devid} we have introduced a decentralized crowdsourcing marketplace which includes unified portfolios for software developers.
 	We believe that there are opportunities to devise new processes for securely linking third-party assets with DevID portfolios.
 	Possible research efforts can focus on large-scale deployment of \Dappcoder{} and integration of our tools in collaboration software like GitHub.
 	%This would also include a cryptocurrency-based remuneration system.

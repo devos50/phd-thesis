@@ -322,7 +322,7 @@ We wish to avoid data storage by a trusted operator.
 Suitable distributed storage solutions for our work are a Distributed Hash Table (DHT) like Kademlia, a BitTorrent swarm or the InterPlanetary File System (IPFS)~\cite{maymounkov2002kademlia,cohen2008bittorrent,benet2014ipfs}.
 These solutions enable users to store large data assets, without involvement of a trusted third party.
 Large data is inserted in the distributed storage back-end, and a reference to the data (i.e., a content hash) is included in the on-chain transaction.
-DevID (and DAppCoder) users can store their data at different \emph{providers}.
+DevID (and \Dappcoder{}) users can store their data at different \emph{providers}.
 DevID portfolio records with external data assets attached include the provider identifier (e.g., \enquote{\texttt{IPFS}}) and a pointer to the data (e.g., an IPFS content hash).
 
 \section{dAppCoder: Crowdsourcing Development of Decentralized Applications}
@@ -336,7 +336,7 @@ With a direct integration with DevID portfolios, developers can work on their re
 The architecture of \Dappcoder{} is presented in the upper layer of Figure~\ref{fig:dappcoder_system_architecture}.
 We now elaborate on the main functionalities of \Dappcoder{}.
 
-\begin{lstlisting}[language=json,firstnumber=1,float=t,caption=A project offered in DAppCoder (in JSON format).,label=lst:devid_project]
+\begin{lstlisting}[language=json,firstnumber=1,float=t,caption=A project offered in \Dappcoder{} (in JSON format).,label=lst:devid_project]
 {
 	"title": "An Ethereum-based Art Marketplace",
 	"description": {
@@ -453,7 +453,7 @@ We also discuss our deployment trial and present preliminary results.
 \begin{figure*}[t!]
 	\centering
 	\includegraphics[width=0.99\textwidth]{devid/resources/gui_smaller.png}
-	\caption{The user interface of DAppCoder, our application to crowdsource the development of decentralized applications.}
+	\caption{The user interface of \Dappcoder{}, our application to crowdsource the development of decentralized applications.}
 	\label{fig:dappcoder}
 \end{figure*}
 
