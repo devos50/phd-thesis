@@ -1516,7 +1516,7 @@ The median token balance of all users is -713 MB.
 This number suggests that there is not much opportunity to earn bandwidth tokens by contributing to the network.
 By default, the Tribler software downloads content over a 1-hop circuit, only involving an exit node.
 Changing the default behaviour to use 2-hop downloads could alleviate this issue, at the cost of decreased download speeds.
-Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low (e.g., $ < $ 50 GB) are frequently rejected a slot.
+Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low token balance (e.g., $ < $ 50 GB) are frequently rejected a slot.
 The median token balance associated with reject events is -181.4 GB, demonstrating that our mechanism effectively targets peers with lower bandwidth token balances.
 The slots claimed by free-riders will likely go to dedicated peers when the network is congested.
 This deployment trial shows that \TrustChain{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.

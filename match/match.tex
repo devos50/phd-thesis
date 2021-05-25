@@ -903,8 +903,10 @@ Specifically, we send a new order to a random subset of all matchmakers.
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 Let $ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
 The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one as the order fanout increases, even when the order fanout is low compared to the number of matchmakers.
-Figure~\ref{fig:matching_idea} shows the intuition behind this idea.
 This phenomena is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
+Figure~\ref{fig:matching_idea} shows the intuition behind this idea.
+The figure shows in red the set of matchmakers that receive a particular request and in green the set of matchmakers that receive a particular offer.
+One matchmaker receives both the request and offer and is able to match these orders.
 
 Determining to how many matchmakers a new order is sent, is key.
 In particular, we are interested in computing the probability that at least one matchmaker receives a matching offer and request.

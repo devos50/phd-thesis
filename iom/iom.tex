@@ -52,7 +52,7 @@ Despite various scalability efforts like proof-of-stake and sharding, broader ad
 %A majority of Internet usage takes place on handful of platforms that are operated by large companies.
 While a majority of Internet users trust the company behind popular platforms, the events involving Mt. Gox highlighted how digital trust can be established and compromised~\cite{mcmillan2014inside}.
 Mt. Gox was at one point the largest Bitcoin exchange worldwide.
-In 2014, hackers stole Bitcoin, worth around \$460 million at that time. %Mt. Gox, at that time the largest Bitcoin exchange operational.
+In 2014, hackers stole Bitcoin, worth around \$460 million at that time from the Mt. Gox exchange. %Mt. Gox, at that time the largest Bitcoin exchange operational.
 This event, together with major data breaches in 2017 at high-profile companies like Uber and Equifax, exposed the weakness of centralized architectures~\cite{uber2017hack}.
 They motivate research around decentralized technologies, like blockchain. %, not owned or operated by a single authority.
 %Other data breaches challenge high-profile companies like Uber and Equifax to consider their 
@@ -146,7 +146,7 @@ Detection of such fraud is non-trivial.
 
 The trust problem in this work can be modelled by the prisoner's dilemma, where two entities can either cooperate or betray each other~\cite{kreps1982rational}.
 Betrayal is also called \emph{defection}.
-In the iterative prisoner's dilemma, players cooperate or deflect iteratively and are able to punish opponents for their past decisions.
+In the iterative prisoner's dilemma, players cooperate or defect iteratively and are able to punish opponents for their past decisions.
 We assume a \emph{send and forward} model where a user first sends money to another user, who in turn forwards the money to someone else.
 Forwarding funds is considered cooperation whereas keeping the money is seen as defection.
 Detecting whether an entity has defected is a key requirement.
@@ -268,12 +268,12 @@ Second, inter-bank settlement durations are significantly decreased, from days t
 Third, we reduce costs for inter-bank payments since no communication between banks is required, except when restoring balances (see Section \ref{sec:system_design}).
 %We only rely on inter-bank payments when restoring balances between accounts of a money router.
 
-Our system shares characteristics with services provided by Transferwise.
-Transferwise is a currency exchange service to offer a cheaper alternative to established institutions when making international payments.
+Our system shares characteristics with the services provided by Wise.
+Wise is a currency exchange service that offers a cheaper alternative to established institutions when making international payments.
 It routes payments not by transferring the sender's money directly to the recipient, but by redirecting them to the recipient of an equivalent transfer going in the opposite direction.
 The essential idea is to convert international money transfers into a sequence of local transactions.
 Their approach is comparable with our money router mechanism, as it also aims to reduce fees and improve efficiency of traditional payments.
-However, international payments with Transferwise can still take a few days to complete, depending on the settlement duration of involved banks.
+However, international payments with Wise can still take a few days to complete, depending on the settlement duration of involved banks.
 
 In the remainder of this work, we elaborate our trust model and technical specifications of money routing.
 This includes an overlay network where any individual is able to quickly route money between bank accounts.
@@ -720,7 +720,7 @@ This forces a money router in the established circuits.
 The volume of each fast payment is picked from a uniform random distribution between \euro 0.01 and \euro 1000.
 We challenge ourselves and assume that every user with at least two different bank accounts is malicious and has a 50\% probability of committing fraud and not forwarding received funds during a fast payment.
 To improve router availability, we connect all peers together before the experiment starts.
-In total, we schedule payments which volume sums to \euro 1,251,848.35.
+In total, we schedule payments whose volume sums up to \euro 1,251,848.35.
 
 The results are shown in Figure \ref{fig:fraud_experiment}.
 The horizontal axis denotes the time into the experiment in seconds, after users start performing fast payments to each other.

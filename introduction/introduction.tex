@@ -143,7 +143,7 @@ Smart contracts enable developers to build decentralized blockchain-based applic
 The most common DApp on the Ethereum blockchain is an ERC20 token, which enables developers to issue and manage custom assets.
 Besides ERC20 tokens, the Ethereum blockchain hosts almost 3'000 DApps at the time of writing, including lotteries, games, asset markets, voting, prediction markets and decentralized lending solutions.\footnote{See \url{https://www.stateofthedapps.com}}
 Despite the thriving ecosystem, it is non-trivial to revoke or disable a deployed smart contract when a software bug has been exploited.
-In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed the Decentralized Autonomous Organization (DAO)~\cite{mehar2019understanding}.
+In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed The Decentralized Autonomous Organization (The DAO)~\cite{mehar2019understanding}.
 A hacker managed to compromise \$50 million worth of Ethereum tokens.
 As a result, the Ethereum foundation decided to split (hard fork) the network in two where one network continues to operate the blockchain affected by the hack, and another network operates on an older version of the Ethereum blockchain that is unaffected by the hack.
 Since then, there has been much effort to build tools for developers to increase the security and correctness of smart contracts~\cite{breidenbach2018enter,brent2020ethainter}.
@@ -466,6 +466,7 @@ We now outline three settlement techniques commonly found in blockchain-based ma
 \end{figure}
 
 \subsubsection{Atomic Swaps}
+\label{sec:intro_atomic_swaps}
 The \emph{atomic swap} is a coordination protocol that is commonly used to exchange assets between different blockchains, without need for a trusted intermediary~\cite{herlihy2018atomic}.
 Atomic swaps enable two parties to exchange blockchain-based assets in an atomic manner.
 This means that the exchange either completes for both parties and have their assets traded, or it fails.
