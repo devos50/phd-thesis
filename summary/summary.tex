@@ -12,7 +12,7 @@ In particular, blockchain technology is increasingly being applied to deploy dig
 Blockchain-based marketplaces facilitate trade directly between peers while reducing the dependency on both authoritative parties and trusted intermediaries.
 The role of blockchain in such marketplaces is to replace social trust with cryptographic primitives.
 This enables the \emph{decentralization} and \emph{disintermediation} of different components in digital marketplaces.
-In the context of this work, decentralization refers to the concept of delegating decision making and activities away from a central authority.
+In the context of this thesis, decentralization refers to the concept of delegating decision making and activities away from a central authority.
 Disintermediation reduces or removes the involvement of trusted intermediaries when trading on a digital marketplace.
 
 This thesis introduces innovative approaches to decentralize and disintermediate all aspects of blockchain-based marketplaces.
@@ -21,11 +21,11 @@ We then design, implement, evaluate, and deploy five decentralized mechanisms.
 Each introduced mechanism focusses on one or two aspects of blockchain-based marketplaces.
 For each mechanism, we consider feasibility and real-world deployment as crucial requirements for successful adoption.
 
-In Chapter 1, we identify and describe the five aspects of blockchain-based marketplaces.
+In Chapter 1 we identify and describe the five aspects of blockchain-based marketplaces.
 We outline existing approaches that disintermediate and decentralize these aspects.
-We then formulate our research questions, describe our research and engineering methodology, and summarize the key contributions of this work.
+We then formulate our research questions, describe our research and engineering methodology, and summarize the key contributions of this thesis.
 
-In Chapter 2, we introduce a universal accounting mechanism, named \TrustChain{}, to securely store information in decentralized applications.
+In Chapter 2 we introduce a universal accounting mechanism, named \emph{\TrustChain{}}, to securely store information in decentralized applications.
 With \TrustChain{}, each peer maintains a personal ledger containing tamper-evident records.
 A record describes an agreement between peers and links to other records.
 Fraud, the illegitimate modification of a record in one's personal ledger, is detected by continuously exchanging records and by verifying the consistency of incoming records against known ones.
@@ -33,33 +33,33 @@ We experimentally show that \TrustChain{} is highly scalable and that fraud can 
 To highlight the applicability of our work, we perform a two-year deployment trial of \TrustChain{} to address free-riding behaviour in \Tribler{}, our decentralized file-sharing application.
 We leverage the accounting capabilities of \TrustChain{} for other mechanisms introduce in this thesis.
 
-In Chapter 3, we introduce MATCH, a decentralized middleware for fair matchmaking in peer-to-peer markets.
-MATCH addresses manipulation concerns associated with marketplaces under central control, namely the ability to prioritize, hide, or delay specific orders by the market operator.
-By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end-users to make their own educated decisions and to engage in direct negotiations with trade partners.
+In Chapter 3 we introduce \emph{MATCH}, a decentralized middleware for fair matchmaking in peer-to-peer markets.
+MATCH addresses manipulation concerns associated with marketplaces under central control, namely the ability by the market operator to prioritize, hide, or delay specific orders.
+By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end users to make their own educated decisions and to engage in direct negotiations with trade partners.
 We evaluate MATCH with real-world ride-hailing and asset trading workloads.
 Our experiments demonstrate that MATCH is highly resilient against malicious matchmakers that deviate from a specific matching policy.
 
-In Chapter 4, we introduce a universal and decentralized settlement mechanism named XChange.
+In Chapter 4 we introduce a universal and decentralized settlement mechanism named \emph{XChange}.
 This mechanism enables the exchange of assets between permissioned blockchains without the requirement for a trusted intermediary, collateral deposits, or modifications to deployed blockchain applications.
 XChange records the progression of each trade within records on a distributed log.
-To reduce counterparty risk, XChange bounds the economic gains of adversaries that have committed fraud during a trade by preventing them from engaging in other trades.
+To address counterparty risk, XChange bounds the economic gains of adversaries that have committed fraud during a trade by preventing them from engaging in other trades.
 By inspecting the trade records in the distributed log, every participant can detect if a trader is refraining from fulfilling its obligations during an ongoing trade.
-Our evaluation show that XChange is highly scalable and has low overhead, while reducing economic losses by more than 99\%.
+Our evaluation shows that XChange is highly scalable and has low overhead, while reducing economic losses by more than 99\%.
 
-In Chapter 5, we introduce Internet-of-Money, a settlement mechanism for real-time and international money transfers between different banks.
+In Chapter 5 we introduce \emph{Internet-of-Money}, a settlement mechanism for real-time and international money transfers between different banks.
 The key idea is to break up a slow inter-bank payment into multiple fast intra-bank payments.
-Each money transfer uses one or more volunteer-based services, money routers, to complete an intra-bank payment.
+Each money transfer uses one or more volunteer-based services, named money routers, to complete an intra-bank payment.
 This approach reduces the duration of inter-bank payments from days to mere seconds.
-To identity fraud, i.e., not forwarding incoming money as a router to the beneficiary, all payments between users and money routers are recorded in a distributed log.
+To identity fraud, i.e., not forwarding incoming money as a router to the beneficiary, all transfer operations by users and money routers are recorded in a distributed log.
 To further reduce risks, we break up a single money transfer into multiple smaller ones and leverage multiple money routers in parallel.
-Our experiments show that this approach significantly reduces fraud gains by adversarial parties.
+Our experiments show that these approaches significantly reduce fraud gains by adversarial parties.
 
-In Chapter 6, we introduce \Dappcoder{}, a decentralized marketplace for crowdsourcing the development of decentralized applications.
-DevID addresses fragmentation and lock-in effects associated with centralized marketplaces for crowdsourcing.
+In Chapter 6 we introduce \emph{\Dappcoder{}}, a decentralized crowdsourcing marketplace for the development of decentralized applications.
+\Dappcoder{} addresses fragmentation and lock-in effects associated with centralized marketplaces for crowdsourcing.
 A key part of \Dappcoder{} is DevID, a blockchain-based identity solution for software developers.
 DevID unifies developer information within records on a distributed log.
 Developers can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements.
-Clients can leverage the \Dappcoder{} marketplace to create and manage projects, and to remunerate developers using cryptocurrencies.
+Clients can leverage the \Dappcoder{} marketplace to create and manage projects, and to directly remunerate developers with cryptocurrencies while avoiding the need for trusted intermediaries.
 Our user trial demonstrates that both \Dappcoder{} and DevID are efficient at storing and managing data.
 
 Finally, in Chapter 7, we formulate the main conclusions of this thesis and present suggestions for further research directions.
@@ -73,12 +73,12 @@ Finally, in Chapter 7, we formulate the main conclusions of this thesis and pres
 \dropcap{M}arkten faciliteren het verhandelen van diensten, goederen en informatie tussen individuen en bedrijven.
 Ze spelen een essentiële rol in onze economie.
 De standaard werkwijze om elektronische markten in te richten is door het gebruik van gecentraliseerde infrastructuur die volledig geopereerd en beheerd wordt door een marktexploitant.
-In deze centrale markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een conflict.
+In deze centrale markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een geschil.
 
 Innovaties in de informatietechnologie hebben de behoefte aan zowel gezaghebbende marktdeelnemers als betrouwbare tussenpersonen uitgedaagd.
-Met name blockchaintechnologie wordt steeds vaker toegepast om elektronische markten in te zetten.
-Blockchain-gebaseerde marktplaatsen faciliteren directe handel tussen peers en verminderen de afhankelijkheid van zowel gezaghebbende partijen als vertrouwde tussenpersonen.
-De rol van blockchain op dergelijke marktplaatsen is om sociaal vertrouwen te vervangen door cryptografische primitieven.
+Met name blockchaintechnologie wordt steeds vaker toegepast om elektronische markten te creëren.
+Blockchain-gebaseerde marktplaatsen faciliteren directe handel tussen gebruikers en verminderen de afhankelijkheid van zowel gezaghebbende partijen als vertrouwde tussenpersonen.
+De rol van blockchain op dergelijke marktplaatsen is om sociaal vertrouwen te vervangen door cryptografische algoritmes.
 Dit maakt de \emph{decentralisatie} en \emph{disintermediatie} van verschillende componenten op elektronische marktplaatsen mogelijk.
 In de context van dit werk betekent decentralisatie het verminderen van besluitvorming en activiteiten die worden uitgevoerd door een centrale autoriteit.
 Disintermediatie vermindert of verwijdert de betrokkenheid van vertrouwde tussenpersonen bij het handelen op een elektronische markt.
@@ -87,47 +87,47 @@ Dit proefschrift introduceert innovatieve mechanismes om alle aspecten van block
 We identificeren eerst de vijf aspecten van blockchain-gebaseerde markten: informatiebeheer, matchmaking, de afwikkeling van handel, het afhandelen van fraude en het beheren van identiteit.
 Vervolgens ontwerpen, implementeren, evalueren en implementeren we vijf gedecentraliseerde mechanismen.
 Elk geïntroduceerd mechanisme richt zich op één of twee aspecten van blockchain-gebaseerde markten.
-Voor elk mechanisme beschouwen we een praktisch nut en implementatie als cruciale vereisten voor een succesvolle acceptatie.
+Voor elk mechanisme beschouwen we een praktisch nut en een bijhorende implementatie als cruciale vereisten voor een succesvolle acceptatie.
 
 In hoofdstuk 1 identificeren en beschrijven we de vijf aspecten van marktplaatsen die op blockchain gebasseerd zijn.
 We beschrijven bestaande oplossingen die deze aspecten disintermediëren en decentraliseren.
 Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeksmethodologie en vatten we de belangrijkste bijdragen van dit proefschrift samen.
 
 In hoofdstuk 2 introduceren we een universeel mechanisme genaamd \emph{\TrustChain{}}, voor het organiseren van informatie in decentrale netwerken.
-Met \emph{\TrustChain{}} houdt elke gebruiker een persoonlijk grootboek met \emph{records} bij.
-Een record bevat contractuele overeenkomsten tussen gebruikers en bevat ook verwijzingen naar andere records in het grootboek.
-Fraude, het onwettig wijzigen van een record in iemands persoonlijke grootboek, wordt gedetecteerd door continu records uit te wisselen en door de consistentie van inkomende records met bekende records te verifiëren.
-We laten met experimenten zien dat \emph{\TrustChain{}} zeer schaalbaar is en dat fraude snel kan worden gedetecteerd.
-Om de toepasbaarheid van ons werk te benadrukken, voeren we een tweejarige gebruikersproef uit van \emph{\TrustChain{}} om free-riders (meelifters) aan te pakken in \emph{Tribler}, onze gedecentraliseerde applicatie voor het delen van bestanden.
-We maken gebruik van de mogelijkheden van \emph{\TrustChain{}} voor andere mechanismen die in dit proefschrift worden geïntroduceerd.
+Met \TrustChain{} houdt elke gebruiker een persoonlijk grootboek met records bij.
+Een record bevat een contractuele overeenkomst tussen gebruikers en bevat ook verwijzingen naar andere records in het grootboek.
+Fraude, het onwettig wijzigen van een record in iemands persoonlijke grootboek, wordt gedetecteerd door continu records uit te wisselen en door de consistentie van inkomende records met reeds opgeslagen records te verifiëren.
+We laten met experimenten zien dat \TrustChain{} zeer schaalbaar is en dat fraude snel kan worden gedetecteerd.
+Om de toepasbaarheid van ons werk te evalueren voeren we een tweejarige gebruikersproef uit van \TrustChain{} om meelifters (free-riders) aan te pakken in Tribler, onze gedecentraliseerde applicatie voor het delen van bestanden.
+We maken gebruik van de mogelijkheden van \TrustChain{} voor andere mechanismen die in dit proefschrift worden geïntroduceerd.
 
-In hoofdstuk 3 introduceren we MATCH, een gedecentraliseerde middleware voor eerlijke matchmaking in peer-to-peer markten.
+In hoofdstuk 3 introduceren we \emph{MATCH}, een gedecentraliseerde middleware voor eerlijke matchmaking in peer-to-peer markten.
 MATCH pakt manipulatieproblemen aan die verband houden met marktplaatsen onder centrale controle, namelijk de mogelijkheid om specifieke orders door de marktexploitant te prioriteren, te verbergen of te vertragen.
 Door de verspreiding van potentiële matches los te koppelen van de onderhandelingen over handelsovereenkomsten, stelt MATCH eindgebruikers in staat hun eigen weloverwogen beslissingen te nemen en directe onderhandelingen met handelspartners aan te gaan.
 We evalueren MATCH met zowel een ride-hailing als een token trading dataset.
-Uit onze experimenten blijkt dat MATCH zeer resistent is tegen kwaadwillende matchmakers die afwijken van een specifiek beleid.
+Uit onze experimenten blijkt dat MATCH zeer resistent is tegen kwaadwillende matchmakers die afwijken van een specifiek matching beleid.
 
-In hoofdstuk 4 introduceren we een universeel en gedecentraliseerd mechanisme voor settlement, genaamd XChange.
-Ons mechanisme maakt de uitwisseling van tokens tussen geautoriseerde blockchains mogelijk zonder de vereiste van een vertrouwde tussenpersoon, onderpanddeposito's of wijzigingen aan geïmplementeerde applicaties op de blockchain.
+In hoofdstuk 4 introduceren we een universeel en gedecentraliseerd mechanisme voor settlement, genaamd \emph{XChange}.
+Ons mechanisme maakt de uitwisseling van tokens tussen blockchains met geautoriseerde toegang mogelijk zonder een vertrouwde tussenpersoon, onderpanddeposito's of wijzigingen aan geïmplementeerde applicaties op de blockchain.
 XChange registreert de voortgang van elke transactie in een gedistribueerd logboek.
-Om het tegenpartijrisico te verkleinen, beperkt XChange de economische voordelen van tegenstanders die fraude hebben gepleegd tijdens een transactie door te voorkomen dat ze andere transacties aangaan.
-Door het gedistribueerde logboek te inspecteren, kan elke gebruiker detecteren of een handelaar afziet van het nakomen van zijn verplichtingen tijdens een lopende transactie.
-Onze resultaten tonen aan dat XChange zeer schaalbaar is en de economische verliezen met meer dan 99\% vermindert.
+Om het tegenpartijrisico te verkleinen, beperkt XChange de economische voordelen van kwaadwillige gebruikers die fraude hebben gepleegd door te voorkomen dat ze andere transacties aangaan.
+Door het gedistribueerde logboek te inspecteren, kan elke gebruiker detecteren of een handelaar heeft afgezien van het nakomen van zijn of haar verplichtingen tijdens een lopende transactie.
+Onze resultaten tonen aan dat XChange zeer schaalbaar is en de economische verliezen van gedupeerde gebruikers met meer dan 99\% reduceert.
 
-In hoofdstuk 5 introduceren we Internet-of-Money, een mechanisme voor realtime en internationale geldovermakingen tussen verschillende banken.
-Het idee is om een ​​langzame interbancaire betaling op te splitsen in meerdere snelle intra-bancaire betalingen.
+In hoofdstuk 5 introduceren we \emph{Internet-of-Money}, een mechanisme voor realtime en internationale geldovermakingen tussen verschillende banken.
+Het idee is om een ​​langzame interbancaire betaling op te splitsen in meerdere snelle intrabancaire betalingen.
 Elke geldoverdracht maakt gebruik van één of meer op vrijwilligers gebaseerde diensten, geldrouters, om een ​​betaling binnen de bank te voltooien.
 Deze benadering reduceert de duur van interbancaire betalingen van dagen tot louter seconden.
 Om fraude, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende hop, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
 Om de risico's verder te verkleinen, splitsen we een enkele betaling op in meerdere kleinere betalingen en gebruiken we meerdere geldrouters tegelijkertijd.
 Onze experimenten tonen aan dat deze aanpak de winsten voor kwaadwillige gebruikers aanzienlijk vermindert.
 
-In hoofdstuk 6 introduceren we \Dappcoder{}, een marktplaats voor het crowdsourcen van de ontwikkeling van gedecentraliseerde applicaties.
-DevID pakt fragmentatie- en lock-in-effecten aan die verband houden met gecentraliseerde marktplaatsen voor crowdsourcing.
+In hoofdstuk 6 introduceren we \emph{\Dappcoder{}}, een marktplaats voor het crowdsourcen van de ontwikkeling van gedecentraliseerde applicaties.
+\Dappcoder{} pakt fragmentatie- en lock-in-effecten aan die verband houden met gecentraliseerde marktplaatsen voor crowdsourcing.
 Een belangrijk onderdeel van \Dappcoder{} is DevID, een op blockchain gebaseerde identiteitsoplossing voor softwareontwikkelaars.
-DevID verenigt ontwikkelaarsinformatie binnen records in een gedistribueerd logboek.
-Ontwikkelaars kunnen gegevens van derde partijen importeren in een uniform DevID-portfolio, projecten en vaardigheden toevoegen en aanbevelingen presenteren.
-Gebruikers kunnen \Dappcoder{} gebruiken om projecten te maken en te beheren, en om ontwikkelaars te belonen voor hun werkzaamheden met cryptocurrencies.
+DevID verenigt ontwikkelaarsinformatie en slaat deze informatie op in records in een gedistribueerd logboek.
+Ontwikkelaars kunnen gegevens van derde partijen importeren in een DevID portfolio, projecten en vaardigheden toevoegen en aanbevelingen voor vaardigheden ontvangen.
+Gebruikers kunnen \Dappcoder{} benutten om projecten te maken en te beheren, en om ontwikkelaars te belonen voor hun werkzaamheden zonder tussenpartijen.
 Onze gebruikersproef toont aan dat zowel \Dappcoder{} als DevID efficiënt zijn in het opslaan en beheren van gegevens.
 
 Ten slotte formuleren we in hoofdstuk 7 de belangrijkste conclusies van dit proefschrift en doen we suggesties voor toekomstige onderzoeksrichtingen.
