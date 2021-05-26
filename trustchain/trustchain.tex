@@ -1066,10 +1066,11 @@ The full implementation of \TrustChain{}, including unit tests and documentation
 
 \subsection{Experiment Setup}
 We evaluate the impact of different parameters on the efficiency of fraud detection.
-We do so by measuring the time between committing the fraud and its initial detection.
+We do so by measuring the time between committing fraud and its initial detection.
 We substitute our networking layer with the SimPy discrete event simulator~\cite{matloff2008introduction}.
 Each peer in the \TrustChain{} network knows the network address of 100 random other peers, resulting in an unstructured overlay topology.
-Table~\ref{tab:experiment_parameters} lists the default parameters during our experiments.
+This topology remains fixed during our experiment.
+Table~\ref{tab:experiment_parameters} lists the default parameters used during our evaluation.
 To encourage reproducibility, we have open-sourced the \TrustChain{} simulator and all experiment scripts.\footnote{See \url{https://github.com/tribler/trustchain-simulator-pysim}}
 
 \textbf{Workload and Attack Model.}
@@ -1093,9 +1094,9 @@ We are interested in the detection time of fraud instances, which is the time pe
 \textbf{Record Exchange Strategies.}
 We consider the following four strategies for exchanging records.
 With the \texttt{PULL} strategy, each peer requests two contiguous records at a random height in the personal ledger of another random peer every half a second (the \emph{record request batch size} and \emph{record request interval} parameters in Table~\ref{tab:experiment_parameters}).
-Under the \texttt{PULL+RAND} strategy, a peer also returns five random records in their database upon a query.
-Including random records in responses enables the detection of fraud of offline peers.
-The \texttt{PULL+PUSH} strategy also pushes new records to $ f $ random users upon creation, compared to the \texttt{PULL} strategy.
+Under the \texttt{PULL+RAND} strategy, a peer also returns five random records in their database upon receiving a query.
+Including random records in query responses enables the detection of fraud of offline peers.
+The \texttt{PULL+PUSH} strategy also pushes new records to $ f $ random users upon creation, in addition to the \texttt{PULL} strategy.
 Finally, we consider the \texttt{PULL+RAND+PUSH} record exchange strategy, which is a combination of the above techniques.
 
 \begin{figure*}[t]
@@ -1154,7 +1155,7 @@ For the \texttt{PULL} strategy, we can detect 90\% of fraud attempts within 160 
 We also observe that the vast majority of fraud is detected within a few seconds when pushing random records after creation.
 82.9\% of all fraud attempts are detected within five seconds for the \texttt{PULL+RAND+PUSH} strategy.
 
-Figure~\ref{fig:experiment_scalability_bandwidth} shows the average network usage per-peer as the network size increases, for different record exchange strategies.
+Figure~\ref{fig:experiment_scalability_bandwidth} shows the average network usage per peer as the network size increases, for different record exchange strategies.
 The \texttt{PULL} strategy requires less than 10 KB per second of network usage.
 Compared to the \texttt{PULL} strategy, the \texttt{PULL+RAND+PUSH} strategy requires more than three times as much bandwidth, around 35 KB per second.
 Note how the network usage remains roughly the same for all considered record exchange strategies as we add more peers to the experiment.
@@ -1213,23 +1214,16 @@ These attempts would likely be discovered when prolonging the experiment duratio
 \subsection{Packet Loss}
 We reveal the robustness of \TrustChain{} by quantifying the effect of packet loss on the efficiency of fraud detection.
 To this end, we increase the packet loss rate, up to 20\%, and run our simulations under our four record exchange strategies.
-Even though a packet loss rate of 20\% is unlikely for any environment in which \TrustChain{} is to be deployed, we want to estimate how robust \TrustChain{} is, even in such extreme circumstances.
-We expect fraud detection times to increase when network stability is lower since losing packets makes it less likely to detect inconsistencies.
+Even though a packet loss rate of 20\% is unlikely for any environment in which \TrustChain{} is to be deployed, we want to analyse how robust \TrustChain{} is, even in such extreme circumstances.
+We expect fraud detection times to increase when network stability is lower since losing packets makes it more challenging to detect inconsistencies.
 
 Figure~\ref{fig:fraud_times_link_failures} shows the average fraud detection times when increasing the packet loss rate for our four record exchange strategies.
 We observe that fraud detection times increase under the \texttt{PULL} and \texttt{PULL+RAND} strategies, whereas this effect is less for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies.
-Average fraud detection times, under the \texttt{PULL} strategy, increase from 44.6 seconds with no packet loss to 94.1 seconds when 20\% packet loss.
+Average fraud detection times under the \texttt{PULL} strategy increase from 44.6 seconds with no packet loss to 94.1 seconds with 20\% packet loss.
 For the \texttt{PULL+RAND+PUSH} strategy, this same increase is from 2.3 seconds to 6.0 seconds.
 We notice that with a packet loss of 20\% and the \texttt{PULL} strategy, 23.8\% of all fraud attempts remains uncovered after the experiment has ended.
-This number is just 0.2\% when no packets are lost.
-Under the \texttt{PULL+RAND+PUSH} strategy, we see that all fraud attempts are discovered in our experiment, for all evaluated packet loss rates.
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=.9\linewidth]{trustchain/assets/fraud_times_back_pointers}
-	\caption{The effect of adding more back-pointers to each record on the average fraud detection times, for different record exchange strategies.}
-	\label{fig:fraud_times_back_pointers}
-\end{figure}
+This number reduces to just 0.2\% when no packets are lost.
+Under the \texttt{PULL+RAND+PUSH} strategy, we note that all fraud attempts are discovered during our experiment, for all evaluated packet loss rates.
 
 \begin{figure*}[t]
 	\centering
@@ -1256,7 +1250,7 @@ Under the \texttt{PULL+RAND+PUSH} strategy, we see that all fraud attempts are d
 \end{figure*}
 
 \subsection{Request Interval and Batch Size}
-We modify the record request interval and batch size and analyse the effect on the average fraud detection times, see Figure~\ref{fig:crawl_experiments}.
+We modify the record request interval and batch size, and analyse the effect on the average fraud detection times, see Figure~\ref{fig:crawl_experiments}.
 Figure~\ref{fig:experiment_crawl_interval_detection_times} visualises the impact of the record request interval on the average fraud detection times for different record exchange strategies.
 We increase the record request interval, ranging from 0.5 seconds to 5 seconds, in steps of 0.5 seconds.
 First, we observe that the average fraud detection times for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies remains roughly constant.
@@ -1271,6 +1265,13 @@ Figure~\ref{fig:experiment_crawl_batch_size_detection_times} shows the average f
 Again, the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies are indifferent to this increase.
 The average fraud detection time for the \texttt{PULL} strategy decreases from 60.4 seconds to 12.4 seconds when increasing the request batch size from 1 record to 10 records, respectively.
 This decrease indicates that increasing the request batch size is particularly effective when using the \texttt{PULL} strategy, at the expanse of increased bandwidth usage.
+
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.9\linewidth]{trustchain/assets/fraud_times_back_pointers}
+	\caption{The effect of adding more back-pointers to each record on the average fraud detection times, for different record exchange strategies.}
+	\label{fig:fraud_times_back_pointers}
+\end{figure}
 
 \subsection{Back-Pointers}
 We vary the number of back-pointers ($ b $) in each record and analyse the effect on average fraud detection times.
