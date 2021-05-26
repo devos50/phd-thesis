@@ -510,8 +510,8 @@ The public key acts as a unique identifier of the peer in the network, whereas t
 We consider attacks targeted at the network layer, e.g., the Eclipse Attack, outside the scope of this work.
 
 A significant threat in Internet-deployed applications is the Sybil Attack, where an adversary operates multiple identities to subvert the network~\cite{douceur2002sybil}.
-The Sybil Attack frequently occurs in open Internet communities, where the cost of creating a new digital identity is often negligible.
-Although the \TrustChain{} mechanism does not include defences against Sybil identities, we argue that this threat can be mitigated with well-established techniques that complement \TrustChain{} in a deployment setting.
+The Sybil Attack frequently occurs in open Internet communities where the cost of creating a new digital identity is often negligible.
+Although the \TrustChain{} mechanism does not include defences against Sybil identities, we argue that this threat can be mitigated with well-established techniques that can complement \TrustChain{} in a deployment setting.
 A basic defence mechanism is to have peers solve a computational puzzle when they wish to join the network~\cite{li2012sybilcontrol}.
 In addition, using a Sybil-resistant reputation mechanism that processes \TrustChain{} records can effectively mitigate the effect of Sybil identities on computed trust scores~\cite{delaviz2012sybilres,yu2008sybillimit}.
 We also consider self-sovereign identities as a promising solution that can bolster decentralized networks with long-term identities~\cite{stokkink2018deployment}.
@@ -520,7 +520,7 @@ We leave defences against misreporting, the accounting of work that has not actu
 This attack is closely related to the Sybil Attack since Sybil identities are likely to create fake interactions amongst them~\cite{stannat2021sybil}.
 Misreporting is challenging to address in a generic manner since there is not always a straightforward method to assess if some accounted work is legitimate.
 Some protocols use cryptographic techniques to prove the accuracy of performed work, for example, Proof-of-Storage and Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
-These proofs, however, cannot easily be used across different application domains.
+These techniques, however, are not generic and cannot easily be used within many different application domains.
 
 \subsection{Threat Model}
 \label{sec:threat_model}
@@ -585,11 +585,11 @@ Proposal $ P $, created by peer $ a $, is a tuple with the following four attrib
 \begin{align*}
 	P = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \texttt{sig})
 \end{align*}
-$ P $ contains the public key of peers $ a $ and $ b $ (\texttt{pubKey} and \texttt{pubKeyOther}, respectively), an application-specific payload (\texttt{payload}), and a digital signature (\texttt{sig}) created by $ a $ of the record in binary form.
+Proposal $ P $ contains the public key of peers $ a $ and $ b $ (\texttt{pubKey} and \texttt{pubKeyOther}, respectively), an application-specific payload (\texttt{payload}), and a digital signature (\texttt{sig}) created by $ a $ of the record in binary form.
 The \texttt{payload} attribute is an arbitrary blob of data and is provided by the connected application.
 The payload could include an identifier that uniquely identifies the performed work.
 To increase the resilience against manipulation, we extend records with additional fields in the next section.
-After peer $ a $ has included all described attributes in the proposal, it persists the record to its database, sends the proposal to $ b $, and disseminated the proposal to $ f $ random peers in the network (step \circled{2}).
+After peer $ a $ has included all described attributes in the proposal, it persists the record to its database, sends the proposal to $ b $, and disseminates the proposal to $ f $ random peers in the network (step \circled{2}).
 We refer to $ f $ as the \emph{fanout} value.
 
 When peer $ b $ receives the proposal $ P $, $ b $ verifies its validity.
@@ -599,18 +599,18 @@ If the incoming proposal $ P $ is deemed valid, the connected application determ
 If $ P $ is considered invalid, $ b $ ignores the incoming proposal and takes no further action.
 Otherwise, $ b $ creates a confirming record that confirms $ P $ (step \circled{3}).
 This confirmation, denoted by $ C $, contains the same attributes as the proposal $ P $ and also includes the hash of $ P $.
-Confirmation $ C $, created by peer $ b $ is a tuple with the following five attributes:
+Confirmation $ C $, created by peer $ b $, is a tuple with the following five attributes:
 \begin{align*}
 	C = (\texttt{pubKey}, \texttt{pubKeyOther}, \texttt{payload}, \texttt{proposalHash}, \texttt{sig})
 \end{align*}
 
 The value of \texttt{proposalHash} is computed by $ H(P) $, where $ H(\cdot) $ is a secure hash function.
 We call the \texttt{proposalHash} attribute in $ C $ the \emph{confirmation pointer}.
-After the creation of $ C $, peer $ b $ persists the confirmation to its database, sends it to $ a $, and disseminates both $ P $ and $ C $ to $ f $ random peers (step \circled{4}).
-Upon the reception of $ C $, peer $ a $ validates the $ C $ and persists the confirmation if it is valid.
+After the creation of $ C $, peer $ b $ persists the confirmation to its database, sends it to peer $ a $, and disseminates both $ P $ and $ C $ to $ f $ random peers (step \circled{4}).
+Upon the reception of $ C $, peer $ a $ validates $ C $ and persists the confirmation if it is valid.
 Both parties are now in possession of proposal $ P $ and confirmation $ C $ that together prove an agreement on work between these parties.
-The process of accounting work is lightweight since it requires minimal computational power and data exchange. 
-Also, peers can engage in the recording of multiple interactions simultaneously.
+The process of accounting work is lightweight since it requires minimal computational steps and data exchange. 
+Additionally, peers can engage in the recording of multiple interactions simultaneously.
 
 A potential risk is that $ b $ refuses to confirm $ P $, even though the incoming proposal is valid and contains the correct work details.
 This could, for example, occur when confirming $ P $ negatively impacts $ b $'s social standing.
@@ -635,7 +635,7 @@ We make the following four modifications to records:
 	The previous hash of the first record in a personal ledger is empty and referred to as $ \bot $.
 	\item Third, we extend the confirmation pointer with the sequence number of the proposal record that it confirms.
 	\item Forth, we include at most $ b $ additional hashes in each record of distinct, prior records in the same personal ledger.
-	We indicate the set with these hashes with $ S $ and call these hashes \emph{back-pointers}.
+	We refer to the set with these hashes as $ S $ and call these hashes \emph{back-pointers}.
 	As we will further show in Section~\ref{sec:detecting_fraud}, the inclusion of these back-pointers significantly speeds up the detection of fraud.
 	The required back-pointers in some record $ R $ are deterministically given by a pseudo-random function $ \sigma $ that takes the public key of the record creator and the sequence number of $ R $ as input.
 	$ \sigma $ returns a set with at most $ b $ prior records which hashes should be included in $ R $.
@@ -662,11 +662,11 @@ This is in accordance with our third modification.
 	C.\texttt{linkInfo} = (\texttt{hash}, \texttt{seqNum})
 \end{align*}
 
-Creating records yields the graph structure, as shown in Figure \ref{fig:fullchain}.
+Creating records yields the graph structure shown in Figure \ref{fig:fullchain}.
 Figure \ref{fig:fullchain} shows a part of the \TrustChain{} graph with six records, created by three distinct peers ($ a $, $ b $ and $ c $).
 Same-coloured records are part of a single personal ledger, and arrows represent hash pointers to other records.
 Proposals have a solid border whereas confirmations have a dashed border.
-Note how the record in $ a $'s personal ledger with sequence number 55 is unconfirmed.
+Note how in $ a $'s personal ledger the record with sequence number 55 is unconfirmed.
 For presentation clarity, we only show the pointer to the prior record in one's personal ledger and omit additional back-pointers from the figure.
 
 \begin{figure}[t]
@@ -683,7 +683,7 @@ First, applications can account performed and consumed work in \emph{batches}.
 For example, an application can record all outstanding contributions and consumptions every hour, therefore hiding granular work statistics.
 Second, an application can add some noise to the amount of work being accounted.
 This technique effectively reduces linkability, e.g., when accounting traffic that is being relayed through multiple hops.
-We believe that the combined power of these two techniques provides sufficient privacy guarantees for most decentralized applications.
+We believe that the combined power of these two techniques already provides sufficient privacy guarantees for most decentralized applications.
 A more advanced approach, used by the Monero cryptocurrency, leverages ring signatures and zero-knowledge proofs to hide the amounts of work performed~\cite{bunz2018bulletproofs,poelstra2018confidential}.
 This approach would, however, require fundamental changes to \TrustChain{} and we leave this enhancement for further work.
 
@@ -693,9 +693,9 @@ We require that \TrustChain{} detects illegitimate tampering of the records in a
 \TrustChain{} is built around fraud \emph{detection} instead of \emph{prevention}.
 We argue this is a reasonable assumption for two reasons.
 First, decentralized applications often do not require the prevention of fraud~\cite{krishnan2002virtual}.
-We argue that fraud prevention is disproportional in the context of work accounting.
-Second, preventing fraud is often a resource-intensive process that requires peers to reach a consensus on all created records, e.g., by using classical BFT algorithms or Proof-of-Work~\cite{vukolic2015quest}.
-The requirement to reach consensus would severely limit the scalability of \TrustChain{}.
+We argue that fraud prevention is disproportional in the context of work accounting since this work usually holds no or low monetary value.
+Second, fraud prevention is often a resource-intensive process that requires peers to reach a consensus on all created records, e.g., by using classical BFT algorithms or Proof-of-Work~\cite{vukolic2015quest}.
+The requirement to reach consensus would dramatically reduce the scalability of \TrustChain{}.
 
 Fraud in \TrustChain{} occurs when a peer illegitimately modifies one of the records in their personal ledger.
 This fraud, for example, happens when an adversary attempts to hide a specific record in the personal ledger by replacing it with another one.
@@ -751,7 +751,7 @@ A key objective of \TrustChain{} is to detect such conflicting records quickly.
 Fraud in \TrustChain{} is detected by sharing newly created records with other peers, and by requesting random records in the personal ledgers of others.
 Each peer assesses the consistency of incoming records with the ones in its local database.
 This simple approach allows for quick detection of fraud through the collective effort of peers.
-In Figure~\ref{fig:fraud_scenarios}, we visualize four identified scenarios in which we can either expose an adversarial peer (scenario I and II) or detect an inconsistency without assigning blame (scenario III and IV).
+In Figure~\ref{fig:fraud_scenarios} we visualize four identified scenarios in which we can either expose an adversarial peer (scenario I and II) or detect an inconsistency without assigning blame (scenario III and IV).
 Each scenario shows the situation from a single peer's perspective and highlights records that a peer has in its local database, or does not have.
 Records not in the possession by a peer are faded.
 Records with the same colour are created by the same peer.
@@ -769,9 +769,9 @@ We discuss each scenario and elaborate on how they either lead to fraud exposure
 	\item \textbf{Scenario II.} The second scenario describes the situation where one can prove fraud by detecting inconsistencies in the included back-pointers of records.
 	Figure~\ref{fig:fraud_scenario_2} shows four records created by peer $ a $.
 	Records $ R_3 $ and $ R_4 $ contain the hash of the record with sequence number 54 in the back-pointer set; however, these back-pointers describe the same record with a different hash.
-	The pair $ (R_3, R_4) $ is irrefutable proof that peer $ a $ has committed fraud and can be used to construct a fraud proof.
+	The pair $ (R_3, R_4) $ is irrefutable proof that peer $ a $ has committed fraud and this pair can be used to construct a fraud proof.
 	\item \textbf{Scenario III.}
-	Figure~\ref{fig:fraud_scenario_3} shows a third scenario where a peer receives proposal $ R_1 $ and already has confirmation $ R_2 $, or receives confirmation $ R_2 $ while already having proposal $ R_1 $.
+	Figure~\ref{fig:fraud_scenario_3} shows the third scenario where a peer receives proposal $ R_1 $ and already has confirmation $ R_2 $, or receives confirmation $ R_2 $ while already having proposal $ R_1 $.
 	The peer does not have records $ R_3 $ and $ R_4 $.
 	The hash of record $ R_3 $ in $ R_1 $ differs from the hash in the confirmation pointer in $ R_2 $.
 	This situation reveals an inconsistency that is either introduced by peer $ a $ forking its personal ledger at height 54, or by $ b $ having included a wrong hash in $ R_2 $.
@@ -842,6 +842,67 @@ The value of dictionary entries is the hash of the record being queried.
 The validation logic of incoming records consists of the following five steps:
 
 \begin{algorithm}[t]
+	\caption{The consistency validation of hashes in an incoming record against known ones.}
+	\label{alg:record_validation_step4}
+	\begin{algorithmic}[1]
+		
+		\Procedure{validateHashes}{R}  \Comment{Step 4}
+		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
+		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
+		\State \Return false
+		\EndIf
+		\State
+		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
+		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
+		\If{$ known \not= \bot $ \textbf{and} $ hash \not= known $}
+		\State \Return false
+		\EndIf
+		\EndFor
+		\State \Return true
+		\EndProcedure
+		
+	\end{algorithmic}
+\end{algorithm}
+
+\textbf{Step 1.}
+We first verify the validity of the fields in incoming record $ R $.
+This step is performed by the \textsc{validateFields} procedure, which returns a boolean value indicating whether the fields in the record are valid or not.
+A pseudocode description of this procedure is given in Algorithm~\ref{alg:record_data_validation}.
+This step validates the sequence number (line 3), the included public keys (line 9 and 15), and the digital signature (line 12).
+If the incoming record is a confirmation, it also verifies that the sequence number in the \texttt{linkInfo} attribute is within a valid range (line 6).
+It also checks whether the hash of the prior record is sane when the record is the first in ones personal ledger (line 18).
+We remark that this step does not compare the validity of $ R $ in the light of other records.
+Any error in the included fields of $ R $ is computationally efficient to detect and likely originates from a software bug.
+
+\textbf{Step 2.}
+Next, we query the database for a record with the same public key and sequence number as the incoming record $ R $.
+If such a record $ R' $ is in the database, we check the equality of $ R $ and $ R' $ by performing a comparison between their included fields.
+If $ R \not= R' $, we have detected a fork in the personal ledger of the creator behind $ R $.
+We then share the fraud proof $ (R, R') $ with other peers in the network.
+During this step, we detect the fraud described by scenario I in Section~\ref{sec:detecting_forks}.
+
+\textbf{Step 3.}
+Then, we verify if the hash pointers in the incoming record are consistent with known ones.
+This is performed by the \textsc{validateHashes} procedure which pseudocode description is given in Algorithm~\ref{alg:record_validation_step4}.
+This procedure first checks whether the \texttt{prevHash} attribute in $ R $ is consistent with the information in the \texttt{knownHashes} dictionary (line 3).
+We then iterate over all included back-pointers and verify the consistency of these hashes with the entries in the \texttt{knownHashes} dictionary (line 7-12).
+During this step, we detect the fraud described by scenario II.
+
+\textbf{Step 4.}
+Next, we compare incoming record $ R $ with a link record, if such a record is available in the database.
+When $ R $ is a proposal, we get the corresponding confirmation from the database, and if $ R $ is a confirmation, we get the corresponding proposal.
+This step is performed by the the \textsc{validateLink} procedure which pseudocode description is given in Algorithm~\ref{alg:record_validation_step3}.
+We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
+If so, we check whether the public keys included in the proposal and confirmation are consistent (line 10), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 13-18).
+We detect the inconsistency described by scenario III (line 16-18) and scenario IV (line 19-22) during this step.
+
+\textbf{Step 5.}
+Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
+As we will further outline in Section~\ref{sec:system_architecture}, decentralized applications using \TrustChain{} should implement a \emph{validation} policy that denotes whether the payload of an incoming record is valid in the context of the connected application.
+
+If any of the above steps fail, the record is considered invalid and not further processed.
+
+\begin{algorithm}[t]
 	\caption{The validation of an incoming record against a linked record.}
 	\label{alg:record_validation_step3}
 	\begin{algorithmic}[1]
@@ -872,67 +933,6 @@ The validation logic of incoming records consists of the following five steps:
 	\end{algorithmic}
 \end{algorithm}
 
-\textbf{Step 1.}
-We first verify the validity of the fields in incoming record $ R $.
-This step is performed by the \textsc{validateFields} procedure, which returns a boolean value indicating whether the fields in the record are valid or not.
-A pseudocode description of this procedure is given in Listing~\ref{alg:record_data_validation}.
-This step validates the sequence number (line 3), the included public keys (line 7 and 11), and the digital signature (line 9).
-If the incoming record is a confirmation, it also verifies that the sequence number in the \texttt{linkInfo} attribute is within a valid range (line 5).
-It also checks whether the hash of the prior record is sane when the record is the first in ones personal ledger (line 13).
-This step does not compare the validity of $ R $ within the context of other records.
-Any error in the included fields of $ R $ is computationally efficient to detect and likely originates from a software bug.
-
-\textbf{Step 2.}
-Next, we query the database for a record with the same public key and sequence number as the incoming record $ R $.
-If such a record $ R' $ is in the database, we check the equality of $ R $ and $ R' $ by performing a comparison between their included fields.
-If $ R \not= R' $, we have detected a fork in the personal ledger of the creator behind $ R $.
-We then share the fraud proof $ (R, R') $ with other peers in the network.
-During this step, we detect the fraud described by scenario I in Section~\ref{sec:detecting_forks}.
-
-\textbf{Step 3.}
-Then, we verify if the hash pointers in the incoming record are consistent with known ones.
-This is performed by the \textsc{validateHashes} procedure which pseudocode description is given in Listing~\ref{alg:record_validation_step4}.
-This procedure first checks whether the \texttt{prevHash} attribute in $ R $ is consistent with the information in the \texttt{knownHashes} dictionary (line 3).
-We then iterate over all included back-pointers and verify the consistency of these hashes with the entries in the \texttt{knownHashes} dictionary (line 6-10).
-We can detect the inconsistency described by scenario II during this step.
-
-\textbf{Step 4.}
-Next, we compare incoming record $ R $ with a link record, if such a record is available in the database.
-When $ R $ is a proposal, we get the corresponding confirmation from the database, and if $ R $ is a confirmation, we get the corresponding proposal.
-This step is performed by the the \textsc{validateLink} procedure which pseudocode description is given in Listing~\ref{alg:record_validation_step3}.
-We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
-We check whether the public keys included in the proposal and confirmation are consistent (line 9), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 11-14).
-We detect the inconsistency described by scenario III (line 15-17) and scenario IV (line 19-21) during this step.
-
-\textbf{Step 5.}
-Finally, we verify the validity of the included payload, which is an application-dependent validation procedure.
-As we will further outline in Section~\ref{sec:system_architecture}, decentralized applications using \TrustChain{} should implement a \emph{validation} policy that denotes whether the payload of an incoming record is valid in the context of the connected application.
-
-If any of the above steps fail, the record is considered invalid.
-
-\begin{algorithm}[t]
-	\caption{The consistency validation of hashes in an incoming record against known ones.}
-	\label{alg:record_validation_step4}
-	\begin{algorithmic}[1]
-		
-		\Procedure{validateHashes}{R}  \Comment{Step 4}
-		\State $ hash \leftarrow knownHashes[(R.pubKey, R.seqNum - 1)] $
-		\If{$ hash \not= \bot $ \textbf{and} $ hash \not= R.prevHash $}
-		\State \Return false
-		\EndIf
-		\State
-		\For{$ seqNum, hash $ \textbf{in} $ R.backPointers $}
-		\State $ known \leftarrow knownHashes[(R.pubKey, seqNum)] $
-		\If{$ known \not= \bot $ \textbf{and} $ hash \not= known $}
-		\State \Return false
-		\EndIf
-		\EndFor
-		\State \Return true
-		\EndProcedure
-		
-	\end{algorithmic}
-\end{algorithm}
-
 \subsection{Exchanging Records with Other Peers}
 \label{sec:exchanging_records}
 The detection of fraud in \TrustChain{} depends on peers exchanging records with each other.
@@ -945,12 +945,12 @@ We consider both \emph{push-based} and \emph{pull-based} exchange of records, wh
 \textbf{Pull-based Record Exchange.}
 Each peer by default requests (pulls) records from other random peers at a fixed rate by sending out \texttt{Request} messages.
 Applications can choose to send out \texttt{Request} messages to specific peers to build profile information about that peer, e.g., to detect free-riders.
-A \texttt{Request} message contains a list of sequence numbers that the recipient should send back.
-When receiving a \texttt{Request} message, the recipient also includes linked proposal or confirmation records in the response.
-When a peer $ a $ does not respond with records within a reasonable time, the requesting peer adds $ a $ to the local blacklist.
+A \texttt{Request} message contains a list of sequence numbers and the recipient is expected to send back the records with these sequence numbers in their personal ledger.
+When responding to a \texttt{Request} message, the recipient also includes linked proposal or confirmation records in the response.
+When a peer $ a $ does not respond with records within a reasonable time, the requesting peer adds $ a $ to their local blacklist.
 
 \textbf{Push-based Record Exchange.}
-\TrustChain{} also supports push-based record exchange, where the creator of a record disseminates it to $ f $ random other peers (as also discussed in Section~\ref{sec:recording_interactions}).
+\TrustChain{} also supports push-based record exchange in which case the creator of a record disseminates it to $ f $ random other peers (as also discussed in Section~\ref{sec:recording_interactions}).
 This push-based exchange allows for quick detection of fraud since the probability of no user receiving two conflicting records goes to zero quickly, even when the network size increases~\cite{osipkov2007combating}.
 Even if the malicious peer refrains from broadcasting a conflicting record, the counterparty is very likely to do so, assuming there is no collusion between interacting peers.
 Immediate dissemination of created records in the network also increases record availability when the sending peer goes offline.
@@ -961,9 +961,9 @@ Even though our experiments consider a single application that leverages \TrustC
 One approach is to build \emph{virtual ledgers} where the personal ledger of each peer consists of multiple sub-ledgers.
 This can be achieved by adding additional hash pointers between the records associated with a particular application.
 These records can then be disseminated with custom dissemination strategies to other peers that participate in a particular application.
-A single application can also create multiple virtual ledgers, e.g., when the application requires accounting of distinct record types with differing rates.
+A single application can also create multiple virtual ledgers, e.g., when the application requires accounting of distinct record types with differing creation rates.
 This would, however, require additional membership logic where we track which peers are involved in what application.
-Note that exchanging application-specific records separately strengthens the integrity of \TrustChain{} in general since these records bear pointers to records associated with other applications.
+Note that exchanging application-specific records separately strengthens the integrity of \TrustChain{} in general since these records also bear pointers to records associated with other applications.
 
 \begin{figure*}[t]
 	\centering
@@ -984,7 +984,7 @@ We believe that blockchain technology provides more appropriate security guarant
 
 Finally, we note that \TrustChain{} is mainly built for the lightweight accounting of work in decentralized applications.
 In its current state, \TrustChain{} cannot capture more complicated operations, e.g., executing arbitrary logic like smart contracts.
-However, as demonstrated by recent research advancements, a lightweight accounting mechanism can be an enabling component to devise novel types of decentralized applications with dynamic risk guarantees~\cite{de2021xchange,de2019devid,de2018real}.
+However, as demonstrated by recent research, a lightweight accounting mechanism can be an enabling component to devise novel and scalable types of decentralized applications with dynamic risk guarantees~\cite{de2021xchange,de2019devid,de2018real}.
 
 % Limitations:
 % 1. optimistic detection of fraud -> not everything is detected
@@ -992,8 +992,8 @@ However, as demonstrated by recent research advancements, a lightweight accounti
 
 \section{System Architecture}
 \label{sec:system_architecture}
-We devise a system architecture of our \TrustChain{} mechanism, see Figure~\ref{fig:system_architecture}).
-The network layer is the lowest layer in our architecture and provides the primitives for decentralised communication and peer discovery.
+We devise a system architecture of our \TrustChain{} mechanism, see Figure~\ref{fig:system_architecture}.
+The network layer is the lowest layer in our architecture and provides the primitives for decentralized communication and peer discovery.
 This layer can be realised using existing frameworks to build peer-to-peer overlay networks, for example, libp2p.\footnote{See \url{https://libp2p.io}}
 
 \textbf{Record Manager.}
@@ -1004,13 +1004,13 @@ Applications using \TrustChain{} should provide a \emph{confirmation policy} tha
 
 \textbf{Validator.}
 The validator determines the validity of incoming records according to the algorithms described in Section~\ref{sec:validation_logic}.
-Connection applications can provide a custom \emph{validation policy}.
+Connected applications can provide a custom \emph{validation policy}.
 If provided, this validation policy is invoked during step 5, when the application-specific payload in a record is validated.
 The flexibility to provide custom validation and confirmation policies for incoming records makes \TrustChain{} universal and reusable across different application domains.
 
 \textbf{Persistence.}
 Records and fraud proofs are persisted in a database.
-The \TrustChain{} system architecture provides an interface for the queries made to the database and supports different database architectures, e.g., structured or unstructured models.
+The \TrustChain{} system architecture provides an interface for the queries made to the database and supports different database architectures.
 Our system architecture includes a record \emph{cache}, which is an intermediary component that stores all records in the personal ledger of the operating peer in memory.
 This cache allows \TrustChain{} to quickly respond to incoming record queries in the personal ledger of the operating peer.
 This cache forwards queries to the database for the retrieval and storage of records and fraud proofs.
@@ -1019,16 +1019,16 @@ To contain the growth of the database and to keep the storage overhead manageabl
 In our implementation, by default, we start pruning when at least one million records have been stored.
 Applications may increase or decrease this number, depending on the storage capacities of participating peers and the deployment environment.
 The default pruning strategy of \TrustChain{} continuously removes the record with the lowest database insertion timestamps until the database size has reached its storage threshold again.
-The pruning of older records might cause some forks to go undetected since records are removed before a fraud proof can be constructed.
+The pruning of older records might cause some forks to go undetected since records could be removed before a fraud proof can be constructed.
 As we will show in Section~\ref{sec:fraud_detection_experiment}, most forks in \TrustChain{} are quickly detected, and there should be ample time to detect inconsistencies before relevant records are pruned.
 
 \textbf{Fraud Management.}
 When the validation algorithm exposes fraud, or when \TrustChain{} receives an incoming fraud proof, the connected applications are notified of the fraud and can punish the misbehaving peer accordingly.
 For example, a fraud policy in a bandwidth sharing application could decide to not serve the fraudster for some time.
-The decentralised application store the digital identities of fraudsters in a local blacklist.
+The connected applications store the digital identities of fraudsters in a local blacklist.
 
 \textbf{Interactions between \TrustChain{} and Applications.}
-Decentralised applications interact with \TrustChain{} through an API.
+Decentralized applications interact with \TrustChain{} through an API.
 This API allows connected applications to query the content of the database.
 Furthermore, connected applications can subscribe to incoming records.
 The record manager forwards new records to the API, which passes these records to subscribed applications.
@@ -1056,12 +1056,12 @@ The record manager forwards new records to the API, which passes these records t
 
 \section{Implementation and Evaluation}
 \label{sec:implementation_evaluation}
-Within this section we systematically explore how \TrustChain{} behaves when modifying system parameters.
+In this section we systematically explore how \TrustChain{} behaves when modifying system parameters.
 %In the next section we observe how the full implementation of \TrustChain{} behaves under real-world conditions and with real Internet users.
 We implement \TrustChain{} in the Python 3 programming language.
-We leverage the network library implemented by our group, and use the UDP protocol for network communication.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+We leverage the network library implemented by our research group, and use the UDP protocol for network communication between peers.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Our implementation uses the \texttt{asyncio} framework for asynchronous event handling.
-The implementation features both an in-memory storage for experimentation and a persistent (sqlite) database which can be used to persist records over different sessions.
+This implementation features both an in-memory storage and a persistent (sqlite) database which can be used to persist records over different sessions.
 The full implementation of \TrustChain{}, including unit tests and documentation, is published on GitHub.\footnote{See \url{https://github.com/tribler/py-ipv8/tree/master/ipv8/attestation/trustchain}}
 
 \subsection{Experiment Setup}
