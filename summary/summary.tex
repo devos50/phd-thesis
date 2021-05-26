@@ -36,7 +36,7 @@ We leverage the accounting capabilities of \TrustChain{} for other mechanisms in
 In Chapter 3 we introduce \emph{MATCH}, a decentralized middleware for fair matchmaking in peer-to-peer markets.
 MATCH addresses manipulation concerns associated with marketplaces under central control, namely the ability by the market operator to prioritize, hide, or delay specific orders.
 By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end users to make their own educated decisions and to engage in direct negotiations with trade partners.
-We evaluate MATCH with real-world ride-hailing and asset trading workloads.
+We evaluate MATCH with real-world ride-hailing and asset-trading workloads.
 Our experiments demonstrate that MATCH is highly resilient against malicious matchmakers that deviate from a specific matching policy.
 
 In Chapter 4 we introduce a universal and decentralized settlement mechanism named \emph{XChange}.
@@ -73,13 +73,13 @@ Finally, in Chapter 7, we formulate the main conclusions of this thesis and pres
 \dropcap{M}arkten faciliteren het verhandelen van diensten, goederen en informatie tussen individuen en bedrijven.
 Ze spelen een essentiële rol in onze economie.
 De standaard werkwijze om elektronische markten in te richten is door het gebruik van gecentraliseerde infrastructuur die volledig geopereerd en beheerd wordt door een marktexploitant.
-In deze centrale markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een geschil.
+In dergelijke markten zijn er vaak vertrouwde tussenpersonen die verschillende diensten aanbieden aan gebruikers, zoals het beheren van marktinformatie, het verwerken van betalingen en het uitvoeren van arbitrage bij een geschil.
 
 Innovaties in de informatietechnologie hebben de behoefte aan zowel gezaghebbende marktdeelnemers als betrouwbare tussenpersonen uitgedaagd.
 Met name blockchaintechnologie wordt steeds vaker toegepast om elektronische markten te creëren.
 Blockchain-gebaseerde marktplaatsen faciliteren directe handel tussen gebruikers en verminderen de afhankelijkheid van zowel gezaghebbende partijen als vertrouwde tussenpersonen.
 De rol van blockchain op dergelijke marktplaatsen is om sociaal vertrouwen te vervangen door cryptografische algoritmes.
-Dit maakt de \emph{decentralisatie} en \emph{disintermediatie} van verschillende componenten op elektronische marktplaatsen mogelijk.
+Dit maakt de \emph{decentralisatie} en \emph{disintermediatie} van verschillende componenten in elektronische marktplaatsen mogelijk.
 In de context van dit werk betekent decentralisatie het verminderen van besluitvorming en activiteiten die worden uitgevoerd door een centrale autoriteit.
 Disintermediatie vermindert of verwijdert de betrokkenheid van vertrouwde tussenpersonen bij het handelen op een elektronische markt.
 
@@ -91,7 +91,7 @@ Voor elk mechanisme beschouwen we een praktisch nut en een bijhorende implementa
 
 In hoofdstuk 1 identificeren en beschrijven we de vijf aspecten van marktplaatsen die op blockchain gebasseerd zijn.
 We beschrijven bestaande oplossingen die deze aspecten disintermediëren en decentraliseren.
-Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeksmethodologie en vatten we de belangrijkste bijdragen van dit proefschrift samen.
+Vervolgens formuleren we onze onderzoeksvragen, beschrijven we onze onderzoeks- en ontwikkelmethodologie en vatten we de belangrijkste bijdragen van dit proefschrift samen.
 
 In hoofdstuk 2 introduceren we een universeel mechanisme genaamd \emph{\TrustChain{}}, voor het organiseren van informatie in decentrale netwerken.
 Met \TrustChain{} houdt elke gebruiker een persoonlijk grootboek met records bij.
@@ -102,15 +102,15 @@ Om de toepasbaarheid van ons werk te evalueren voeren we een tweejarige gebruike
 We maken gebruik van de mogelijkheden van \TrustChain{} voor andere mechanismen die in dit proefschrift worden geïntroduceerd.
 
 In hoofdstuk 3 introduceren we \emph{MATCH}, een gedecentraliseerde middleware voor eerlijke matchmaking in peer-to-peer markten.
-MATCH pakt manipulatieproblemen aan die verband houden met marktplaatsen onder centrale controle, namelijk de mogelijkheid om specifieke orders door de marktexploitant te prioriteren, te verbergen of te vertragen.
+MATCH pakt manipulatieproblemen aan die verband houden met marktplaatsen onder centrale controle, namelijk de mogelijkheid om specifieke orders door de marktexploitant te prioriseren, te verbergen of te vertragen.
 Door de verspreiding van potentiële matches los te koppelen van de onderhandelingen over handelsovereenkomsten, stelt MATCH eindgebruikers in staat hun eigen weloverwogen beslissingen te nemen en directe onderhandelingen met handelspartners aan te gaan.
 We evalueren MATCH met zowel een ride-hailing als een token trading dataset.
 Uit onze experimenten blijkt dat MATCH zeer resistent is tegen kwaadwillende matchmakers die afwijken van een specifiek matching beleid.
 
 In hoofdstuk 4 introduceren we een universeel en gedecentraliseerd mechanisme voor settlement, genaamd \emph{XChange}.
-Ons mechanisme maakt de uitwisseling van tokens tussen blockchains met geautoriseerde toegang mogelijk zonder een vertrouwde tussenpersoon, onderpanddeposito's of wijzigingen aan geïmplementeerde applicaties op de blockchain.
+Ons mechanisme maakt de uitwisseling van tokens tussen blockchains met explicitiet geautoriseerde toegang mogelijk zonder een vertrouwde tussenpersoon, onderpanddeposito's of wijzigingen aan geïmplementeerde applicaties op de blockchain.
 XChange registreert de voortgang van elke transactie in een gedistribueerd logboek.
-Om het tegenpartijrisico te verkleinen, beperkt XChange de economische voordelen van kwaadwillige gebruikers die fraude hebben gepleegd door te voorkomen dat ze andere transacties aangaan.
+Om het tegenpartijrisico te verkleinen, beperkt XChange de economische winsten van kwaadwillige gebruikers die fraude hebben gepleegd door te voorkomen dat ze andere transacties aangaan.
 Door het gedistribueerde logboek te inspecteren, kan elke gebruiker detecteren of een handelaar heeft afgezien van het nakomen van zijn of haar verplichtingen tijdens een lopende transactie.
 Onze resultaten tonen aan dat XChange zeer schaalbaar is en de economische verliezen van gedupeerde gebruikers met meer dan 99\% reduceert.
 
@@ -118,8 +118,8 @@ In hoofdstuk 5 introduceren we \emph{Internet-of-Money}, een mechanisme voor rea
 Het idee is om een ​​langzame interbancaire betaling op te splitsen in meerdere snelle intrabancaire betalingen.
 Elke geldoverdracht maakt gebruik van één of meer op vrijwilligers gebaseerde diensten, geldrouters, om een ​​betaling binnen de bank te voltooien.
 Deze benadering reduceert de duur van interbancaire betalingen van dagen tot louter seconden.
-Om fraude, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende hop, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
-Om de risico's verder te verkleinen, splitsen we een enkele betaling op in meerdere kleinere betalingen en gebruiken we meerdere geldrouters tegelijkertijd.
+Om fraude, d.w.z. het niet doorsturen van inkomend geld als router naar de volgende gebruiker, worden alle betalingen tussen gebruikers en geldrouters geregistreerd in een gedistribueerd logboek.
+Om de risico's verder te verkleinen, splitsen we een enkele betaling op in meerdere kleinere betalingen en gebruiken we voor een transactie meerdere geldrouters tegelijkertijd.
 Onze experimenten tonen aan dat deze aanpak de winsten voor kwaadwillige gebruikers aanzienlijk vermindert.
 
 In hoofdstuk 6 introduceren we \emph{\Dappcoder{}}, een marktplaats voor het crowdsourcen van de ontwikkeling van gedecentraliseerde applicaties.
