@@ -342,7 +342,7 @@ Finally, we show that MATCH has bandwidth usage and order fulfil latencies that 
 
 %A major issue is that the matching of two orders by \enquote{consumes} these resources and subsequently should be removed from the order books maintained by brokers.
 
-%In this work, we address the challenging task of devising a network where individual order brokers maintain a decentralized order book.
+%In this work we address the challenging task of devising a network where individual order brokers maintain a decentralized order book.
 %These brokers, however, might have adversarial intentions and actively attempt to influence the matchmaking protocol to their own benefits.
 %We argue that the availability of such an order book 
 %To the best of our knowledge, we are the first to explore order brokering from the context of decentralized markets.
@@ -454,7 +454,7 @@ We address this concern by sending a new order to a small, random subset of all 
 \section{System and Threat Model}
 We address the aforementioned concerns and present a decentralized middleware for fair matchmaking, named \emph{MATCH}.
 We now outline the system and threat model of MATCH.
-%In this work, we specifically focus on resistance against matchmakers that pursue selfish interests.
+%In this work we specifically focus on resistance against matchmakers that pursue selfish interests.
 %The aim of MATCH is not to find a Pareto-efficient matching, which is not how most electronic markets operate.
 %This model is predominant choice of most electronic marketplaces.
 %If incentives are required, the MPU can award the matchmakers upon finding a successful match.
@@ -530,7 +530,7 @@ We note, however, that a centralized dependency might be undesirable in marketpl
 In such marketplaces, we encourage the use of (semi-)decentralised solutions for identity management, like self-sovereign identities~\cite{muhle2018survey,stokkink2020truly}.
 
 \textbf{Threat Model.}
-In this work, our threat model orients around \emph{malicious matchmakers} that deviate from a standard matching policy and match incoming orders according to a custom policy.
+In this work our threat model orients around \emph{malicious matchmakers} that deviate from a standard matching policy and match incoming orders according to a custom policy.
 For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the hidden request instead.
 This threat model also captures collusion, the situation where a subset of matchmakers agrees to match orders according to a custom policy to gain economic benefit as a group.
 Malicious matchmakers are often driven by economic incentives, e.g., when a matchmaker wants to prioritize its own orders or when a group of matchmakers collectively attempt to drive competitors out of business by ignoring their orders.
@@ -561,7 +561,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 
 % motivated by...
 
-%In this work, we present MATCH, a decentralized, generic and scalable order matching middleware.
+%In this work we present MATCH, a decentralized, generic and scalable order matching middleware.
 %Its distinguishing property is that order information is actively shared between matchmakers, see Figure \ref{fig:decentralized_matchmaking}.
 %We design, implement and evaluate a generic middleware for order matching.
 %Unlike much related work, we do not resolve our design around a class of orders with specific properties.
@@ -571,7 +571,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 %We particularly focus on fundamental distributed systems properties of our matchmaking middleware.
 %An evaluation from an economics perspective can be found in related work~\cite{chan1998information}.
 
-%In this work, we focus on \emph{decentralized matchmaking}, depicted in Figure X.
+%In this work we focus on \emph{decentralized matchmaking}, depicted in Figure X.
 %The key difference between federated and decentralized matchmaking is that order information is shared between matchmakers in the latter model.
 %The distinguishing property of this architecture is that matchmakers actively share order book information with each other.
 %New buy and sell orders are disseminated in the network and matched by \emph{any} interested matchmaker.
@@ -607,7 +607,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 %In this architecture, a trader selects a single matchmaker entity and submits their order to this entity.
 %There is however no communication among these matchmaking entities, which may result in missing better matches and decreased market efficiency.
 
-%In this work, we design and build a fully decentralized order matching mechanism, called MATCH.
+%In this work we design and build a fully decentralized order matching mechanism, called MATCH.
 %The design of MATCH is guided by identified issues with centralized and federated matchmaking policies.
 %By rigorous scientific experiments, we explore key properties like scalability, fault-tolerance and efficiency of MATCH.
 %MATCH is particularly useful in the presence of multiple types of order books, e.g. for cryptocurrency exchanges.
@@ -660,7 +660,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 %The challenge is to design and build a marketplace with appropriate fraud measures but a less costly consensus model.
 
 %Matchmaking in distributed systems is a problem with an extensive design space.
-%In this work, we aim to explore this design space, while exposing our system to workloads with differing characteristics.
+%In this work we aim to explore this design space, while exposing our system to workloads with differing characteristics.
 %From a technical perspective, we pursue an effective, scalable, load balanced and fault tolerant mechanism.
 
 %\subsection{Problem Formulation}
