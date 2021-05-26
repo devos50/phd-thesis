@@ -148,8 +148,8 @@ Peers refrain from performing work for peers on the blacklist.
 \TrustChain{} can be deployed to alleviate fairness concerns in a wide range of decentralized applications, including peer-assisted video distribution, anonymous communication networks, and distributed learning environments.
 
 We implement \TrustChain{} and evaluate how different parameters impact the efficiency of fraud detection and the network usage.
-We find that fraud can be detected within seconds on average, even in larger networks with 10'000 peers where every peer commits fraud, and under a conservative strategy for record exchange.
-We also show that \TrustChain{} highly tolerates packet loss.
+We find that fraud can be detected within seconds on average, even in larger networks with 10'000 interacting peers where every peer commits fraud, and under a conservative strategy for record exchange.
+We also show that \TrustChain{} is highly resilient against packet loss.
 
 To show the effectiveness of \TrustChain{} in a realistic environment, we employ our accounting mechanism to address free-riding behaviour in \Tribler{}.
 \Tribler{} is a decentralized application downloaded by over 1.7 million users~\cite{pouwelse2008tribler}.
@@ -330,10 +330,10 @@ The accrued credits can either be converted to real-world money or are merely us
 BOINC is a well-known volunteer computing project that rewards users with virtual credits for processing scientific workloads~\cite{anderson2019boinc}.
 
 Blockchain technology also relies on financial remuneration to keep the system secure~\cite{easley2019mining}.
-Miners, dedicated peers that maintain the blockchain ledger, are usually rewarded for their efforts.
-Specifically, users pay a small fee for each transaction and miners then these fees when including their transactions in the blockchain.
+Miners, dedicated peers that maintain the blockchain ledger, are often financially rewarded for their efforts.
+Specifically, users pay a small fee for each issued transaction and miners then collect these fees when including their transactions in the blockchain.
 Other decentralized applications have adopted cryptocurrencies as a payment system to reward the performed work.
-Filecoin is a decentralized system where users pay with a blockchain-based token to have their data stored by peers~\cite{benet2018filecoin}.
+Filecoin is a decentralized system where users pay with a blockchain-based token to have their data stored by other peers~\cite{benet2018filecoin}.
 Likewise, TorCoin proposes a mechanism where the relay and exit nodes \enquote{mine} a Bitcoin-derived cryptocurrency by relaying Internet traffic~\cite{ghosh2014torpath}.
 
 Even though trade-based incentives are frequently used to incentivize work, remuneration is not an adequate solution for any decentralized applications, for the following three reasons~\cite{hummel2003earning}.
@@ -402,7 +402,7 @@ We believe that universality is an important property to address fairness concer
 To keep our system reusable and universal, we avoid \emph{any} decision making by entities with leveraged authorities and central servers.
 The lack of a central authority makes our mechanism \emph{fully decentralized} and easier to deploy.
 In general, decentralized mechanisms are less vulnerable to large-scale attacks, tend to scale better, and are more resilient to failure.
-They also are an excellent architectural fit with existing decentralized applications without central authorities.
+They also are an excellent architectural fit with existing decentralized applications that avoid central authorities.
 
 \textbf{Challenge III: Fraud Detection.}
 Peers have a natural incentive to misrepresent the magnitude of their efforts to inflate their social standing or to hide information unfavourable to their standing~\cite{meulpolder2009bartercast}.
@@ -596,7 +596,7 @@ When peer $ b $ receives the proposal $ P $, $ b $ verifies its validity.
 It is during this step that fraud is detected.
 The validation logic of incoming records is elaborately discussed in Section~\ref{sec:detecting_fraud}.
 If the incoming proposal $ P $ is deemed valid, the connected application determines if the payload in $ P $ truthfully describes the performed work.
-If $ P $ considered invalid, $ b $ ignores the incoming proposal and takes no further action.
+If $ P $ is considered invalid, $ b $ ignores the incoming proposal and takes no further action.
 Otherwise, $ b $ creates a confirming record that confirms $ P $ (step \circled{3}).
 This confirmation, denoted by $ C $, contains the same attributes as the proposal $ P $ and also includes the hash of $ P $.
 Confirmation $ C $, created by peer $ b $ is a tuple with the following five attributes:
