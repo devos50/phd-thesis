@@ -80,7 +80,7 @@ Matchmakers store open orders created by users, match incoming orders with exist
 Users then engage in trade negotiation with prospective counterparties.
 This approach makes MATCH highly resistant against matchmakers which deviate from a standard matching algorithm. 
 The second contribution is the generic MATCH middleware architecture (Section~\ref{sec:architecture}).
-MATCH does not rely on the specifications of orders, and is therefore re-usable across different trading domains.
+MATCH does not rely on the specifications of orders and is therefore re-usable across different trading domains.
 %Order creators disseminate a new order to multiple matchmakers while avoiding network- wide replication of orders.
 
 %We evaluate MATCH using workloads for ride-hailing and asset trading, reconstructed from real world traces.
@@ -531,7 +531,7 @@ In such marketplaces, we encourage the use of (semi-)decentralized solutions for
 
 \textbf{Threat Model.}
 In this work our threat model orients around \emph{malicious matchmakers} that deviate from a standard matching policy and match incoming orders according to a custom policy.
-For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the hidden request instead.
+For example, a matchmaker can deliberately match an incoming offer with the second-best request in their order book and match one of their own offers with the best request instead.
 This threat model also captures collusion, the situation where a subset of matchmakers agrees to match orders according to a custom policy to gain economic benefit as a group.
 Malicious matchmakers are often driven by economic incentives, e.g., when a matchmaker wants to prioritize its own orders or when a group of matchmakers collectively attempt to drive competitors out of business by ignoring their orders.
 Malicious matchmakers directly affect market fairness since they treat incoming orders unequally.
@@ -785,7 +785,7 @@ We assume that cryptographic protocols are secure and that the computational pow
 \section{The MATCH Protocol}
 \label{sec:protocol}
 We visualize the MATCH protocol and the message exchange between users and matchmakers in Figure~\ref{fig:match_data_flow}.
-The key idea behind our protocol is matchmakers only inform users about matches, and that users negotiate a trade directly with counterparties.
+The key idea behind our protocol is that matchmakers only inform users about matches and that users negotiate a trade directly with counterparties.
 %In summary, the protocol proceeds as f.
 First, users send new offers and requests to one or more matchmakers (step \circled{1} + \circled{2}).
 Matchmakers match incoming orders with existing orders in their order books and notify users about potential matches (step \circled{3}).
@@ -816,7 +816,7 @@ The steps in the MATCH protocol are now further explained.
 
 \subsection{Order Creation}
 \label{sec:order_creation}
-In MATCH, users create new orders to indicate their willingness to buy or sell resources, services and assets.
+In MATCH, users create new orders to indicate their willingness to buy or sell resources, services, and assets.
 Listing~\ref{lst:order_example} exemplifies the structure of an order in MATCH that specifies a transportation request in a ride-hailing market.
 This order, in JSON format, includes the waiting location of the order creator in the \texttt{data} field.
 The content of the \texttt{data} field is flexible and depends on the context in which the order is created.
@@ -947,7 +947,7 @@ Intuitively, this situation would require a higher value of $ f $ in order to re
 %We model a malicious matchmaker as a peer that does not respond to incoming offers and requests that match.
 %Its behavior is therefore indistinguishable from being offline.
 %This also accounts for the situation where a malicious matchmaker matches according to selfish interest, which can be considered as \enquote{invalid} matches.
-Given a fraction of malicious matchmakers $ r $, $ P(R_{req} \cap R_{off} \neq \emptyset) $ is now equal to:
+Given a fraction of malicious matchmakers, denoted as $ r $, $ P(R_{req} \cap R_{off} \neq \emptyset) $ is now equal to:
 
 \begin{equation}
 P(R_{req} \cap R_{off} \neq \emptyset) = 1 - \mathlarger{\prod}_{i=0}^{f-1} \big(\frac{(m - \left \lfloor{(1-r)f}\right \rfloor - i}{m}\big)
@@ -966,7 +966,7 @@ Reaching honest matchmakers in the presence of malicious matchmakers requires a 
 %For instance, in a ride-hailing market like Uber, a bid order created by a passenger is matched against only one ask order created by a driver.
 When a matchmaker receives an \texttt{order} message describing an order $ O $, it matches $ O $ with existing orders in its order book with the same type, according to a matching policy (see Section~\ref{sec:architecture}).
 For each order matched against $ O $, the matchmaker constructs a \texttt{match} message and sends it to the user that created $ O $ (step \circled{3} in Figure~\ref{fig:match_data_flow}).
-A \texttt{match} message contains the full specifications of the matched orders, and the network address of the user behind the matched order.
+A \texttt{match} message contains the full specifications of the matched orders and the network address of the user behind the matched order.
 This network address is used by the receiver of the \texttt{match} message to initiate the order negotiation process with the user behind the matched order.
 %This message is then digitally signed by $ m $ and sent to the trader that initially created $ O $.\todo{why no reservation?}
 
@@ -1028,7 +1028,7 @@ Each entry in the match queue of offer (or request) $ O $ is a tuple $ (a, R) $ 
 $ a $ indicates the number of failed negotiation attempts for $ R $.
 The value of $ a $ is locally tracked by each user.
 %The number of retries indicates how many times we unsuccessfully negotiated with the creator of $ O_2 $.
-Removing items from the match queue is first based on $ a $ (item with a lower value of $ a $ have higher priority) and is then based on the quality of the match (the user prioritizes negotiation of matches with higher quality).
+Removing items from the match queue is first based on $ a $ (item with a lower value of $ a $ have higher priority) and is then based on the quality of the match (the user prioritizes the negotiation of matches with higher quality).
 The quality of a match is an application-specific metric that can be considered as the \enquote{distance} between an offer and a request, and is computed by the matching policy.
 An incoming \texttt{match} message can be inserted in multiple match queues, e.g., in the match queues for offers or requests with the same type and similar specifications.
 %$ r $ is initially zero and is incremented by one each time trade negotiation fails (see Section~\ref{sec:order_negotiation}).
@@ -1039,7 +1039,7 @@ An incoming \texttt{match} message can be inserted in multiple match queues, e.g
 Before a user starts to select items from a match queue, it waits for some duration $ W_{match} $, which we call the \emph{match window}.
 The value of $ W_{match} $ should be carefully considered: a higher value of $ W_{match} $ increases the probability of receiving more and better matches but adds to the order completion time since a user has to wait longer before starting order negotiations.
 Decreasing $ W_{match} $, however, might result in missing better matches.
-$ W_{match} $ also depends on the link latency of the peer-to-peer network.
+$ W_{match} $ also depends on the link latency of the peer-to-peer network where the value of $ W_{match} $ should be increased in unreliable networks.
 Furthermore, $ W_{match} $ is influenced by the trading domain, e.g., passengers in a ride-hailing market can usually tolerate an additional wait time of a few seconds, whereas this increase might be unacceptable when a user quickly wants to buy some assets in response to price fluctuations in an asset market.
 When the match window expires, a user removes the entry $ (a, R) $ with the best quality from the match queue and initiates the order negotiation process with the user that created $ R $.
 %Users prioritize the selection of items from the match queue first by the quality of the match, and then by $ r $.
@@ -1056,6 +1056,8 @@ When two negotiating users reach a trade agreement, both users send the agreemen
 This approach addresses question 1 in Section~\ref{sec:towards_fair_reliable_matchmaking} and avoids the need for network-wide consensus.
 
 We now elaborate on the negotiation procedure between two users.
+Figure~\ref{fig:order_negotiation_diagram} shows the control flow in UML format when a user receives specific messages during the order negotiation process.
+We elaborate the negotiation process between users $ U_1 $ and $ U_2 $ according to Figure~\ref{fig:order_negotiation_diagram}.
 In the following, we assume that user $ U_1 $ created offer $ O $, user $ U_2 $ created request $ R $, and these two orders match.
 Now, $ U_2 $ has received a \texttt{match} message from a matchmaker, informing $ U_2 $ about matching offer $ O $.
 This puts entry $ (a, O) $ in the match queue associated with $ R $.
@@ -1066,8 +1068,6 @@ Explicitly locking quantity in an order prevents a user from engaging in paralle
 MATCH does not enforce the locking of quantity since we assume that rational users will correctly manage their orders.
 After locking the quantities in $ R $, $ U_2 $ sends a \texttt{propose} message to $ U_1 $, containing the full specifications of $ R $, the identifier of $ O $, and the proposed quantity to trade.
 
-Figure~\ref{fig:order_negotiation_diagram} shows the control flow in UML format when a user receives specific messages during the order negotiation process.
-We elaborate the negotiation process between users $ U_1 $ and $ U_2 $ according to Figure~\ref{fig:order_negotiation_diagram}.
 When $ U_1 $ receives a \texttt{propose} message from $ U_2 $, it first checks if its offer $ O $, which identifier is contained in the \texttt{propose} message, is still open.
 If $ O $ is expired, has been cancelled, or has been completed already, $ U_2 $ immediately responds with a \texttt{reject} message, containing the reject reason.
 When $ U_2 $ receives the \texttt{reject} message from $ U_1 $, it unlocks the locked quantity for that negotiation and selects the next entry from the match queue of its request $ R $.
@@ -1187,14 +1187,14 @@ Upon receiving an \texttt{update} message, matchmakers update the state of the c
 
 \subsection{Privacy Considerations}
 We end our protocol description with a few notes on privacy.
-In MATCH, full order details are shared with and amongst matchmakers.
+In MATCH, full order details are shared with matchmakers.
 While this is standard for application domains such as blockchain marketplaces, it is undesirable for some application domains such as financial markets.
 We note that the \texttt{data} field of an order in MATCH can be fully specified by the system designers.
 Therefore, the content of orders, and the quantity field, can be subjected to cryptographic protocols such as encryption.
 Only when an agreement has been reached between two parties, the order specifications can be revealed between the two interacting parties.
 To leverage the functionality of the match queue, however, it is desirable that incoming orders can be totally ordered.
 
-There are some privacy-preserving solutions for matchmaking in particular application domains, such as ride-hailing.
+There are some privacy-enhancing solutions for matchmaking in particular application domains, such as ride-hailing.
 ORide, for example, leverages homomorphic encryption to build a full protocol for privacy-preserving ride sharing~\cite{pham2017oride}.
 We believe that, whether or not with additional research, the underlying ideas of existing solutions such as ORide can increase the privacy aspects of decentralized matchmaking.
 
@@ -1416,7 +1416,7 @@ This guarantee is, for example, provided by smart contracts, applications that r
 
 \section{Experimental Evaluation}
 \label{sec:match_experiments}
-We implement the MATCH protocol and middleware in the Python 3 programming language, spanning a total of 6.511 lines of source code (SLOC), without comments.
+We implement the MATCH protocol and middleware in the Python 3 programming language, spanning a total of 6'511 lines of source code (SLOC), without comments.
 The implementation uses the \texttt{asyncio} library for asynchronous event processing.
 The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 For efficiency, message exchange between users and matchmakers uses UDP.
