@@ -1254,14 +1254,14 @@ We modify the record request interval and batch size, and analyse the effect on 
 Figure~\ref{fig:experiment_crawl_interval_detection_times} visualises the impact of the record request interval on the average fraud detection times for different record exchange strategies.
 We increase the record request interval, ranging from 0.5 seconds to 5 seconds, in steps of 0.5 seconds.
 First, we observe that the average fraud detection times for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies remains roughly constant.
-This trend indicates that pushing records to random peers is the dominant logic of the record exchange strategy, very effectively exposing fraud instances.
+This trend indicates that pushing records to random peers very effectively exposes fraud instances.
 We also note that average fraud detection times for the \texttt{PULL} and \texttt{PULL+RAND} strategies are increasing when the record request interval becomes larger.
 For the \texttt{PULL} strategy, we notice that when the request interval is over 3 seconds, most fraud instances remain undetected after our experiment finishes.
 These fraud instances become increasingly harder to detect as the modified record in a personal ledger gets \enquote{buried} under additional records.
 As such, the average fraud detection time is likely higher when running the experiment until all fraud instances have been detected.
-Unfortunately, we are unable to significantly prolong the experiment duration as our simulations are already using peak memory usage, despite various optimization efforts.
+Unfortunately, we are unable to significantly prolong the experiment duration as our simulations are already at peak memory usage, even after various optimization efforts.
 
-Figure~\ref{fig:experiment_crawl_batch_size_detection_times} shows the average fraud detection times when increasing the number of records queried in each request from 1 to 10, for different record exchange strategies.
+Figure~\ref{fig:experiment_crawl_batch_size_detection_times} shows the average fraud detection times when increasing the number of records queried in each request, the request batch size, from 1 to 10, for different record exchange strategies.
 Again, the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies are indifferent to this increase.
 The average fraud detection time for the \texttt{PULL} strategy decreases from 60.4 seconds to 12.4 seconds when increasing the request batch size from 1 record to 10 records, respectively.
 This decrease indicates that increasing the request batch size is particularly effective when using the \texttt{PULL} strategy, at the expanse of increased bandwidth usage.
@@ -1276,12 +1276,12 @@ This decrease indicates that increasing the request batch size is particularly e
 \subsection{Back-Pointers}
 We vary the number of back-pointers ($ b $) in each record and analyse the effect on average fraud detection times.
 We suspect that adding more back-pointers increases the probability of detecting fraud since individual records now bear more hashes of records in ones personal ledger.
-This advantage comes, however, at a cost of additional network usage and computational overhead to analyse the back-pointers.
+This advantage comes, however, at a cost of additional network usage and computational overhead to analyse and verify the back-pointers.
 Each back-pointer adds 32 bytes to the serialized record size.
 
-Figure~\ref{fig:fraud_times_back_pointers} shows the average time until fraud is detected while varying the number of back-pointers and considering different record exchange strategies.
+Figure~\ref{fig:fraud_times_back_pointers} shows the average time until fraud is detected while varying the number of back-pointers and for different record exchange strategies.
 Adding additional back-pointers indeed decreases fraud detection times.
-Under the \texttt{PULL} record exchange strategy, it takes 111.2 seconds to detect fraud when no additional back-pointers are included. In comparison, this number decreases to 41.6 seconds when adding up to ten back-pointers to each record (a decrease of 58.4\%).
+Under the \texttt{PULL} record exchange strategy, it takes 111.2 seconds to detect fraud when no back-pointers are included ($ b = 0 $). In comparison, this number decreases to 41.6 seconds when adding up to ten back-pointers to each record, a decrease of 58.4\%.
 This decrease is much more for the \texttt{PULL+PUSH} strategy, namely 97\%.
 Note that the effect of adding more back-pointers diminishes for $ b > 4 $.
 This effect can likely be attributed to the fact that all peers start with an empty personal ledger in our simulations, and that different records with lower sequence numbers in the same personal ledger are more likely to include identical hashes in their back-pointers.
@@ -1320,7 +1320,7 @@ This number increases to 5.1 MB under the \texttt{PULL+RAND+PUSH} strategy.
 This experiment shows that \TrustChain{}, under a realistic workload of \Tribler{} interactions, exhibit relatively low fraud detection times and has low network usage.
 As we have also measured during our deployment trial (see Section~\ref{sec:deployment}), the resource overhead of \TrustChain{} is minimal.
 For \Tribler{}, the fraud detection times shown in Figure~\ref{fig:fraud_times_realistic_dataset} are acceptable.
-However, as we have also shown in our other experiments, these detection times can further be improved with more frequent record crawling.
+However, as we have also shown in our other experiments, these detection times can further be decreased with more frequent record crawling.
 
 \subsection{Discussion}
 In summary, our experiments demonstrate that \TrustChain{} exhibits low fraud detection times, scales when the network grows, has reasonable bandwidth overhead, and is robust against packet loss.
@@ -1330,11 +1330,11 @@ Even though we have not evaluated the effect of all parameters in Table~\ref{tab
 With our open-source simulator, system designers can quickly analyse the effect of different parameters, guided by a synthetic or realistic workload that resembles the behaviour in their application.
 
 We have demonstrated that there is a trade-off between the average fraud detection times and network usage.
-The acceptable network usage differs per applications.
+The acceptable network usage depends on the application.
 For example, bandwidth is less likely to be a bottleneck when considering a video streaming application compared to an Internet-of-Things environment with low-resource devices.
 By reducing the record request intervals, fanout value, and the maximum number of back-pointers, one can reduce the bandwidth footprint of \TrustChain{}, at the cost of increased fraud detection times.
 Figure~\ref{fig:experiment_scalability_bandwidth} shows that the active record exchange strategy has a notable impact on network usage.
-In a dynamic network where the sessions of peers are short-lived, we recommend the \texttt{PULL+RAND} or \texttt{PULL+RAND+PUSH} strategies, where peers share random records in their database with others.
+In a dynamic network where the sessions of peers are short-lived, we recommend the \texttt{PULL+RAND} or \texttt{PULL+RAND+PUSH} strategies, under which peers share random records in their database with others.
 This strategy allows the detection of fraud attempts of offline peers.
 We recommend the \texttt{PULL+RAND+PUSH} strategy when fraud must  be detected quickly.
 We recommend the \texttt{PULL} strategy when bandwidth is a limiting factor.
@@ -1360,7 +1360,7 @@ In the remainder of this section, we elaborate on the integration of \TrustChain
 We enable peers to earn \emph{bandwidth tokens} by providing services as a relay or exit node in the \Tribler{} network.
 The mutations in bandwidth token balances of each peer is accounted in \TrustChain{} records.
 For example, a payout corresponding to a data exchange of a 50 MB file between peers $ a $ and $ b $ deduces 50 MB of $ a $'s balance and increments $ b $'s balance by 50 MB (MB is the unit of this bandwidth token).
-Peers can have a negative balance of bandwidth tokens, in which case they have received more traffic than they contributed to the network.
+Peers can have a negative balance of bandwidth tokens, in which case they have enjoyed more services from others than they contributed back to the network.
 
 When a peer downloads content using \Tribler{}, the \Tribler{} software establishes a \emph{circuit}, containing exactly one exit node and optionally some relay nodes.
 This is comparable to circuits in the Tor protocol.
@@ -1370,11 +1370,11 @@ The downloader accounts a transfer of 250 MB to the first relay using \TrustChai
 Specifically, the downloader creates a proposal record, containing the pair-wise byte counter with the first relay and the magnitude of the current payout.
 In the latest version of \Tribler{}, newly created records are by default disseminated to 20 random peers.
 Each peer also requests a random record from another known peer every 10 seconds.
-During our deployment period, we have periodically revised the record exchange strategy in response to the network behaviour and growth.
+During our deployment period, we have periodically revised the record exchange strategy in response to the observed network behaviour and growth.
 
 After the downloader has finished the payout to the first relay, the first relay then transfers 150 MB to the next relay, resulting in a net positive token balance of 100 MB for the first relay.
 The rationale behind our payout scheme is that we reward relay and exit nodes for performing the cryptographic operations on the forwarded data.
-Relays that do not forward the payout to the next hop will be added to the local blacklist by the previous hop, therefore lowering their opportunity to earn bandwidth tokens.
+Relays that do not forward the payout to the next hop will be added to the local blacklist by the previous hop, therefore lowering their opportunity to earn bandwidth tokens in the future.
 %The payload in \TrustChain{} records contains both the token amount transferred and the current token balance of the peer.
 
 Since this use-case involves anonymous downloading, there is an important trade-off between accountability and anonymity.
@@ -1431,23 +1431,23 @@ To address the uncontrolled minting of bandwidth tokens by accounting fake work,
 
 \subsection{Circuit Assignment}
 We use the bandwidth token balances included in \TrustChain{} records to grant preferential treatment to dedicated peers during periods of congestion.
-Specifically, we modify the \Tribler{} protocol such that each relay and exit nodes maintain a fixed number of \emph{slots}.
+Specifically, we modify the \Tribler{} protocol such that each relay and exit node maintains a fixed number of \emph{slots}.
 A circuit that includes a relay or exit nodes consumes one slot at their side.
 We distinguish between \emph{random} and \emph{competitive} slots.
 Random slots are filled on a first-come-first-serve basis whereas the assignment of competitive slot is based on the bandwidth token balance of a circuit initiator.
-The intuition behind this approach is to still give peers with lower trust scores an opportunity to earn a (random) slot but at the same time, give preferential treatment to well-behaving peers with competitive slots.
-The total number of such slots can be changed, depending on the hardware capabilities of the node operator.
+The intuition behind this approach is to still give peers with lower trust scores an opportunity to acquire a random slot but at the same time, give preferential treatment to well-behaving peers with competitive slots.
+The total number of such slots is flexible and depends on the hardware capabilities of the node operator since our Tor-like routing protocol is heavy on CPU usage.
 
-A pseudocode description of the slot assignment logic is given in Listing~\ref{alg:slot_logic}.
-When a circuit initiation request arrives, the \texttt{onCircuitRequest} method is invoked and \Tribler{} first determines if there is a random slot available (line 5-9).
+A pseudocode description of the slot assignment logic is given in Algorithm~\ref{alg:slot_logic}.
+When a circuit initiation request arrives, the \texttt{onCircuitRequest} method is invoked and \Tribler{} first determines if there is a random slot available (line 5-10).
 If so, we assign the new circuit to the random slot (line 7).
-If no random slot is available, \Tribler{} queries the bandwidth token balance of the circuit initiator $ i $ by requesting the records in the personal ledger of $ i $.
-When receiving these records, \Tribler{} determines the current bandwidth token balance and checks eligibility for a competitive slot (line 12-23).
-If there is an unoccupied competitive slot, \Tribler{} assigns the new circuit to it (line 16).
-If all competitive slots are filled, the circuit of the initiator with the lowest amount of bandwidth tokens, say $ p $, is destroyed if the token balance of $ i $ is higher than the token balance of $ p $ (line 22).
+If no random slot is available, \Tribler{} queries the bandwidth token balance of the circuit initiator $ i $ by requesting the records in the personal ledger of $ i $ (line 11).
+When receiving these records, \Tribler{} determines the current bandwidth token balance and checks eligibility for a competitive slot (line 14-30).
+If there is an unoccupied competitive slot, \Tribler{} assigns the new circuit to it (line 19).
+If all competitive slots are filled, the circuit of the initiator with the lowest amount of bandwidth tokens, say $ p $, is destroyed if the token balance of $ i $ is higher than the token balance of $ p $ (line 28).
 This pre-emptive approach frees up the competitive slot for the circuit of $ i $.
 As a result, users with a higher token balance have more chance to claim a competitive slot during periods of congestion, compared to free-riders, and experience higher and more stable download speeds.
-We consider the analysis of different allocation policies, e.g., using a packet-granular scheduler~\cite{jansen2018kist}, as further work.
+We consider the analysis of different slot allocation policies, e.g., using a packet-granular scheduler~\cite{jansen2018kist}, as further work.
 
 %\begin{figure}[t]
 %	\centering
@@ -1470,21 +1470,22 @@ This crawler selects a random peer in the \TrustChain{} network every two second
 The crawler statistics are published on a public website.\footnote{See \url{http://explorer.tribler.org}}
 A deployment period of two years has resulted in more than \TrialRecords{} records, created by over \TrialUsers{} peers.
 The crawler stores collected records in a sqlite database that is enhanced with additional indices to speed up insertion and analysis queries.
-The file size of the database with all collected records is around 120GB, and we plan on releasing the full data set later.
-Our crawler discovered 127'135 proofs of fraud.
+The file size of the database with all collected records is around 120 GB, and we plan on releasing the full data set later.
+Our crawler discovered 127'135 proofs of fraud, either detected by the crawler itself or by other peers.
 We also find that 11.4\% of all collected proposals in the deployed \TrustChain{} network is unconfirmed.
-This relatively high fraction of unconfirmed proposals is either because of software bugs, the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
+This relatively high fraction of unconfirmed proposals is either because of software bugs, because the proposal counterparty has not created a confirmation, or because our crawler has not picked up the confirmation record.
 At the same time, the amount of work included in each record is relatively small, reducing the impact of unconfirmed records.
 
 Deploying a crawler and monitoring the records created by \TrustChain{} allows us to detect anomalies caused by software bugs or unexpected user behaviour.
 It also provides us with the means to monitor the growth of users within \Tribler{} by tracking the number of unique peers in the \TrustChain{} network.
 We have also included a creation timestamp in the payload of each record created with \Tribler{}, allowing us to perform a time-based analysis.
+We note that this timestamp might not accurately reflect the creation time of the record since users could have misconfigured their time-zone settings.
 
 Figure~\ref{fig:record_creation} shows the daily number of created proposal records.
 We annotate the dates on which we released a major version of \Tribler{}.
 Figure~\ref{fig:record_creation} reveals that more users run \Tribler{} during the weekend and create more proposals on a Saturday and a Sunday.
 We also observed two large-scale outage of exit nodes, in April 2019 and May 2020, likely due to infrastructure failures.
-Despite these outages, users would still perform payouts when downloading directly from other \Tribler{} users without anonymity.
+Despite these outages, users would still perform payouts when downloading directly from other \Tribler{} users without anonymity (since this does not involve exit nodes).
 
 %In \Tribler{}, users earn bandwidth tokens by either operating an exit node, or by relaying traffic.
 %By default, users download with one-hop anonymity, meaning that the circuit is directly connected to an available exit node.
@@ -1502,7 +1503,7 @@ Despite these outages, users would still perform payouts when downloading direct
 \end{figure}
 
 \subsection{Free-rider Identification and Service Refusal}
-To show the effect of \TrustChain{} and our slot assignment mechanism on free riders, we deploy 48 exit nodes in the \Tribler{} network, running on the same machine.
+To show the effect of \TrustChain{} and our slot assignment mechanism on free-riders, we deploy 48 exit nodes in the \Tribler{} network, running on the same machine.
 Each exit node is configured with a total of 10 random slots and 20 competitive slots, resulting in a total of 1'440 slots.
 We determined this number of random and competitive slots based on the hardware capacity of our machine.
 We are specifically interested in the situation when a peer is unable to claim a slot, due to their bandwidth token balance being insufficient.
@@ -1511,7 +1512,7 @@ For each reject event, we log the bandwidth token balance of the rejected peer.
 In total, we logged over 1.4 million reject events over three weeks.
 
 Figure~\ref{fig:exit_node_rejects} shows an Empirical Cumulative Distribution Function (ECDF) with the bandwidth token balances of all peers (dotted green line) and the balances associated with rejected circuit requests (solid red line).
-For presentation clarity, we filter out all peers and reject events with balances higher than 50GB or lower than -500GB.
+For presentation clarity, we filter out all peers and reject events with balances higher than 50 GB or lower than -500 GB.
 Many Tribler users have a negative bandwidth token balance.
 The median token balance of all users is -713 MB.
 This number suggests that there is not much opportunity to earn bandwidth tokens by contributing to the network.
@@ -1519,7 +1520,7 @@ By default, the Tribler software downloads content over a 1-hop circuit, only in
 Changing the default behaviour to use 2-hop downloads could alleviate this issue, at the cost of decreased download speeds.
 Figure~\ref{fig:exit_node_rejects} also shows that users with a relatively low token balance (e.g., $ < $ 50 GB) are frequently rejected a slot.
 The median token balance associated with reject events is -181.4 GB, demonstrating that our mechanism effectively targets peers with lower bandwidth token balances.
-The slots claimed by free-riders will likely go to dedicated peers when the network is congested.
+The competitive slots claimed by free-riders will likely go to dedicated peers when the network is congested.
 This deployment trial shows that \TrustChain{} is effective at detecting and addressing free-riding behaviour in \Tribler{}.
 Based on our observations, we believe that the integration of \TrustChain{} has increases network performance and helps to maintain fairness amongst downloading users.
 
@@ -1547,5 +1548,5 @@ Our evaluation has demonstrated that \TrustChain{} is capable of detecting fraud
 Through a two-year deployment trial of \TrustChain{} in \Tribler{}, involving more than \TrialUsers{} users, we have successfully addressed free-riding behaviour.
 
 We envision and encourage the usage of \TrustChain{} beyond work accounting in decentralized applications.
-Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, and self-sovereign identity~\cite{de2021xchange,de2019devid,stokkink2018deployment}.
-Since these scenarios leverage the same data structure, these applications all benefit from the accounting capabilities that \TrustChain{} offers.
+Currently, \TrustChain{} is being evaluated in different scenarios that require accountability, including decentralized trading, software developer portfolios, decentralized crowdsourcing, and self-sovereign identity~\cite{de2021xchange,de2019devid,stokkink2018deployment}.
+Since these scenarios leverage the same data structure, these applications all benefit from the accounting capabilities and integrity guarantees that \TrustChain{} offers.
