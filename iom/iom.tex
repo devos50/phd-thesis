@@ -75,8 +75,8 @@ The main contribution of this work is four-fold:
 \begin{enumerate}
 	\item A trust model, based on repeated interactions and stored on a tamper-proof, scalable blockchain.
 	\item \emph{Internet-of-Money}, a novel overlay network that allows real-time money routing to other banks.
-	\item Experimental quantification of the performance of our trust model, the speed of money transfers, and the efficiency of our overlay network.
 	\item A framework to interface with multiple banks and to initiate payments to others using Internet-of-Money.
+	\item Experimental quantification of the performance of our trust model, the speed of money transfers, and the efficiency of our overlay network.
 	% \item An Android application, capable of transferring money to other bank accounts within seconds.
 \end{enumerate}
 
@@ -482,11 +482,11 @@ Transaction fees can be either fixed, defaulting to \euro 0.01, or a percentage 
 These fees are necessary to cover costs enforced by banks when initiating cross-border payments or when using business accounts to route money.
 In addition, users can specify a minimum account balance to avoid taking costs when their balance becomes negative.
 In the remainder of this work, we assume transaction fees are fixed.
-We also consider an analysis of monetary incentives out of scope and not fundamental for the prototype evaluated in this work.
+We also consider economic analysis of monetary incentives beyond the scope of this work since it is not critical to prove the technical feasibility of our ideas.
 
 Note that our design also allows the role of money router to be fulfilled by a single trusted third party or by a few selected trustworthy entities (i.e., financial institutions).
-A more centralized architecture would mitigate some of the trust and security issues that arise from full decentralization.
-However, we consider open enrolment (the opportunity for any user to act as a money router) a cardinal property of our system.
+A more centralized approach would mitigate some of the trust and security issues that arise from full decentralization.
+However, we consider open enrolment, the opportunity for any user to act as a money router, a cardinal property of our system.
 % Huidige users kunnen nu geen money routers worden
 
 \subsubsection*{Router Discovery}
@@ -523,7 +523,7 @@ Users are able to change the maximum number of routers in a circuit, which defau
 
 %When assigning a trustworthiness score, we only consider historical behaviour of a money router.
 The trust model discussed in Section \ref{sec:trust} is based purely on past transactions.
-It is useful to consider other properties when picking eligible money routers, such as transaction fees, availability, reliability or network latency. 
+It is useful to consider other properties when picking eligible money routers, such as transaction fees, availability, reliability, or network latency. 
 Depending on the situation, one might favour low network latency or competitive transaction fees over trustworthiness.
 
 %However, when selecting an eligible money router for a fast payment, it is helpful 
@@ -672,9 +672,9 @@ Our implementation is built upon the Dispersy framework, providing primitives fo
 %We evaluate our trust model and overlay using a real-world emulation, with a particular focus on router discovery and fraud detection.
 
 \subsubsection*{Experimental Setup}
-The following real-world emulations are executed on the DAS-5 supercomputer, using 50 instances per node~\cite{bal2016medium}.
-We deploy our experiment using the Gumby framework and we create a scenario file where we schedule actions at specific times.
-All code used during these experiments is open source\footnote{See \url{https://github.com/devos50/gumby/tree/iom\_experiment}}.
+The following real-world emulations are executed on the DAS5 supercomputer, using 50 instances per node~\cite{bal2016medium}.
+We deploy our experiment using the Gumby experiment framework and we create a scenario file where we schedule actions at specific times.
+All code used during these experiments is open source.\footnote{See \url{https://github.com/devos50/gumby/tree/iom\_experiment}}
 Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, simulated accounts are used during this experiment.
 We assume a total of five different banks and devised a basic RESTful banking server that handles account creation, payments, balance queries and mutation requests.
 Distribution of bank accounts amongst users follows the data as published in the NGData customer banking survey (we assume that every user owns at least one bank account)~\cite{ngdata2014consumer}.
@@ -741,7 +741,7 @@ We now discuss this research from various perspectives.
 The idea of directly sharing funds with others, without a central bank involved, is highly experimental and challenges existing regulation.
 Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking license.
 The PSD2 regulation states that trusted third parties (TTPs) can be authorized by end users to perform financial activities on their behalf~\cite{cortet2016psd2}.
-However, it is unclear whether the definition of a TTP includes money routers.
+However, it is unclear whether the definition of a TTP includes money routers, even after discussion with legal experts.
 Another consideration is responsibility when a mistaken payment is initiated.
 At the same time, this consideration also applies to blockchain technology where payments cannot manually be reverted once they are finalized on the ledger.
 Compatibility of our system with (inter)national anti-money laundry regulations is highly uncertain.
@@ -789,7 +789,7 @@ In addition, we can draw inspiration from privacy-preserving coins like Monero, 
 %\end{figure}
 
 \subsubsection*{Scalability}
-Our overlay network is scalable, due to the absence of global consensus.
+Our overlay network has the potential to scale, mostly thanks to the absence of global consensus.
 However, techniques like incremental settlement lead to additional payments and a higher load on the banks.
 In addition, the choice of reputation mechanism used in Internet-of-Money influences scalability.
 
@@ -802,14 +802,14 @@ In contrast to our system, trust in hawala is cultivated in an analogue manner w
 
 Innovation in the financial sector has been catalysed by the popularity of Blockchain technology, aiming to build trust between strangers without involvement of centralized authorities.
 Bitcoin has proven that a sustainable currency can be built without a central bank in control~\cite{nakamoto2008bitcoin}.
-However, wide-spread adoption stays out due to its volatile pricing, high transaction fees, relatively slow confirmation times and unsure future.
+However, wide-spread adoption stays out due to its volatile pricing, high transaction fees, relatively slow confirmation times, and unsure future.
 The Lightning Network aims to improve scalability of Bitcoin by providing bi-directional payment channels between users~\cite{poon2016bitcoin}.
 Payments between two users not directly connected with a payment channel, are realised by routing payments through channels of other users.
 This has similarities with money routing in Internet-of-Money.
 New usages of blockchain technology are focussed around the way users transfer money and other assets.
 %Byteball is a decentralized system that creates a directed, acyclic graph that stores units of value and uses an internal currency that should be paid when adding data to the global database~\cite{churyumov2016byteball}.
 The Ripple project, supported by various major banks, attempts to build a connected network of financial institutions and payment providers~\cite{schwartz2014ripple}.
-Their solution aims to significantly speed up traditional money transfers, lower costs and provide support for high-volume transactions.
+Their solution aims to significantly speed up traditional money transfers, lower costs, and provide support for high-volume transactions.
 R3 Corda can be compared to TrustChain since they share the idea that a ledger with global consistency is often not necessary~\cite{brown2016introducing}.
 
 While blockchain solutions are slowly being adopted, the aforementioned systems all aim to increase utility by building a financial network from scratch.
@@ -847,6 +847,6 @@ However, there are various legal issues and limitations that should be addressed
 
 This work is an important milestone in our ambitious vision to create the \emph{programmable economy}.
 Ongoing work towards this goal addresses self-sovereign identity, scalable blockchain consensus compatible with TrustChain, and decentralized marketplaces.
-Upcoming experimentation will focus on expanding Internet-of-Money to support additional banks, currency conversion and international bank transfers.
-For this experiment, we utilize additional type of money switches to send money across the globe in seconds.
-This structure is presented in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.
+Upcoming experimentation will focus on expanding Internet-of-Money to support additional banks, currency conversion, and international bank transfers.
+For this experiment, we utilize additional type of money switches to send money across countries in seconds.
+The experiment setup is visualised in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.
