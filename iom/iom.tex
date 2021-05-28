@@ -1,21 +1,21 @@
 \chapter{Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds}
 \label{chapter:iom}
 
-\emph{We explore a new stage in the evolution of digital trust, trusting strangers with your funds.
+\emph{In this chapter, we explore a new stage in the evolution of digital trust, trusting strangers with your funds.
 We address the trust issues when giving money to others and relying on them to forward it.
 For fraud identification, we leverage our deployed blockchain which gradually builds trust between interacting strangers.
 Our blockchain fabric, called \emph{TrustChain}, records interactions between entities in a scalable manner.
 This work represents a small step towards a generic infrastructure for trust, moving beyond proven single vendor platforms like eBay, Uber, and Airbnb.}
 
-\emph{In this chapter we design, implement, and evaluate an overlay network: \emph{Internet-of-Money}.
-Internet-of-Money routes money to different banks through individuals, so-called \emph{money routers}.
+\emph{Building upon established trust relations, we design, implement, and evaluate an overlay network: \emph{Internet-of-Money}.
+Internet-of-Money routes money to different banks in real-time through individuals, so-called \emph{money routers}.
 This removes the need for central banks, to handle a payment.
 Our network reduces the duration of traditional inter-bank payments from up to a day and even a few days during weekends, to mere seconds.
 Internet-of-Money is fully decentralized, scalable, and privacy-preserving.}
 
 \emph{With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
 We show that the overlay network is capable of discovering a majority of available money routers within a minute.
-Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is punished.}
+Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is quickly punished.}
 
 \newpage
 
@@ -24,22 +24,23 @@ Finally, we demonstrate how the profit of cheating routers is limited and that m
 Creating trust between strangers is at the core of numerous successful Internet companies.
 Starting 22 years ago, Craigslist offered an unmoderated mailing list of advertisements and gossip on which buyer and seller could be trusted.
 eBay formalised this in 1997 and introduced a star-based rating system that enables traders to build a trustworthy profile~\cite{resnick2002trust}.
-The e-commerce platform was launched at a time when people were still hesitant to use their credit card on a technology called The Internet.
+This e-commerce platform was launched at a time when people were still hesitant to use their credit card on a technology called The Internet.
 Nowadays, people let strangers sleep in their houses using Airbnb (since 2008).
-We trust Uber (since 2009) with our physical security and get into cars late at night with a driver that has never undergone a criminal background check or given a government license.
+We trust Uber (since 2009) with our physical security and get into cars late at night with a driver that has never undergone a criminal background check or earned the appropriate qualifications to act as taxi driver.
 %Airbnb transformed the notion of letting strangers sleep in your house from an uncomfortable idea to a viable business model.
 These influential milestones in the evolution of digital trust are shown in Figure \ref{fig:trust_evolution}.
 
 We continue this evolution of building trust.
-We created an operational platform for one of the most challenging and sensitive applications, having others handle your money.
+We created an operational platform for one of the most challenging and sensitive applications, having other people handle your money.
+As we will show, solving this problem allows us to significantly reduce the duration of international payments between banks, from days to mere seconds.
 
-Bitcoin created money without the need for banks~\cite{nakamoto2008bitcoin}.
+Bitcoin is the first operational system that manages money without the need for a bank~\cite{nakamoto2008bitcoin}.
 In the past, people were required to trust a central bank and a host of other intermediaries when making payments~\cite{kokkola2011payment}.
 The fundamental technology of Bitcoin, blockchain, radically reduced the need to trust financial middlemen.
 It bootstrapped an economy where no one can be stopped from spending their money.
-Despite widespread speculation and ecosystems being worth billions, blockchain in general suffers from scalability issues due to inefficient mechanisms for fraud prevention.
-Bitcoin is theoretically limited to seven transactions per second and Ethereum has a throughput of around twenty transactions per second~\cite{vukolic2015quest}.
-Despite various scalability efforts like proof-of-stake and sharding, broader adoption of blockchain stays out.
+Despite widespread speculation and ecosystems being worth billions, blockchain in general suffers from scalability issues due to inefficient mechanisms for fraud prevention, specifically the need to reach consensus on the transactions to be executed.
+Bitcoin is theoretically limited to seven transactions per second and Ethereum~\cite{wood2014ethereum}, a popular blockchain platform to deploy self-enforcing contractual logic, has a throughput of around twenty transactions per second~\cite{vukolic2015quest}.
+Despite various scalability efforts like proof-of-stake and sharding, broader adoption of blockchain technology stays out~\cite{zhou2020solutions}.
 %Broader adoption is limited since blockchain applications are fragmented with low interoperability.
 
 \begin{figure*}[!t]
@@ -50,7 +51,7 @@ Despite various scalability efforts like proof-of-stake and sharding, broader ad
 \end{figure*}
 
 %A majority of Internet usage takes place on handful of platforms that are operated by large companies.
-While a majority of Internet users trust the company behind popular platforms, the events involving Mt. Gox highlighted how digital trust can be established and compromised~\cite{mcmillan2014inside}.
+While a majority of Internet users trust the company that operates and manages popular platforms, the events involving Mt. Gox highlighted how digital trust can be established and compromised~\cite{mcmillan2014inside}.
 Mt. Gox was at one point the largest Bitcoin exchange worldwide.
 In 2014, hackers stole Bitcoin, worth around \$460 million at that time from the Mt. Gox exchange. %Mt. Gox, at that time the largest Bitcoin exchange operational.
 This event, together with major data breaches in 2017 at high-profile companies like Uber and Equifax, exposed the weakness of centralized architectures~\cite{uber2017hack}.
@@ -61,21 +62,21 @@ They motivate research around decentralized technologies, like blockchain. %, no
 The generic problem of building trust between strangers resides on the edge of technology, sociology, and behavioural science~\cite{yan2008trust}.
 %Our work devises a protocol for creating trust.
 The question whether someone can be trusted depends on properties like personality, level of authority, culture, and past behaviour. % https://www.researchgate.net/publication/267260663_Social_Trust_A_Cognitive_Approach
-In this research, we address the trust problem from a technological perspective, using tamper-proof interactions on a scalable blockchain.
-This structure is built to detect fraudulent behaviour and misrepresentation.
+In this research, we address the trust problem from a technological perspective, using tamper-proof interactions on a scalable blockchain to explicitly record trust relations.
+This blockchain structure is built to detect fraudulent behaviour and misrepresentation.
 %This work demonstrates how to build trust between strangers in such a way that we can trust others with your funds.
 We explore whether a trust model based merely on historical encounters is sufficient to trust strangers with your money.
 
 With established trust relations, we demonstrate how one can transfer money within seconds between different banks by relying on others to act as financial intermediaries.
 In comparison to most proven platforms, our solution is designed to be fully decentralized and autonomous. %, similar to the design principles of The Internet itself.
 Our work is motivated by slow money transfers to other banks using existing systems. %and high costs when moving funds cross-border.
-Inter-banking payments often take up to a day or even a few days during weekends to arrive in the account of a beneficiary.
+Particularly, inter-bank payments often take up to a day or even a few days during weekends to arrive in the account of a beneficiary since payments are usually processed in bulk.
 
 The main contribution of this work is four-fold:
 \begin{enumerate}
-	\item A trust model, based on repeated interactions and stored on a tamper-proof, scalable blockchain.
-	\item \emph{Internet-of-Money}, a novel overlay network that allows real-time money routing to other banks.
-	\item A framework to interface with multiple banks and to initiate payments to others using Internet-of-Money.
+	\item A trust model, based on repeated interactions that are stored on a tamper-proof, scalable blockchain.
+	\item \emph{Internet-of-Money}, a novel and decentralized overlay network that allows real-time money routing to other banks.
+	\item A framework to programmatically interact with multiple banks and to initiate payments to others using Internet-of-Money.
 	\item Experimental quantification of the performance of our trust model, the speed of money transfers, and the efficiency of our overlay network.
 	% \item An Android application, capable of transferring money to other bank accounts within seconds.
 \end{enumerate}
@@ -124,7 +125,7 @@ While most cryptocurrencies use a lottery system to stumble upon trustful execut
 We focus on the effective detection and punishment of fraudulent behaviour.
 While it is a common belief that money transfer systems should be safe against all kinds of fraud, we argue that it is sufficient for fraud to be detectable and punishable.
 This is comparable to the operation of credit card companies, which have to deal with a considerable amount of fraud on a daily basis.
-Detection of such fraud is non-trivial.
+Detection of such fraud, however, is non-trivial.
 %Real-time detection of credit card fraud is non-trivial.
 
 %Our system is specifically designed where honest behaviour consistently has the largest reward,
@@ -147,8 +148,8 @@ Detection of such fraud is non-trivial.
 The trust problem in this work can be modelled by the prisoner's dilemma, where two entities can either cooperate or betray each other~\cite{kreps1982rational}.
 Betrayal is also called \emph{defection}.
 In the iterative prisoner's dilemma, players cooperate or defect iteratively and are able to punish opponents for their past decisions.
-We assume a \emph{send and forward} model where a user first sends money to another user, who in turn forwards the money to someone else.
-Forwarding funds is considered cooperation whereas keeping the money is seen as defection.
+Within the domain of money transfers, we assume a \emph{send and forward} model where a user first sends money to another user, who in turn forwards the money to someone else.
+Forwarding funds is considered cooperation whereas keeping the incoming money is seen as defection.
 Detecting whether an entity has defected is a key requirement.
 Not cooperating should be punished by digital ostracism.
 %We propose a zero-tolerance policy, where further interactions are blocked as soon as a network participant commits fraud or deflects.
@@ -156,7 +157,7 @@ Not cooperating should be punished by digital ostracism.
 
 %Both Uber and Airbnb impose a reputation mechanism where users rate each other.
 %eBay built a rating system where buyers and sellers reflect on their transaction.
-Many companies rely on centralized reputation mechanisms to manage trustworthiness of platform participants.
+Many companies rely on centralized reputation mechanisms to estimate the trustworthiness of platform participants.
 In general, this leads to two problems.
 %The commercial motivation of many companies to rely on centralized reputation mechanisms for trustworthiness leads to two problems.
 First, a solid track record built in one platform is often not reusable on other platforms.
@@ -168,7 +169,7 @@ A mature research community exists around the design of decentralized reputation
 A notorious attack in decentralized systems occurs when a user first builds a high reputation by acting honest for some time and then abuses this accumulated trust for personal enrichment.
 This is also called the \enquote{pump and dump} method.
 Another challenging attack in decentralized networks is the Sybil Attack, where an individual creates multiple fake identities and initiate transactions with them to increase his or her standing in the community~\cite{douceur2002sybil}.
-The Sybil Attack is hard to solve without trusted third parties, particularly in decentralized networks.
+The Sybil Attack is hard to solve without trusted third parties, particularly in decentralized networks with open enrolment.
 %These problems are addressed with application-specific mechanisms.
 
 %While designing a reputation mechanism that records transfer of funds between users, privacy is an important requirement.
@@ -180,7 +181,7 @@ The Sybil Attack is hard to solve without trusted third parties, particularly in
 % We focus on the network between banks because it lacks innovation
 % The largest network is Swift, which has a 45-year old legacy system.
 
-Prior to elaborating how we can use trust and individuals to realise real-time money transfers, we briefly explore the process of performing a payment with existing infrastructure.
+Prior to elaborating how we can use the services of other users to realise real-time money transfers, we briefly explore the process of performing a payment with existing infrastructure.
 International payment systems are often proprietary and lack transparency.
 The largest inter-bank communication network is SWIFT, the Society for Worldwide Interbank Financial Telecommunication~\cite{swift}.
 In April 2017, SWIFT recorded an average of 28.38 million payments per day or around 328 per second.
@@ -193,8 +194,8 @@ It is estimated that back-office costs for international payments need to drop b
 The SWIFT network exposes high processing or \emph{settlement} times for inter-bank payments, in particular for international payments. %, ranging from a day to several days during weekends.
 %In particular, foreign payments take a long time to complete and show high transaction fees.
 %Digitalization of the financial landscape demands immediate services and instant information for customers and companies.
-While many companies and banks are working on new platforms to enable instant (international) payments, there are various issues that should be addressed.
-These include real-time fraud detection and robust messaging standards~\cite{mckinsey2016payments}.
+While many companies and banks are working on new platforms to enable instant (international) payments, there are various issues that should be addressed~\cite{armknecht2015ripple}.
+These issues include real-time fraud detection and robust messaging standards~\cite{mckinsey2016payments}.
 %These include real-time fraud detection, robust messaging standards and convenient access to the payment system for all parties.
 % bron: McKinsey global payments report 2016
 
@@ -207,8 +208,8 @@ These include real-time fraud detection and robust messaging standards~\cite{mck
 %The set of all activities performed prior to the transaction being finalized, is called \emph{clearing}.
 
 A payment to another bank usually involves an intermediate settlement institution that is responsible for settling a payment between two parties~\cite{kokkola2011payment}.
-This is often a central bank.
-The settlement institution acts as an intermediary in the payment chain and reduces settlement risks.
+This is often a central bank such as the European Central Bank (ECB).
+The settlement institution acts as an intermediary in the payment chain, addresses interoperability issues, and reduces settlement risks.
 Instead of handling a large number of payment instructions and settling them individually, settlement institutions usually aggregate outstanding payments and settle them all at once on predetermined times.
 This is called \emph{net settlement} or \emph{netting}.
 %In contrast, \emph{gross settlement} settles payments one-by-one and is more efficient.
@@ -216,49 +217,43 @@ This is called \emph{net settlement} or \emph{netting}.
 While inter-bank payments take a considerable amount of time to settle, moving funds within the books of the same bank is significantly faster.
 %When the banks used by two transacting parties are part of the same financial institution, the transaction can be handled within the books of the banks concerned.
 This is called an \emph{in-house payment}.
-In-house payments have a relatively low settlement duration, usually a few seconds, since no inter-bank communication is required.
+In-house payments have a relatively low settlement duration, usually a few seconds, since no inter-bank coordination is required.
 
 %If Alice and Bob hold accounts with different banks, bilateral agreements should be made by the involved banks.
 %Exchange of information between these banks often proceeds over a communication network.
 
 % Depending on the specifications of settlement cycles as imposed by central banks, duration for inter-bank payment settlement ranges from a few hours up to a few days when considering cross-border payments.
 
-\begin{figure}[!t]
+\begin{figure}[t]
 	\centering
-	\includegraphics[width=.8\linewidth]{iom/assets/android}
-	\caption{Our Android application to interface with different banks and to route money in real-time.}
-	\label{fig:android_app}
+	\includegraphics[width=\textwidth]{iom/assets/internet_of_money.png}
+	\caption{The essence of fast payments and our Internet-of-Money architecture: the smartphone in the middle acts as a money router using both ING and ABN AMRO bank accounts.}
+	\label{fig:internet_of_money}
 \end{figure}
 
 \section{Our Money Routing Mechanism}
+\label{sec:money_routing_mechanism}
 % We provide the first alternative for trust provided by banks.
 % We offer an intrastructure where any indivual can route money between bank accounts.
 % Our first step is to provide sub-second money transfers and a basic trust system.
 % We believe over time, this approach could be faster, cheaper and safer than the legacy banking system.
 
 %Our work mixes existing bank accounts with blockchain technology.
-Our mechanism to perform real-time payments is based on the observation that in-house payments are settled fast.
+Our solution to perform real-time payments is based on the observation that in-house payments are settled fast.
 For the banks that we tested, intra-bank money transfers are settled within mere seconds (see Section \ref{sec:settlement_inhouse_experiment}).
-Instead of using a central bank as settlement institution, we build a network of individuals that have bank accounts with multiple banks to perform settlement on a gross basis.
-This works as follows: assume a Dutch buyer holding a Rabobank account, intends to pay a British merchant that holds a bank account with HSBC.
-When this buyer initiate a payment with existing software to the merchant, then the funds can take several days to arrive in the bank account of the merchant.
-However, when using an intermediary holding accounts both at Rabobank and HSBC, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his HSBC account to the HSBC account of the merchant.
-
-\begin{figure}[t]
-	\centering
-	\includegraphics[width=\textwidth]{iom/assets/internet_of_money.png}
-	\caption{The essence of the Internet-of-Money architecture: the smartphone in the middle acts as a money router using both ING and ABN AMRO bank accounts.}
-	\label{fig:internet_of_money}
-\end{figure}
+Instead of using a central bank as settlement institution, we build a network of individuals that have bank accounts with multiple banks to complete an inter-bank payment.
+This approach is visualised in Figure~\ref{fig:internet_of_money} and works as follows.
+Assume a Dutch buyer, holding an ABM AMRO account, intends to pay another Dutch merchant that holds a bank account with ING.
+When this buyer initiate a payment with existing software to the merchant, then the funds can up to a day to arrive in the bank account of the merchant.\footnote{This problem is now addressed by Instant Payments, a settlement mechanism used by major Dutch banks since 2019. International payments, however, still have a high transaction fee due to the lack of an international real-time settlement system.}
+However, when using an intermediary holding accounts both at Rabobank and ING, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his ING account to the ING account of the merchant.
 
 Since this way of sending money only involves two in-house payments, the merchant receives the funds within a few seconds.
-We call this process a \emph{fast payment}
-We call the intermediary settling the transaction a \emph{money router}.
+We call a payment conducted this way a \emph{fast payment} and we refer to the intermediary settling the transaction as a \emph{money router}.
 %The money transfer from buyer to merchant using money routers is called a \emph{fast payment}.
 We use the terms \emph{initiator} and \emph{beneficiary} to indicate the initial sender and final receiver of a fast payment, respectively.
 A fast payment can be facilitated by multiple routers to increase efficiency and availability.
 %Depending on router availability, one might utilize multiple money routers for a single payment.
-Note that fast payments lead to mutations in the account balances of the involved money routers.
+Note that fast payments lead to mutations in the account balances of the involved money routers and might deplete one of the bank accounts, resulting in service unavailability.
 This problem is addressed in Section \ref{sec:system_design}.
 %This imbalance can be restored by a single payment by the intermediary at fixed time intervals, for instance, at midnight.
 
@@ -268,6 +263,13 @@ Second, inter-bank settlement durations are significantly decreased, from days t
 Third, we reduce costs for inter-bank payments since no communication between banks is required, except when restoring balances (see Section \ref{sec:system_design}).
 %We only rely on inter-bank payments when restoring balances between accounts of a money router.
 
+\begin{figure}[!t]
+	\centering
+	\includegraphics[width=.8\linewidth]{iom/assets/android}
+	\caption{Our Android application to interface with different banks and to route money in real-time.}
+	\label{fig:android_app}
+\end{figure}
+
 Our system shares characteristics with the services provided by Wise.
 Wise is a currency exchange service that offers a cheaper alternative to established institutions when making international payments.
 It routes payments not by transferring the sender's money directly to the recipient, but by redirecting them to the recipient of an equivalent transfer going in the opposite direction.
@@ -275,10 +277,10 @@ The essential idea is to convert international money transfers into a sequence o
 Their approach is comparable with our money router mechanism, as it also aims to reduce fees and improve efficiency of traditional payments.
 However, international payments with Wise can still take a few days to complete, depending on the settlement duration of involved banks.
 
-In the remainder of this work, we elaborate our trust model and technical specifications of money routing.
+In the remainder of this work, we elaborate on our trust model and present the technical specifications of money routing.
 This includes an overlay network where any individual is able to quickly route money between bank accounts.
-A screenshot of our built Android application is shown in Figure \ref{fig:android_app}.
-The mobile application allows interfacing with different banks and the initiation of real-time payments using our overlay network.
+For end users, we have built an Android application which interface is shown in Figure \ref{fig:android_app}.
+Our mobile application allows users to add their bank account, to interface with different banks, and to initiate real-time inter-bank payments using our overlay network.
 
 %We implemented this idea and built an Android application, capable of communicating with different banks.
 %A screenshot is presented in Figure \ref{fig:android_app}. 
@@ -304,7 +306,7 @@ The mobile application allows interfacing with different banks and the initiatio
 
 %Throughout the remainder of this work, we will elaborate on trust estimation of money routers, fraud detection and discovery of eligible intermediaries.
 
-\begin{figure*}[b]
+\begin{figure*}[t]
 	\centering
 	\begin{subfigure}{.5\textwidth}
 		\centering
@@ -331,19 +333,16 @@ The mobile application allows interfacing with different banks and the initiatio
 	\label{fig:trustchain_tutorial}
 \end{figure*}
 
-\begin{figure}[b]
-	\centering
-	\includegraphics[width=.9\linewidth]{iom/assets/trustchain}
-	\caption{The tamper-proof TrustChain data structure to record transactions.}
-	\label{fig:trustchain}
-\end{figure}
-
 \section{Building Trust using Blockchain Constructs}
 \label{sec:trust}
+The money routing mechanism described in Section~\ref{sec:money_routing_mechanism} forwards money to intermediate money routers.
+Users are required to trust that these money routers correctly forward incoming funds to the beneficiary.
+We address this problem by accounting all money transfers in the system on a blockchain fabric.
+
 %We now present our blockchain-based trust model, used to determine trustworthiness of intermediaries and to exclude malicious nodes from the community.
 We now explain our deployed, scalable blockchain fabric to gradually build trust between fast payment initiators and money routers: \emph{TrustChain}.
 TrustChain is designed around transacting entities and is able to accurately capture interactions between users.
-We have successfully explored usage of TrustChain for bandwidth accounting, attestations and decentralized trading in prior work~\cite{pouwelse2017laws}. % , and stores historical interactions.
+We have presented preliminary experimentation with TrustChain for bandwidth accounting, attestations, and decentralized trading in prior work~\cite{pouwelse2017laws}. % , and stores historical interactions.
 %In Trustchain, every network participant operates his own chain of historical record.
 %This is a fundamental difference with traditional blockchain solutions like Bitcoin or Ethereum where there is single ledger secured by the efforts of the network.
 For an elaborate evaluation of TrustChain, we refer the reader to our published article~\cite{otte2017trustchain}.\footnote{The TrustChain architecture described in this chapter is an earlier version of \TrustChain{}, which has been presented in Chapter~\ref{chapter:trustchain}.}
@@ -364,7 +363,7 @@ While cryptocurrencies like Bitcoin and Ethereum operate on a global blockchain,
 
 Outside for the user operating a chain, the structure shown in Figure \ref{fig:trustchain_tutorial_2} is void of any control.
 Consequentially, a user is able to tamper with his historical transactions.
-For instance, individuals are able to remove transactions that are not beneficial for their standing in the network.
+For instance, individuals could try to remove transactions that are not beneficial for their standing in the network, e.g., a money router could try to hide the evidence that it has received some incoming funds.
 After modification of a record, validity of the chain can simply be restored by recomputing all prior pointers.
 To protect against local modifications, we extend each record with an additional pointer that points to the prior record in the chain of the transaction counterparty.
 This ensures that each record has exactly two incoming and two outgoing pointers, as shown in Figure \ref{fig:trustchain_tutorial_3}.
@@ -378,37 +377,45 @@ Users are able to collect records stored by others.
 This ensures adequate replication of TrustChain records throughout the network.
 %The TrustChain data structure is our core mechanism to build trust.
 
+\begin{figure}[t]
+	\centering
+	\includegraphics[width=.9\linewidth]{iom/assets/trustchain}
+	\caption{The tamper-proof TrustChain data structure to record transactions.}
+	\label{fig:trustchain}
+\end{figure}
+
 \subsubsection*{Recording Payments}
 We use the TrustChain data structure to record money transfers between individuals.
 %By constructing TrustChain records between individuals sending money to each other, we can keep track of.
-Each payment and fast payment is assigned a unique identifier.
+Each payment and fast payment is assigned a unique identifier, generated by the initiator of this operation.
 We define two different transaction types:
 \begin{enumerate}
 	\item \emph{commit}: This transaction is a public commitment by a money router to forward received funds.
 	It is signed by the initiator of a fast payment and other money routers, prior to transferring any money. The transaction includes the identifier of a fast payment and account address of the money router that should forward funds.
-	\item \emph{sent}: This transaction type is signed by two parties involved in an in-house payment and implies that money has been sent and received. This transaction includes the fast payment identifier and a boolean that is true if and only if the payment volume is above a threshold $ t $. 
+	\item \emph{sent}: This transaction type is signed by two parties involved in an in-house payment and implies that money has been sent and received. This transaction includes the fast payment identifier and a boolean that is true if and only if the payment volume is above a threshold $ t $.
 \end{enumerate}
 We deliberately choose to hide the exact payment volumes due to privacy considerations, at the cost of reduced information.
 %We consider investigating the value of $ t $ outside the scope of this work.
 %Initially, we fix this value to the median of payments made in the SWIFT system.
 
-\subsubsection*{Detect and Punish Fraud}
-The most challenging scenario occurs when a money router promises to forward money, but fails to do so.
+\subsubsection*{Detecting and Punishing Fraud}
+The most challenging scenario occurs when a money router promises to forward money, but fails or refuses to do so.
 Since TrustChain provides us with a public ledger, disputes can be detected between transacting entities.
-Consider the situation when a router promised to forward money to Alice and claimed to have done so but Alice has not observed these funds (yet).
-Other individuals are informed of this situation when they observe a \emph{commit} transaction, signed by both parties, and a \emph{sent} transaction that is only signed by the money router that didn't forward the funds yet.
+Consider the situation when a router promised to forward money to Alice and claimed to have done so but Alice has not observed these funds in her bank account (yet).
+Other individuals can detect this situation when they observe a \emph{commit} transaction, signed by both parties, and a \emph{sent} transaction that is only signed by the money router that didn't forward the funds yet.
 As soon as such a dispute is detected, we do not consider this money router as intermediary for future fast payments until the dispute has been resolved.
-Note that a dispute can also occur when a router is unable to forward money, due to downtime of involved banks or insufficient account balance.
+Note that a dispute can also occur when a router is unable to forward money, e.g., due to downtime of involved banks or insufficient account balance.
 %Distinguish between these situations could be made by relying on status reports by the involved banks.
 
 In addition to the aforementioned scenario, a user can intentionally lie that he or she has not received funds from a money router. %, and slander a specific money router.
 It is impossible to make statements about the status of a specific payment without access to both bank accounts involved in a payment.
 To resolve disputes, we propose to use input from a dispute arbitrator in the form of an official, digitally signed statement.
-The dispute arbitrator can be any company that is able to query bank accounts, for instance, the bank involved in a fast payment.
-A statement provides the status of a fast payment with a specific identifier and should be published on the TrustChain ledger.
-To discourage users from purposely creating disputes, the arbitrator should charge a small fee for publishing a statement, say \euro 0.10.
+The dispute arbitrator can be any company that is able to query involved bank accounts.
+For instance, the bank involved in a fast payment could act as dispute arbitrator.
+A statement by the dispute arbitrator provides the status of a fast payment with a specific identifier and should be published on the TrustChain ledger.
+To discourage users from purposely creating disputes, the arbitrator should charge a small fee for publishing a statement.
 This fee should be covered by the party that made a false statement about money being sent or received.
-Note that dispute arbitration enables a new business model for banks.
+Note that dispute arbitration enables a new business model for banks within our system.
 %Note that this enables a new business model for banks.
 %To resolve a dispute, we propose input from the involved financial service providers is required in the form of an official, signed bank statement.
 
@@ -419,7 +426,8 @@ Note that dispute arbitration enables a new business model for banks.
 
 \subsubsection*{Quantifying Trustworthiness}
 \label{sec:estimate_trust}
-We now discuss a mechanism to quantify trustworthiness of honest money routers.
+We now discuss a mechanism to quantify the trustworthiness of honest money routers.
+These trustworthiness scores can be used as selection criteria for money routers when issuing a fast payment.
 %While fraud detection is an essential primitive, we also require a mechanism to quantity trustworthiness of honest routers.
 Our proposed solution is based on past settlement services provided by money routers.
 %We now describe a reputation mechanism to estimate trustworthiness scores to money routers, based on settlement services provided in the past.
@@ -430,25 +438,27 @@ Let $ (a, b, w) $ indicates a directed edge in $ G $ from user $ a $ to $ b $ wi
 Now, each identity in our TrustChain network is modelled as a node in $ G $.
 For each $ T_{a,b,R} $ and each router $ r \in R $, we create two directed edges: $ (a, r, w) $ and $ (b, r, w) $ where $ w = min(0.01, t) $ (the minimum monetary value we trust to someone is \euro 0.01).
 These edges represent trust in routers that have forwarded incoming money in the past.
+We exclude any money router that is currently involved in an ongoing fast payment.
 
 To determine trust scores, we use an algorithm which has been studied extensively in related work, personalised PageRank~\cite{page1999pagerank}. %each user executes the personalized PageRank algorithm on $ G $, which assigns a score between 0 and 1 to each node in $ G $~\cite{page1999pagerank}.
 The algorithm assigns a score between 0 and 1 to each node in $ G $.
 These scores are used to pick intermediaries for money forwarding (see Section \ref{sec:system_design}).
 We consider the node in $ G $ that performs the computation as trusted source.
 Using a reputation algorithm based on random walks is attractive due to its high scalability and low computational complexity.
-However, one might consider using a reputation algorithm based on maximum network flow to compute trust scores.
+However, one might also consider using a reputation algorithm based on maximum network flow to compute trust scores.
+Such reputation algorithms are, in general, more resistant against active manipulation.
 In particular, we believe the Bazaar algorithm is suitable for this use case and provides additional security at the cost of increased computational requirements~\cite{post2011bazaar}.
 
 \subsubsection*{Preventing the Sybil Attack}
-%Our current model allows manifestation of a Sybil Attack where an attacker operates multiple entities that use the same bank account for money routing.
+Our current solution is vulnerable to a Sybil Attack where an attacker operates multiple entities that use the same bank account for money routing.
 We propose a mechanism called \emph{router validation} to ensure that a specific bank account can only be operated by a single money router.
 The effectiveness of this method comes from the difficult and costly process of opening many accounts with different banks internationally. %, in particular internationally.
-This addresses the challenging Sybil Attack, where an attacker operates multiple entities that use the same bank account for money routing.
+%This addresses the challenging Sybil Attack, where an attacker operates multiple entities that use the same bank account for money routing.
 A router first registers a bank account by sending \euro 0.01 to a trusted third party (TTP), for instance, a bank.
 The digital identity of TTPs are publicly available.
-TTPs sign and store a so-called \emph{verify} transaction on TrustChain together with a money router when the payment is observed.
+When the payment is observed, TTPs sign and store a so-called \emph{verify} transaction on TrustChain with the money router being validated as interaction counterparty.
 This transaction uniquely connects a bank account to a money router.
-Routers reusing accounts across multiple identities can be identified by querying TrustChain records.
+Routers reusing bank accounts across multiple identities can be identified by inspecting TrustChain records and blacklisted by users and other routers.
 
 \section{System Design of Internet-of-Money}
 \label{sec:system_design}
@@ -456,6 +466,9 @@ We expand upon fast payments and our trust model by designing a novel overlay ne
 It operates on top of existing inter-bank payment systems, similar to how The Internet was built on top of the legacy telephone infrastructure.
 
 \subsubsection*{The Money API}
+Our money routing solution requires money routers to forward funds to the beneficiary.
+A key requirement is to automate this process since the settlement duration of payments would otherwise be constrained by the response time of the operating users.
+
 Except for the German FinTS payment protocol, there are no open standards yet for online banking.
 European legislation called PSD2 is forcing all EU banks to create open interfaces (APIs)~\cite{cortet2016psd2}.
 We created one of the first open implementations capable of communicating with numerous banks. % online banking 
@@ -464,10 +477,11 @@ We created one of the first open implementations capable of communicating with n
 %We combined the proprietary protocols of banks.
 %As a first step towards sub-second money transfers, we combine the proprietary protocols of banks.
 We combined banks in the Netherlands (Rabobank, ING and ABN Amro), the British bank HSBC and the Luxembourg payment provider PayPal~\cite{doe2015vulnerability,awesome2015vulnerability}.
+We have partial support for banks in Italy, Greece, Sri Lanka, Turkey and Germany.
 We devised a single API to communicate with all these banks, called \emph{The Money API}.
 The Money API provides primitives to login, fetch account balance, query mutations, initiate payments to other accounts and register devices.
-This library is designed to be extendible and we have partial support for banks in Italy, Greece, Sri Lanka, Turkey and Germany.
-Our open source\footnote{The Money API source code: \url{http://www.ds.ewi.tudelft.nl/fileadmin/pds/homepages/vos/iom/internet\_of\_money.zip}} library is currently being tested.
+This library is designed to be extensible and is currently being tested.
+Due to legal considerations, we are currently unable to open source our library.
 
 %We are currently unable to publicly release the implementation of our unified interface yet due to open legal considerations.
 %Ongoing collaboration with business partners focusses on exploring legal considerations of the Money API.
@@ -478,11 +492,11 @@ Having many money routers in the network directly benefits availability and load
 A study conducted by NGData indicated that 37.7\% of the respondents held accounts at different banks and are able to act as settlement intermediary for money transfers~\cite{ngdata2014consumer}.
 To create incentives for users to operate a money router, we include transaction fees.
 %To incentivize users to operate a money router, Internet-of-Money allows specification of transaction fees that users have to pay to make fast payments.
-Transaction fees can be either fixed, defaulting to \euro 0.01, or a percentage of a fast payment volume.
-These fees are necessary to cover costs enforced by banks when initiating cross-border payments or when using business accounts to route money.
-In addition, users can specify a minimum account balance to avoid taking costs when their balance becomes negative.
+Transaction fees can be either fixed, e.g., defaulting to \euro 0.01, or can be a percentage of a fast payment volume.
+We argue that these fees are necessary to cover costs enforced by banks when initiating cross-border payments during router rebalancing (see Section~\ref{sec:router_recharging}) or when using business accounts to route money.
+In addition, users can specify a minimum account balance to provide services in order to avoid taking on costs when their balance becomes negative.
 In the remainder of this work, we assume transaction fees are fixed.
-We also consider economic analysis of monetary incentives beyond the scope of this work since it is not critical to prove the technical feasibility of our ideas.
+We also consider economic analysis of monetary incentives beyond the scope of this work since it is not critical to prove the technical feasibility of our overlay network.
 
 Note that our design also allows the role of money router to be fulfilled by a single trusted third party or by a few selected trustworthy entities (i.e., financial institutions).
 A more centralized approach would mitigate some of the trust and security issues that arise from full decentralization.
@@ -492,8 +506,8 @@ However, we consider open enrolment, the opportunity for any user to act as a mo
 \subsubsection*{Router Discovery}
 \label{sec:peer_discovery}
 %For discovery of available money routers in the network, we do not rely on a centralized service.
-We designed a gossip protocol for discovery of available money routers, based on utility.
-Like all our proposed infrastructure, it does not depend on any server, company, or other central entity.
+We design a gossip protocol for the discovery of available money routers, based on utility.
+%Like all our proposed infrastructure, it does not depend on any server, company, or other central entity.
 %Discovery of available money routers in the network relies on a decentralized gossiping mechanism.
 %Instead, router availability is disseminated with a decentralized gossiping mechanism.
 %We devised a protocol to gossip routers based on utility provided by each router.
@@ -509,7 +523,7 @@ An evaluation of this mechanism is given in Section \ref{sec:router_discovery_ev
 Prior to transferring money, an initiator of a fast payment starts by selecting eligible routers that are capable of handling the upcoming fast payment.
 We define a \emph{money circuit} as the set of peers that are involved in a fast payment.
 This set contains at least one initiator and one beneficiary, and optionally one or more money routers.
-A money circuit that contains $ n $ money routers, is called a $n$-hop circuit.
+A money circuit that contains $ n $ money routers is called a $n$-hop circuit.
 Building a money circuit proceeds in a depth-first manner and starts with the initiator selecting a router, say $ r $, that is capable of routing money to another account.
 Next, the initiator sends an \emph{extend} message to $ r $ which contains the payment volume and the destination bank account of the fast payment.
 $ r $ responds with a boolean that indicates whether $ r $ has sufficient funds to handle the transfer.
@@ -518,6 +532,7 @@ If $ r $ is able to handle the transfer, the initiator picks a router to extend 
 These routers are picked based on trustworthiness scores.
 This process repeats until the initiator built a money circuit that can handle the fast payment. % to the account of the beneficiary.
 Users are able to change the maximum number of routers in a circuit, which defaults to three.
+Additionally, users can provide the maximum transaction fee that they are willing to cover for a particular payment which is taken into consideration when constructing the money circuit.
 %Once a circuit is established, the initiator queries transaction fees of each router.
 %The sum of these fees give the total transaction fees for a specific fast payment.
 
@@ -525,6 +540,7 @@ Users are able to change the maximum number of routers in a circuit, which defau
 The trust model discussed in Section \ref{sec:trust} is based purely on past transactions.
 It is useful to consider other properties when picking eligible money routers, such as transaction fees, availability, reliability, or network latency. 
 Depending on the situation, one might favour low network latency or competitive transaction fees over trustworthiness.
+We leave this enhancement to future work.
 
 %However, when selecting an eligible money router for a fast payment, it is helpful 
 
@@ -543,7 +559,7 @@ $ r_1 $ now starts to poll for the money and finally constructs a \emph{sent} tr
 %Now, $ r_1 $ creates a \emph{commit} record with $ r_2 $, initiates a payment to the bank account of $ r_2 $ and constructs a \emph{sent} record with $ r_2 $.
 $ r_1 $ forwards the funds to the next router or the beneficiary and this process repeats until the money arrives in the bank account of the beneficiary.
 The final transfer to the beneficiary does only result in a \emph{sent} transaction.
-Thus, a fast payment with $ n $ intermediaries results in $ 2n+1 $ new records.
+Thus, a fast payment with $ n $ intermediaries results in $ 2n+1 $ new TrustChain records.
 
 %first, the initiator construct a \emph{commit} record with $ R_1 $.
 %Next, the initiator transfers the funds (including the sum of transaction fees) to $ R_1 $ and they construct a \emph{sent} record.
@@ -554,13 +570,14 @@ Thus, a fast payment with $ n $ intermediaries results in $ 2n+1 $ new records.
 \subsubsection*{Risk Mitigation}
 In addition to our trust model, we propose two risk mitigation techniques to reduce counterparty risk when using money routers:
 \begin{enumerate}
-	\item \emph{Incremental settlement}: A key risk mitigation technique is to avoid making a single, large payment at once. Instead, a payment is divided into $ n $ smaller inter-bank payments. While this increases duration of a fast payment by a factor $ n $, it significantly reduces risk and incentives for intermediaries to compromise money. We believe that reduced risk for some increased latency is a desirable trade-off in Internet-of-Money.
+	\item \emph{Incremental settlement}: A key risk mitigation technique is to avoid making a single, large payment at once. Instead, a payment is divided into $ n $ smaller inter-bank payments. While this increases duration of a fast payment by a factor $ n $, it significantly reduces risk and incentives for intermediaries to compromise money. Also depending on the volume of a payment, we believe that reduced risk for some increased latency is a desirable trade-off in Internet-of-Money.
 	\item \emph{Multi-flow payments}: We uniformly divide a fast payment amongst multiple, distinct money circuits. This results in smaller payments through intermediaries and less value at stake. With multi-flow payments, the end-to-end latency of a payment is determined by the slowest money circuit.
 \end{enumerate}
 While these individual strategies are viable to mitigate counterparty risk, combining them results in a significant reduction of the value at stake, at the cost of additional latency when using incremental settlement and communication overhead.
 We evaluate the effectiveness of these strategies in Section \ref{sec:fraud_experiment}.
 
 \subsubsection*{Router Recharging}
+\label{sec:router_recharging}
 Since funds arrive in one account and leave another, money routers might become unable to route additional funds at one point in time.
 This can be addressed by handling fast payments going in the opposite direction, which restores account balances.
 However, initiation of these fast payments is outside the control of money routers.
@@ -608,10 +625,10 @@ While this is an efficient method to restore balances, only requiring in-house p
 %This allows network participants to query bank account validity of entities in the network.
 
 \section{Experiments and Evaluation}
-We now evaluate the performance of money routers, speed of router discovery within Internet-of-Money and the effectiveness of our trust model.
+We now evaluate the performance of money routers, speed of router discovery within Internet-of-Money, and the effectiveness of our trust model.
 
 \subsection{Performance of Money Routing}
-This section concentrates on the performance of fast payments using money routers.
+We now present experiments that evaluate the performance of fast payments using money routers.
 All these experiments are conducted with real bank accounts and real money.
 
 \begin{figure}[t]
@@ -624,7 +641,7 @@ All these experiments are conducted with real bank accounts and real money.
 \subsubsection*{Settlement Duration of In-house Payments}
 \label{sec:settlement_inhouse_experiment}
 %We determine the settlement duration of in-house payments. %performed within the same bank.
-To determine settlement duration of in-house payments for each bank, we send \euro 0.01 ten times between two accounts with different holders, within the same bank.
+To determine the settlement duration of in-house payments for each bank, we send \euro 0.01 ten times between two accounts with different holders, within the same bank.
 By adding a unique identifier to the description field of a payment, we are able to track payments and accurately measure settlement times.
 The experiment is executed with two clients on two different computers, with a polling interval of 500 milliseconds, to avoid hammering the bank servers.
 Polling starts when the payment request has been finished by the sending party.
@@ -634,7 +651,7 @@ ING is slower with 1109 milliseconds on average.
 PayPal and Rabobank show settlement durations that are an order of magnitude slower, averaging to 4.82 and 7.61 seconds respectively.
 When performing measurements for the Rabobank, we observed a notable outlier with a settlement time of 320 milliseconds.
 This observation can be explained if we assume that similar internal payments might be handled in different ways by the Rabobank.
-This experiment demonstrates that in-house payments are usually settled within seconds.
+This experiment demonstrates that in-house payments within the evaluated banks are usually settled within seconds.
 %An interesting observation is that Rabobank payments show a relative high variance in settlement duration, with a notable outlier of 320 milliseconds.
 
 \begin{figure*}[t]
@@ -653,7 +670,7 @@ First, an initiator sends funds from his or her Rabobank account to the first ro
 Next, the first router starts polling for incoming funds, with an interval of 500 milliseconds.
 When the first router observes the funds, it forwards them to the second router (holding an account at PayPal and ABN AMRO) and informs this router.
 When the second router observes the funds, it forwards the money from it's ABN AMRO account to the ABN AMRO account of the beneficiary.
-In total, three in-house payments are made, with six different bank accounts.
+In total, three in-house payments are made across six different bank accounts.
 %Unfortunately, we were unable to include ING accounts in this experiment since they were blocked shortly after conducting the previous experiment.
 
 From Figure \ref{fig:speedball_experiment}, we conclude that it takes 15.85 seconds in total for money to arrive in the bank account of a beneficiary when using two intermediate routers.
@@ -661,21 +678,21 @@ A significant amount of time is spent on waiting for the funds to arrive in the 
 The average time to perform a payment is 2.14 seconds and initiation of payments take 41\% of the total duration.
 The average time that a transaction is in transit is 3.02 seconds.
 %40.5\% of the total time is spent on requests to perform payments.
-The total time to perform a fast payment is heavily influenced by the type and number of intermediate routers.
+The total time to perform a fast payment is heavily influenced by the number of intermediate routers and their bank accounts.
 This experiment demonstrates that Internet-of-Money is capable of real-time money routing to other banks.
 
 \subsection{Overlay Evaluation}
 The purpose of the following experiments is to quantify the performance of our money router overlay.
 This includes an evaluation of our trust model and effectiveness of fraud detection.
 We implemented our trust model and Internet-of-Money overlay network in the Python programming language.
-Our implementation is built upon the Dispersy framework, providing primitives for peer discovery, decentralized communication and secure messaging~\cite{zeilemaker2013dispersy}.
+Our implementation is built upon the Dispersy framework, providing primitives for peer discovery, decentralized communication, and secure messaging~\cite{zeilemaker2013dispersy}.
 %We evaluate our trust model and overlay using a real-world emulation, with a particular focus on router discovery and fraud detection.
 
 \subsubsection*{Experimental Setup}
 The following real-world emulations are executed on the DAS5 supercomputer, using 50 instances per node~\cite{bal2016medium}.
 We deploy our experiment using the Gumby experiment framework and we create a scenario file where we schedule actions at specific times.
 All code used during these experiments is open source.\footnote{See \url{https://github.com/devos50/gumby/tree/iom\_experiment}}
-Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, simulated accounts are used during this experiment.
+Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, we simulate accounts during this experiment.
 We assume a total of five different banks and devised a basic RESTful banking server that handles account creation, payments, balance queries and mutation requests.
 Distribution of bank accounts amongst users follows the data as published in the NGData customer banking survey (we assume that every user owns at least one bank account)~\cite{ngdata2014consumer}.
 
@@ -689,14 +706,14 @@ Distribution of bank accounts amongst users follows the data as published in the
 \subsubsection*{Router Discovery}
 \label{sec:router_discovery_evaluation}
 We evaluate the efficiency of the router discovery protocol discussed in Section \ref{sec:peer_discovery}.
-%We consider quick bootstrapping in the network important since fast payment initiators might not always be online.
-During the experiment, we record the connected peers for each user at a fixed interval (every 5 seconds).
-We determine whether this user is capable of transferring money to all five different bank accounts, using at most one, two and three intermediate money routers respectively.
+We consider quick bootstrapping in the network important since fast payment initiators might not always remain connected in the Internet-of-Money overlay, e.g., to conserve battery life of mobile devices.
+During the experiment, we log the connected peers for each user every 5 seconds.
+At each interval, we determine whether each user is capable of transferring money to all five different bank accounts, using at most one, two and three intermediate money routers respectively.
 %After starting the experiment, we log the connected peers for each user in the network every five seconds and determine whether this user is capable of transferring money to all five different bank accounts, using at most one, two and three intermediate money routers respectively.
 
 Figure \ref{fig:router_discovery_times} shows the performance of router discovery in the Internet-of-Money overlay.
 The horizontal axis denotes the time into the experiment.
-The vertical axis indicates the percentage of users that are able to make fast payment to all five banks, or are fully connected.
+The vertical axis indicates the percentage of users that are able to make fast payment to all five banks, in other words, are fully connected.
 We vary the maximum number of routers in a money circuit.
 As expected, it takes longer before users are able to build circuits to all other banks using only one router, compared to three routers.
 However, the differences are marginal.
@@ -718,18 +735,19 @@ To this end, we emulated 200 users with one or more bank accounts.
 Every five seconds, each user with a single account initiates a fast payment to another entity that has exactly one account of a different type.
 This forces a money router in the established circuits.
 The volume of each fast payment is picked from a uniform random distribution between \euro 0.01 and \euro 1000.
-We challenge ourselves and assume that every user with at least two different bank accounts is malicious and has a 50\% probability of committing fraud and not forwarding received funds during a fast payment.
+We assume an extremely adversarial scenario where every user with at least two different bank accounts is malicious and has a 50\% probability of committing fraud, i.e., not forwarding received funds during a fast payment.
 To improve router availability, we connect all peers together before the experiment starts.
 In total, we schedule payments whose volume sums up to \euro 1,251,848.35.
 
 The results are shown in Figure \ref{fig:fraud_experiment}.
 The horizontal axis denotes the time into the experiment in seconds, after users start performing fast payments to each other.
-The vertical axis shows the total amount of committed fraud in Euro.
-We run the experiment four times with different risk mitigation strategies, namely incremental settlement (we split each fast payment in five equal parts) and/or multi-flow payments.
-The figure hints that the amount of fraud is capped and that malicious routers are successfully excluded from money circuits.
+The vertical axis shows the total amount of fraud committed in Euro.
+We run the experiment four times with different risk mitigation strategies, namely incremental settlement (we split each fast payment in five equal parts) and multi-flow payments.
+We average the results across all runs.
+The figure hints that the amount of fraud is capped and that malicious routers are eventually excluded from money circuits.
 Without any risk migration strategy, malicious routers are able to steal \euro 1,544 on average during the whole experiment, indicating that fraudulent routers are able to commit fraud multiple times.
 This can be addressed to the fact that they are included in multiple money circuits roughly at the same time. 
-If we consider risk mitigation strategies, we see that the combination of multi-flow payments and incremental settlement leads to the lowest amount of fraud possible, on average \euro 174.
+If we enable risk mitigation strategies, we see that the combination of multi-flow payments and incremental settlement leads to the lowest amount of fraud possible, on average \euro 174.
 Using exclusively incremental settlement leads to a slightly higher amount of fraud.
 
 \section{Discussion}
@@ -741,14 +759,14 @@ We now discuss this research from various perspectives.
 The idea of directly sharing funds with others, without a central bank involved, is highly experimental and challenges existing regulation.
 Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking license.
 The PSD2 regulation states that trusted third parties (TTPs) can be authorized by end users to perform financial activities on their behalf~\cite{cortet2016psd2}.
-However, it is unclear whether the definition of a TTP includes money routers, even after discussion with legal experts.
+However, it remains unclear whether the definition of a TTP includes money routers, even after discussion with legal experts.
 Another consideration is responsibility when a mistaken payment is initiated.
 At the same time, this consideration also applies to blockchain technology where payments cannot manually be reverted once they are finalized on the ledger.
-Compatibility of our system with (inter)national anti-money laundry regulations is highly uncertain.
-Exploring legal compliance of this work is a fundamental requirement for further work and additional trials.
+Also, compatibility of our system with (inter)national anti-money laundry regulations is highly uncertain.
+Exploring legal compliance of this work is a fundamental requirement for further work and additional deployment trials.
 
 \subsubsection*{Limitations}
-While we have proven the viability of our idea, there are several limitations that must be addressed prior to broader adoption.
+While we have proven the technical viability of our idea, there are many limitations that must be addressed prior to broader adoption.
 We noticed that banks are not used to our dynamic way of initiating money transfers and our accounts got blocked several times due to suspected fraudulent behaviour.
 An open ecosystem for settlement demands changes by banks and it is an open question whether they are willing to do so, given the conservative nature of the (regulated) financial ecosystem.
 However, many banks are already forced to innovate their legacy systems to remain competitive~\cite{mckinsey2016payments}.
@@ -756,7 +774,7 @@ However, many banks are already forced to innovate their legacy systems to remai
 Additionally, we observed that some banks require two-factor authentication when transferring funds to unknown bank accounts.
 This limits the automation of money transfers since a manual action by the user is required for a payment to proceed.
 A potential approach is that a user can whitelist trusted accounts and use these accounts as subsequent hops in a money circuit.
-This resembles Interledger, a payment protocol to transfer value through trusted \emph{connectors} across isolated ecosystems~\cite{thomas2015protocol}.
+This approach is related to Interledger, a payment protocol to transfer value through trusted \emph{connectors} across isolated ecosystems~\cite{thomas2015protocol}.
 %A future-proof solution for this is outside our control and demands changes by banks.
 
 \subsubsection*{Privacy}
@@ -789,7 +807,7 @@ In addition, we can draw inspiration from privacy-preserving coins like Monero, 
 %\end{figure}
 
 \subsubsection*{Scalability}
-Our overlay network has the potential to scale, mostly thanks to the absence of global consensus.
+Our overlay network has the potential to scale, mostly since it avoids the need for global consensus.
 However, techniques like incremental settlement lead to additional payments and a higher load on the banks.
 In addition, the choice of reputation mechanism used in Internet-of-Money influences scalability.
 
