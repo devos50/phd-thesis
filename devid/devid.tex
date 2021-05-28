@@ -4,7 +4,7 @@
 \emph{Decentralized applications, also known as dApps, are the new paradigm for writing business-critical software.
 Crowdsourcing the development of such applications is gaining popularity.
 At the same time, finding developers with appropriate qualifications and skills for this activity is key, yet challenging.
-The main problem is that the portfolio of developers is usually scattered across centralized crowdsourcing platforms, and vendor locked.
+The main problem is that the portfolio of developers is usually scattered across centralized crowdsourcing platforms and vendor locked.
 This can result in an incomplete impression of their capabilities.}
 
 \emph{In this chapter we address these problems and first introduce a unified, blockchain-based portfolio for developers, named \emph{DevID}.
@@ -13,11 +13,11 @@ They can import data assets from third parties into their portfolio, add project
 All portfolio records are stored on an existing, scalable ledger, named TrustChain, and managed by developers themselves.
 TrustChain enables tamper-proof data accounting with low overhead and without network-wide consensus.}
 
-\emph{We then build a decentralized crowdsourcing marketplace, named \emph{dAppCoder}, for the development of dApps.
+\emph{We then build a decentralized crowdsourcing marketplace for the development of dApps, named \emph{dAppCoder}.
 dAppCoder allows clients to publish projects and developers can find work, all without trusted intermediaries.
 dAppCoder utilizes DevID portfolios to match these clients and developers.
 We fully implement DevID and dAppCoder and conduct a deployment trial.
-Our trial demonstrates that DevID is efficient at storing portfolio records. }
+Our trial demonstrates that DevID and \Dappcoder{} are efficient at storing portfolio records. }
 
 \newpage
 
@@ -29,7 +29,7 @@ The dApp ecosystem is continuously expanding and recently has been accelerated b
 Since dApps usually require a high level of security and robustness, the engineering of dApps is considered a challenging task and there is a shortage of talent capable of building these solutions~\cite{shortage2016nasdaq}.
 For this reason, crowdsourcing the development of decentralized applications is becoming an increasingly popular alternative to training in-house talent~\cite{gong2021reference}.
 Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software~\cite{latoza2016crowdsourcing}.
-Match clients and developers is at the core of numerous intermediary crowdsourcing markets such as Upwork and Fiverr.
+Matching clients and developers is at the core of numerous intermediary crowdsourcing markets such as Upwork and Fiverr.
 These profit-driven markets usually charging a commission of all payments between a client and a developer.
 
 Unfortunately, existing crowdsourcing platforms only provides access to a subset of all available work and developers.
@@ -63,7 +63,7 @@ Developers can add tamper-proof records to their portfolio, import existing data
 
 We then build a decentralized crowdsourcing marketplace for the development of dApps, named \emph{dAppCoder}.
 Our platform enables clients to post projects and developers to find projects that match with their expertise.
-All payments are conducted directly between clients and developers, sidestepping the need a trusted intermediary for payment processing and commissions.
+All payments are conducted directly between clients and developers, sidestepping the need a trusted intermediary for payment processing and avoiding commissions.
 %Within the context of \Dappcoder, DevID records are used by the client to filter prospective developers and to make educated decisions on who to hire for a particular job.
 We believe that our single, public, and open crowdsourcing market has the potential to be more efficient compared to a centralized solution with fragmentation and lock-in effects.
 
