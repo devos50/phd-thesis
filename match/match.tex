@@ -1418,7 +1418,7 @@ This guarantee is, for example, provided by smart contracts, applications that r
 \label{sec:match_experiments}
 We implement the MATCH protocol and middleware in the Python 3 programming language, spanning a total of 6'511 lines of source code (SLOC), without comments.
 The implementation uses the \texttt{asyncio} library for asynchronous event processing.
-The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+The network layer is implemented using our networking library, optimized for building peer-to-peer overlay networks and with built-in support for Network Address Translation (NAT) puncturing and authenticated messaging~\cite{ipv8}.
 For efficiency, message exchange between users and matchmakers uses UDP.
 Order negotiation proceeds using TCP since this flow requires bilateral and reliable message exchange.
 All software artifacts of MATCH (source code, tests, and documentation) are available online.\footnote{See \url{https://github.com/Tribler/anydex-core/tree/match-middleware20}}

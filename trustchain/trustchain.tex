@@ -1059,7 +1059,7 @@ The record manager forwards new records to the API, which passes these records t
 In this section we systematically explore how \TrustChain{} behaves when modifying system parameters.
 %In the next section we observe how the full implementation of \TrustChain{} behaves under real-world conditions and with real Internet users.
 We implement \TrustChain{} in the Python 3 programming language.
-We leverage the network library implemented by our research group, and use the UDP protocol for network communication between peers.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+We leverage the network library implemented by our research group, and use the UDP protocol for network communication between peers~\cite{ipv8}.
 Our implementation uses the \texttt{asyncio} framework for asynchronous event handling.
 This implementation features both an in-memory storage and a persistent (sqlite) database which can be used to persist records over different sessions.
 The full implementation of \TrustChain{}, including unit tests and documentation, is published on GitHub.\footnote{See \url{https://github.com/tribler/py-ipv8/tree/master/ipv8/attestation/trustchain}}
