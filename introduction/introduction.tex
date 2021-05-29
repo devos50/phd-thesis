@@ -195,7 +195,7 @@ Third, as DEXes and blockchains are a relatively new technology, design weakness
 
 \section{Disintermediation in Blockchain-based Markets}
 In many physical and electronic marketplaces, middlemen play a key role in the matching of buyers and sellers, and in the facilitation of transactions between traders~\cite{bakos1998emerging}.
-The popularity of electronic commerce and the rise of new business models has resulted in much interest to act as \emph{trusted intermediary} to benefit from their interactions~\cite{clark1999electronic}.
+The popularity of electronic commerce and the rise of new business models has resulted in much interest to act as \emph{trusted intermediary} to benefit from the interactions between traders~\cite{clark1999electronic}.
 A well-known example of a trusted intermediary is PayPal~\cite{paypal}, a payment service provider for retailers.
 Besides providing payment services, PayPal can also act as arbitrator when a dispute between a buyer and seller arises.
 The ability to act as trusted intermediaries is at the core of electronic markets and their services help to ensures that a trade between a buyer and seller who might not necessarily trust each other proceeds without issues.
@@ -215,7 +215,7 @@ By leveraging cryptographic techniques, cryptocurrencies have demonstrated that 
 Since the introduction of Bitcoin, there has been much effort by both industry and academia to critically assess the necessity of trusted intermediaries, and potentially replace them with another mechanism, e.g., using smart contracts on Ethereum~\cite{lande2018sok}.
 
 In many domains, it has been proven to be possible to replace trusted intermediaries with cryptographic techniques.
-Yet, disintermediation is not always possible, and sometimes not even desired.
+Yet, disintermediation is not always possible and sometimes not even desired.
 In certain domains there is a need for traditional trusted intermediaries to safeguard business processes, in particular in the highly regulated financial sector.
 One might argue that electronic markets require at the very least some trusted intermediary to act as mediator between buyer and sellers if a trade is not an atomic operation.
 Furthermore, local regulations might require a trusted intermediary for certain market processes, e.g., when there is a need to verify the identify of business relations to prevent criminal activities (this process is also known as Know-your-Customer or KYC).
@@ -245,7 +245,7 @@ In the context of this thesis, we define a blockchain-based marketplace as \emph
 
 We first break up blockchain-based marketplaces in five different aspects.
 We then assess how the concepts of decentralization and disintermediation relate to each aspect.
-Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace, which are \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management} and \emph{identity management}.
+Figure~\ref{fig:electronic_markets} shows the five aspects of a blockchain-based marketplace, which are \emph{information management}, \emph{matchmaking}, \emph{settlement}, \emph{fraud management}, and \emph{identity management}.
 This figure is the result of our literature analysis in which we have studied scientific material on electronic marketplaces that leverage blockchain technology.
 We decompose each aspect into commonly used mechanisms.
 In the remainder of this section, we elaborate on each aspect and associated mechanisms.
@@ -258,23 +258,26 @@ The advantage of this approach is that centralized servers are relatively straig
 Furthermore, they enable the market operator to optimize the access to stored information by participants.
 However, since the operator manages the market information, it is prone to manipulation, e.g., by tampering with or filtering search results.
 
+The GEM system, introduced already in 1999, was one of the first electronic markets where information is stored on different servers, spanning multiple geographic locations~\cite{rachlevsky1999gem}.
+With GEM, each server can be operated by different entities, resulting in a decentralized system architecture.
+Market autonomy is one of the design goals of GEM: it enables the integration of local markets that operate according to local rules.
 Except for a few DEXes (e.g., IDEX~\cite{idex} and EtherDelta~\cite{etherdelta}), most blockchain-based marketplaces take a decentralized approach to information management and refrain from storing market information on centralized servers.
 Specifically, we identify two conventional approaches to data storage and dissemination of market information, which are outlined in the remainder of this subsection.
 
 \subsubsection{Distributed Ledger}
 Many blockchain-based marketplaces persist their market information on a distributed ledger, e.g., a blockchain.
 With this approach, the full market state is stored within transactions on a tamper-proof distributed ledger, secured by a consensus mechanism.
-New users interested in the current market state are required to download the entire distributed ledger from the network.
 Since blockchain is an append-only data structure, no information is ever removed from the distributed ledger.
-Therefore, some blockchains have relatively high storage requirements, for example, the entire Bitcoin blockchain requires around 346 GB of storage at the time of writing.\footnote{See \url{https://www.blockchain.com/charts/blocks-size}}
-Some blockchain-based marketplaces deploy one or more \emph{full nodes} that remain synchronized with the network and can be queried by market participants.
+Some blockchains have relatively high storage requirements, for example, the entire Bitcoin blockchain requires around 346 GB of storage at the time of writing.\footnote{See \url{https://www.blockchain.com/charts/blocks-size}}
+Therefore, some blockchain-based marketplaces deploy one or more \emph{full nodes} that remain synchronized with the network and can be queried by market participants.
+If a user wishes to avoid dependency on a full node, they are required to download the entire distributed ledger from the network to access the latest market state.
 %These full nodes ensure quick bootstrapping in the network.
 
 \subsubsection{Distributed Filesystem}
 The high costs associated with storing data on a blockchain has motivated some blockchain-based marketplaces to leverage another storage mechanism besides a distributed ledger.
 Distributed file systems have proven to be a robust solution for the storage of binary data across a network.
 There is a wide range of research on using Distributed Hash Tables (DHTs) for the structured storage of key-value pairs~\cite{maymounkov2002kademlia}.
-PeerMart, a decentralized marketplace for trading of Internet resources, leverages a DHT to store pricing information on offered resources~\cite{hausheer2006peermart}.
+PeerMart, a decentralized marketplace for the trading of Internet resources, leverages a DHT to store pricing information on offered resources~\cite{hausheer2006peermart}.
 
 The InterPlanetary File System (IPFS) is a decentralized peer-to-peer network for the storage of and access to files, websites, applications, and data~\cite{benet2014ipfs}.
 IPFS builds on top of libp2p~\cite{benet2018libp2p}, a networking framework created for decentralized protocols.
@@ -337,22 +340,22 @@ The main objective of a matchmaker is a quick and effective mediation between in
 Matchmakers match incoming offers and requests with other requests and offers, respectively, according to a \emph{matching policy}.
 
 In Figure~\ref{fig:matching_architectures} we show three approaches for matchmaking: \emph{centralized matchmaking}, \emph{federated matchmaking}, and \emph{decentralized matchmaking}.
+Each matchmaker (depicted in blue) is operated by a different user.
 We now elaborate on each approach.
 
 \subsubsection{Centralized Matchmaking}
 Centralized matchmaking (Figure~\ref{fig:centralized_matchmaking}) is the most common solution to match market orders.
-Traders send new offers and requests to a dedicated matchmaker, usually a centralized system (server).
-This model is widely adopted by commercialized marketplaces such as stock exchanges (e.g., NYSE or NASDAQ) and resource-sharing markets (e.g., Uber and Airbnb).
-Note that centralized matchmaking can be implemented with a replicated system architecture, to ensure fault tolerance and availability.
+Traders send new offers and requests to a dedicated matchmaker, usually a centralized system under the control of a single authority.
+This model is widely adopted by commercialized marketplaces such as stock exchanges (e.g., NYSE or NASDAQ) and resource-sharing markets (e.g., Uber or Airbnb).
 
-Centralized matchmaking with a single server is relatively straightforward to implement since all network communication follows the client-server model, i.e., there is no synchronization required between peers.
+Centralized matchmaking with a single server is relatively straightforward to implement since all network communication follows the client-server model, i.e., there is no synchronization required between peers.\footnote{We acknowledge that centralized matchmaking can be achieved with a distributed system architecture to improve fault tolerance and availability. This is more challenging to implement since it requires coordination between servers. We classify this approach as centralized if the involved servers are under the operation and control of a single authority.}
 Also, since all orders are stored and matched by a single matchmaker, orders can be processed based on full market knowledge and therefore matched optimally with existing orders.
 With centralized matchmaking, the identity behind each order is only disclosed to the market operator, therefore protecting the privacy of individual traders.
 
-The emergence of electronic trading, in general, gave rise to fairness, transparency, and manipulation issues during the matchmaking process~\cite{mavroudis2019libra}.
+The emergence of electronic trading gave rise to fairness, transparency, and manipulation issues during the matchmaking process~\cite{mavroudis2019libra}.
 For example, with centralized matchmaking, the matchmaker is capable of censoring or delaying specific orders.
 Information asymmetry between market operators and traders allows matchmakers to exploit their information advantage, e.g., by front-running on specific orders.
-From a systems perspective, centralized matchmaking has lower scalability compared to distributed solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period~\cite{sigdel2005centralized}.
+From a systems perspective, centralized matchmaking has lower scalability compared to decentralized solutions since the matchmaker becomes a bottleneck when more orders are being submitted within the same period~\cite{sigdel2005centralized}.
 Finally, centralized matchmaking exhibits low fault tolerance: if the single matchmaker becomes unavailable, e.g., due to infrastructure failures, incoming orders cannot be matched and all market activity stalls.
 
 Within the context of blockchain-based marketplaces we find that centralized matchmaking is widely adopted by centralized cryptocurrency exchanges.
@@ -402,8 +405,9 @@ This makes the added benefit of this approach, compared to centralized matchmaki
 \subsubsection{Decentralized Matchmaking}
 The main idea of \emph{decentralized matchmaking} (Figure~\ref{fig:decentralized_matchmaking}) is that a single order is sent to multiple matchmakers simultaneously.
 In addition, matchmakers are able to synchronize known orders with other matchmakers.
-
 This approach is exclusively used in the context of blockchain-based marketplaces, to the best knowledge of the authors.
+
+\textbf{On-Chain.} 
 Most DEXes that operate on a blockchain use \emph{on-chain} decentralized matchmaking.
 This process either relies on a smart contract to match known orders or executes the matchmaking logic as part of the transaction validation.
 The market orders are embedded in transactions and sent to miners for inclusion on the blockchain.
@@ -411,12 +415,12 @@ For example, Stellar maintains an exchange on its distributed ledger and allows 
 In the same way, the BitShares DEX offers specialized transactions to create new or to cancel existing orders~\cite{schuh2015bitshares}.
 
 The main advantage of on-chain decentralized matchmaking is tight integration with the blockchain logic; no additional components are required to process and match orders.
-However, since users need to pay fees when issuing the transactions to manage their orders, order management can become costly, in particular when done in bulk.
-Furthermore, matching on a blockchain can be orders of magnitude slower compared to centralized matchmaking, due to the need for a resource-intensive consensus algorithm to secure transactions.
+However, since users need to pay fees when issuing the transactions to manage their orders, order management can become costly, particularly when done in bulk.
+Furthermore, matchmaking on a blockchain can be orders of magnitude slower compared to centralized matchmaking due to the need to reach agreement on issued transactions.
 Finally, on-chain matching protocols do not explicitly store all established matches.
 Therefore, to reconstruct the order book at a specific block height, one might need to replay all transactions up to that block in the blockchain.
 
-To lower the costs of order management, some blockchain-based marketplaces maintain the order book \emph{off-chain}.
+\textbf{Off-Chain.} To lower the costs of order management, some blockchain-based marketplaces maintain the order book \emph{off-chain}.
 Loopring, for example, is an order sharing protocol where new orders are sent to one or more relays in an off-chain mesh network~\cite{loopring}.
 Relayers claim the margin between two matched orders, or can alternatively charge a fixed fee for their services.
 The Republic Protocol builds a decentralized network of nodes that match orders without revealing any information about individual orders~\cite{zhang2017republic}.
