@@ -1454,7 +1454,7 @@ In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmakin
 
 %\subsection{Experimental Setup}
 All experiments are conducted on our nation-wide university cluster, allowing us to run multiple instances of MATCH on different compute nodes~\cite{bal2016medium}.
-It contains 48 compute nodes, each one equipped with dual 8-core E5-2630v3 CPU and 64GB of memory, running CentOS 6.
+It contains 48 compute nodes, each one equipped with dual 8-core E5-2630v3 CPU and 64 GB of memory, running CentOS 6.
 %More detailed specifications of the hardware and runtime environment are found online.
 %On each compute node, we run at most 150 instances of MATCH when experimenting with the ride-hailing workload, and at most 64 instances under the asset trading workload (the latter workload results in a higher load on each compute node).
 %We create a \emph{scenario} file which lists all operations that a peer executes during the experiment, e.g., order creation and cancellation.
@@ -1741,7 +1741,7 @@ Specifically, each miner continuously solves an algorithmic puzzle and the first
 We fix \texttt{geth} such that each instance mines on at most one CPU core.
 We fix the gas limit (indicating the maximum amount of computation that can be done within a block) to 10'000'000, in line with the public Ethereum network.
 To accurately compare the performance of MATCH and Ethereum, we run both workloads in MATCH with 400 instances, and adjust our workload accordingly.
-We fix $ m = 400 $, $ f = 30 $ and $ r = 0 $.
+We fix $ m = 400 $, $ f = 30 $, and $ r = 0 $.
 Since a smart contract enforces the correct execution of a particular matching policy, we run MATCH with 400 honest matchmakers.
 
 \textbf{Smart Contracts.}
@@ -1762,18 +1762,18 @@ To quantify the overhead of order matchmaking, we remove the operation that tran
 
 \textbf{Bandwidth Usage.}
 We measure the aggregated bandwidth usage of all instance of MATCH and Ethereum, see Figure~\ref{fig:ethereum_bandwidth}.
-Ethereum requires over 20GB of network traffic for the ride-hailing workload.
+Ethereum requires over 20 GB of network traffic for the ride-hailing workload.
 In comparison, MATCH uses dramatically less bandwidth compared to Ethereum-based matchmaking.
-MATCH only requires 41.6MB of aggregate network traffic under the ride-haling workload, and 20.7MB under the asset trading workload.
+MATCH only requires 41.6 MB of aggregate network traffic under the ride-haling workload, and 20.7 MB under the asset trading workload.
 The high bandwidth usage of Ethereum is a direct consequence of the full replication of state.
 Specifically, each transaction and block is disseminated to all active Ethereum instances, resulting in a significant amount of network traffic.
 
 \textbf{Memory Usage.}
 We measure the maximum memory usage of all running MATCH and Ethereum instances, see Figure~\ref{fig:ethereum_memory}.
-At peak, Ethereum requires 2.8GB of memory to store pending transactions.
-This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1GB graph in memory.
+At peak, Ethereum requires 2.8 GB of memory to store pending transactions.
+This is partially due to the specifications of the mining algorithm in Ethereum, which requires the storage of a 1 GB graph in memory.
 Furthermore, each Ethereum instance maintains all unconfirmed transactions and recent blocks in memory.
-In comparison, MATCH only requires around 50MB of memory for both workloads, most of which is overhead of the Python interpreter.
+In comparison, MATCH only requires around 50 MB of memory for both workloads, most of which is overhead of the Python interpreter.
 
 \textbf{Order Fulfil Latencies.}
 In Figure~\ref{fig:ethereum_latencies}, we show the time it takes to complete orders in MATCH and Ethereum, for both workloads.
