@@ -20,7 +20,7 @@
 %In BitTorrent, users directly exchange parts a (potentially large) file with each other over the network, without any requirement for servers that are under the control of a single authority.
 %Although the global unavailability of a decentralized application is a rare phenomena, they often are more vulnerable to attacks targeted at the network layer, such as the Sybil Attack and the Eclipse Attack.
 
-\dropcap{M}arketplaces facilitate the exchange of services, goods and information between individuals and businesses.
+\dropcap{M}arketplaces facilitate the exchange of services, goods, and information between individuals and businesses.
 They play an essential role in our economy, enabling the exchange of value on both a local and a global scale.
 A large part of all conducted trades proceeds on electronic marketplaces that leverage Internet technology to electronically buy or sell products and digital services.
 On electronic marketplaces, users routinely trade with other users with whom they never interacted before, unlike in many physical marketplaces.
@@ -51,7 +51,7 @@ There is an increasing amount of research effort to disintermediate different as
 
 This thesis introduces novel mechanisms for the decentralization and disintermediation in blockchain-based marketplaces.
 %A key characteristic of such blockchain-based marketplaces is that economic activity emerges from the direct interactions between buyers and sellers with minimal involvement of trusted intermediaries.
-We design, implement, evaluate, and deploy five decentralized mechanisms that improve different aspects of existing blockchain-based marketplaces.
+We design, implement, evaluate, and deploy five decentralized mechanisms that improve different aspects of blockchain-based marketplaces.
 These aspects are information management, matchmaking, settlement, fraud management, and identity management.
 Each introduced mechanism focusses on one or more of these aspects.
 In the remainder of this introduction, we define the concepts of decentralization and disintermediation in the context of this thesis, and elaborate on the five aspects of blockchain-based marketplaces.
@@ -64,7 +64,7 @@ In the remainder of this introduction, we define the concepts of decentralizatio
 \section{Decentralization in Blockchain-based Markets}
 \label{sec:decentralization}
 This thesis discusses five decentralized solutions for blockchain-based marketplaces.
-Therefore, it is important to understand what decentralization means in the context of this thesis and how blockchain-based marketplaces achieve decentralization.
+Therefore, it is important to understand what decentralization means in the context of this thesis and how blockchain-based marketplaces can achieve decentralization.
 %Specifically, we define the term \emph{decentralization} in the context of this work, and show how this concept is applied by blockchain-based marketplaces.
 
 \subsection{What is Decentralization?}
@@ -98,12 +98,12 @@ This pointer makes the blockchain structure tamper-evident since the modificatio
 
 The Bitcoin network maintains a blockchain that includes all transactions ever made.
 In Bitcoin, users submit signed transactions and pay fees to get their transactions included in the blockchain.
-A particular group of users, also called \emph{miners}, reach \emph{consensus} on which transactions enter the blockchain.
+A particular group of users, also called \emph{miners}, reach \emph{consensus} on which transactions are deemed valid and enter the blockchain.
 This works as follows: miners periodically propose a new block with transactions to be appended to the current blockchain.
 Each miner competes with other miners by solving a computational puzzle derived from the proposed block, a process also called \emph{block mining}.
 This puzzle involves finding a hash that satisfied a certain condition, for example, it has to start with a number of leading zeros.
 The first miner to present a block with a correct hash to the network can append its proposed block to the blockchain and gets rewarded with a fixed number of Bitcoin (this number decreases over time).
-Furthermore, the winning miner can claim all transaction fees of the transactions within the block.
+Furthermore, the winning miner can claim all transaction fees of the transactions within the proposed block.
 The parameters in this consensus algorithm, also called \emph{Proof-of-Work} (PoW) or \emph{Nakamoto consensus}, are fixed such that a new block is created roughly every ten minutes in the Bitcoin network.
 
 Despite significant hype surrounding the Bitcoin ecosystem and its tremendous market capitalization (\$913 billion at the time of writing), we discuss three limitations of the Bitcoin cryptocurrency.
@@ -112,14 +112,14 @@ This throughput is by far not sufficient to handle global financial traffic on i
 For example, the VISA credit card company is processing around 1'700 transactions per second~\cite{sedgwick2018no}.
 Second, despite popular belief, the Bitcoin blockchain is not tamper-proof and can be overwritten given enough computing power.
 In particular, a reorganization of the blockchain occasionally occurs when two blocks are mined roughly at the same time.
-Therefore, users have to wait for six additional blocks (around one hour) to be mined before their transaction is included with sufficient finality guarantees.
-This makes Bitcoin highly impractical for payments that require quick confirmation.
-Third, PoW is a resource-intensive algorithm that requires significant CPU power.
+Therefore, users have to wait for six additional blocks to be mined before their transaction is included with sufficient finality guarantees (which takes around one hour).
+This makes Bitcoin highly impractical for payments that require quick confirmation~\cite{bamert2013have}.
+Third, PoW is a resource-intensive algorithm that consumes significant CPU power.
 There are increasing concerns around the environmental impact of Bitcoin as its block mining process is estimated to consume as much energy as Kansas City~\cite{stoll2019carbon}.
 
 The limitations of Bitcoin and Bitcoin-derived cryptocurrencies have inspired much research into more scalable consensus mechanisms.
-On the one hand, much research effort concentrates on improving the throughput of PoW, mostly through parameter tuning~\cite{karame2016security}.
-On the other hand, entirely new consensus mechanisms have been designed that are not based on computing power.
+On the one hand, much research effort concentrates on improving the throughput of PoW, mostly through parameter tuning~\cite{gervais2016security,karame2016security}.
+On the other hand, entirely new consensus families have been designed that are not based on burning resources.
 For instance, Proof-of-Stake (PoS) is an alternative consensus family where the creator of the next block can be chosen by combinations of random selection and the wealth (stake) or age of individuals in the network~\cite{king2012ppcoin}.
 PoS is more scalable compared to PoW, however, a particular issue is that there is nothing at stake.
 This means that miners are free to vote for various, possibly conflicting blockchain histories without repercussions when their vote turns out to be incorrect.
@@ -140,7 +140,7 @@ The amount of gas required for a transaction depends on the computations execute
 %Other blockchain platforms such as Hyperledger Fabric enables developers to write smart contracts in Java, Javascript or Go.
 
 Smart contracts enable developers to build decentralized blockchain-based applications, also called \emph{DApps}.
-The most common DApp on the Ethereum blockchain is an ERC20 contract, which enables developers to issue and manage custom assets.
+The most common DApp on the Ethereum blockchain is an ERC20 contract, which enables developers to issue and manage custom assets~\cite{victor2019measuring}.
 Besides ERC20 tokens, the Ethereum blockchain hosts almost 3'000 DApps at the time of writing, including lotteries, games, asset markets, voting, prediction markets, and decentralized lending solutions.\footnote{See \url{https://www.stateofthedapps.com}}
 Despite the thriving ecosystem, it is non-trivial to revoke or disable a deployed smart contract when a software bug has been exploited.
 In 2016, the Ethereum network almost collapsed due to implementation errors in the smart contract that managed The Decentralized Autonomous Organization (The DAO)~\cite{mehar2019understanding}.
@@ -149,13 +149,13 @@ As a result, the Ethereum foundation decided to split (hard fork) the network in
 Since then, there has been much effort to build tools for developers to increase the security and correctness of smart contracts~\cite{breidenbach2018enter,brent2020ethainter}.
 
 \subsection{Centralized Cryptocurrency Exchanges}
-At the time of writing, there are over 8'600 different cryptocurrencies across hundreds of blockchain platforms.\footnote{See \url{https://coinmarketcap.com/all/views/all/}}
+At the time of writing, there are over 10'000 different cryptocurrencies across hundreds of blockchain platforms.\footnote{See \url{https://coinmarketcap.com/all/views/all/}}
 The proliferation of different digital assets has resulted in the deployment of centralized cryptocurrency exchanges, operated by a market authority.
 On these exchanges, users can trade their cryptocurrency for other cryptocurrencies or fiat currencies such as Dollars or Euros.
 When using the services of a centralized cryptocurrency exchange, users usually have to deposit their funds into a wallet owned by the market operator for their trade to complete.
 Users then create orders to buy or sell cryptocurrencies.
 The market operator matches the buy or sell order with existing orders and transfers the ownership of cryptocurrencies when a trading opportunity has been found.
-At the time of writing, the biggest cryptocurrency exchange is Binance, with a 24-hour volume of \$24 billion.\footnote{See \url{https://coinmarketcap.com/rankings/exchanges/}}
+At the time of writing, the biggest cryptocurrency exchange is Binance with a 24-hour trading volume of \$33 billion.\footnote{See \url{https://coinmarketcap.com/rankings/exchanges/}}
 
 Centralized exchanges can facilitate trade between an extensive range of different blockchains, as long as the market operator maintains wallets on the involved blockchains and can issue transactions in these blockchain networks to transfer the assets.
 Furthermore, they usually provide a convenient interface to users, making it easy to enter the market and participate in trade.
@@ -180,7 +180,7 @@ These orders are then automatically matched by miners during the validation of n
 Usually, a DEX only allows the trading of assets residing on the same blockchain.
 As we will further elaborate in Section~\ref{sec:matchmaking}, order matchmaking can also proceed outside the blockchain to increase efficiency.
 DEXes have become a fundamental component of Decentralized Finance (DeFi), which is an experimental form of finance conducted using blockchain applications~\cite{chen2020blockchain}.
-One of the largest DEXes is Uniswap, processing trade worth over \$900 billion on a daily basis, at the time of writing.\footnote{See \url{https://coinmarketcap.com/rankings/exchanges/dex/}}
+One of the largest DEXes is Uniswap, processing trade worth over \$1.1 billion on a daily basis, at the time of writing.\footnote{See \url{https://coinmarketcap.com/rankings/exchanges/dex/}}
 
 We identify four advantages of DEXes over centralized cryptocurrency exchanges.
 First, DEXes enhance security during the trading process; a trade is usually an atomic operation, and there is minimal risk of losing funds as long as the underlying blockchain and consensus mechanism remain uncompromised.
