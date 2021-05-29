@@ -690,7 +690,7 @@ Our implementation is built upon the Dispersy framework, providing primitives fo
 
 \subsubsection*{Experimental Setup}
 The following real-world emulations are executed on the DAS5 supercomputer, using 50 instances per node~\cite{bal2016medium}.
-We deploy our experiment using the Gumby experiment framework and we create a scenario file where we schedule actions at specific times.
+We deploy our experiment using the Gumby experiment framework~\cite{gumby} and we create a scenario file where we schedule actions at specific times.
 All code used during these experiments is open source.\footnote{See \url{https://github.com/devos50/gumby/tree/iom\_experiment}}
 Due to the limited number of accounts we own and to avoid a large load on the banking infrastructure, we simulate accounts during this experiment.
 We assume a total of five different banks and devised a basic RESTful banking server that handles account creation, payments, balance queries and mutation requests.
@@ -828,7 +828,7 @@ New usages of blockchain technology are focussed around the way users transfer m
 %Byteball is a decentralized system that creates a directed, acyclic graph that stores units of value and uses an internal currency that should be paid when adding data to the global database~\cite{churyumov2016byteball}.
 The Ripple project, supported by various major banks, attempts to build a connected network of financial institutions and payment providers~\cite{schwartz2014ripple}.
 Their solution aims to significantly speed up traditional money transfers, lower costs, and provide support for high-volume transactions.
-R3 Corda can be compared to TrustChain since they share the idea that a ledger with global consistency is often not necessary~\cite{brown2016introducing}.
+R3 Corda can be compared to TrustChain since they share the idea that a ledger with global consistency is often not necessary~\cite{r3corda}.
 
 While blockchain solutions are slowly being adopted, the aforementioned systems all aim to increase utility by building a financial network from scratch.
 In comparison, Internet-of-Money is built upon existing, proven infrastructure, making migration towards our system effortless.

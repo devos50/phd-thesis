@@ -36,7 +36,7 @@ Over the past few years, there has been a sharp increase in the development and 
 In contrast to a public blockchain like Bitcoin, membership in a permissioned blockchain is managed by an authority that approves the participation of each peer.
 The identity under which a peer operates is linked to a real-world persona, which reduces the likelihood of Byzantine behaviour and network threats like the Sybil Attack~\cite{douceur2002sybil}.
 Permissioned blockchains usually adopt a classical consensus model designed for networks with static membership, e.g., Practical Byzantine Fault Tolerance (PBFT)~\cite{castro1999practical}.
-Considerable efforts in permissioned blockchains have been made by projects such as Hyperledger Fabric~\cite{androulaki2018hyperledger}, R3 Corda~\cite{brown2016introducing}, Quorum~\cite{mogan2018quorum} and BigchainDB~\cite{mcconaghy2016bigchaindb}.
+Considerable efforts in permissioned blockchains have been made by projects such as Hyperledger Fabric~\cite{androulaki2018hyperledger}, R3 Corda~\cite{r3corda}, Quorum~\cite{mogan2018quorum} and BigchainDB~\cite{mcconaghy2016bigchaindb}.
 Permissioned blockchains have the potential to increase the efficiency of traditional business processes in industries like logistics, energy management and trade supply chains~\cite{vukolic2017rethinking}.
 
 Several use cases that record transactions on a permissioned blockchain revolve around the representation and management of real-world assets on a distributed ledger~\cite{hewett2019inclusive}.
@@ -1314,7 +1314,7 @@ We now perform scalability experiments to quantify the performance of \ModelName
 To explore the limitations and overhead of \ModelName{}, we conduct scalability experiments on our university cluster.
 The detailed specifications of the hardware and runtime environment can be found online.\footnote{See \url{https://www.cs.vu.nl/das5/}}
 Our infrastructure allows us to reserve computing nodes and deploy instances of \ModelName{} on each node.
-We use the Gumby experiment framework to orchestrate the deployment of \ModelName{} instances onto computing nodes and to extract results from experiment artifacts.\footnote{See \url{https://github.com/tribler/gumby}}
+We use the Gumby experiment framework~\cite{gumby} to orchestrate the deployment of \ModelName{} instances onto computing nodes and to extract results from experiment artifacts.
 The scalability experiment is controlled by a \emph{scenario file}, a chronologically ordered list of actions which are executed by all or by a subset of running instances, at specific points in time after the experiment starts.
 Each run is performed at least five times, and the results are averaged.
 

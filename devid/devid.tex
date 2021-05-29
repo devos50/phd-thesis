@@ -16,7 +16,7 @@ TrustChain enables tamper-proof data accounting with low overhead and without ne
 \emph{We then build a decentralized crowdsourcing marketplace for the development of dApps, named \emph{dAppCoder}.
 dAppCoder allows clients to publish projects and developers can find work, all without trusted intermediaries.
 dAppCoder utilizes DevID portfolios to match these clients and developers.
-We fully implement DevID and dAppCoder and conduct a deployment trial.
+We fully implement DevID and dAppCoder, and conduct a deployment trial.
 Our trial demonstrates that DevID and \Dappcoder{} are efficient at storing portfolio records. }
 
 \newpage
@@ -259,7 +259,7 @@ Instead, our goal is to devise a portfolio infrastructure without any authority 
 \textbf{Pairwise Ledger.} A third blockchain structure we consider is the pairwise distributed ledger.
 The key property of this ledger, given in Figure~\ref{fig:blockchain_pairwise}, is that each user maintains and grows their individual chain with transactions.
 Each block holds exactly one transaction and optionally contains a (hash) pointer to a transaction in the individual chain of another user.
-Blockchain fabrics like R3 Corda~\cite{brown2017introducing}, Nano~\cite{lemahieu2017raiblocks}, and TrustChain~\cite{otte2017trustchain}, use pairwise ledgers as their underlying data structure.
+Blockchain fabrics like R3 Corda~\cite{r3corda}, Nano~\cite{lemahieu2017raiblocks}, and TrustChain~\cite{otte2017trustchain}, use pairwise ledgers as their underlying data structure.
 These platforms address the double-spending attack either by a trusted notary (Corda), a weighted voting system (Nano) or by guaranteed eventual consistency (TrustChain).
 In general, they can provide superior scalability compared to linear ledgers as used by Bitcoin and Ethereum.
 
