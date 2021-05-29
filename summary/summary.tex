@@ -48,12 +48,12 @@ Our evaluation shows that XChange is highly scalable and has low overhead, while
 
 In Chapter 5 we introduce \emph{Internet-of-Money}, a settlement mechanism for real-time and international money transfers between different banks.
 The key idea is to break up a slow inter-bank payment into multiple fast intra-bank payments.
-Each intra-bank payment with Internet-of-Money uses one or more volunteer-based services, named money routers.
+Each inter-bank payment with Internet-of-Money uses one or more volunteer-based services, named money routers.
 A money router possesses multiple bank accounts at different banks.
 This approach reduces the duration of inter-bank payments from days to mere seconds.
 To identity fraud, i.e., not forwarding incoming money as a router to the beneficiary, all transfer operations by users and money routers are recorded in a distributed log.
 To further reduce risks, we break up a single money transfer into multiple smaller ones and leverage multiple money routers in parallel.
-Our experiments show that these approaches significantly reduce fraud gains by adversarial parties.
+Our experiments show that Internet-of-Money enables fast inter-bank payments and that our risk mitigation strategies significantly reduce fraud gains by adversarial parties.
 
 In Chapter 6 we introduce \emph{\Dappcoder{}}, a decentralized crowdsourcing marketplace for the development of decentralized applications.
 \Dappcoder{} addresses fragmentation and lock-in effects associated with centralized marketplaces for crowdsourcing.
