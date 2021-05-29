@@ -22,20 +22,20 @@ Our trial demonstrates that DevID and \Dappcoder{} are efficient at storing port
 \newpage
 
 \section{Introduction}
-Decentralized applications, also known as dApps, allow for contractual logic that runs without the need for trusted intermediaries~\cite{raval2016decentralized}.
+Decentralized applications, also known as dApps, enable the deployment of business logic that runs without the need for trusted intermediaries~\cite{raval2016decentralized}.
 At the time of writing, there are thousands of decentralized applications deployed on numerous blockchain solutions, most of which are on Ethereum.
 The dApp ecosystem is continuously expanding and recently has been accelerated by the rise of decentralized finance (DeFi) solutions~\cite{zetzsche2020decentralized}.
 
-Since dApps usually require a high level of security and robustness, the engineering of dApps is considered a challenging task and there is a shortage of talent capable of building these solutions~\cite{shortage2016nasdaq}.
+Since dApps usually require a high level of security and robustness, the engineering of these solutions is considered a challenging task and there is a shortage of talent capable of building them~\cite{shortage2016nasdaq}.
 For this reason, crowdsourcing the development of decentralized applications is becoming an increasingly popular alternative to training in-house talent~\cite{gong2021reference}.
-Crowdsourcing is a relatively new model for software development, where an open call is made for the documentation, design, coding, and testing of software~\cite{latoza2016crowdsourcing}.
+Crowdsourcing is a relatively new model for software development where an open call is made for the documentation, design, coding, and testing of software~\cite{latoza2016crowdsourcing}.
 Matching clients and developers is at the core of numerous intermediary crowdsourcing markets such as Upwork and Fiverr.
-These profit-driven markets usually charging a commission of all payments between a client and a developer.
+These profit-driven platforms usually charge a commission for their services, e.g., by taking a cut of all payments between a client and a developer.
 
-Unfortunately, existing crowdsourcing platforms only provides access to a subset of all available work and developers.
+Unfortunately, existing crowdsourcing platforms only provide access to a subset of all available work and developers.
 %Therefore, finding the right talent to develop decentralized applications across different platforms can be challenging and time-consuming.
 Specifically, the key problem is that centralized market approaches for client-developer matching lead to \emph{fragmentation} and \emph{lock-in} effects~\cite{pouwelse2017laws,gong2021reference}.
-Many software developers have their portfolios and programming activities fragmented across multiple platforms, like TopCoder, GitHub and LinkedIn.
+Many software developers have their portfolios fragmented across multiple platforms like TopCoder, GitHub and LinkedIn.
 Each platform only yields a partial impression on the capabilities and background of a developer, making it challenging for a client to make an educated decision on who to hire for a particular task.
 Additionally, data assets are usually locked to one platform and cannot easily be exported across different services, complicating this matchmaking process even more~\cite{hesse2019reputation}.
 
@@ -48,11 +48,12 @@ We argue that the availability of such a platform would increase efficiency and 
 In other words, such a platform would reduce \emph{search frictions}, which are impediments to finding matches between clients and developers.
 We address this deficiency in this work.
 As a first step, we design \emph{DevID}, a unified portfolio for software developers.
-We believe that such a portfolio is a key precursor to a more efficient crowdsourcing marketplace, since highlighting the expertise of a developer is a key step in the client-developer matchmaking process.
+We believe that such a portfolio is a key step towards a more efficient crowdsourcing marketplace, since highlighting the expertise of a developer is instrumental during the client-developer matchmaking process.
 DevID portfolios enable developers to showcase their expertise, making it easier for prospective clients to get an overview of their capabilities.
 An impression of a DevID portfolio is given in Figure~\ref{fig:devid}.
 DevID portfolios are powered by a scalable blockchain ledger, used for durable storage of records.
 Developers can add tamper-proof records to their portfolio, import existing data from external platforms, and add references to their prior activities, e.g., projects on GitHub.
+DevID records are stored in a peer-to-peer fashion without central authority.
 %These records are fully managed and owned by developers themselves.
 
 \begin{figure}[t]
@@ -62,7 +63,7 @@ Developers can add tamper-proof records to their portfolio, import existing data
 \end{figure}
 
 We then build a decentralized crowdsourcing marketplace for the development of dApps, named \emph{dAppCoder}.
-Our platform enables clients to post projects and developers to find projects that match with their expertise.
+Our platform enables clients to post projects, and developers to find projects that match with their expertise.
 All payments are conducted directly between clients and developers, sidestepping the need a trusted intermediary for payment processing and avoiding commissions.
 %Within the context of \Dappcoder, DevID records are used by the client to filter prospective developers and to make educated decisions on who to hire for a particular job.
 We believe that our single, public, and open crowdsourcing market has the potential to be more efficient compared to a centralized solution with fragmentation and lock-in effects.
@@ -71,12 +72,12 @@ The main contribution of this work is tri-fold:
 \begin{enumerate}
 	\item We first present \emph{DevID}, a unified portfolio for dApp developers (Section~\ref{sec:devid_architecture}). DevID stores records associated with a developer, e.g., GitHub projects, on a scalable blockchain ledger with high scalability and low overhead.
 	\item We then present \emph{dAppCoder}, a decentralized crowdsourcing market for the development of dApps (Section~\ref{sec:dappcoder}).
-	\item Finally, we discuss our \emph{deployment trial} of DevID and dAppCoder with a small group of users, which demonstrates the practicality of our work (Section~\ref{sec:experiments}).
+	\item Finally, we present a \emph{deployment trial} of DevID and dAppCoder with a small group of users, which demonstrates the practicality of our work (Section~\ref{sec:experiments}).
 \end{enumerate}
 
 \section{Problem Description}
 \label{sec:dappcoder_problem_description}
-We identify challenges in two directions.
+We identify technical challenges in two directions.
 First, we wish to create a developer portfolio that gives an accurate impression of their capabilities and expertise.
 Second, we aim to build a decentralized crowdsourcing marketplace for the development of dApps.
 We elaborate on the challenges associated with each contribution.
@@ -97,7 +98,7 @@ Third, we require our developer portfolio to be \emph{independent of any trusted
 Specifically, in the context of our work this means that the data itself is not managed by a trusted authority but instead by the operating user itself.
 Blockchain technology is increasingly being used as middleware for building decentralized applications without centralized authority.
 For example, platforms like Ethereum and EOS enable developers to write and deploy smart contracts, self-executing code that enforces agreements between two or more parties~\cite{szabo1997formalizing}.
-However, most blockchain fabrics are not suitable for large-scale storage of portfolio records, or for data storage in general due to their limited throughput and, for some platforms, prohibitively high transaction fees~\cite{eberhardt2017or}.
+However, most blockchain fabrics are not suitable for large-scale storage of portfolio records due to their limited throughput and, for some platforms, prohibitively high transaction fees~\cite{eberhardt2017or}.
 Therefore, we prefer an alternative, more lightweight solution to store portfolio records.
 
 \textbf{Crowdsourcing Market.}
@@ -151,13 +152,13 @@ Skills and endorsements can also be imported from other platforms like LinkedIn,
 
 \textbf{Import.}
 Developers are able to import data from other sources into their DevID portfolio.
-When performing an import action, a record with this type is created, containing specifications on the import source, and the imported data elements.
+When performing an import action, a record with this type is created, containing specifications on the import source and the imported data elements.
 Other records can reference the import record, for example, to signify that a particular skill endorsement has been imported from LinkedIn.
-We describe record specifications and references between these records in Section~\ref{subsec:devid_record_specs}.
+We provide more technical details on records in Section~\ref{subsec:devid_record_specs}.
 
 \textbf{Wallets.}
-Finally, developers can add the specifications of wallets to their DevID portfolio, for example, the address of their Bitcoin wallet.
-We envision that DevID portfolios will be utilized when developers are looking for work, and embedding payment addresses directly in the portfolio speeds up the payout process when a developer has performed work.
+Finally, developers can add wallet information to their DevID portfolio, for example, the address of their Bitcoin wallet.
+We envision that DevID portfolios will be utilized when developers are looking for work, and embedding payment addresses directly in the portfolio speeds up the payout process by the client when a developer has work on a project.
 It also enables developers to quickly receive donations as compensation for community work.
 
 We believe that the above record types are sufficient for developers to build a basic portfolio.
@@ -169,19 +170,18 @@ We now discuss how to import developer data from multiple platforms in a DevID p
 
 \textbf{Importing Developer Data.}
 DevID allows developers to import relevant information from different platforms into their portfolio.
-For example, they can import data from LinkedIn (e.g., skills or past projects) or from GitHub (e.g., the number of followers and code contributions).
-Importing can be done by querying their public interfaces (APIs) and request the relevant data, if this is supported by the platform.
+For example, they can import data from LinkedIn (e.g., skills or past projects) or from GitHub (e.g., the number of followers or significant code contributions).
+Importing can be done by querying the public interfaces (APIs) of external platforms and requesting the relevant data, if the platform offers this functionality.
 To store the data in the portfolio, one can either add a reference to the (external) data or copy the data assets into the portfolio.
-To reduce dependency on third-party services, we choose to copy the data and store it within a portfolio record.
+To reduce dependency on third-party services, we choose to copy the data into a DevID portfolio and store it within records.
 
 \textbf{Verifying Developer Data.}
 As discussed in Section~\ref{sec:dappcoder_problem_description}, it is essential to ensure that imported data actually belongs to the developer importing it.
 We propose two solutions to achieve trustworthy importation of data: \textit{challenges} and \textit{TLS auditing}.
 
-The first solution is to pose a challenge where the developer importing the data, proves that they have control over this data.
-For example, when importing data from GitHub, we can require a public identifier (e.g., a public key) of the developer to be part of the \enquote{bio} profile field.
+The first solution is to pose a challenge that has the developer importing the data prove that they have control over this data.
+For example, when importing data from GitHub, we can require a public identifier (e.g., a public key) of the developer to be part of the \enquote{bio} profile field on a GitHub profile.
 This information can then be verified for correctness by other users who query the public GitHub API.
-We call users who verify data \emph{witnesses}.
 While this is a basic mechanism to ensure the accuracy of imported data, it heavily depends on the availability of a public API.
 
 The second solution is TLS auditing~\cite{tlsnotary2014whitepaper}.
@@ -203,6 +203,7 @@ Software built on DevID can give preferential treatment to developers that have 
 For example, an application can ignore endorsements that are given by developers with an unverified identity, and clients can only consider developers with a verified identity for a particular project.
 The user interface of \Dappcoder{} highlights verified users with a special badge.
 Identity verification can be done with an attestation provided by a trusted third party like the government or a notary.
+This attestation is then included in the DevID portfolio with a separate record.
 Strong, long-lived identities in DevID is comparable with account validation that many centralized platforms use (e.g., the verification of a phone number).
 Since misbehaviour can be traced back to the real-world persona, it also raises the barrier for users to collude with each other, e.g., tit-for-tat behaviour when creating endorsements.
 
@@ -235,38 +236,38 @@ Since misbehaviour can be traced back to the real-world persona, it also raises 
 
 \subsection{Efficient Blockchain Storage}
 \label{subsec:scalable_blockchain}
-DevID requires an data structure that can store tamper-proof and accurate data records.
-Blockchain technology is gaining traction as platform to store verified transactions.
+DevID requires a data structure that can store tamper-proof data records.
+Blockchain technology is gaining traction as platform to store verified transactions without central authority.
 We now discuss three common blockchain organizations, visualised in Figure~\ref{fig:blockchain_structures}, and analyse their trade-offs in the context of our work.
 
-\textbf{Linear Ledger.} Figure~\ref{fig:blockchain_single} shows a linear blockchain ledger, which is used by platforms such as Bitcoin~\cite{nakamoto2008bitcoin} and Ethereum~\cite{wood2014ethereum}.
+\textbf{Linear Ledger.} Figure~\ref{fig:blockchain_single} shows a linear blockchain ledger which is used by platforms such as Bitcoin~\cite{nakamoto2008bitcoin} and Ethereum~\cite{wood2014ethereum}.
 This ledger consists of multiple blocks and each block contains transactions.
 Every block, except for the first one, points back to the prior block in the ledger through a hash pointer.
 Usually, this type of ledger is safeguarded by a consensus mechanism where at least a majority of users continuously reach agreement on the exact sequence of transactions.
 A network-wide consensus mechanism like Proof-of-Work or Proof-of-Stake prevents the situation where a malicious user intentionally creates a fork of their chain to override prior transactions~\cite{vukolic2015quest}.
-While linear ledgers providing a relatively high level of security, the transaction throughput of these ledgers is often not sufficient to facilitate record creation and modification by millions of users.
-This motivates us to consider different types of blockchain for portfolio storage.
+While linear ledgers provide a relatively high level of security, the transaction throughput of these ledgers is often not sufficient to facilitate record creation and modification by millions of users.
+This motivates us to consider different types of blockchain structures for portfolio storage.
 
-\textbf{DAG Ledger.} Another blockchain structure is the Directed Acyclic Graph (DAG) ledger, where each block can be referenced by multiple other blocks.
-This ledger structure, shown in Figure~\ref{fig:blockchain_dag}, is adopted by blockchain platforms like IOTA and Dagcoin~\cite{popov2018tangle}~\cite{lerner2015dagcoin}.
-IOTA is optimized for micro-payments within Internet-of-Things, and Dagcoin advertises itself as data storage for arbitrary data (e.g., documents or ownership records).
+\textbf{DAG Ledger.} Another blockchain structure is the Directed Acyclic Graph (DAG) ledger where each block can be referenced by multiple other blocks.
+This ledger structure, shown in Figure~\ref{fig:blockchain_dag}, is adopted by blockchain platforms like IOTA~\cite{popov2018tangle} and Dagcoin~\cite{lerner2015dagcoin}.
+IOTA is optimized for micro-payments within Internet-of-Things and Dagcoin advertises itself as data storage for arbitrary data (e.g., documents or ownership records).
 Since these ledgers allow for different consensus mechanisms, transaction throughput is often superior compared to that of linear ledgers.
 However, they usually have differing security guarantees.
-While these ledger structures are more suitable for data storage, we consider current implementations unfit for developer portfolios.
+While these ledger structures are more suitable for data storage compared to linear ledgers with network-wide consensus, we consider current implementations unfit for developer portfolios.
 The reason is that they either rely on a centralized coordinator (IOTA) or a fixed group of witness nodes (Dagcoin).
 Instead, our goal is to devise a portfolio infrastructure without any authority with leveraged permission.
 
 \textbf{Pairwise Ledger.} A third blockchain structure we consider is the pairwise distributed ledger.
 The key property of this ledger, given in Figure~\ref{fig:blockchain_pairwise}, is that each user maintains and grows their individual chain with transactions.
 Each block holds exactly one transaction and optionally contains a (hash) pointer to a transaction in the individual chain of another user.
-Blockchain fabrics like R3 Corda~\cite{r3corda}, Nano~\cite{lemahieu2017raiblocks}, and TrustChain~\cite{otte2017trustchain}, use pairwise ledgers as their underlying data structure.
+Blockchain fabrics like R3 Corda~\cite{r3corda}, Nano~\cite{lemahieu2017raiblocks}, and TrustChain~\cite{otte2017trustchain} use pairwise ledgers as their underlying data structure.
 These platforms address the double-spending attack either by a trusted notary (Corda), a weighted voting system (Nano) or by guaranteed eventual consistency (TrustChain).
 In general, they can provide superior scalability compared to linear ledgers as used by Bitcoin and Ethereum.
 
-We believe that the pairwise distributed ledger is a suitable data structure to store portfolio records as transactions.\footnote{The work describing TrustChain considers a personal ledger as a collection of \emph{records}. To avoid semantic overload, we use the term transaction to refer to a TrustChain record.}
-Compared to linear and DAG ledgers, all data of a portfolio owner is local to their own personal ledger and maintained by themselves.
-Specifically, we choose to build DevID and subsequently \Dappcoder{} (see Section~\ref{sec:dappcoder}), using the TrustChain data structure.
-TrustChain, first introduced by Otte et al.~\cite{otte2017trustchain}, is a lightweight distributed ledger where each user maintains a personal ledger.
+We believe that the pairwise distributed ledger is a suitable data structure to store portfolio records as transactions.
+Compared to linear and DAG ledgers, all data associated with a portfolio owner is stored in their own personal ledger and maintained by owners themselves.
+Specifically, we choose to build DevID, and subsequently \Dappcoder{} (see Section~\ref{sec:dappcoder}), using the TrustChain data structure.\footnote{The work describing TrustChain considers a personal ledger as a collection of \emph{records}. To avoid semantic overload, we use the term transaction to refer to a TrustChain record in this chapter.}
+TrustChain, first introduced by Otte et al.~\cite{otte2017trustchain}, is a lightweight distributed ledger where each user maintains a grow-only personal ledger.
 To detect malicious behaviour, in particularly the forking of a personal ledger, users continuously request random transactions from other users and share their transactions with other users upon request.
 The consistency of incoming transactions is checked against known transactions, and illegitimate modifications of the personal ledger can quickly be revealed by the collective effort of users in the network.
 
@@ -275,9 +276,9 @@ First, TrustChain enables selective queries of data stored on the chains of othe
 Second, TrustChain is particularly designed for the tamper-proof accounting of generic data elements.
 Third, while TrustChain is primarily built around bilateral transactions, this ledger architecture also supports unilateral transactions.
 Unilateral transactions are particularly helpful when storing content that is not related to other users, e.g., when a developer includes a project in its portfolio.
-Finally, TrustChain is already used as transaction fabric within a self-sovereign, decentralized identity system, described in the work of Stokkink et al~\cite{stokkink2018deployment}.
+Finally, TrustChain is already used as transaction fabric within a self-sovereign identity system, described in the work of Stokkink et al~\cite{stokkink2018deployment}.
 Availability of a self-sovereign identity system aligns with our requirement for strong, long-lived identities (see Section~\ref{subsec:strong_identities}).
-TrustChain, however, does provide less consistency guarantees but we believe that this does not pose a barrier for DevID (depending on the system parameters and network size, malicious behaviour can usually be detected within seconds).
+TrustChain, however, does provide less consistency guarantees but we believe that this does not pose a barrier for DevID (depending on the system parameters and network size, malicious behaviour such as removing a transaction from a personal ledger can usually be detected within seconds).
 
 \begin{figure}[t!]
 	\centering
@@ -292,7 +293,7 @@ TrustChain enables users to issue transactions with an application-specific payl
 These transactions are appended to the personal ledger of the operating peer and shared with others.
 TrustChain also enables system designers to specify validity rules for different transaction types.
 A TrustChain transaction has a \texttt{type} field, which we fix as the record types discussed in Section~\ref{subsec:record_types} with \texttt{devid\_} as prefix.
-The transaction type is used by participating users to distinguish between different applications and to conduct application-specific validation of incoming transactions (since different applications operate on the same the TrustChain infrastructure).
+The transaction type is used by participating users to distinguish between different applications and to conduct application-specific validation of incoming transactions (since different applications operate on the same TrustChain infrastructure).
 %TrustChain is built around bilateral transactions but also support unilateral transactions that do not require the agreement of other users.
 The transactions containing records associated with projects, skills, import actions, and wallet information are unilateral.
 Endorsements are implemented as bilateral transactions since they involve an interaction between two users.
