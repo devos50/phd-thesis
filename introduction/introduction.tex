@@ -460,7 +460,8 @@ Relying on a trusted intermediary removes the risks when trading directly betwee
 %In a permissioned blockchain environment, however, a trusted intermediary coordinating an asset exchange requires explicit approval from the operator to read and write transactions on the involved distributed ledgers.
 %Allowing new parties in a permissioned blockchain might be undesirable by operators since it introduces additional legal and operational risks.
 
-Blockchain-based marketplaces refrain from settlement through a trusted intermediary and either use cryptographic techniques to ensure trade atomicity, or rely on a group of semi-trusted peers to settle a trade.
+Blockchain-based marketplaces often refrain from settlement through a trusted intermediary.
+Instead, they either use cryptographic techniques to ensure trade atomicity or rely on a group of semi-trusted peers to settle a trade.
 We now outline three settlement techniques commonly found in blockchain-based marketplaces.
 
 \begin{figure}[t]
@@ -483,8 +484,8 @@ Atomic swaps eliminate the risk of losing assets to an adversarial trader during
 The main idea is that trading users lock their assets in a specialized transaction on the blockchain in such a way that no single party can claim both locked assets.
 This is achieved with \emph{Hash-Timelock Contracts} (HTLCs), a special transaction that leverages hash locks and time locks.
 A hash lock is a restriction that prevents the transfer of assets until the pre-image of a provided hash is revealed.
-A time lock is a primitive that locks assets until a specific time.
-These primitives prevent assets from being locked up indefinitely during an atomic swap.
+A time lock is a primitive that prevents the transfer of assets until a specific time.
+The latter primitive prevents assets from being locked up indefinitely during an atomic swap.
 This time lock should be well above the block confirmation time of the underlying blockchain to prevent the loss of assets during a blockchain reorganization.
 In practice, this value is often fixed to several hours.
 
@@ -500,11 +501,11 @@ The basic atomic swap, described by Tier Nolan~\cite{nolan2016atomic}, consists 
 
 \textbf{Step 4.} Bob submits a hash-timelock transaction $ T_2 $ to the Ethereum blockchain, locking his Ether and also using $ H(s) $ for the hash lock.
 
-\textbf{Step 5.} Alice claims the Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. $ T_3 $ unlocks the hash-lock in $ T_2 $. This reveals pre-image $ s $ to Bob.
+\textbf{Step 5.} Alice claims Bobs' Ether locked in $ T_2 $ by submitting a transaction, $ T_3 $, to the Ethereum blockchain, containing $ s $. $ T_3 $ unlocks the hash-lock in $ T_2 $. This reveals pre-image $ s $ to Bob.
 
 \textbf{Step 6.} Bob now claims Alice's Bitcoin locked in $ T_1 $ by submitting a transaction, $ T_4 $, to the Bitcoin blockchain, containing $ s $. The asset exchange is now complete.
 
-The above protocol requires a total of four transactions.
+The above protocol requires a total of four transactions, two for each involved party.
 Note how Alice is not able to claim Bobs' assets without providing the opportunity for Bob to claim her assets.
 
 %First, Alice generates a random secret $ s $ and computes $ H(s) $, where $ H(\cdot) $ denotes a hash function.
@@ -532,7 +533,7 @@ Such optimistic algorithms, however, requires the participation of a trusted thi
 Notary-based schemes are another settlement approach where the approval by a group of credible nodes (often called notaries) is required to perform some operation.
 Notary schemes aim to partially alleviate the trust issues arising when relying on a single trusted intermediary through the approval by a group of semi-trusted notaries instead.
 These notaries reach consensus on the occurrence of particular events, e.g., on the inclusion of a transaction on a distributed ledger.
-Compared to an asset exchange coordinated by a trusted intermediary, notary schemes assume a weaker trust model. Furthermore, they can usually withstand adversarial behaviour of a fraction of all notaries such as collusion.
+Compared to an asset exchange coordinated by a trusted intermediary, notary schemes assume a weaker trust model. Specifically, they can usually withstand adversarial behaviour of a fraction of all notaries such as collusion.
 
 The Interledger project, pioneered by Ripple, is the most advanced approach in this direction~\cite{thomas2015protocol}.
 Interledger proposes a notary-based protocol to conduct payments across different ledgers.
@@ -546,8 +547,8 @@ The management of fraud is a crucial requirement for any marketplace and is clos
 The risk of fraud typically occurs when a buyer and seller have never interacted before and therefore do not have a prior trust relation.
 A common type of fraud is \emph{counterparty fraud}, where a party does not fulfil its obligation towards the counterparty during the settlement of a trade, e.g., by not delivering the promised assets or goods.
 In centralized marketplaces, this kind of fraud is often resolved by the market operator, acting as arbitrator during the dispute resolution process.
-For example, the market operator can communicate with both parties and take appropriate measures when enough evidence has been collected, e.g., closing the account of a trader.
-Within blockchain-based marketplaces, however, counterparty fraud is often prevented since the execution of a single blockchain transaction that transfers assets is atomic: either both trading parties receive their assets, or nothing happens.
+For example, the market operator can communicate with both parties and take appropriate measures when enough evidence has been collected, e.g., suspending the account of a fraudulent user.
+Within DEXes, however, counterparty fraud is prevented since the execution of a single blockchain transaction that transfers assets is atomic: either both trading parties receive their assets, or nothing happens.
 %This approach works when assets can be exchanged directly, e.g., on a blockchain-powered DEX.
 Fraud management, however, becomes instrumental when the settlement process is not atomic and requires both involved traders to move value to the counterparty manually. % depends on the actions of users.
 We identify two conventional approaches to manage fraud arising during a non-atomic trade in blockchain-based marketplaces: using escrow services and collateral.
@@ -574,7 +575,7 @@ We discuss two approaches to identity management in blockchain-based marketplace
 A key property of blockchain technology is the ability to join the network under a pseudonym, a disguised identity usually in the form of a cryptographic keypair.
 This keypair is generated by users themselves.
 Users are then identified by their public key, and ensure authenticity of their transactions by digitally signing the transactions with their private key.
-Since trading on a specific DEXes is usually constrained to a single market environment, DEXes do not require identity verifications and allow traders to join the network under a pseudonym.
+Since trading on a specific DEXes is constrained to a single market environment, DEXes do not require identity verification and allow traders to participate under a pseudonym.
 
 \subsubsection{Real-world Identities}
 % -> becomes required when inteacting with fiat money
@@ -608,7 +609,14 @@ Leveraging blockchain technology to perform order matchmaking has the potential 
 %Additionally, there is a lack of research on off-chain decentralized matchmaking.
 We aim for an efficient matchmaking mechanism with fairness guarantees while avoiding centralized coordination by a market operator.
 
-\textbf{[RQ3] How can the settlement durations of (international) bank payments be reduced?}
+\textbf{[RQ3] How can assets securely be exchanged between any permissioned blockchain without a trusted intermediary?}
+Permissioned blockchains are gaining popularity to manage real-world asset within industrial domains such as supply chain management.
+While the number of permissioned blockchains is proliferating, there is no universal mechanism to quickly exchange assets between different ecosystems without using a trusted intermediary.
+%A key issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible, slow, or requires significant changes to deployed blockchain logic.
+We aim for a universal settlement mechanism that is capable of securely exchanging assets between any permissioned blockchain.
+%The question is how to address these issues and enable fast asset trading between different exchanges.
+
+\textbf{[RQ4] How can the settlement durations of (international) bank payments be reduced?}
 Secure trade settlement is a key requirement for electronic marketplaces.
 Trade often involves real-world currencies that are managed by a bank.
 A major problem of current banking systems is that the settlement duration of an international payment between two different banks is significant and can take days to complete.
@@ -616,17 +624,10 @@ Furthermore, these payments often require disproportional transaction fees to co
 %Leveraging the ideas of blockchain technology holds the potential to improve the speed of (international) payment infrastructures, and potentially leads to cost reductions.
 Our goal is to reduce the settlement duration of international payments between banks.
 
-\textbf{[RQ4] How can assets securely be exchanged between any permissioned blockchain without a trusted intermediary?}
-Permissioned blockchains are gaining popularity to manage real-world asset within industrial domains such as supply chain management.
-While the number of permissioned blockchains is proliferating, there is no universal mechanism to quickly exchange assets between different ecosystems without using a trusted intermediary.
-%A key issue, however, is that the assets on a specific DEX are locked to a single blockchain; trade between different DEXes is either impossible, slow, or requires significant changes to deployed blockchain logic.
-We aim for a universal settlement mechanism that is capable of securely exchanging assets between any permissioned blockchain.
-%The question is how to address these issues and enable fast asset trading between different exchanges.
-
 \textbf{[RQ5] How can a decentralized crowdsourcing platform for the development of dApps be built?}
 The engineering of decentralized applications, or dApps, is a challenging task and requires engineers with appropriate qualifications.
 Crowdsourcing is getting increasingly popular for software development.
-At the same time, the credentials of developers are fragmented across many crowdsourcing platforms, and vendor-locked.
+At the same time, the credentials of developers are fragmented across many crowdsourcing platforms and vendor-locked.
 This makes it challenging to get a representative impression of ones skills and introduces search frictions.
 Our goal is to address this problem by unifying developer credentials and by building a decentralized crowdsourcing platform without fragmentation and vendor-locking effects.
 
@@ -639,14 +640,14 @@ Our goal is to address this problem by unifying developer credentials and by bui
 	\centering
 	\begin{tabular}{ |c|c|c|c| }
 		\hline
-		\textbf{RQ} & \textbf{Mechanism} & \textbf{Experiments} & \textbf{Deployment} \\ \hline
+		\textbf{RQ} & \textbf{Mechanism} & \textbf{Evaluation} & \textbf{Deployment} \\ \hline
 		1 & \TrustChain{} & DAS5 + simulations & integration in Tribler \\ \hline
 		2 & MATCH & DAS5 & integration in Tribler \\ \hline
 		3 & XChange & DAS5 + simulations & integration in Tribler \\ \hline
-		4 & Internet-of-Money & DAS5 & in-house testing \\ \hline
-		5 & \Dappcoder{} + DevID & - & user trial \\ \hline
+		4 & Internet-of-Money & DAS5 & Android app (restricted access) \\ \hline
+		5 & \Dappcoder{} + DevID & user trial & Desktop application \\ \hline
 	\end{tabular}
-	\caption{An overview of research methods for each mechanism introduced in this thesis.}
+	\caption{An overview of evaluation and deployment methods for each mechanism introduced in this thesis.}
 	\label{table:research_methodology}
 \end{table*}
 
@@ -662,7 +663,7 @@ In this thesis we adopt an experimental approach where we answer each research q
 %We then systematically evaluate the appropriate properties of each mechanism (e.g., scalability), and if feasible, we deploy our mechanisms to users to analyse our system in a real-world environment.
 For all of our proposed mechanisms, our primary objective is to build a solution that is ready for deployment and usable by end users.
 We have implemented each mechanism in the Python programming language, usually within a few thousand lines of code.
-We utilize an existing library for networking primitives, fully developed and maintained by our lab.\footnote{See \url{https://github.com/tribler/py-ipv8}}
+We utilize an existing library for networking primitives and decentralized overlay engineering, fully developed and maintained by our lab.\footnote{See \url{https://github.com/tribler/py-ipv8}}
 Table~\ref{table:research_methodology} lists for each mechanism how we have evaluated and deployed it.
 Except for \Dappcoder{} (and by extension, DevID), we evaluate each mechanism with an appropriate set of experiments using our nation-wide compute cluster (the DAS5~\cite{bal2016medium}).
 To setup and execute these experiments we make use of the Gumby framework, developed and maintained by our lab~\cite{gumby}.
@@ -670,11 +671,11 @@ We further evaluate the \TrustChain{} and XChange mechanisms using discrete-even
 These simulations enable us to evaluate a mechanism with many users and allows us to quickly replay longitudinal real-world traces.
 For example, we evaluate fraud gains of adversaries in the XChange mechanism by replaying a week of buy and sell orders with our simulator.
 
-Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either within a small group of colleagues or with an integration in the Tribler application~\cite{zeilemaker2011tribler}.
+Driven by our focus on practicality, we have deployed each mechanism proposed in this thesis, either to a small group of colleagues or with an integration in the Tribler application~\cite{zeilemaker2011tribler}.
 Tribler is our open-source, academic research vehicle and offers decentralized, anonymous file-sharing capabilities.
-Tribler has been downloaded by over 1.7 million users and enables us to test our ideas and code in a geo-distributed, real-world environment and on consumer-grade hardware.
+Tribler has been downloaded by over 1.7 million users and enables us to test our ideas and algorithms in a geo-distributed, real-world environment and on consumer-grade hardware.
 For example, we have integrated the \TrustChain{} mechanism in \Tribler{} to prevent free-riding behaviour in our anonymous peer-to-peer overlay.
-This two-year deployment period of \TrustChain{} has allowed us to incrementally improve our accounting mechanism and refine our ideas.
+This two-year deployment period of \TrustChain{} has allowed us to refine our ideas and incrementally improve our accounting mechanism.
 We attempt to make our research reproducible by publishing the implementation of each mechanism, including documentation and unit tests, on GitHub.\footnote{Links to the implementation are provided in the technical chapters of this thesis.}
 Due to legal considerations, we are unable to provide an open-source implementation of the four reverse-engineered banking algorithms included in our Internet-of-Money mechanism.
 
@@ -710,7 +711,8 @@ Despite the large efforts required to get our systems deployed and operational, 
 \section{Thesis Outline and Contributions}
 In Chapter 2-6, we address the research questions stated in Section~\ref{sec:research_questions}.
 Figure~\ref{fig:thesis_overview} shows the mechanisms introduced in this thesis and visualizes the aspect(s) that each mechanism relates to.
-We do note that fraud in Figure~\ref{fig:thesis_overview} specifically refers to the act of committing counterparty fraud during a trade.
+We do note that fraud management in Figure~\ref{fig:thesis_overview} refers to the management of counterparty fraud during a trade.
+Other mechanisms introduced in this thesis also address fraud but these types of fraud are not related to trade settlement and are therefore not visualised in Figure~\ref{fig:thesis_overview}.
 The content and contributions in each chapter are as follows:\\
 
 \textbf{[Chapter 2] ConTrib: Maintaining Fairness in Decentralized Big Tech Alternatives by Accounting Work.}
@@ -735,7 +737,7 @@ Martijn de Vos and Johan Pouwelse, \enquote{ConTrib: Maintaining Fairness in Dec
 
 Pim Otte, Martijn de Vos and Johan Pouwelse, \enquote{TrustChain: A Sybil-resistant Scalable Blockchain}, \emph{Future Generation Computer Systems (FGCS), Special Issue on Cryptocurrency and Blockchain Technology}, 2020, Elsevier.\\
 
-In contrast to our earlier article on TrustChain, the articles presenting the \TrustChain{} mechanism contain additional details on the data structure, include a full description of our fraud detection algorithm, and include the results of our two-year deployment trial within \Tribler{}.
+In comparison to our earlier article on TrustChain, the articles presenting the \TrustChain{} mechanism contain additional details on the data structure, include a full description of our fraud detection algorithm, and include the results of our two-year deployment trial within \Tribler{}.
 The XChange, Internet-of-Money, and \Dappcoder{} mechanisms use the TrustChain data structure as presented by Otte et al.\\
 
 \textbf{[Chapter 3] MATCH: A Decentralized Middleware for Fair Matchmaking in Peer-to-peer Markets.}
@@ -762,7 +764,7 @@ Since the number of incompatible blockchains is quickly growing, there is an inc
 There currently is no universal mechanism for inter-blockchain asset exchange without a requirement for trusted authorities that coordinate the trade.
 We address this shortcoming and present the XChange mechanism.
 To achieve universality and to avoid trusted authorities that coordinate a trade, XChange does not provide atomic guarantees but leverages risk mitigation strategies to reduce value at stake.
-Our mechanism records the specifications and progression of each trade within records on a distributed log.
+Our mechanism records the specifications and progression of each trade within records in a distributed log.
 XChange reduces the economic gains of adversaries by bounding the total amount of fraud they can commit at any time.
 After having committed fraud, an adversary is forced to finish its ongoing trades before it can engage in new trades.
 We first present a four-phased protocol that coordinates an asset exchange between two traders.
@@ -808,8 +810,8 @@ This can result in an incomplete impression of their capabilities, introducing s
 We address this problem and first introduce DevID, a blockchain-based portfolio for developers.
 This portfolio enables developers to build up a trustworthy collection of records over time that showcase their capabilities and expertise.
 They can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements from other users.
-All portfolio records are stored on a scalable distributed ledger and managed by developers themselves.
-The essential idea is to exploit the tamper-proof property of the blockchain while providing durable storage.
+All portfolio records are managed by developers themselves and stored on an existing scalable distributed ledger named TrustChain.
+The essential idea of TrustChain is to exploit the tamper-proof property of the blockchain while avoiding the need to reach a resource-intensive agreement on all transactions.
 We then build a decentralized crowdsourcing platform, named \Dappcoder{}, for the development of dApps.
 On dAppCoder clients are able to submit their ideas and developers can find work.
 \Dappcoder{} utilizes DevID portfolios to match these clients and developers.
@@ -820,7 +822,7 @@ This chapter is based on the following publication:
 
 Martijn de Vos, Mitchell Olsthoorn and Johan Pouwelse, \enquote{DevID: Blockchain-based Portfolios for Software Developers}, \emph{IEEE International Conference on Decentralized Applications and Infrastructures (DAPPCON'19)}.\\
 
-Chapter 6 contains various improvements compared to the above paper.
+Chapter 6 contains various improvements compared to the above publication.
 Specifically, we have reorganized the storyline to focus more on the \Dappcoder{} platform, and we have included more technical details on TrustChain transactions and their validation.
 We have also removed the dependency on the trusted notary service for payments.
 Clients now issue direct payouts to developer using cryptocurrencies while ensuring that misbehaviour (i.e., not compensating a particular developer for their work) can be detected.\\
