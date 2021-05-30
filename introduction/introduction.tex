@@ -215,7 +215,7 @@ By leveraging cryptographic techniques, cryptocurrencies have demonstrated that 
 Since the introduction of Bitcoin, there has been much effort by both industry and academia to critically assess the necessity of trusted intermediaries, and potentially replace them with another mechanism, e.g., using smart contracts on Ethereum~\cite{lande2018sok}.
 
 In many domains, it has been proven to be possible to replace trusted intermediaries with cryptographic techniques.
-Yet, disintermediation is not always possible and sometimes not even desired.
+Yet, disintermediation is not always possible and sometimes not even allowed.
 In certain domains there is a need for traditional trusted intermediaries to safeguard business processes, in particular in the highly regulated financial sector.
 One might argue that electronic markets require at the very least some trusted intermediary to act as mediator between buyer and sellers if a trade is not an atomic operation.
 Furthermore, local regulations might require a trusted intermediary for certain market processes, e.g., when there is a need to verify the identify of business relations to prevent criminal activities (this process is also known as Know-your-Customer or KYC).
@@ -223,8 +223,8 @@ Furthermore, local regulations might require a trusted intermediary for certain 
 As also pointed out by other researchers, we argue that it is unlikely that electronic markets will be fully disintermediated by blockchain technology anytime soon~\cite{zamani2018little}.
 Instead of complete disintermediation, it is a more likely scenario that the role of existing intermediaries will transform and that their involvement in market processes will be reduced.
 For this reason, numerous financial institutions are currently experimenting with distributed ledger technology to make existing settlement services more efficient and reliable.
-Perhaps the most influential solution, Corda, is currently being deployed by R3, a consortium consisting of the world's leading financial institutions~\cite{r3corda}.
-Another example is Ripple~\cite{armknecht2015ripple}, a credit network that is aimed to eventually replace the SWIFT payment infrastructure.
+Perhaps the most influential solution is Ripple~\cite{armknecht2015ripple}, a credit network that is aimed to eventually replace the SWIFT payment infrastructure.
+Another example is Corda that is currently being developed by R3, a consortium consisting of the world's leading financial institutions~\cite{r3corda}.
 %In practice, these solutions are not fully disintermediated since payments will still be processed by nodes operated by the involved financial institutions.
 
 \begin{figure}[t]
@@ -564,7 +564,7 @@ Arbitrators, however, can redistribute traded assets through the usage of multi-
 Some blockchain-based marketplaces require users to deposit collateral before trading.
 This collateral is slashed when its depositor does not adhere to an agreement or deviates from the protocol.
 The XClaim protocol, for example, relies on collateral deposits to enable asset trading between distinct blockchain ledgers and to incentivize users to behave in line with the system rules~\cite{zamyatin2019xclaim}.
-When a participant misbehaves, the collateral is slashed, and wronged actors are reimbursed.
+When a participant misbehaves, the collateral is slashed and wronged actors are reimbursed.
 
 \subsection{Identity Management}
 The final aspect of blockchain-based marketplaces is how to manage the digital identities of participants.
@@ -718,8 +718,8 @@ The content and contributions in each chapter are as follows:\\
 \textbf{[Chapter 2] ConTrib: Maintaining Fairness in Decentralized Big Tech Alternatives by Accounting Work.}
 In this chapter we address RQ1 and build a universal mechanism for the accounting of information in decentralized applications.
 %To date, there is no such accounting mechanism that is optimized to store small pieces of information in large-scale shared-resource systems.
-We present \TrustChain{}, a scalable mechanism for the accounting of interactions within a decentralized network.
-Each individual in \TrustChain{} maintains a \emph{personal ledger} of tamper-evident \emph{records}.
+We present \emph{\TrustChain{}}, a scalable mechanism for the accounting of interactions within a decentralized network.
+Each individual in \TrustChain{} maintains a personal ledger with tamper-evident records.
 Records can point to other ones and can be agreed on by other users, resulting in a global DAG structure.
 Fraud, the illegitimate modification of a record, is effectively detected since users continuously share and validate records.
 We devise a system architecture with flexible validation and fraud policies.
@@ -747,7 +747,7 @@ Matchmaking is a core enabling element in peer-to-peer markets.
 To date, matchmaking is predominantly performed by proprietary algorithms, fully controlled by market operators.
 This raises fairness concerns as market operators effectively can hide, prioritize, or delay the orders of specific users.
 Blockchain technology has been proposed as an alternative for fair matchmaking without a trusted operator but is still vulnerable to specific fairness attacks like front-running.
-We present MATCH, a decentralized middleware for fair matchmaking in peer-to-peer markets.
+We present \emph{MATCH}, a decentralized middleware for fair matchmaking in peer-to-peer markets.
 By decoupling the dissemination of potential matches from the negotiation of trade agreements, MATCH empowers end users to make their own educated decisions and to engage in direct negotiations with trade partners.
 This approach makes MATCH highly resilient against malicious matchmakers that deviate from a specific matching policy.
 We implement MATCH and show the resilience of our middleware using real-world ride-hailing and asset trading workloads.
@@ -762,7 +762,7 @@ Permissioned blockchains are increasingly being used as a solution to record tra
 Several use cases that leverage permissioned blockchains focus on the representation and management of real-world assets.
 Since the number of incompatible blockchains is quickly growing, there is an increasing need for a universal mechanism to exchange, or trade, digital assets between these isolated platforms.
 There currently is no universal mechanism for inter-blockchain asset exchange without a requirement for trusted authorities that coordinate the trade.
-We address this shortcoming and present the XChange mechanism.
+We address this shortcoming and present the \emph{XChange} mechanism.
 To achieve universality and to avoid trusted authorities that coordinate a trade, XChange does not provide atomic guarantees but leverages risk mitigation strategies to reduce value at stake.
 Our mechanism records the specifications and progression of each trade within records in a distributed log.
 XChange reduces the economic gains of adversaries by bounding the total amount of fraud they can commit at any time.
@@ -787,15 +787,16 @@ The above publication presents a full architecture for a decentralized marketpla
 In this chapter we answer RQ4 and reduce the settlement duration of inter-bank payments.
 The key idea is to break up a particular inter-bank payment into a series of intra-bank payments between strangers which are quick to complete.
 Specifically, we address the challenging problem of giving money to others and relying on them to forward it.
-To identify fraud, we record money transfers between interacting strangers.
+To identify fraud, we record money transfers between interacting strangers on a scalable, distributed ledger.
 This work represents a small step towards a generic infrastructure for trust, moving beyond proven, single-vendor platforms like eBay, Uber, and Airbnb.
 Expanding upon trust relations, we design, implement, and evaluate a decentralized overlay network: \emph{Internet-of-Money}.
-Internet-of-Money is capable of real-time money transfers to different banks by routing funds through \emph{money routers}.
+Internet-of-Money is capable of real-time money transfers to different banks by routing funds through money routers.
+A money router manages bank accounts at different banks.
 This removes the need for central banks to handle a payment.
 Our network reduces traditional payment durations from a day or even a few days in weekends, to mere seconds.
 %Internet-of-Money is fully decentralized, privacy-preserving and highly scalable.
 With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
-We also show that our overlay network is capable of discovering a majority of available money routers within a minute.
+We also show that our overlay network is capable of discovering a majority of available money routers well within a minute, ensuring quick availability for end users.
 Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is punished.
 This chapter is based on the following publication:
 
@@ -807,12 +808,12 @@ Decentralized applications, also known as dApps, are the new paradigm for writin
 Recruiting developers with appropriate qualifications and skills for this activity is key, yet challenging.
 The main problem is that the portfolio of developers is usually scattered across centralized platforms like GitHub and LinkedIn, and vendor locked-in.
 This can result in an incomplete impression of their capabilities, introducing search frictions.
-We address this problem and first introduce DevID, a blockchain-based portfolio for developers.
+We address this problem and first introduce \emph{DevID}, a blockchain-based portfolio for developers.
 This portfolio enables developers to build up a trustworthy collection of records over time that showcase their capabilities and expertise.
 They can import data assets from third parties into a unified DevID portfolio, add projects and skills, and receive endorsements from other users.
 All portfolio records are managed by developers themselves and stored on an existing scalable distributed ledger named TrustChain.
 The essential idea of TrustChain is to exploit the tamper-proof property of the blockchain while avoiding the need to reach a resource-intensive agreement on all transactions.
-We then build a decentralized crowdsourcing platform, named \Dappcoder{}, for the development of dApps.
+We then build a decentralized crowdsourcing platform, named \emph{\Dappcoder{}}, for the development of dApps.
 On dAppCoder clients are able to submit their ideas and developers can find work.
 \Dappcoder{} utilizes DevID portfolios to match these clients and developers.
 We fully implement our ideas and conduct a deployment trial.

@@ -1,21 +1,21 @@
 \chapter{Internet-of-Money: Real-time Money Routing by Trusting Strangers with your Funds}
 \label{chapter:iom}
 
-\emph{In this chapter, we explore a new stage in the evolution of digital trust, trusting strangers with your funds.
-We address the trust issues when giving money to others and relying on them to forward it.
-For fraud identification, we leverage our deployed blockchain which gradually builds trust between interacting strangers.
-Our blockchain fabric, called \emph{TrustChain}, records interactions between entities in a scalable manner.
-This work represents a small step towards a generic infrastructure for trust, moving beyond proven single vendor platforms like eBay, Uber, and Airbnb.}
+\emph{In this chapter we introduce a mechanism to significantly reduce the settlement duration of inter-bank payments.
+The key idea is to break up a particular inter-bank payment into a series of intra-bank payments between strangers which are quick to complete.
+Specifically, we address the challenging problem of giving money to others and relying on them to forward it.
+To identify fraud, we record money transfers between interacting strangers on a scalable, distributed ledger.
+This work represents a small step towards a generic infrastructure for trust, moving beyond proven, single-vendor platforms like eBay, Uber, and Airbnb.}
 
-\emph{Building upon established trust relations, we design, implement, and evaluate an overlay network: \emph{Internet-of-Money}.
-Internet-of-Money routes money to different banks in real-time through individuals, so-called \emph{money routers}.
-This removes the need for central banks, to handle a payment.
-Our network reduces the duration of traditional inter-bank payments from up to a day and even a few days during weekends, to mere seconds.
-Internet-of-Money is fully decentralized, scalable, and privacy-preserving.}
-
-\emph{With real-world experimentations, we prove that Internet-of-Money enables fast money forwarding.
-We show that the overlay network is capable of discovering a majority of available money routers within a minute.
-Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is quickly punished.}
+\emph{Expanding upon trust relations, we design, implement, and evaluate our Internet-of-Money overlay network.
+Internet-of-Money is capable of real-time money transfers to different banks by routing funds through \emph{money routers}.
+A money router manages bank accounts at different banks.
+This removes the need for financial intermediaries, e.g., central banks, to handle an inter-bank payment.
+Our network reduces traditional payment durations from a day or even a few days in weekends, to mere seconds.
+%Internet-of-Money is fully decentralized, privacy-preserving and highly scalable.
+With real-world experimentation, we prove that Internet-of-Money enables fast money forwarding.
+We also show that our overlay network is capable of discovering a majority of available money routers well within a minute, ensuring quick availability for end users.
+Finally, we demonstrate how the profit of cheating routers is limited and that misbehaviour is punished.}
 
 \newpage
 
