@@ -326,14 +326,14 @@ Large data is inserted in the distributed storage back-end, and a reference to t
 DevID (and \Dappcoder{}) users can store their data at different \emph{providers}.
 DevID portfolio records with external data assets attached include the provider identifier (e.g., \enquote{\texttt{IPFS}}) and a pointer to the data (e.g., an IPFS content hash).
 
-\section{dAppCoder: Crowdsourcing Development of Decentralized Applications}
+\section{dAppCoder: Crowdsourcing the Development of dApps}
 \label{sec:dappcoder}
-By extending the DevID portfolio architecture, we build a crowdsourcing marketplace, named \emph{dAppCoder}, for the development of decentralized applications.
+By extending the DevID portfolio architecture, we build a crowdsourcing marketplace, named \emph{dAppCoder}, for the development of dApps.
 Running completely without centralized servers, \Dappcoder{} enables clients to propose projects and to find developers qualified to work on their projects.
 The process of finding developers is streamlined by direct integration of DevID portfolios, therefore reducing search frictions.
 dApp developers can choose to work on projects that match their skill set.
 \Dappcoder{} also provides primitives for project management and financial compensation for developers.
-With a direct integration with DevID portfolios, developers can work on their reputation by participating in dAppCoder projects.
+%Developers can work on their reputation by participating in dAppCoder projects.
 The architecture of \Dappcoder{} is presented in the upper layer of Figure~\ref{fig:dappcoder_system_architecture}.
 We now elaborate on the main functionalities of \Dappcoder{}.
 
@@ -365,7 +365,7 @@ We now elaborate on the main functionalities of \Dappcoder{}.
 \subsection{Creating and Managing Projects}
 Clients that want their idea realized (e.g., the implementation of a particular smart contract) can offer a new project in \Dappcoder{}.
 Creating a new project requires the client to specify various fields, as exemplified in Listing~\ref{lst:devid_project}.
-Each project includes a title, a description, a list with technical requirements for the final deliverable, a deadline (optional), a list of required skills needed to successfully complete the project, the height of the compensation (if any). and an optional list of assets provided by the client.
+Each project includes a title, a description, a list with technical requirements for the final deliverable, a deadline (optional), a list of required skills needed to successfully complete the project, the height of the financial compensation (if any), and an optional list of assets provided by the client.
 Since the project description, requirements, and assets can become large, these assets are stored off-chain and a reference to these assets is included in the transaction.
 This reference contains a \texttt{provider} and \texttt{uri} field.
 To publish a project, a TrustChain transaction with type \texttt{dappcoder\_project} containing all project information is constructed, appended to the personal ledger of the project creator, and disseminated in the network.
@@ -383,22 +383,22 @@ This avoids the need for trusted intermediaries for payment processing.
 %This dispute is then mediated by the trusted notary, whether or not with the involvement of the developer and client.
 %When receiving a TrustChain transaction containing a project with a compensation, the software automatically checks whether the deposit is valid and confirmed by the trusted notary service.
 
-As shown in Figure~\ref{fig:devid_project}, a dAppCoder project can be in one of the five following stages: \emph{created}, \emph{implementing}, \emph{testing}, \emph{finished} or \emph{cancelled}.
+As shown in Figure~\ref{fig:devid_project}, a dAppCoder project can be in one of the five following stages: \emph{created}, \emph{implementation}, \emph{testing}, \emph{finished}, or \emph{cancelled}.
 After a project has been created, developers can indicate their interest to work on a preferred project by creating and sharing a unilateral \texttt{dappcoder\_project\_interest} transaction.
 A client is still able to cancel projects that have not advanced to the implementation stage.
 If many developers have indicated their interest to work on a particular project, the client can filter developers, for example, based on the information in their DevID portfolios.
 A project is updated using a \texttt{dappcoder\_project\_update} transaction created by the project creator that transitions the project to a different stage.
 The \Dappcoder{} software has built-in validation rules that assess whether a project transaction is valid.
-For example, a project cannot transition from the \emph{cancelled} to \emph{created} stage and transactions containing such a transaction are ignored.
+For example, a project cannot transition from the \emph{cancelled} to \emph{created} stage and transactions containing such a transition are ignored.
 
 During the implementation stage, assigned developers work on implementing the project deliverables.
 When the implementation is complete, the project enters the \emph{testing} stage.
-Testing is a crucial requirement for the development of secure decentralized applications that often evolve around value transfer or business-critical operations.
+Testing is a crucial requirement for the development of secure decentralized applications that often involve value management or business-critical operations.
 A single bug has the potential to bring down an ecosystem that manages billions worths of assets, as demonstrated by the DAO hack in 2016~\cite{dhillon2017dao}.
 This testing might be performed by the developers that worked on the project deliverables during the implementation stage, or by other developers.
-If the testing stage reveals that more work is needed on the project deliverable, the project can transition to the \emph{implementing} stage again.
+If the testing stage reveals that more work is needed on the project deliverable, the project can transition to the \emph{implementation} stage again.
 This is ultimately determined by the client.
-When the deliverable is satisfactory, the client indicates that the project is finished and conducts payments to the involved developers.
+When the deliverable is satisfactory, the client indicates that the project is finished and conducts payments to the involved developers if there is a financial compensation involved.
 
 \begin{figure*}[t!]
 	\centering
@@ -409,9 +409,9 @@ When the deliverable is satisfactory, the client indicates that the project is f
 
 \subsection{Finding Projects and Publishing Deliverables}
 \label{subsec:create_submissions}
-Developers looking for work can browse through the list of open projects, or filter them based on the skills they have added to their DevID portfolio.
+Developers looking for work can browse through the list of open projects and filter them based on the skills they have added to their DevID portfolio.
 When a developer has found an interesting project, they indicate their interest to work on the project.
-This work starts when the client assigned the interested developer to the project and when the project transitions to the implementation phase.
+This work starts when the client assigned the interested developer to the project and when the project transitions to the implementation stage.
 If the source code of the project can be made public, a developer may create a \texttt{dappcoder\_deliverable} transaction that includes a pointer to the work done.
 This pointer, for example, can refer to a GitHub repository.
 Such a transaction also links to the project associated with the submission.
@@ -443,7 +443,7 @@ The time at which these payouts take place should be decided between the develop
 For example, a developer can request to be partially compensated up-front.
 We envision that all payouts in dAppCoder proceed using cryptocurrencies and are public.
 A developer can signify a payout by creating a \texttt{dappcoder\_payout} transaction, containing a reference to the cryptocurrency transaction associated with the payout (e.g., the hash of a Bitcoin transaction).
-By verifying the source and destination wallet addresses of the payout, other users can determine whether a client correctly compensated a developer.
+By verifying the source and destination addresses of the transaction with the wallet information included in DevID portfolios, other users can determine whether a client correctly compensated a developer.
 Unreliable clients that have no valid payout associated with a finished and paid project will be flagged in the application and can be avoided by developers.
 
 \section{Implementation and Deployment Trial}
@@ -467,7 +467,7 @@ The open source implementations of both DevID and dAppCoder are available online
 
 We build DevID, and by extension dAppCoder, on the TrustChain ledger introduced by Otte et al~\cite{otte2017trustchain}.
 This ledger is built on our existing networking library that provides support for building decentralized overlay networks~\cite{ipv8}.
-We use the InterPlanetary File System (IPFS) to store large data assets like project specifications, submissions and code reviews.
+We use the InterPlanetary File System (IPFS) to store large data assets like project specifications, submissions, and code reviews.
 Users can import statistics from their GitHub profile using the challenge mechanism described in Section~\ref{subsec:unifying_data}.
 
 \subsection{Deployment Trial}
@@ -528,12 +528,12 @@ In comparison to most of the research performed on blockchain-based crowdsourcin
 
 \section{Conclusions}
 We have presented dAppCoder, a decentralized crowdsourcing platform for the development of decentralized applications.
-As a first step, we build DevID, a unified portfolio for software developers.
+As a first step, we built DevID, a unified portfolio for software developers.
 DevID addresses the fragmentation and lock-in of developer data across different platforms with a mechanism to import data from third-party services.
 By building upon an existing scalable ledger, DevID is capable of storing tamper-proof records and does not depend on any trusted party.
 Portfolio records are fully managed by developers themselves.
-Our application, dAppCoder, matches clients and reputable developers.
-With a deployment trial, we have demonstrated that dAppCoder is feasible.
+Our decentralized crowdsourcing marketplace, dAppCoder, enables clients to create projects and developers to find work that matches with their expertises.
+With a deployment trial, we have demonstrated that both DevID and dAppCoder are efficient at storing data.
 
 Future work is focused on a large-scale deployment of dAppCoder and better support for specific bug bounties.
 We envision the integration of multiple cryptocurrencies and external data providers.
