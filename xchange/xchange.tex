@@ -30,7 +30,7 @@ Miners invest computational power to include valid transactions on the blockchai
 One of the compelling features of a blockchain is the ability to securely record and validate user-issued transactions without trusted authorities, even in the presence of mutual distrust between participants.
 
 Participation in many deployed blockchains is open for everyone and does not require the explicit approval from authorities unlike traditional banking systems.
-Even though blockchain technology provides the means to maintain a distributed ledger without trusted authorities, open enrollment is not required for many industrial use cases, or is even undesirable.
+Even though blockchain technology provides the means to maintain a distributed ledger without trusted authorities, open enrolment is not required for many industrial use cases, or is even undesirable.
 For instance, when two companies leverage blockchain technology to securely record their transactions, read and write access to the distributed ledger is most likely limited to a few selected employees or operators.
 Over the past few years, there has been a sharp increase in the development and deployment of private, or \emph{permissioned} blockchains~\cite{androulaki2018hyperledger,de2018pbft,vukolic2017rethinking}.
 In contrast to a public blockchain like Bitcoin, membership in a permissioned blockchain is managed by an authority that approves the participation of each peer.
@@ -41,7 +41,7 @@ Permissioned blockchains have the potential to increase the efficiency of tradit
 
 Several use cases that record transactions on a permissioned blockchain revolve around the representation and management of real-world assets on a distributed ledger~\cite{hewett2019inclusive}.
 Advancements in blockchain technology have resulted in numerous platforms on which companies can issue and manage digital assets.
-There currently is a proliferation of different types of assets, fragmented across many different blockchain implementations~\cite{borkowski2018towards}.
+There currently is a proliferation of different types of assets, fragmented across many blockchain implementations~\cite{borkowski2018towards}.
 In public blockchains, almost 200'000 different assets are being managed on the Ethereum blockchain only.\footnote{See \url{https://etherscan.io/tokens}}
 A recent Forbes report reveals that at least 50 major companies, each valued at least at \$1 billion, are exploring blockchain technology for asset management and trading~\cite{forbes50companies}.
 As industry's adoption of blockchain technology is increasing, a similar asset proliferation will occur with permissioned blockchains.
@@ -111,7 +111,7 @@ The main contribution of this work is five-fold:
 \begin{enumerate}
 	\item We present the \ModelName{} \emph{trading protocol} which specifies how assets are exchanged between permissioned blockchains by storing trade records in a distributed log (Section~\ref{sec:xchange_protocol}).
 	\item We devise two \emph{risk mitigation strategies} that lower the risk for traders and bound the economic gains of adversaries committing counterparty fraud.
-	\item We improve TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enables concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
+	\item We improve TrustChain, a tamper-proof, distributed log used by \ModelName{}. Our improvements enable concurrent transactions and increase scalability (Section~\ref{sec:blockchain_accounting}).
 	\item We provide a functional, open source \emph{implementation} of the \ModelName{} trading protocol (Section \ref{sec:implementation}).
 	\item We present \emph{experimentation} around the security, resource usage and scalability of \ModelName{}, conducted on multiple low-resource devices and our compute cluster (Section~\ref{sec:xchange_fraud_experiment} -- \ref{subsec:scalability_experiment}).
 \end{enumerate}
@@ -120,7 +120,7 @@ The main contribution of this work is five-fold:
 \label{sec:background_problem_description}
 Achieving interoperability between blockchains is a challenging problem and remains largely unsolved~\cite{zamyatin2019sok,vo2018internet,buterin2016chain}.
 Most research in this direction considers cross-chain interactions between permissionless blockchains~\cite{koens2019assessing}.
-There is only few research on how to achieve interoperability between permissioned blockchains, even though this is also a concern in private environments.
+There is little research on how to achieve interoperability between permissioned blockchains, even though this is also a concern in private environments.
 We first discuss existing solutions that address asset exchange between different blockchains, ranging from approaches that rely on a central authority to trust-less trading mechanisms using specialized transactions or intermediate blockchains.
 Based on our findings, we then formulate the requirements for our asset exchange mechanism.
 
@@ -191,7 +191,7 @@ Both blockchains are also required to support the same hashing algorithm.
 Second, atomic swaps require traders to lock their assets using a hash-timelock transaction.
 This enables a Denial-of-Service attack where a party can intentionally retain the assets of a counterparty, denying the counterparty from using the locked assets for other purposes.
 Third, atomic swaps can be unfair for one of the parties since the swap initiator has a time window after both parties have locked their assets, during which it can decide to abort the swap~\cite{han2019optionality}.
-This window enables price speculation by the swap initiator by keeping the assets of the other party locked until the asset price goes in the favor of the initiator.
+This window enables price speculation by the swap initiator by keeping the assets of the other party locked until the asset price goes in the favour of the initiator.
 
 \subsection{Notary Schemes}
 \label{sec:notary_schemes}
@@ -414,7 +414,7 @@ We acknowledge that it might be undesirable to publicly record trade information
 However, since privacy preservation will likely require additional mechanisms and cryptographic techniques, we consider privacy concerns beyond the scope of our work.
 
 We have considered an alternative design where trade records are stored by the ledgers that are involved in the trade.
-Even though this design would avoid the need for a shared log, it would result in the fragmentation of trade records across potentially many different ledgers, making it infeasible to accurately determine in which trades a specific trader is currently involved.
+Even though this design would avoid the need for a shared log, it would result in the fragmentation of trade records across potentially many ledgers, making it infeasible to accurately determine in which trades a specific trader is currently involved.
 Furthermore, a user can be unable to accurately build profile information of another trader since this user might not have the appropriate credentials to inspect the records and transactions on a specific ledger.
 This design would also require logic to store \ModelName{} trade records within all supported blockchain environments, requiring significant implementation efforts.
 
@@ -466,12 +466,12 @@ Determination of the trade roles (who becomes the risky party and who becomes th
 The first risk mitigation strategy we introduce is \emph{incremental settlement}, where a trade is incrementally completed in $ k $ near-equal, smaller payments.
 Assume that in our fictitious trade between Alice ($ A $) and Bob ($ B $), parties agree to use an incremental settlement with $ k = 2$.
 The total trade, therefore, would consist of four consecutive payments as illustrated in Figure~\ref{fig:incremental_trade}. 
-Alice is the \emph{risktaker} in this trade and she does the first payment.
+Alice is the \emph{risktaker} in this trade, and she does the first payment.
 Notice that after each payment by Bob, the parties are on par with each other.\footnote{We assume here that a trade exchanges an equal amount of value between both traders. In practice, there are usually small profit margins where one party would gain slightly more in value when the trade is complete.} 
 Termination of the trade at this state would not cause an economic loss for any of the parties.
 On the other hand, after each payment by Alice, the trade is in a state where Bob has an economic gain of 1 FabToken and Alice experiences an economic loss.
 With incremental settlement and $ k = 2 $, Alice is risking only a loss of $ 1 $ FabToken, instead of $ 2 $ FabTokens.
-We call the amount of risked assets as the \MarginalStake{}.
+We refer to the amount of risked assets as the \MarginalStake{}.
 
 Similar to making multiple, smaller payments in the Interledger protocol, traders in \ModelName{} can gradually complete a trade in smaller steps and thus keep the risks manageable.
 On the one hand, in a trade where each party transfers value $ v $ to the counterparty, the economic gains of an adversary is reduced to $ \frac{v}{k} $.
@@ -622,7 +622,7 @@ Using $ k = 2 $, for example, lowers $ V(t_1) $ to \$5.
 %If $ C $ would already be a risky party in a trade, $ A $ will detects this and as such refuse to trade with $ C $.
 %As a consequence of condition (3), two parties that are both risky in different trades never agree to trade with each other.
 
-\subsubsection{Further Comments on Risk Mitigation}
+\subsubsection{Additional Comments on Risk Mitigation}
 \textbf{Flexible Conformance.} We note that a trader can always ignore the risk mitigation strategies described in this section and engage in other trades \emph{at its own risk}.
 Doing so, however, does not provide restrictions on the economic gains of adversarial parties but it enables participants to engage in trade with traders with which there is an existing trust relation (e.g., the traders know each other in real life).
 Trades that parties started at their own risk do not impact the obligations of the risky party in such trades.
@@ -745,7 +745,7 @@ Similar to how participation in $ \mathcal{B}_a $ and $ \mathcal{B}_b $ is expli
 We envision that a trader joining \ModelName{} re-uses the well-defined identity under which it participates in one of the permissioned blockchains.
 We remark that $ \mathcal{L} $ can, for example, be realized through a blockchain with support for smart contracts.
 
-Users in \ModelName{} participate in a peer-to-peer network, which is used to send point-to-point messages to other users.
+\ModelName{} users participate in a peer-to-peer network, which is used to send point-to-point messages to other users.
 This network is particularly used during trade negotiation, as we further specify in Section~\ref{sec:xchange_protocol}.
 We assume that peers in the \ModelName{} network know the network addresses of other peers.
 
@@ -864,7 +864,7 @@ When $ M $ receives a \texttt{Proposal} message from taker $ T $, it also verifi
 Specifically, $ M $ performs the same two checks as the taker did.
 Furthermore, $ M $ verifies if it agrees with the role classification proposed by the taker.
 If validation fails, the maker immediately sends a \texttt{Reject} message back to the taker, containing the identifier of the rejected order and, optionally, why $ M $ has rejected the proposal.
-If $ M $ agrees with the proposal and also wishes to trade with $ T $, $ M $ constructs a \texttt{Agreement} record, which includes the identifier of the order being fulfilled and the proposal created by the taker (including the taker's signature).
+If $ M $ agrees with the proposal and also wishes to trade with $ T $, $ M $ constructs an \texttt{Agreement} record, which includes the identifier of the order being fulfilled and the proposal created by the taker (including the taker's signature).
 This \texttt{Agreement} record is signed by $ M $, sent back to $ T $, and appended to $ \mathcal{L} $.
 Inclusion of the \texttt{Agreement} record on $ \mathcal{L} $ binds the maker and the taker to the trade agreements.
 Since the risktaker is exposed to counterparty risk in the upcoming trade, the preferred value of $ k $ by the risktaker is used during the upcoming asset exchange.
@@ -961,7 +961,7 @@ Accordingly, defining $ \bar{u} = \max\{u_j(b) : j\in V\} $ where $ V $ is the s
 \textbf{Limit on the Risktaker's Loss.} 
 In \ModelName{}, the risktaker's loss in a single trade is bounded with the trust threshold $ u $ associated with the risky party.
 Furthermore, as the risktaker is involved in the determination of number of payments ($ k $) during trade negotiations, it can reduce its own risk to any extent.
-Nevertheless we note that \ModelName{} does not introduce a theoretical bound on the loss of a risktaker over time, but delegates the risk management to the risktaker by assuming a trust mechanism to determine the trust threshold.
+Nonetheless, we note that \ModelName{} does not introduce a theoretical bound on the loss of a risktaker over time, but delegates the risk management to the risktaker by assuming a trust mechanism to determine the trust threshold.
 Specifically, \ModelName{} provides the risktaker with two important parameters $ u $ and $ k $ with which the risktaker can minimize its own risk, relying on the trust mechanism.
 
 \textbf{Malevolent Cancellation of a Trade.} 
@@ -992,7 +992,7 @@ The key idea is that individuals maintain and grow their \emph{individual ledger
 Other users verify these records according to some pre-defined rules.
 This makes TrustChain similar to solutions for tamper-proof, distributed accounting, such as PeerReview~\cite{haeberlen2007peerreview}.
 TrustChain does not aim to prevent integrity attacks on the data structure, e.g., fork creation, but instead guarantees eventual \emph{detection} of these attacks.
-This yields superior scalability compared to other ledgers but allows for the situation where some malicious activity targeted at the ledger might go undetected for some time, for example, the hiding of specific transactions.
+This yields superior scalability compared to other ledgers but allows for the situation where some malicious activity targeted at the ledger might go undetected for some time, for example, hiding specific transactions.
 In TrustChain, this can be addressed by waiting longer before accepting a record as valid.
 Individuals in TrustChain are not required to store all records in the network and might choose to store different parts of the global DAG ledger.
 TrustChain does not reach a global consensus over all records but relies on participants to detect inconsistencies in individual ledgers.
@@ -1122,7 +1122,7 @@ A \texttt{Payment} record signed by both parties indicates that the payer has co
 Finally, a trade finalization is stored within a bilateral \texttt{Finalize} record.
 Since the overhead of creating new TrustChain records is low, we also store orders as unilateral \texttt{Order} records in individual ledgers.
 A unilateral record only contains the digital signature of its creator.
-Figure~\ref{fig:trustchain_market} shows a \texttt{Order} record, created by maker $ A $.
+Figure~\ref{fig:trustchain_market} shows an \texttt{Order} record, created by maker $ A $.
 Furthermore, \texttt{CancelOrder} and \texttt{CancelTrade} records are also included as unilateral records in one's individual TrustChain ledger.
 
 A particular issue is that the fragmented nature of the TrustChain DAG makes it difficult for takers to discover interesting orders quickly.
@@ -1181,14 +1181,14 @@ This wallet does not interact with any blockchain and simply waits for some dura
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/gained_per_user}
-		\caption{The economic gains of adversaries}
+		\caption{The economic gains of adversaries.}
 		\label{fig:fraud_experiment_gained}
 	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/fraud/losses_per_user}
-		\caption{The economic losses of traders}
+		\caption{The economic losses of traders.}
 		\label{fig:fraud_experiment_losses}
 	\end{subfigure}%
 	\caption{The economic gains of adversaries and the losses of traders when replaying 230'000 BitShares orders with \ModelName{}, for different risk mitigation strategies. We have fixed the trust threshold $ U $ to \$100.}
@@ -1239,7 +1239,7 @@ We address this due to the fact that some trade proposals are being denied since
 We also note that a few adversaries have committed fraud with a total value of over \$1 million when running without any risk mitigation strategy, and under the \texttt{INC\_SET(2)} strategy.
 These successful adversaries likely created orders with competitive market prices, resulting in more trade proposals and opportunity for fraud.
 
-Figure~14a clearly shows the effectiveness of the \emph{bounded obligations} strategy.
+Figure~\ref{fig:fraud_experiment_gained} clearly shows the effectiveness of the \emph{bounded obligations} strategy.
 However, we observe that a few adversaries were able to commit fraud with a total value that exceeds our bound of \$100.
 For the \texttt{RESTRICT+INC\_SET} strategy, twelve adversaries have committed fraud with a total value over \$100.
 We have identified that this issue arises from the weak consistency guarantees by TrustChain.
@@ -1251,7 +1251,7 @@ First, \ModelName{} can also record all the trade proposals, and their responses
 Counterparties can take the outstanding trade proposals into consideration when applying risk mitigation.
 To address the record withholding attack, a party can disseminate the latest record of its counterparty in Distributed Hash Table (DHT), e.g., Kademlia~\cite{maymounkov2002kademlia}.
 Traders can then query the DHT network to fetch the latest record of a party $ A $, and then query the individual ledger of $ A $ up to that record.
-Even with this timing issue present, Figure~14a still shows that our risk mitigation is highly effective and is capable of significantly reducing fraud gains.
+Even with this timing issue present, Figure~\ref{fig:fraud_experiment_gained} still shows that our risk mitigation is highly effective and is capable of significantly reducing fraud gains.
 
 Figure~\ref{fig:fraud_experiment_losses} shows the economic losses of traders, for different risk mitigation strategies.
 Again, we notice that the \emph{bounded obligations} strategy significantly reduces the economic losses of traders.
@@ -1338,14 +1338,14 @@ Second, we consider the average order fulfil \emph{latency}, which is the time b
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/scalability}
-		\caption{Peak throughput}
+		\caption{Peak throughput.}
 		\label{fig:scalability}
 	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.9\textwidth}
 		\centering
 		\captionsetup{width=.9\linewidth}
 		\includegraphics[width=.95\linewidth]{xchange/assets/experiments/latency}
-		\caption{Average order fulfil latency}
+		\caption{Average order fulfil latency.}
 		\label{fig:latency}
 	\end{subfigure}%
 	\caption{The peak throughput and order fulfil latencies as the system load increases.}
