@@ -792,7 +792,7 @@ Matchmakers match incoming orders with existing orders in their order books and 
 Users aggregate potential matches of a specific order in a match queue.
 Some period after receiving the first match for a specific order, a user starts to process matches in the associated match queue (step \circled{4}), starting with the best match, and negotiates with the user behind the matched order (step \circled{5} - \circled{7}).
 When the negotiating parties reach a trade agreement (in other words, intend to fulfil their orders with each other), they execute the negotiated trade agreement by sending it to the TM (step \circled{8} + \circled{9}).
-The negotiating parties then inform the matchmakers about the executed trade so they can update the state of the affected orders accordingly (step \circled{10} + \circled{11}).
+The negotiating parties then inform the matchmakers about the executed trade, so they can update the state of the affected orders accordingly (step \circled{10} + \circled{11}).
 The matchmakers are also informed about a negative outcome during the negotiation process.
 If an order is still open, a user selects the next best item from the associated match queue, if it is non-empty, and initiates the next negotiation process.
 This repeats until the match queue is empty or the order is completed.
@@ -903,7 +903,7 @@ Specifically, we send a new order to a random subset of all matchmakers.
 %Figure \ref{fig:matching_idea} illustrates the intuition behind this idea.
 Let $ R_{req} $ and $ R_{off} $ indicate the sets of matchmakers that receive a specific request and offer, respectively.
 The probability that at least one matchmaker will receive both a specific offer and request quickly goes to one as the order fanout increases, even when the order fanout is low compared to the number of matchmakers.
-This phenomena is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
+This phenomenon is also known as the \enquote{birthday paradox} and is in practice exploited when computing hash collisions or when detecting a double spend attack in the Bitcoin network~\cite{schreiber2020k}.
 Figure~\ref{fig:matching_idea} shows the intuition behind this idea.
 The figure shows in red the set of matchmakers that receive a particular request and in green the set of matchmakers that receive a particular offer.
 One matchmaker receives both the request and offer and is able to match these orders.
@@ -1013,7 +1013,7 @@ Upon receiving a \texttt{match} message from a matchmaker, a user contacts the c
 A potential strategy is that the user immediately contacts another user upon the arrival of a \texttt{match} message.
 This possibly minimizes the time for an order to be completed.
 However, this strategy leaves the user vulnerable to an attack where a malicious matchmaker is the first to send a specific \texttt{match} message to a user, which immediately triggers the negotiation process.
-The quality of the received match described by the \texttt{match} message might be poor and the user might have received a match with a higher quality if it would have waited for additional matches from honest matchmakers.
+The quality of the received match described by the \texttt{match} message might be poor and the user might have received a match with a higher quality if it would had waited for additional matches from honest matchmakers.
 
 \begin{figure*}[t]
 	\centering
@@ -1089,7 +1089,7 @@ To prevent a user from immediately retrying a failed negotiation, a user waits a
 
 If offer $ O $ has unlocked quantity, $ U_1 $ checks whether the full proposed quantity can be traded.
 If so, $ U_1 $ sends an \texttt{accept} message to $ U_2 $, thereby accepting the proposal of $ U_2 $.
-$ U_1 $ also forwards the \texttt{accept} message to the matchmakers that proposed the match so they can update the state of this order in their order book.
+$ U_1 $ also forwards the \texttt{accept} message to the matchmakers that proposed the match, so they can update the state of this order in their order book.
 If the proposed quantity is unavailable in $ O $, $ U_1 $ makes a counter-proposal by locking as much quantity as possible in $ O $ and by sending a \texttt{proposal} message back to $ U_2 $ with this (lower) quantity.
 $ U_1 $ and $ U_2 $ keep sending \texttt{propose} messages with differing quantities until one of them responds with either an \texttt{accept} or a \texttt{reject} message.
 
@@ -1230,7 +1230,7 @@ The validation policy takes into consideration the attributes in the \texttt{dat
 For example, a validation policy for orders in a ride-hailing market should check whether the latitude and longitude coordinates are included and within a valid range (-90 to 90).
 We envision that developers share the implementation of these policies through some distribution medium (e.g., a website).
 To increase the trustworthiness and security of these policies, the policy implementations should be auditable and attestable by other developers and auditors.
-These validation policies can then downloaded by users and matchmakers that are interesting in participation within a specific trading domain.
+These validation policies can then downloaded by users and matchmakers that are interested in participation within a specific trading domain.
 We provide developers the means to create custom validation policies, enabling order validation in different trading contexts.
 Incoming orders deemed invalid by the validation policy are discarded and not processed.
 
@@ -1238,7 +1238,7 @@ Incoming orders deemed invalid by the validation policy are discarded and not pr
 
 \textbf{Order Books.}
 Each matchmaker can host multiple order books, coloured green in Figure~\ref{fig:matching_architecture}, which store orders with differing types.
-For example, MATCH can maintain an asset trading order book that stores orders to buy or sell Euros for Dollars, and another ride-hailing order book that stores transportation requests and ride offers.
+For example, MATCH can maintain an asset trading order book that stores orders buying or selling Euros for Dollars, and another ride-hailing order book that stores transportation requests and ride offers.
 Maintaining multiple order books is a key property of MATCH and results in a single and reusable matchmaking solution that can be deployed across different domains.
 %New order books are created on demand, based on the type of incoming orders.
 
@@ -1424,7 +1424,7 @@ Order negotiation proceeds using TCP since this flow requires bilateral and reli
 All software artifacts of MATCH (source code, tests, and documentation) are available online.\footnote{See \url{https://github.com/Tribler/anydex-core/tree/match-middleware20}}
 
 In Section~\ref{sec:taxi_experiments} and~\ref{sec:asset_trading_experiments}, we subject the MATCH middleware to two workloads for ride-hailing and asset trading, reconstructed from real-world traces.
-These experiments demonstrates that MATCH maintains high matching quality, is resilient against malicious matchmakers, and is reusable across different trading domains.
+These experiments demonstrate that MATCH maintains high matching quality, is resilient against malicious matchmakers, and is reusable across different trading domains.
 In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmaking on an Ethereum blockchain and show that MATCH uses considerably less bandwidth and has superior order fulfil latencies.
 %Afterwards, we provide a summary with recommendations for each policy and their performance with regard to various system properties.
 
@@ -1433,19 +1433,19 @@ In Section~\ref{sec:experiments_ethereum}, we compare our solution to matchmakin
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/taxi_quality.pdf}
-		\caption{Matching quality w. different fanouts $ f $}
+		\caption{Matching quality with different fanouts $ f $.}
 		\label{fig:taxi_quality}
 	\end{subfigure}%
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_fixed.pdf}
-		\caption{Impact of selfish matching ($ f = 50 $)}
+		\caption{Impact of selfish matching ($ f = 50 $).}
 		\label{fig:taxi_fairness_fixed}
 	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/taxi_fairness_adaptive.pdf}
-		\caption{Impact of selfish matching (adaptive $ f $)}
+		\caption{Impact of selfish matching (adaptive $ f $).}
 		\label{fig:taxi_fairness_adaptive}
 	\end{subfigure}
 	\caption{The matching quality and impact of selfish matching when executing the ride-hailing workload in MATCH, while varying the number of matchmakers. In Figure (b) and (c), the order fanout $ f $ is either fixed  ($ f = 50 $) or adaptive such that $ P(R_{req} \cap R_{off} \neq \emptyset) \geq 0.95 $.}
@@ -1505,7 +1505,7 @@ After all passengers have submitted their request, we leave the experiment runni
 Since the workload does not provide information on the identity of individual passengers or drivers, it is assumed that each passenger creates one request throughout the experiment. %, which is matched with one ride offer.
 This assumption does not lead to skewed results since a passenger does not create multiple ride requests within short time~\cite{pham2017oride}.
 
-For the this workload, we implement the matching policy such that it minimizes the distance between passengers and drivers, to reduce waiting times for passengers.
+For this workload, we implement the matching policy such that it minimizes the distance between passengers and drivers, to reduce waiting times for passengers.
 Specifically, the policy computes the geographic (haversine) distance between the locations included in offers and requests.
 In this market, we define the matching quality as the average distance between matched passengers and drivers, which we also call the \emph{match distance}.
 %We believe this is an adequate metric since it is directly correlated with the total distance that drivers have to traverse, which we aim to minimize.
@@ -1518,12 +1518,12 @@ We first quantify the matching quality of MATCH under the ride-hailing workload 
 The horizontal axis shows the number of matchmakers ($ m $) and the vertical axis denotes the average match distance.
 For this experiment, all matchmakers act honest and execute the same matching algorithm (in other words, $ r = 0 $).
 As a baseline, we use the matching quality of a centralized matchmaking approach where a single server matches incoming orders in a FIFO manner (following the model in Figure~\ref{fig:central_exchange_architecture}).
-This centralized approach results in an average match distance of 0.544km, and is indicated with a dashed horizontal line in the graphs of Figure~\ref{fig:taxi_experiments}.
+This centralized approach results in an average match distance of 0.544 km, and is indicated with a dashed horizontal line in the graphs of Figure~\ref{fig:taxi_experiments}.
 %The horizontal axis denote the number of matchmakers and the vertical axis shows the matching effectiveness in terms of average matching distance in kilometers.
 Figure \ref{fig:taxi_quality} shows that the average match distance increases when there are more matchmakers under a fixed order fanout.
 Also, the match distance increases when the order fanout decreases.
 In particular, It becomes less likely that (good) matches for offers and requests are found when either the number of matchmakers increases or the order fanout decreases.
-The match distance increases significantly when $ f = 30 $ and $ m $ increases. E.g., for $ m = 2'000 $, the average match distance increases to 0.607km, 9.5\% higher compared to the baseline.
+The match distance increases significantly when $ f = 30 $ and $ m $ increases. E.g., for $ m = 2'000 $, the average match distance increases to 0.607 km, 9.5\% higher compared to the baseline.
 %For $ m = 2'000 $ and $ f = 60 $, each ride request required \todo{X} negotiations on average.
 
 For lower values of $ f $ and $ m $, \emph{MATCH outperforms centralized matchmaking, in terms of matching quality.}
@@ -1542,7 +1542,7 @@ This captures the economic incentive of drivers to prioritize their own ride ser
 Figure~\ref{fig:taxi_fairness_fixed} shows the average match distance under a fixed order fanout ($ f = 50 $) when increasing the number of matchmakers.
 We vary $ r $, up to 75\% of all matchmakers ($ r = 0.75 $).
 Figure~\ref{fig:taxi_fairness_fixed} shows that increasing both $ m $ and $ r $ has a negative impact on the matching quality in MATCH.
-The problem is that a malicious matchmaker matches the requests of passengers with its own offer, while it likely would have established a better match if the matchmaker would have been honest.
+The problem is that a malicious matchmaker matches the requests of passengers with its own offer, while it likely would have established a better match if the matchmaker had been honest.
 Therefore, we also consider an adaptive order fanout, based on the values of both $ r $ and $ m $.
 Specifically, $ f $ is fixed to the lowest integer value such that $ P(R_{req} \cap R_{off} \neq \emptyset) \geq 0.95 $.
 Figure~\ref{fig:taxi_fairness_adaptive} visualizes these results with an adaptive order fanout.
@@ -1581,19 +1581,19 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/asset_trading_quality.pdf}
-		\caption{Matching quality w. different fanouts $ f $}
+		\caption{Matching quality with different fanouts $ f $.}
 		\label{fig:asset_trading_quality}
 	\end{subfigure}%
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_fixed.pdf}
-		\caption{Impact of selfish matching ($ f = 50 $)}
+		\caption{Impact of selfish matching ($ f = 50 $).}
 		\label{fig:asset_trading_fairness_fixed}
 	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/asset_trading_fairness_adaptive.pdf}
-		\caption{Impact of selfish matching (adaptive $ f $)}
+		\caption{Impact of selfish matching (adaptive $ f $).}
 		\label{fig:asset_trading_fairness_adaptive}
 	\end{subfigure}
 	\caption{The matching quality and impact of selfish matching when executing the ride-hailing workload in MATCH, while varying the number of matchmakers. In Figure (b) and (c), the order fanout $ f $ is either fixed  ($ f = 50 $) or adaptive such that $ P(R_{req} \cap R_{off} \neq \emptyset) \geq 0.95 $.}
@@ -1604,7 +1604,7 @@ In practice, the exact value of $ r $ is not known a-priori and MATCH developers
 \label{sec:asset_trading_experiments}
 We now evaluate MATCH with an asset trading workload.
 Driven by the popularity of blockchain-based assets, major peer-to-peer markets have emerged to facilitate cryptocurrency exchange between traders~\cite{bentov2019tesseract}.
-MATCH enables traders to perform matchmaking of orders themselves in a fair manner, without entrusting their orders to a market operator.
+MATCH enables traders to perform matchmaking of orders themselves, without entrusting their orders to a market operator.
 Unlike our previous experiments, the workload used in our upcoming experiments involves offers and requests that be partially fulfilled and are commonly cancelled.
 %When deploying MATCH in a domain where digital assets are traded, orders can often be partially fulfilled and are commonly cancelled (e.g., in high-frequency trading).
 We conduct the same matching quality and fairness experiments described in Section~\ref{sec:taxi_experiments} with an asset trading workload. % the performance of MATCH is evaluated with an asset trading workload.
@@ -1710,19 +1710,19 @@ It shows that for all settings, MATCH only misses under ten matches on average.
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_bandwidth.pdf}
-		\caption{Total bandwidth usage}
+		\caption{Total bandwidth usage.}
 		\label{fig:ethereum_bandwidth}
 	\end{subfigure}%
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\linewidth]{match/assets/plots/ethereum_memory.pdf}
-		\caption{Maximum memory usage}
+		\caption{Maximum memory usage.}
 		\label{fig:ethereum_memory}
 	\end{subfigure}\vspace{0.3cm}
 	\begin{subfigure}{.5\columnwidth}
 		\centering
 		\includegraphics[width=\columnwidth]{match/assets/plots/ethereum_experiment_latencies.pdf}
-		\caption{Order fulfil latency}
+		\caption{Order fulfil latency.}
 		\label{fig:ethereum_latencies}
 	\end{subfigure}
 	\caption{The total bandwidth usage and the distribution of order fulfil latencies of on-chain matchmaking on Ethereum and in MATCH, under the ride-hailing and asset trading workloads.}
@@ -1807,7 +1807,7 @@ Similar to the asset trading workload, the size increase of the Ethereum transac
 Further inspection of the blockchain reveals that only around ten transactions with a ride request are included in each block.
 We explain this behaviour as follows.
 In Ethereum, the sum of gas usage of all transactions in a block cannot exceed 10'000'000 gas.
-The gas cost of matching ride requests scales with the number of open ride offers and decreases during the experiment since there are less offers to compare with.
+The gas cost of matching ride requests scales with the number of open ride offers and decreases during the experiment since there are fewer offers to compare with.
 Note how after 500 seconds into the ride-hailing experiment, the number of unconfirmed transactions decreases quickly.
 
 %Overall, our comparison experiments highlight the resource costs associated with transparent matchmaking.
