@@ -244,8 +244,8 @@ For the banks that we tested, intra-bank money transfers are settled within mere
 Instead of using a central bank as settlement institution, we build a network of individuals that have bank accounts with multiple banks to complete an inter-bank payment.
 This approach is visualised in Figure~\ref{fig:internet_of_money} and works as follows.
 Assume a Dutch buyer, holding an ABM AMRO account, intends to pay another Dutch merchant that holds a bank account with ING.
-When this buyer initiate a payment with existing software to the merchant, then the funds can up to a day to arrive in the bank account of the merchant.\footnote{This problem is now addressed by Instant Payments, a settlement mechanism used by major Dutch banks since 2019. International payments, however, still have a high transaction fee due to the lack of an international real-time settlement system.}
-However, when using an intermediary holding accounts both at Rabobank and ING, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his ING account to the ING account of the merchant.
+When this buyer initiate a payment with existing software to the merchant, the funds can take up to a day to arrive in the bank account of the merchant.\footnote{This problem is now addressed by Instant Payments, a settlement mechanism used by major Dutch banks since 2019. International payments, however, still have a high transaction fee due to the lack of an international real-time settlement system.}
+However, when using an intermediary that holds accounts both at Rabobank and ING, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his ING account to the ING account of the merchant.
 
 Since this way of sending money only involves two in-house payments, the merchant receives the funds within a few seconds.
 We call a payment conducted this way a \emph{fast payment} and we refer to the intermediary settling the transaction as a \emph{money router}.
