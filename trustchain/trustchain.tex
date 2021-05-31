@@ -27,7 +27,7 @@ By continuously broadening their activities, these companies seek to expand thei
 
 The societal impact of \enquote{Big Tech} companies is a double-edged sword.
 On the one hand, these companies are facilitating new modes of digital interaction between users and enable new business models.
-The sharing economy is a prime example of this phenomena.
+The sharing economy is a prime example of these phenomena.
 It is made up by digital markets for the trustworthy exchange of personal assets (e.g., houses and cars) between strangers~\cite{schor2016debating}.
 Sharing personal assets is a concept that has long been confined to trusted individuals, such as family and friends~\cite{frenken2019putting}.
 Likewise, media platforms such as YouTube provide the required infrastructure for new forms of user engagement through video weblogging or \enquote{vlogging}.
@@ -487,7 +487,7 @@ The design of our universal accounting mechanism, named \emph{\TrustChain{}}, is
 Instead, \TrustChain{} optimistically detects the illegitimate modification of records while keeping the computational overhead and bandwidth requirements low.
 Decentralized applications can account the work performed by peers within tamper-evident \emph{records}.
 A record describes some work performed by one peer for another peer.
-Each peer organizes their records in a \emph{personal ledger}.
+Each peer organizes its records in a \emph{personal ledger}.
 Records point to prior records in the same personal ledger and also point to records in the personal ledger of others.
 The latter pointer captures an agreement between two peers.
 Peers continuously exchange records with other random peers and request records in the personal ledgers of others.
@@ -520,7 +520,7 @@ We leave defences against misreporting, the accounting of work that has not actu
 This attack is closely related to the Sybil Attack since Sybil identities are likely to create fake interactions amongst them~\cite{stannat2021sybil}.
 Misreporting is challenging to address in a generic manner since there is not always a straightforward method to assess if some accounted work is legitimate.
 Some protocols use cryptographic techniques to prove the accuracy of performed work, for example, Proof-of-Storage and Proof-of-Bandwidth~\cite{benet2018filecoin,ghosh2014torpath}.
-These techniques, however, are not generic and cannot easily be used within many different application domains.
+These techniques, however, are not generic and cannot easily be used within many application domains.
 
 \subsection{Threat Model}
 \label{sec:threat_model}
@@ -627,7 +627,7 @@ Linking records will also make it harder for malicious peers to hide specific re
 We make the following four modifications to records:
 
 \begin{enumerate}
-	\item First, we include a sequence number $ s \in \mathbb{Z} $ in each record that is incremented by one when a new record is added to one's personal ledger.
+	\item First, we include a sequence number $ s \in \mathbb{Z} $ in each record that is incremented by one when a record is added to one's personal ledger.
 	The sequence number of the first record in the personal ledger is 1.
 	\item Second, each record now includes the hash of the prior record in the personal ledger of the creator.
 	This modification makes the \TrustChain{} data structure comparable to a hash chain, e.g., as used by blockchain applications.
@@ -685,7 +685,7 @@ Second, an application can add some noise to the amount of work being accounted.
 This technique effectively reduces linkability, e.g., when accounting traffic that is being relayed through multiple hops.
 We believe that the combined power of these two techniques already provides sufficient privacy guarantees for most decentralized applications.
 A more advanced approach, used by the Monero cryptocurrency, leverages ring signatures and zero-knowledge proofs to hide the amounts of work performed~\cite{bunz2018bulletproofs,poelstra2018confidential}.
-This approach would, however, require fundamental changes to \TrustChain{} and we leave this enhancement for further work.
+This approach would require fundamental changes to \TrustChain{}, and we therefore leave this enhancement for further work.
 
 \section{Detecting Fraud}
 \label{sec:detecting_fraud}
@@ -699,8 +699,7 @@ The requirement to reach consensus would dramatically reduce the scalability of 
 
 Fraud in \TrustChain{} occurs when a peer illegitimately modifies one of the records in their personal ledger.
 This fraud, for example, happens when an adversary attempts to hide a specific record in the personal ledger by replacing it with another one.
-This action would result in pairs of records with the same sequence number and the same creator, but with a different hash.
-This violates the integrity of the \TrustChain{} data structure.
+This modification would result in pairs of records with the same sequence number and the same creator, but with a different hash, and violates the integrity of the \TrustChain{} data structure.
 A key objective of \TrustChain{} is to detect such conflicting records quickly.
 
 %According to our threat model, manipulation in \TrustChain{} involves an adversary maintaining two different personal ledgers, possibly with a common prefix.
@@ -776,12 +775,12 @@ We discuss each scenario and elaborate on how they either lead to fraud exposure
 	The hash of record $ R_3 $ in $ R_1 $ differs from the hash in the confirmation pointer in $ R_2 $.
 	This situation reveals an inconsistency that is either introduced by peer $ a $ forking its personal ledger at height 54, or by $ b $ having included a wrong hash in $ R_2 $.
 	To assign blame, the peer that is validating the incoming record requires either $ R_3 $ or $ R_4 $.
-	A peer that encounters this situation sends the pair ($ R_1 $, $ R_2 $) within a \texttt{Inconsistency} message to other random peers, hoping that others will be able to expose the malicious peer.
+	A peer that encounters this situation sends the pair ($ R_1 $, $ R_2 $) within an \texttt{Inconsistency} message to other random peers, hoping that others will be able to expose the malicious peer.
 	\item \textbf{Scenario IV.}
 	Figure~\ref{fig:fraud_scenario_4} highlights the fourth scenario where a peer either receives confirmation $ R_1 $ while already having confirmation $ R_3 $, or vice versa.
 	Both confirmations point to a record with the same public key and sequence number, but the hash of this record differs.
 	This situation either indicates a fork of the personal ledger of $ a $, or it can be the result of an invalid pointer in one of the confirmations.
-	Similar to scenario III, the validating peer sends the pair ($ R_1 $, $ R_3 $) within a \texttt{Inconsistency} message to other, random peers.
+	Similar to scenario III, the validating peer sends the pair ($ R_1 $, $ R_3 $) within an \texttt{Inconsistency} message to other, random peers.
 \end{itemize}
 
 %The other two scenarios, displayed in Figure~\ref{fig:fraud_scenario_2} and Figure~\ref{fig:fraud_scenario_3}, enables the detection of an inconsistency but one cannot assign blame without more context.
@@ -891,7 +890,7 @@ During this step, we detect the fraud described by scenario II.
 \textbf{Step 4.}
 Next, we compare incoming record $ R $ with a link record, if such a record is available in the database.
 When $ R $ is a proposal, we get the corresponding confirmation from the database, and if $ R $ is a confirmation, we get the corresponding proposal.
-This step is performed by the the \textsc{validateLink} procedure which pseudocode description is given in Algorithm~\ref{alg:record_validation_step3}.
+This step is performed by the \textsc{validateLink} procedure which pseudocode description is given in Algorithm~\ref{alg:record_validation_step3}.
 We first get the linked record from the database (line 2) and only continue with this validation step if we have this record in the database.
 If so, we check whether the public keys included in the proposal and confirmation are consistent (line 10), and verify the consistency of the \texttt{linkInfo} attributes in the confirmation (line 13-18).
 We detect the inconsistency described by scenario III (line 16-18) and scenario IV (line 19-22) during this step.
@@ -994,7 +993,7 @@ However, as demonstrated by recent research, a lightweight accounting mechanism 
 \label{sec:system_architecture}
 We devise a system architecture of our \TrustChain{} mechanism, see Figure~\ref{fig:system_architecture}.
 The network layer is the lowest layer in our architecture and provides the primitives for decentralized communication and peer discovery.
-This layer can be realised using existing frameworks to build peer-to-peer overlay networks, for example, libp2p.\footnote{See \url{https://libp2p.io}}
+This layer can be realized using existing frameworks to build peer-to-peer overlay networks, for example, libp2p.\footnote{See \url{https://libp2p.io}}
 
 \textbf{Record Manager.}
 The record manager interacts with the network layer to disseminate records and processes incoming ones.
@@ -1251,7 +1250,7 @@ Under the \texttt{PULL+RAND+PUSH} strategy, we note that all fraud attempts are 
 
 \subsection{Request Interval and Batch Size}
 We modify the record request interval and batch size, and analyse the effect on the average fraud detection times, see Figure~\ref{fig:crawl_experiments}.
-Figure~\ref{fig:experiment_crawl_interval_detection_times} visualises the impact of the record request interval on the average fraud detection times for different record exchange strategies.
+Figure~\ref{fig:experiment_crawl_interval_detection_times} visualizes the impact of the record request interval on the average fraud detection times for different record exchange strategies.
 We increase the record request interval, ranging from 0.5 seconds to 5 seconds, in steps of 0.5 seconds.
 First, we observe that the average fraud detection times for the \texttt{PULL+PUSH} and \texttt{PULL+RAND+PUSH} strategies remains roughly constant.
 This trend indicates that pushing records to random peers very effectively exposes fraud instances.
@@ -1484,7 +1483,7 @@ We note that this timestamp might not accurately reflect the creation time of th
 Figure~\ref{fig:record_creation} shows the daily number of created proposal records.
 We annotate the dates on which we released a major version of \Tribler{}.
 Figure~\ref{fig:record_creation} reveals that more users run \Tribler{} during the weekend and create more proposals on a Saturday and a Sunday.
-We also observed two large-scale outage of exit nodes, in April 2019 and May 2020, likely due to infrastructure failures.
+We also observed two large-scale outages of exit nodes, in April 2019 and May 2020, likely due to infrastructure failures.
 Despite these outages, users would still perform payouts when downloading directly from other \Tribler{} users without anonymity (since this does not involve exit nodes).
 
 %In \Tribler{}, users earn bandwidth tokens by either operating an exit node, or by relaying traffic.
