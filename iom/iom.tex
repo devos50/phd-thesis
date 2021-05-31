@@ -23,7 +23,7 @@ Finally, we demonstrate how the profit of cheating routers is limited and that m
 % One of the first systems, craigslist, unmoderated... 
 Creating trust between strangers is at the core of numerous successful Internet companies.
 Starting 22 years ago, Craigslist offered an unmoderated mailing list of advertisements and gossip on which buyer and seller could be trusted.
-eBay formalised this in 1997 and introduced a star-based rating system that enables traders to build a trustworthy profile~\cite{resnick2002trust}.
+eBay formalized this in 1997 and introduced a star-based rating system that enables traders to build a trustworthy profile~\cite{resnick2002trust}.
 This e-commerce platform was launched at a time when people were still hesitant to use their credit card on a technology called The Internet.
 Nowadays, people let strangers sleep in their houses using Airbnb (since 2008).
 We trust Uber (since 2009) with our physical security and get into cars late at night with a driver that has never undergone a criminal background check or earned the appropriate qualifications to act as taxi driver.
@@ -61,7 +61,7 @@ They motivate research around decentralized technologies, like blockchain. %, no
 %We explore a new stage in the evolution of digital trust and address the challenging problem of \emph{how to trust strangers with your money}.
 The generic problem of building trust between strangers resides on the edge of technology, sociology, and behavioural science~\cite{yan2008trust}.
 %Our work devises a protocol for creating trust.
-The question whether someone can be trusted depends on properties like personality, level of authority, culture, and past behaviour. % https://www.researchgate.net/publication/267260663_Social_Trust_A_Cognitive_Approach
+Whether someone can be trusted depends on properties like personality, level of authority, culture, and past behaviour. % https://www.researchgate.net/publication/267260663_Social_Trust_A_Cognitive_Approach
 In this research, we address the trust problem from a technological perspective, using tamper-proof interactions on a scalable blockchain to explicitly record trust relations.
 This blockchain structure is built to detect fraudulent behaviour and misrepresentation.
 %This work demonstrates how to build trust between strangers in such a way that we can trust others with your funds.
@@ -181,7 +181,7 @@ The Sybil Attack is hard to solve without trusted third parties, particularly in
 % We focus on the network between banks because it lacks innovation
 % The largest network is Swift, which has a 45-year old legacy system.
 
-Prior to elaborating how we can use the services of other users to realise real-time money transfers, we briefly explore the process of performing a payment with existing infrastructure.
+Prior to elaborating how we can use the services of other users to realize real-time money transfers, we briefly explore the process of performing a payment with existing infrastructure.
 International payment systems are often proprietary and lack transparency.
 The largest inter-bank communication network is SWIFT, the Society for Worldwide Interbank Financial Telecommunication~\cite{swift}.
 In April 2017, SWIFT recorded an average of 28.38 million payments per day or around 328 per second.
@@ -210,7 +210,7 @@ These issues include real-time fraud detection and robust messaging standards~\c
 A payment to another bank usually involves an intermediate settlement institution that is responsible for settling a payment between two parties~\cite{kokkola2011payment}.
 This is often a central bank such as the European Central Bank (ECB).
 The settlement institution acts as an intermediary in the payment chain, addresses interoperability issues, and reduces settlement risks.
-Instead of handling a large number of payment instructions and settling them individually, settlement institutions usually aggregate outstanding payments and settle them all at once on predetermined times.
+Instead of handling numerous payment instructions and settling them individually, settlement institutions usually aggregate outstanding payments and settle them all at once on predetermined times.
 This is called \emph{net settlement} or \emph{netting}.
 %In contrast, \emph{gross settlement} settles payments one-by-one and is more efficient.
 
@@ -242,13 +242,13 @@ In-house payments have a relatively low settlement duration, usually a few secon
 Our solution to perform real-time payments is based on the observation that in-house payments are settled fast.
 For the banks that we tested, intra-bank money transfers are settled within mere seconds (see Section \ref{sec:settlement_inhouse_experiment}).
 Instead of using a central bank as settlement institution, we build a network of individuals that have bank accounts with multiple banks to complete an inter-bank payment.
-This approach is visualised in Figure~\ref{fig:internet_of_money} and works as follows.
+This approach is visualized in Figure~\ref{fig:internet_of_money} and works as follows.
 Assume a Dutch buyer, holding an ABM AMRO account, intends to pay another Dutch merchant that holds a bank account with ING.
-When this buyer initiate a payment with existing software to the merchant, the funds can take up to a day to arrive in the bank account of the merchant.\footnote{This problem is now addressed by Instant Payments, a settlement mechanism used by major Dutch banks since 2019. International payments, however, still have a high transaction fee due to the lack of an international real-time settlement system.}
+When this buyer initiates a payment with existing software to the merchant, the funds can take up to a day to arrive in the bank account of the merchant.\footnote{This problem is now addressed by Instant Payments, a settlement mechanism used by major Dutch banks since 2019. International payments, however, still have a high transaction fee due to the lack of an international real-time settlement system.}
 However, when using an intermediary that holds accounts both at Rabobank and ING, the buyer first sends the funds to the Rabobank account of this intermediary after which the buyer instructs the intermediary to forward the same amount of money from his ING account to the ING account of the merchant.
 
 Since this way of sending money only involves two in-house payments, the merchant receives the funds within a few seconds.
-We call a payment conducted this way a \emph{fast payment} and we refer to the intermediary settling the transaction as a \emph{money router}.
+We call a payment conducted this way a \emph{fast payment}, and we refer to the intermediary settling the transaction as a \emph{money router}.
 %The money transfer from buyer to merchant using money routers is called a \emph{fast payment}.
 We use the terms \emph{initiator} and \emph{beneficiary} to indicate the initial sender and final receiver of a fast payment, respectively.
 A fast payment can be facilitated by multiple routers to increase efficiency and availability.
@@ -358,7 +358,7 @@ A natural way to order records in a database is to chain them together, ordered 
 This is shown in Figure \ref{fig:trustchain_tutorial_2} where each record is extended with a pointer that points back to the prior record.
 In particular, this pointer is a hash computed from the description of the prior record using any cryptographically secure hashing algorithm (our implementation uses SHA256).
 Each record is equipped with a sequence number $ s \in \mathbb{Z} $ (the sequence number of the genesis record is 1).
-This database organisation resembles a blockchain data structure.
+This database organization resembles a blockchain data structure.
 While cryptocurrencies like Bitcoin and Ethereum operate on a global blockchain, TrustChain gives each user their own personal chain.
 
 Outside for the user operating a chain, the structure shown in Figure \ref{fig:trustchain_tutorial_2} is void of any control.
@@ -440,7 +440,7 @@ For each $ T_{a,b,R} $ and each router $ r \in R $, we create two directed edges
 These edges represent trust in routers that have forwarded incoming money in the past.
 We exclude any money router that is currently involved in an ongoing fast payment.
 
-To determine trust scores, we use an algorithm which has been studied extensively in related work, personalised PageRank~\cite{page1999pagerank}. %each user executes the personalized PageRank algorithm on $ G $, which assigns a score between 0 and 1 to each node in $ G $~\cite{page1999pagerank}.
+To determine trust scores, we use an algorithm which has been studied extensively in related work, personalized PageRank~\cite{page1999pagerank}. %each user executes the personalized PageRank algorithm on $ G $, which assigns a score between 0 and 1 to each node in $ G $~\cite{page1999pagerank}.
 The algorithm assigns a score between 0 and 1 to each node in $ G $.
 These scores are used to pick intermediaries for money forwarding (see Section \ref{sec:system_design}).
 We consider the node in $ G $ that performs the computation as trusted source.
@@ -570,7 +570,7 @@ Thus, a fast payment with $ n $ intermediaries results in $ 2n+1 $ new TrustChai
 \subsubsection*{Risk Mitigation}
 In addition to our trust model, we propose two risk mitigation techniques to reduce counterparty risk when using money routers:
 \begin{enumerate}
-	\item \emph{Incremental settlement}: A key risk mitigation technique is to avoid making a single, large payment at once. Instead, a payment is divided into $ n $ smaller inter-bank payments. While this increases duration of a fast payment by a factor $ n $, it significantly reduces risk and incentives for intermediaries to compromise money. Also depending on the volume of a payment, we believe that reduced risk for some increased latency is a desirable trade-off in Internet-of-Money.
+	\item \emph{Incremental settlement}: A key risk mitigation technique is to avoid making a single, large payment at once. Instead, a payment is divided into $ n $ smaller inter-bank payments. While this increases the duration of a fast payment by a factor $ n $, it significantly reduces risk and incentives for intermediaries to compromise money. Also, depending on the volume of a payment, we believe that reduced risk for some increased latency is a desirable trade-off in Internet-of-Money.
 	\item \emph{Multi-flow payments}: We uniformly divide a fast payment amongst multiple, distinct money circuits. This results in smaller payments through intermediaries and less value at stake. With multi-flow payments, the end-to-end latency of a payment is determined by the slowest money circuit.
 \end{enumerate}
 While these individual strategies are viable to mitigate counterparty risk, combining them results in a significant reduction of the value at stake, at the cost of additional latency when using incremental settlement and communication overhead.
@@ -757,7 +757,7 @@ We now discuss this research from various perspectives.
 
 \subsubsection*{Legal}
 The idea of directly sharing funds with others, without a central bank involved, is highly experimental and challenges existing regulation.
-Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking license.
+Routing money through other bank accounts resembles activity performed by financial settlement institutions and might require a legal prerequisite in the form of a banking licence.
 The PSD2 regulation states that trusted third parties (TTPs) can be authorized by end users to perform financial activities on their behalf~\cite{cortet2016psd2}.
 However, it remains unclear whether the definition of a TTP includes money routers, even after discussion with legal experts.
 Another consideration is responsibility when a mistaken payment is initiated.
@@ -822,7 +822,7 @@ Innovation in the financial sector has been catalysed by the popularity of Block
 Bitcoin has proven that a sustainable currency can be built without a central bank in control~\cite{nakamoto2008bitcoin}.
 However, wide-spread adoption stays out due to its volatile pricing, high transaction fees, relatively slow confirmation times, and unsure future.
 The Lightning Network aims to improve scalability of Bitcoin by providing bi-directional payment channels between users~\cite{poon2016bitcoin}.
-Payments between two users not directly connected with a payment channel, are realised by routing payments through channels of other users.
+Payments between two users not directly connected with a payment channel, are realized by routing payments through channels of other users.
 This has similarities with money routing in Internet-of-Money.
 New usages of blockchain technology are focussed around the way users transfer money and other assets.
 %Byteball is a decentralized system that creates a directed, acyclic graph that stores units of value and uses an internal currency that should be paid when adding data to the global database~\cite{churyumov2016byteball}.
@@ -861,10 +861,10 @@ This mechanism depends on the fast settlement of in-house payments.
 Our open ecosystem dramatically improves speed when initiating cross-border payments while preserving privacy and scalability.
 Our experiments demonstrated the efficiency of in-house payments and effectiveness of money routers.
 Additionally, we have proven that our fraud detection mechanism, together with incremental settlement and multi-flow payments, limits misuse and punishes malicious behaviour.
-However, there are various legal issues and limitations that should be addressed, mostly by financial institutions, before broader usage can be realised.
+However, there are various legal issues and limitations that should be addressed, mostly by financial institutions, before broader usage can be realized.
 
 This work is an important milestone in our ambitious vision to create the \emph{programmable economy}.
 Ongoing work towards this goal addresses self-sovereign identity, scalable blockchain consensus compatible with TrustChain, and decentralized marketplaces.
 Upcoming experimentation will focus on expanding Internet-of-Money to support additional banks, currency conversion, and international bank transfers.
 For this experiment, we utilize additional type of money switches to send money across countries in seconds.
-The experiment setup is visualised in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.
+The experiment setup is visualized in Figure \ref{fig:internet_of_money_network} and is the first step towards fast and trusted international payments.

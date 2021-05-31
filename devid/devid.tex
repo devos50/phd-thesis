@@ -196,7 +196,7 @@ Our lab has implemented an advanced TLS auditing mechanism, which is currently u
 \subsection{Verified Identities}
 \label{subsec:strong_identities}
 In DevID, users are identified by a self-generated public key and digitally sign portfolio records with their private key.
-This allows for the Sybil Attack, the situation where a real-world persona can operate many different DevID portfolios~\cite{douceur2002sybil}.
+This allows for the Sybil Attack, the situation where a real-world persona can operate many DevID portfolios~\cite{douceur2002sybil}.
 To address this situation, developers can verify their digital identity.
 A verified identity is uniquely linked to a real-world entity.
 Software built on DevID can give preferential treatment to developers that have verified their identity.
@@ -238,7 +238,7 @@ Since misbehaviour can be traced back to the real-world persona, it also raises 
 \label{subsec:scalable_blockchain}
 DevID requires a data structure that can store tamper-proof data records.
 Blockchain technology is gaining traction as platform to store verified transactions without central authority.
-We now discuss three common blockchain organizations, visualised in Figure~\ref{fig:blockchain_structures}, and analyse their trade-offs in the context of our work.
+We now discuss three common blockchain organizations, visualized in Figure~\ref{fig:blockchain_structures}, and analyse their trade-offs in the context of our work.
 
 \textbf{Linear Ledger.} Figure~\ref{fig:blockchain_single} shows a linear blockchain ledger which is used by platforms such as Bitcoin~\cite{nakamoto2008bitcoin} and Ethereum~\cite{wood2014ethereum}.
 This ledger consists of multiple blocks and each block contains transactions.
@@ -276,9 +276,10 @@ First, TrustChain enables selective queries of data stored on the chains of othe
 Second, TrustChain is particularly designed for the tamper-proof accounting of generic data elements.
 Third, while TrustChain is primarily built around bilateral transactions, this ledger architecture also supports unilateral transactions.
 Unilateral transactions are particularly helpful when storing content that is not related to other users, e.g., when a developer includes a project in its portfolio.
-Finally, TrustChain is already used as transaction fabric within a self-sovereign identity system, described in the work of Stokkink et al~\cite{stokkink2018deployment}.
+Finally, TrustChain is already used as transaction fabric within a self-sovereign identity system, described in the work of Stokkink et al.~\cite{stokkink2018deployment}.
 Availability of a self-sovereign identity system aligns with our requirement for strong, long-lived identities (see Section~\ref{subsec:strong_identities}).
-TrustChain, however, does provide less consistency guarantees but we believe that this does not pose a barrier for DevID (depending on the system parameters and network size, malicious behaviour such as removing a transaction from a personal ledger can usually be detected within seconds).
+TrustChain, however, does provide less consistency guarantees.
+At the same time, we believe that this does not pose a barrier for DevID (depending on the system parameters and network size, malicious behaviour such as removing a transaction from a personal ledger can usually be detected within seconds).
 
 \begin{figure}[t!]
 	\centering
@@ -465,7 +466,7 @@ The graphical user interface of dAppCoder is visualized in Figure~\ref{fig:dappc
 It communicates with the back-end over a RESTful API.
 The open source implementations of both DevID and dAppCoder are available online.\footnote{See \url{https://github.com/tribler/dappcoder}}
 
-We build DevID, and by extension dAppCoder, on the TrustChain ledger introduced by Otte et al~\cite{otte2017trustchain}.
+We build DevID, and by extension dAppCoder, on the TrustChain ledger introduced by Otte et al.~\cite{otte2017trustchain}.
 This ledger is built on our existing networking library that provides support for building decentralized overlay networks~\cite{ipv8}.
 We use the InterPlanetary File System (IPFS) to store large data assets like project specifications, submissions, and code reviews.
 Users can import statistics from their GitHub profile using the challenge mechanism described in Section~\ref{subsec:unifying_data}.
